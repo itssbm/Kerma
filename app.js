@@ -136,7 +136,11 @@ app.set('trust proxy', TRUST_PROXY_COUNT);
 app.use(session({
     secret: SESSION_SECRET,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI,
+        // Gunakan MongoClient yang sama dengan Mongoose agar Vercel tidak
+        // membuka koneksi MongoDB kedua yang dapat menggantung saat cold start.
+        clientPromise: mongoose.connection
+            .asPromise()
+            .then((connection) => connection.getClient()),
         collectionName: process.env.MONGO_SESSION_COLLECTION || 'kerma_sessions',
         ttl: SESSION_TTL_SECONDS,
         autoRemove: 'native',
