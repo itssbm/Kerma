@@ -1,0 +1,4386 @@
+[
+  {
+    "_id": {
+      "$oid": "6a5742768208804354e8231b"
+    },
+    "userId": "test",
+    "source": "local-backup",
+    "version": {
+      "$numberInt": "1"
+    },
+    "payload": {
+      "ok": true
+    },
+    "note": "",
+    "importedAt": {
+      "$date": {
+        "$numberLong": "1784103542589"
+      }
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784103542590"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784103542590"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5742bd94260dc11e7b9d95"
+    },
+    "userId": "admin",
+    "source": "local-backup",
+    "importedAt": {
+      "$date": {
+        "$numberLong": "1784103613018"
+      }
+    },
+    "version": {
+      "$numberInt": "1"
+    },
+    "payload": {
+      "jumlahPksPlotting": {
+        "$numberInt": "2"
+      },
+      "jumlahPksDitetapkanPlotting": {
+        "$numberInt": "14"
+      },
+      "hargaJabatanCollapsed": false,
+      "periodePengelolaKerma": {
+        "awal": "2026-07",
+        "akhir": "2026-12"
+      },
+      "tarifMasterJabatanPlotting": {
+        "PJ": {
+          "$numberInt": "4500000"
+        },
+        "Pengarah": {
+          "$numberInt": "3500000"
+        },
+        "Ketua": {
+          "$numberInt": "6000000"
+        },
+        "Kepala Admin": {
+          "$numberInt": "2500000"
+        },
+        "Anggota": {
+          "$numberInt": "0"
+        }
+      },
+      "perhitunganDasarPlotting": {
+        "rows": [
+          {
+            "jabatan": "PJ",
+            "tarif": {
+              "$numberInt": "4500000"
+            },
+            "durasi": "6",
+            "personil_per_kerma": "4"
+          },
+          {
+            "jabatan": "Pengarah",
+            "tarif": {
+              "$numberInt": "3500000"
+            },
+            "durasi": "6",
+            "personil_per_kerma": "6"
+          },
+          {
+            "jabatan": "Ketua",
+            "tarif": {
+              "$numberInt": "6000000"
+            },
+            "durasi": "6",
+            "personil_per_kerma": {
+              "$numberInt": "1"
+            }
+          },
+          {
+            "jabatan": "Kepala Admin",
+            "tarif": {
+              "$numberInt": "2500000"
+            },
+            "durasi": "6",
+            "personil_per_kerma": "6"
+          },
+          {
+            "jabatan": "Anggota",
+            "tarif": {
+              "$numberInt": "0"
+            },
+            "durasi": "6",
+            "personil_per_kerma": "6"
+          }
+        ],
+        "tersimpan": false,
+        "totalPerKerma": {
+          "$numberInt": "0"
+        }
+      },
+      "daftarPksTerpilihPlotting": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "masterLevelJabatanPlotting": {
+        "dekan": "Dekan",
+        "wakil dekan bidang sumber daya": "Wakil Dekan",
+        "ketua urusan kemitraan bisnis": "Ketua",
+        "ketua kelompok keahlian manajemen manusia dan pengetahuan": "Ketua",
+        "kepala senat sekolah": "Kepala",
+        "koordinator modal insani": "Koordinator",
+        "wakil kepala inkubator bisnis": "Wakil Kepala",
+        "koordinator thought leadership (center for entrepreneurial business)": "Koordinator",
+        "kepala laboratorium management of technology": "Kepala",
+        "koordinator konsultasi, pendidikan eksekutif; dan sertifikasi": "Koordinator",
+        "koordinator akademik": "Koordinator",
+        "kepala laboratorium game edukasi": "Kepala",
+        "koordinator pengetahuan": "Koordinator",
+        "wakil kepala laboratorium game edukasi": "Wakil Kepala",
+        "ketua kelompok keahlian risiko bisnis dan keuangan": "Ketua",
+        "kepala laboratorium inovasi keuangan": "Kepala",
+        "ketua urusan pengembangan dan keunggulan akademik": "Ketua",
+        "koordinator kemahasiswaan program studi magister administrasi bisnis jakarta": "Koordinator",
+        "koordinator kemahasiswaan program studi sarjana kewirausahaan": "Koordinator",
+        "ketua urusan pengawasan dan pengendalian operasional": "Ketua",
+        "koordinator societal impact": "Koordinator",
+        "koordinator tpb": "Koordinator",
+        "koordinator akademik program studi sarjana manajemen": "Koordinator",
+        "koordinator akademik program studi magister sains manajemen-doktor sains manajemen": "Koordinator",
+        "ketua kelompok keahlian strategi bisnis dan pemasaran": "Ketua",
+        "ketua program studi msm dan dsm": "Ketua",
+        "kepala laboratorium neuro business": "Kepala",
+        "koordinator kemahasiswaan program studi sarjana manajemen": "Koordinator",
+        "koordinator jejaring dan reputasi global": "Koordinator",
+        "ketua urusan admisi mahasiswa, jejaring; dan reputasi global": "Ketua",
+        "ketua program studi sarjana manajemen": "Ketua",
+        "koordinator admisi mahasiswa, jejaring; dan reputasi global": "Koordinator",
+        "asisten koordinator monitoring dan evaluasi capaian kpi strategis": "Asisten",
+        "asisten koordinator monitoring dan evaluasi capaian qs": "Asisten",
+        "wakil kepala laboratorium neuro business": "Wakil Kepala",
+        "ketua kelompok keahlian pengambilan keputusan dan negosiasi strategis": "Ketua",
+        "kepala laboratorium simulasi sosial dan analitik big data": "Kepala",
+        "sekretaris senat sekolah": "Sekretaris Senat",
+        "ketua urusan pengembangan pengetahuan dan dampak": "Ketua",
+        "kepala pusat studi kasus bisnis indonesia": "Kepala",
+        "asisten koordinator pengelolaan risiko": "Asisten",
+        "wakil kepala pusat studi kasus bisnis indonesia": "Wakil Kepala",
+        "koordinator akademik dan kemahasiswaan program studi magister administrasi bisnis bandung": "Koordinator",
+        "ketua kelompok keahlian kewirausahaan dan manajemen teknologi": "Ketua",
+        "kepala laboratorium inkubator bisnis": "Kepala",
+        "wakil dekan bidang akademik": "Wakil Dekan",
+        "ketua program studi magister administrasi bisnis kampus jakarta": "Ketua",
+        "ketua program studi sarjana kewirausahaan": "Ketua",
+        "koordinator kemahasiswaan program studi magister sain manajemen-doktor sains manajemen": "Koordinator",
+        "koordinator akademik program studi sarjana kewirausahaan": "Koordinator",
+        "koordinator magang, karier; dan alumni": "Koordinator",
+        "wakil kepala laboratorium management of technology": "Wakil Kepala",
+        "ketua kelompok keahlian manajemen operasi dan kinerja": "Ketua",
+        "ketua urusan penjaminan mutu, akreditasi; dan pemeringkatan internasional": "Ketua",
+        "ketua urusan perencanaan strategis": "Ketua",
+        "ketua program studi magister administrasi bisnis kampus bandung": "Ketua",
+        "koordinator lembaga bisnis berkelanjutan": "Koordinator",
+        "koordinator akademik program studi magister administrasi bisnis jakarta": "Koordinator",
+        "koordinator layanan laboratorium": "Koordinator",
+        "koordinator layanan mahasiswa": "Koordinator",
+        "koordinator akademik internasional": "Koordinator",
+        "koordinator akreditasi penjaminan mutu, akreditasi; dan pemeringkatan internasional": "Koordinator",
+        "asisten koordinator transformasi digital": "Asisten",
+        "asisten koordinator sarana prasarana dan sistem informasi": "Asisten",
+        "koordinator admisi dan penjaringan mahasiswa": "Koordinator",
+        "asisten koordinator keteknikan dan manajemen persediaan": "Asisten",
+        "koordinator transformasi digital, tata kelola; dan operasional": "Koordinator",
+        "asisten koordinator penjaminan mutu, akreditasi; dan pemeringkatan internasional": "Asisten",
+        "asisten koordinator sumber daya manusia": "Asisten",
+        "asisten koordinator event": "Asisten",
+        "koordinator perencanaan strategis": "Koordinator",
+        "asisten koordinator administrasi": "Asisten",
+        "asisten koordinator pengadaan barang dan jasa": "Asisten",
+        "asisten koordinator tpb dan the greater hub": "Asisten",
+        "koordinator administrasi penelitian dan pengabdian masyarakat": "Koordinator",
+        "asisten koordinator keuangan": "Asisten",
+        "asisten koordinator perpustakaan": "Asisten",
+        "asisten koordinator protokoler": "Asisten",
+        "kepala administrasi": "Kepala Administrasi",
+        "kepala sub administrasi akademik, kemahasiswaan dan kerja sama": "Kepala Sub Administrasi",
+        "kepala sub administrasi keuangan dan anggaran": "Kepala Sub Administrasi",
+        "kepala sub administrasi sarana, prasarana dan sistem informasi": "Kepala Sub Administrasi",
+        "kepala sub administrasi sumber daya manusia": "Kepala Sub Administrasi"
+      },
+      "batasanSimulasiPlotting": {
+        "batasSelisihAtas": {
+          "$numberInt": "1500000"
+        },
+        "batasSelisihBawah": {
+          "$numberInt": "0"
+        },
+        "dosenTidakBolehMinus": true,
+        "stafTidakBolehMinus": false,
+        "roleDosen": [
+          "PJ",
+          "Pengarah",
+          "Kepala Admin"
+        ],
+        "roleStaf": [
+          "Kepala Admin",
+          "Ketua"
+        ],
+        "prioritasDosenTargetTerbesar": true,
+        "prioritasStafTargetTerbesar": true,
+        "batasiPksDitetapkan": true,
+        "posisiKosongBolehTersisa": true,
+        "dosenGunakanSlotKosong": true,
+        "batasanNonaktif": [],
+        "batasanUmumRules": [
+          {
+            "id": "customRule-1783308081619",
+            "nama": "Batas maksimal penugasan staf",
+            "pengaturan": "1",
+            "dampak": "Jumlah penugasan staf maksimal untuk seluruh PKS yang ditetapkan. Staf tidak boleh ditugaskan lebih dari batasan tersebut.",
+            "custom": true
+          },
+          {
+            "id": "customRule-1783308986584",
+            "nama": "Dosen boleh naik level",
+            "pengaturan": "1",
+            "dampak": "Dosen masih bisa ditugaskan untuk role di atasnya walaupun secara level tidak boleh, namun hanya jika belum selisihnya belum optimal dan masih ada role kosong.",
+            "custom": true
+          }
+        ],
+        "levelJabatanRules": [
+          {
+            "id": "levelDekan",
+            "nama": "Dekan",
+            "levels": [
+              "Dekan"
+            ],
+            "roles": [
+              "PJ",
+              "Pengarah"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelWakilDekan",
+            "nama": "Wakil Dekan",
+            "levels": [
+              "Wakil Dekan"
+            ],
+            "roles": [
+              "PJ",
+              "Pengarah"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKepalaSenat",
+            "nama": "Kepala Senat",
+            "levels": [
+              "Kepala Senat"
+            ],
+            "roles": [
+              "PJ",
+              "Pengarah"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelSekretarisSenat",
+            "nama": "Sekretaris Senat",
+            "levels": [
+              "Sekretaris Senat"
+            ],
+            "roles": [
+              "Pengarah",
+              "Ketua",
+              "PJ"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKetuaKelompokKeahlian",
+            "nama": "Ketua Kelompok Keahlian",
+            "levels": [
+              "Ketua Kelompok Keahlian"
+            ],
+            "roles": [
+              "PJ",
+              "Pengarah"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKetuaProgramStudi",
+            "nama": "Ketua Program Studi",
+            "levels": [
+              "Ketua Program Studi"
+            ],
+            "roles": [
+              "Pengarah",
+              "Ketua",
+              "PJ"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKepalaPusat",
+            "nama": "Kepala Pusat",
+            "levels": [
+              "Kepala Pusat"
+            ],
+            "roles": [
+              "Pengarah",
+              "Ketua",
+              "PJ"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKepalaLaboratorium",
+            "nama": "Kepala Laboratorium",
+            "levels": [
+              "Kepala Laboratorium"
+            ],
+            "roles": [
+              "Pengarah",
+              "Ketua",
+              "PJ"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKepalaAdministrasi",
+            "nama": "Kepala Administrasi",
+            "levels": [
+              "Kepala Administrasi"
+            ],
+            "roles": [
+              "Pengarah",
+              "Ketua",
+              "PJ",
+              "Kepala Admin"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKetuaUrusan",
+            "nama": "Ketua Urusan",
+            "levels": [
+              "Ketua Urusan"
+            ],
+            "roles": [
+              "Pengarah",
+              "Ketua",
+              "PJ"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelWakilKepala",
+            "nama": "Wakil Kepala",
+            "levels": [
+              "Wakil Kepala"
+            ],
+            "roles": [
+              "Ketua",
+              "Kepala Admin",
+              "Pengarah"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKepalaSubAdministrasi",
+            "nama": "Kepala Sub Administrasi",
+            "levels": [
+              "Kepala Sub Administrasi"
+            ],
+            "roles": [
+              "Ketua",
+              "Kepala Admin"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelKoordinator",
+            "nama": "Koordinator",
+            "levels": [
+              "Koordinator"
+            ],
+            "roles": [
+              "Ketua",
+              "Kepala Admin"
+            ],
+            "custom": false
+          },
+          {
+            "id": "levelAsisten",
+            "nama": "Asisten",
+            "levels": [
+              "Asisten"
+            ],
+            "roles": [
+              "Anggota",
+              "Kepala Admin"
+            ],
+            "custom": false
+          },
+          {
+            "id": "dosenTanpaLevel",
+            "nama": "Dosen Tanpa Level",
+            "levels": [],
+            "roles": [
+              "Ketua",
+              "Pengarah",
+              "PJ",
+              "Kepala Admin"
+            ],
+            "custom": false
+          }
+        ]
+      },
+      "rows": [
+        {
+          "nama": "Aurik Gustomo",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Dekan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Dekan",
+          "level_jabatan_2": "",
+          "target_kerma": "178500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2 + (2/6)",
+            "Pengarah": "5 + (3/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Donald Crestofel Lantu",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Wakil Dekan Bidang Sumber Daya",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Wakil Dekan",
+          "level_jabatan_2": "",
+          "target_kerma": "172500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2 + (3/6)",
+            "Pengarah": "5",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Achmad Ghazali",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Urusan Kemitraan Bisnis",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "96000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "2",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Henndy Ginting",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Kelompok Keahlian Manajemen Manusia dan Pengetahuan",
+          "jabatan_sbm_2": "Kepala Senat Sekolah",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "Kepala",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Achmad Fajar Hendarman",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Adita Pritasari",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Modal Insani",
+          "jabatan_sbm_2": "Wakil Kepala Inkubator Bisnis",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "Wakil Kepala",
+          "target_kerma": "96000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "2",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Andika Putra Pratama",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "W. Victo Anggara Wisesa",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "60000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "(1/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(1/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Dedy Sushandoyo",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Thought Leadership (Center for Entrepreneurial Business)",
+          "jabatan_sbm_2": "Kepala Laboratorium Management of Technology",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "Kepala",
+          "target_kerma": "48000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "1",
+            "Pengarah": "1",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Hary Febriansyah",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Konsultasi, Pendidikan Eksekutif; dan Sertifikasi",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "42857143",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "1 + (3/6)",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "(1/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Neneng Nurlaela Arief",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Nur Arief Rahmatsyah Putranto",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akademik",
+          "jabatan_sbm_2": "Kepala Laboratorium Game Edukasi",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "Kepala",
+          "target_kerma": "141000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2 + (3/6)",
+            "Pengarah": "3 + (3/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yudo Anggoro",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Aria Bayu Pangestu",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Pengetahuan",
+          "jabatan_sbm_2": "Wakil Kepala Laboratorium Game Edukasi",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "Wakil Kepala",
+          "target_kerma": "15638784",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "(2/6)",
+            "Pengarah": "(2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Emilia Fitriana Dewi",
+          "peran": "Dosen",
+          "status": "Tidak Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "8000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Muhammad Yorga Permana",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Muhammad Juliansyah Putra",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Asep Darmansyah",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Deddy Priatmodjo Koesrindartoto",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Kelompok Keahlian Risiko Bisnis dan Keuangan",
+          "jabatan_sbm_2": "Kepala Laboratorium Inovasi Keuangan",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "Kepala",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sylviana Maya Damayanti",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "7500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "(3/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yunieta Anny Nainggolan",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Urusan Pengembangan dan Keunggulan Akademik",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "171770833",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "3",
+            "Pengarah": "4 + (2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Acip Sutardi",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "Ybs sedang tubel tetapi tidak mengajukan surat izin",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Ana Noveria",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Kemahasiswaan Program Studi Magister Administrasi Bisnis Jakarta",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "61285714",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "2 + (2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(5/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Dzikri Firmansyah Hakam",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15826667",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "(3/6)",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "(1/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Kurnia Fajar Afgani",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "Koordinator Kemahasiswaan Program Studi Sarjana Kewirausahaan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "91586042",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Mandra Lazuardi Kitri",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "Ketua Urusan Pengawasan dan Pengendalian Operasional",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "169330960",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Oktofa Yudha Sudrajad",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Raden Aswin Rahadi",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Taufik Faturohman",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Societal Impact",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "76339286",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "3 + (1/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(4/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Tuntun Salamatun Zen",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Anggoro Budi Nugroho",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "35746933",
+          "keterangan": "Rencana akan selesai Februari 2026",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Jagat Prirayani",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator TPB",
+          "jabatan_sbm_2": "Koordinator Akademik Program Studi Sarjana Manajemen",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "Koordinator",
+          "target_kerma": "91392857",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "(4/6)",
+            "Ketua": "-",
+            "Kepala Admin": "5 + (1/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Eneng Nur Hasanah",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akademik Program Studi Magister Sains Manajemen-Doktor Sains Manajemen",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "73928571",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "5",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Harimukti Wandebori",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Kelompok Keahlian Strategi Bisnis dan Pemasaran",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Atik Aprianingsih",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Program Studi MSM dan DSM",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "80593750",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "1 + (5/6)",
+            "Pengarah": "1 + (3/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Mustika Sufiati Purwanegara",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Laboratorium Neuro Business",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Kepala",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Prawira Fajarindra Belgiawan",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Annisa Rahmani Qastharin",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Kemahasiswaan Program Studi Sarjana Manajemen",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "96000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "1",
+            "Ketua": "-",
+            "Kepala Admin": "5",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Ilma Aulia Zaim",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Jejaring dan Reputasi Global",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "93000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "(3/6)",
+            "Ketua": "-",
+            "Kepala Admin": "5 + (3/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Ira Fachira",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Urusan Admisi Mahasiswa, Jejaring; dan Reputasi Global",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "143750000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "3",
+            "Pengarah": "3",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Nila Armelia Windasari",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Program Studi Sarjana Manajemen",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "81571429",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "1 + (2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Fitri Aprilianty",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "8000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Nurrani Kusumawati",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "30878972",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Gallang Perdhana Dalimunthe",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Admisi Mahasiswa, Jejaring; dan Reputasi Global",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "79928571",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "3 + (2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(4/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Novika Candra Astuti",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Monitoring dan Evaluasi Capaian KPI Strategis",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "24000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1 + (4/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Muhammad Fakhrul Rozi Ashadi",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Monitoring dan Evaluasi Capaian QS",
+          "jabatan_sbm_2": "Wakil Kepala Laboratorium Neuro Business",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "Wakil Kepala",
+          "target_kerma": "22500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "(5/6)",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Utomo Sarjono Putro",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Kelompok Keahlian Pengambilan Keputusan dan Negosiasi Strategis",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yos Sunitiyoso",
+          "peran": "Dosen",
+          "status": "Penugasan",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "64163173",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Pri Hermawan",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Laboratorium Simulasi Sosial dan Analitik Big Data",
+          "jabatan_sbm_2": "Sekretaris Senat Sekolah",
+          "level_jabatan_1": "Kepala",
+          "level_jabatan_2": "Sekretaris Senat",
+          "target_kerma": "43180000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "(5/6)",
+            "Pengarah": "1",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Santi Novani",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Urusan Pengembangan Pengetahuan dan Dampak",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "111875000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "3",
+            "Pengarah": "1",
+            "Ketua": "-",
+            "Kepala Admin": "(4/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Manahan Parlindungan Saragih Siallagan",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Pusat Studi Kasus Bisnis Indonesia",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Kepala",
+          "level_jabatan_2": "",
+          "target_kerma": "51840000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "1 + (4/6)",
+            "Pengarah": "(2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Meditya Wasesa",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "19040000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "(4/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(2/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Khrisna Ariyanto",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "16143344",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Shimaditya Nuraeni",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "121266964",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Lidia Mayangsari",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Pengelolaan Risiko",
+          "jabatan_sbm_2": "Wakil Kepala Pusat Studi Kasus Bisnis Indonesia",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "Wakil Kepala",
+          "target_kerma": "18060600",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "(4/6)",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Valid Hasyimi",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akademik dan Kemahasiswaan Program Studi Magister Administrasi Bisnis Bandung",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "93214286",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "4 + (2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(1/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sudrajati Ratnaningtyas",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Wawan Dhewanto",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Kelompok Keahlian Kewirausahaan dan Manajemen Teknologi",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Leo Aldianto",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Dina Dellyana",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Laboratorium Inkubator Bisnis",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Kepala",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Eko Agus Prasetio",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Wakil Dekan Bidang Akademik",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Wakil Dekan",
+          "level_jabatan_2": "",
+          "target_kerma": "134400000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "3 + (5/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Isti Raafaldini Mirzanti",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Program Studi Magister Administrasi Bisnis Kampus Jakarta",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "93882813",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "1 + (4/6)",
+            "Pengarah": "2 + (2/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Melia Famiola",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Qorri Aina",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Rendra Chaerudin",
+          "peran": "Dosen",
+          "status": "Tugas Belajar",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "28997923",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sonny Rustiadi",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Program Studi Sarjana Kewirausahaan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "69750000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "1 + (1/6)",
+            "Pengarah": "1 + (5/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sri Hartati",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sri Herliana",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Amilia Wulansari",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Evy Rachmawati Chaldun",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Kemahasiswaan Program Studi Magister Sain Manajemen-Doktor Sains Manajemen",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "71400000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "4 + (5/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Salfitrie Roos Maryunani",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akademik Program Studi Sarjana Kewirausahaan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "103448308",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "1 + (5/6)",
+            "Ketua": "-",
+            "Kepala Admin": "4 + (2/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yulianto",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Bayuningrat",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sahat",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Magang, Karier; dan Alumni",
+          "jabatan_sbm_2": "Wakil Kepala Laboratorium Management of Technology",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "Wakil Kepala",
+          "target_kerma": "70714286",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2 + (3/6)",
+            "Pengarah": "(1/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Dermawan Wibisono",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Kelompok Keahlian Manajemen Operasi dan Kinerja",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Togar Mangihut Simatupang",
+          "peran": "Dosen",
+          "status": "Penugasan",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "36908121",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Gatot Yudoko",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yuliani Dwi Lestari",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Akbar Adhi Utama",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "0",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "",
+            "Pengarah": "",
+            "Ketua": "",
+            "Kepala Admin": "",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Liane Okdinawati",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Urusan Penjaminan Mutu, Akreditasi; dan Pemeringkatan Internasional",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "134714286",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2 + (4/6)",
+            "Pengarah": "3",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Nur Budi Mulyono",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Urusan Perencanaan Strategis",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "105000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "1 + (5/6)",
+            "Ketua": "-",
+            "Kepala Admin": "(5/6)",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yuanita Handayati",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Ketua Program Studi Magister Administrasi Bisnis Kampus Bandung",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Ketua",
+          "level_jabatan_2": "",
+          "target_kerma": "110650000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "2",
+            "Pengarah": "2",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Desy Anisya Farmaciawaty",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Lembaga Bisnis Berkelanjutan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "64285714",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "(5/6)",
+            "Pengarah": "2",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Noorhan Firdaus Pambudi",
+          "peran": "Dosen",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akademik Program Studi Magister Administrasi Bisnis Jakarta",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "115392857",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "5 + (3/6)",
+            "Ketua": "-",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Agus Kurniawan",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Layanan Laboratorium",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "36000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Anjar Listiyorini",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Layanan Mahasiswa",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "75000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Anti Novarianti",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akademik Internasional",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "57500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Arief Rachman Saleh",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Emma Hermasari",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Akreditasi Penjaminan Mutu, Akreditasi; dan Pemeringkatan Internasional",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "60000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Endah Nurani",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Administrasi",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "66000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Epri Triyono Saputra",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Transformasi Digital",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "39000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Fathurrohman",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Sarana Prasarana dan Sistem Informasi",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "39000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Fatkhurrahman",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Gita Fajar Petala Mega",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Admisi dan Penjaringan Mahasiswa",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "60000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Harry Santoso",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Keteknikan dan Manajemen Persediaan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "37500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Indra Dewanata",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Sub Administrasi Akademik, Kemahasiswaan dan Kerja Sama",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "64000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Iwan Doli Simarmata",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Transformasi Digital, Tata Kelola; dan Operasional",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "66000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Jahid Abdurahman",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Penjaminan Mutu, Akreditasi; dan Pemeringkatan Internasional",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "39000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Kania Dwi Permatasari",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Khumaeroh",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Sumber Daya Manusia",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "39000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Kusnadi",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Lavinia Desty Fesfarany",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Event",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "40500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Lia Fitria Purnamawati",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Perencanaan Strategis",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "64500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Nenden SF Indriawati",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Administrasi",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "37500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Neni Nurkumala",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Sub Administrasi Sumber Daya Manusia",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "57500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Ninuk Endang Windarti",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Sub Administrasi Keuangan dan Anggaran",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "57500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Rokayah",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Pengadaan Barang dan Jasa",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "40500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sandy Seftyan",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Setiawan",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator TPB dan The Greater Hub",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "37500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Sunarko",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Kepala Sub Administrasi Sarana, Prasarana dan Sistem Informasi",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Supri Haryanto",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Koordinator Administrasi Penelitian dan Pengabdian Masyarakat",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Koordinator",
+          "level_jabatan_2": "",
+          "target_kerma": "63000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "1",
+            "Kepala Admin": "-",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Taupik Abidin",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "",
+          "level_jabatan_2": "",
+          "target_kerma": "15000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Widi Pangestuty",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Keuangan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "39000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Wiwik Istiyarini",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Perpustakaan",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "37500000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        },
+        {
+          "nama": "Yayat Ruchiyat Arifin",
+          "peran": "Staf",
+          "status": "Aktif",
+          "jabatan_sbm": "Asisten Koordinator Protokoler",
+          "jabatan_sbm_2": "",
+          "level_jabatan_1": "Asisten",
+          "level_jabatan_2": "",
+          "target_kerma": "39000000",
+          "keterangan": "",
+          "pks": {
+            "1": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            },
+            "2": {
+              "PJ": false,
+              "Pengarah": false,
+              "Ketua": false,
+              "Kepala Admin": false,
+              "Anggota": false
+            }
+          },
+          "distribusi_roles": {
+            "PJ": "-",
+            "Pengarah": "-",
+            "Ketua": "-",
+            "Kepala Admin": "1",
+            "Anggota": ""
+          }
+        }
+      ]
+    },
+    "note": "Import dari file backup lokal",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784103613021"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784103613021"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

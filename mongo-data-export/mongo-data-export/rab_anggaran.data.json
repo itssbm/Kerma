@@ -1,0 +1,2762 @@
+[
+  {
+    "_id": {
+      "$oid": "6a558e065fd4e10b4d74fb44"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "105000000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783991814908"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a558e065fd4e10b4d74fb45"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "7600000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783991814970"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b73"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "2139500000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242391"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b74"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "915500000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b75"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "707400000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b76"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "2194100000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b77"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "105563240"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b78"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "783059377"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b79"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "181903500"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b7a"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1907000000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b7b"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "166062152"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b7c"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "2404650000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b7d"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "54225165"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b7e"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "2624150000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b7f"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "4696778"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b80"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "594069847"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b81"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1222500000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b82"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "15461279"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b83"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-04-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1755750000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b84"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "3399500000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b85"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "32742245"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b86"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "753872036"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b87"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "19787000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b88"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "242175000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b89"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "145086418"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b8a"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "381496500"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b8b"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "434450000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b8c"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "673200"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b8d"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "258802996"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b8e"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "976225000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b8f"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "301651642"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b90"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "2843472341"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242393"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b91"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1113517500"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b92"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "211902763"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b93"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "3339549261"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b94"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "33627450"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b95"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "567760000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b96"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "143457075"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b97"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1102052210"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b98"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1980442450"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b99"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "480800000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b9a"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "31002337"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b9b"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "415666409"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b9c"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "400550000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b9d"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "361491718"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b9e"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "2201848854"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8b9f"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1254900000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba0"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "346436000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba1"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "2182430638"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba2"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1020475000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba3"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "464132650"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba4"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "3061692156"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba5"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1147341990"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba6"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1079050000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba7"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "92537500"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba8"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "695219387"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8ba9"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "346530900"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8baa"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "703900000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bab"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "30593620"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bac"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "549902316"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bad"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-81-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "110500000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bae"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "718950000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8baf"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "19018658"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb0"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "775020409"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb1"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "266250000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb2"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "112300000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb3"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-39-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "324500000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb4"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "625062500"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb5"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "261735583"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb6"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberLong": "3602980004"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb7"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "496900000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb8"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "591372270"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bb9"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "981689395"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bba"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "751350000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bbb"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "44499732"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bbc"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1009494025"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bbd"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-40-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "52800000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bbe"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "243400000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bbf"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "2104735"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc0"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "274772231"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc1"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "110000000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc2"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "1969140"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc3"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "35602035"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc4"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "193850000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc5"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "544911"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc6"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "14939260"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc7"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "375600000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc8"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "4111890"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bc9"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "40166647"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bca"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "647100000"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bcb"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "220199050"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a55aef24436fd492afd8bcc"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "satuan": "Paket",
+    "harga_satuan": {
+      "$numberInt": "15130250"
+    },
+    "volume": {
+      "$numberInt": "1"
+    },
+    "keterangan": "",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1784000242394"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1784000756382"
+      }
+    }
+  }
+]

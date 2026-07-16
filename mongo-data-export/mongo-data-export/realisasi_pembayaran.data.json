@@ -1,0 +1,4125 @@
+[
+  {
+    "_id": {
+      "$oid": "6a4466c0ef8001597452ea49"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "tanggal": "2023-01-31",
+    "nominal": {
+      "$numberInt": "813250000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "",
+    "rencana_tahap": "",
+    "rencana_tanggal": "2023-01-31",
+    "rencana_nominal": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782867648413"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4466cbef8001597452ea4a"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "tanggal": "2023-02-28",
+    "nominal": {
+      "$numberInt": "793750000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.|SBM.PD-1-08-2022|Termin|Tahap 2|2023-02-28|793750000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2023-02-28",
+    "rencana_nominal": {
+      "$numberInt": "793750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782867659515"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782867659515"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4466d3ef8001597452ea4b"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "tanggal": "2023-05-19",
+    "nominal": {
+      "$numberInt": "793750000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.|SBM.PD-1-08-2022|Termin|Tahap 3|2023-05-19|793750000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2023-05-19",
+    "rencana_nominal": {
+      "$numberInt": "793750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782867667628"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782867667628"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4466d8ef8001597452ea4c"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "tanggal": "2023-08-04",
+    "nominal": {
+      "$numberInt": "793750000"
+    },
+    "keterangan": "Realisasi Tahap 4 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.|SBM.PD-1-08-2022|Termin|Tahap 4|2023-08-04|793750000",
+    "rencana_tahap": "Tahap 4",
+    "rencana_tanggal": "2023-08-04",
+    "rencana_nominal": {
+      "$numberInt": "793750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782867672815"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782867672815"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4469350bad9888b0ecaec0"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "tanggal": "2023-01-31",
+    "nominal": {
+      "$numberInt": "292500000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.I_22/23|SBM.PD-1-09-2022|Termin|Tahap 1|2023-01-31|292500000",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "2023-01-31",
+    "rencana_nominal": {
+      "$numberInt": "292500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868277259"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782868277259"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44693b0bad9888b0ecaec1"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "tanggal": "2023-02-28",
+    "nominal": {
+      "$numberInt": "285750000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.I_22/23|SBM.PD-1-09-2022|Termin|Tahap 2|2023-02-28|285750000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2023-02-28",
+    "rencana_nominal": {
+      "$numberInt": "285750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868283478"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782868283478"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4469420bad9888b0ecaec2"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "tanggal": "2023-05-19",
+    "nominal": {
+      "$numberInt": "285750000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.I_22/23|SBM.PD-1-09-2022|Termin|Tahap 3|2023-05-19|285750000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2023-05-19",
+    "rencana_nominal": {
+      "$numberInt": "285750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868290205"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782868290205"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4469470bad9888b0ecaec3"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "tanggal": "2023-08-04",
+    "nominal": {
+      "$numberInt": "285750000"
+    },
+    "keterangan": "Realisasi Tahap 4 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTPN_Sem.I_22/23|SBM.PD-1-09-2022|Termin|Tahap 4|2023-08-04|285750000",
+    "rencana_tahap": "Tahap 4",
+    "rencana_tanggal": "2023-08-04",
+    "rencana_nominal": {
+      "$numberInt": "285750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868295532"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782868295532"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a446ac30bad9888b0ecaec5"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "390000000"
+    },
+    "keterangan": "Realisasi Semester 1-2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_22/23|SBM.PD-1-13-2022|Unit Price|Semester 1-2023/2024||420000000",
+    "rencana_tahap": "Semester 1-2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "420000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868675018"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a446ac90bad9888b0ecaec6"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "tanggal": "2023-06-30",
+    "nominal": {
+      "$numberInt": "180000000"
+    },
+    "keterangan": "Realisasi Semester Pendek-2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_22/23|SBM.PD-1-13-2022|Unit Price|Semester Pendek-2022/2023||180000000",
+    "rencana_tahap": "Semester Pendek-2022/2023",
+    "rencana_tanggal": "2023-06-30",
+    "rencana_nominal": {
+      "$numberInt": "180000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868681018"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a446acc0bad9888b0ecaec7"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "tanggal": "2023-01-15",
+    "nominal": {
+      "$numberInt": "420000000"
+    },
+    "keterangan": "Realisasi Semester 2-2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_22/23|SBM.PD-1-13-2022|Unit Price|Semester 2-2022/2023||420000000",
+    "rencana_tahap": "Semester 2-2022/2023",
+    "rencana_tanggal": "2023-01-15",
+    "rencana_nominal": {
+      "$numberInt": "420000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868684569"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a446ad50bad9888b0ecaec8"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "tanggal": "2022-08-21",
+    "nominal": {
+      "$numberInt": "415000000"
+    },
+    "keterangan": "Realisasi Semester 1-2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_22/23|SBM.PD-1-13-2022|Unit Price|Semester 1-2022/2023||420000000",
+    "rencana_tahap": "Semester 1-2022/2023",
+    "rencana_tanggal": "2022-08-21",
+    "rencana_nominal": {
+      "$numberInt": "420000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782868693319"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447379b356ff402a0f356d"
+    },
+    "id_program": "KERMA_BTN_Sem.",
+    "kode_file": "SBM.PD-1-112-2022",
+    "tanggal": "2026-07-01",
+    "nominal": {
+      "$numberInt": "37957502"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_BTN_Sem.|SBM.PD-1-112-2022|Termin|Tahap 1||37957502",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "",
+    "rencana_nominal": {
+      "$numberInt": "37957502"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782870905619"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782870905619"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44742bb356ff402a0f356e"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal": "2022-10-10",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_FI_Sem.I_22/23|SBM.PD-1-10-2022|Termin|Tahap 1|2022-10-10|1181250000",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "2022-10-10",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871083228"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871083228"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44742fb356ff402a0f356f"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal": "2023-01-10",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_FI_Sem.I_22/23|SBM.PD-1-10-2022|Termin|Tahap 2|2023-01-10|1181250000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2023-01-10",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871087052"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871087052"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447432b356ff402a0f3570"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal": "2023-08-10",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_FI_Sem.I_22/23|SBM.PD-1-10-2022|Termin|Tahap 3|2023-08-10|1181250000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2023-08-10",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871090893"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871090893"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447436b356ff402a0f3571"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal": "2024-01-10",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Tahap 4 dari rencana pendapatan",
+    "rencana_key": "KERMA_FI_Sem.I_22/23|SBM.PD-1-10-2022|Termin|Tahap 4|2024-01-10|1181250000",
+    "rencana_tahap": "Tahap 4",
+    "rencana_tanggal": "2024-01-10",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871094235"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871094235"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4474dcb356ff402a0f3576"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal": "2022-08-21",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Semester 1-2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23|SBM.PD-1-06-2022|Unit Price|Semester 1-2022/2023||1181250000",
+    "rencana_tahap": "Semester 1-2022/2023",
+    "rencana_tanggal": "2022-08-21",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871260111"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4474dfb356ff402a0f3577"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal": "2023-01-15",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Semester 2-2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23|SBM.PD-1-06-2022|Unit Price|Semester 2-2022/2023||1181250000",
+    "rencana_tahap": "Semester 2-2022/2023",
+    "rencana_tanggal": "2023-01-15",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871263404"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4474e4b356ff402a0f3578"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal": "2023-06-30",
+    "nominal": {
+      "$numberInt": "656250000"
+    },
+    "keterangan": "Realisasi Semester Pendek-2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23|SBM.PD-1-06-2022|Unit Price|Semester Pendek-2022/2023||656250000",
+    "rencana_tahap": "Semester Pendek-2022/2023",
+    "rencana_tanggal": "2023-06-30",
+    "rencana_nominal": {
+      "$numberInt": "656250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871268346"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4474e9b356ff402a0f3579"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Semester 1-2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23|SBM.PD-1-06-2022|Unit Price|Semester 1-2023/2024||1181250000",
+    "rencana_tahap": "Semester 1-2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871273367"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4474efb356ff402a0f357a"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "225000000"
+    },
+    "keterangan": "Realisasi Semester 2-2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23|SBM.PD-1-06-2022|Unit Price|Semester 2-2023/2024||525000000",
+    "rencana_tahap": "Semester 2-2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "525000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871279909"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447576b356ff402a0f357d"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal": "2022-10-10",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_KPC_Sem.|SBM.PD-1-11-2022|Termin|Tahap 1||1113750000",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "2022-10-10",
+    "rencana_nominal": {
+      "$numberInt": "1113750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871414854"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44757ab356ff402a0f357e"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal": "2023-01-10",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_KPC_Sem.|SBM.PD-1-11-2022|Termin|Tahap 2||1113750000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2023-01-10",
+    "rencana_nominal": {
+      "$numberInt": "1113750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871418464"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44757db356ff402a0f357f"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal": "2023-08-10",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_KPC_Sem.|SBM.PD-1-11-2022|Termin|Tahap 3||1113750000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2023-08-10",
+    "rencana_nominal": {
+      "$numberInt": "1113750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871421778"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447580b356ff402a0f3580"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal": "2024-01-10",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "keterangan": "Realisasi Tahap 4 dari rencana pendapatan",
+    "rencana_key": "KERMA_KPC_Sem.|SBM.PD-1-11-2022|Termin|Tahap 4||1113750000",
+    "rencana_tahap": "Tahap 4",
+    "rencana_tanggal": "2024-01-10",
+    "rencana_nominal": {
+      "$numberInt": "1113750000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871424773"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447602b356ff402a0f3583"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal": "2022-08-21",
+    "nominal": {
+      "$numberInt": "1687500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23_A|SBM.PD-1-07-2022|Unit Price|Semester 1 - 2022/2023||1687500000",
+    "rencana_tahap": "Semester 1 - 2022/2023",
+    "rencana_tanggal": "2022-08-21",
+    "rencana_nominal": {
+      "$numberInt": "1687500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871554961"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447607b356ff402a0f3584"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal": "2023-01-15",
+    "nominal": {
+      "$numberInt": "1687500000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23_A|SBM.PD-1-07-2022|Unit Price|Semester 2 - 2022/2023||1687500000",
+    "rencana_tahap": "Semester 2 - 2022/2023",
+    "rencana_tanggal": "2023-01-15",
+    "rencana_nominal": {
+      "$numberInt": "1687500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871559224"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44760bb356ff402a0f3585"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal": "2023-06-30",
+    "nominal": {
+      "$numberInt": "937500000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2022/2023 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23_A|SBM.PD-1-07-2022|Unit Price|Semester Pendek - 2022/2023||937500000",
+    "rencana_tahap": "Semester Pendek - 2022/2023",
+    "rencana_tanggal": "2023-06-30",
+    "rencana_nominal": {
+      "$numberInt": "937500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871563322"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44760fb356ff402a0f3586"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1687500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23_A|SBM.PD-1-07-2022|Unit Price|Semester 1 - 2023/2024||1687500000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1687500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871567014"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447632b356ff402a0f3587"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "485000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_22/23_A|SBM.PD-1-07-2022|Unit Price|Semester 2 - 2023/2024||750000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "750000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871602362"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4476a1b356ff402a0f358b"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "tanggal": "2026-07-01",
+    "nominal": {
+      "$numberInt": "1660000000"
+    },
+    "keterangan": "Realisasi Termin 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_PERTA_Sem.|SBM.PD-1-05-2022|Termin|Termin 1||1660000000",
+    "rencana_tahap": "Termin 1",
+    "rencana_tanggal": "",
+    "rencana_nominal": {
+      "$numberInt": "1660000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871713968"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871713968"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447702b356ff402a0f358e"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-04-2022",
+    "tanggal": "2022-05-23",
+    "nominal": {
+      "$numberInt": "1625000000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_BAI_Sem.II_21/22|SBM.PD-1-04-2022|Termin|Tahap 1|2022-05-23|1625000000",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "2022-05-23",
+    "rencana_nominal": {
+      "$numberInt": "1625000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871810704"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871810704"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447707b356ff402a0f358f"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-04-2022",
+    "tanggal": "2022-08-08",
+    "nominal": {
+      "$numberInt": "875000000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_BAI_Sem.II_21/22|SBM.PD-1-04-2022|Termin|Tahap 2|2022-08-08|875000000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2022-08-08",
+    "rencana_nominal": {
+      "$numberInt": "875000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871815017"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871815017"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44770ab356ff402a0f3590"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-04-2022",
+    "tanggal": "2023-01-09",
+    "nominal": {
+      "$numberInt": "375000000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_BAI_Sem.II_21/22|SBM.PD-1-04-2022|Termin|Tahap 3|2023-01-09|375000000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2023-01-09",
+    "rencana_nominal": {
+      "$numberInt": "375000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871818701"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871818701"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447761b356ff402a0f3592"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal": "2022-02-23",
+    "nominal": {
+      "$numberLong": "2401000000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.II_21/22|SBM.PD-1-01-2022|Termin|Tahap 1|2022-02-23|2401000000",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "2022-02-23",
+    "rencana_nominal": {
+      "$numberLong": "2401000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871905129"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871905129"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447764b356ff402a0f3593"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal": "2022-05-23",
+    "nominal": {
+      "$numberInt": "1029000000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.II_21/22|SBM.PD-1-01-2022|Termin|Tahap 2|2022-05-23|1029000000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2022-05-23",
+    "rencana_nominal": {
+      "$numberInt": "1029000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871908152"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871908152"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447767b356ff402a0f3594"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal": "2022-08-08",
+    "nominal": {
+      "$numberInt": "1715000000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.II_21/22|SBM.PD-1-01-2022|Termin|Tahap 3|2022-08-08|1715000000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2022-08-08",
+    "rencana_nominal": {
+      "$numberInt": "1715000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871911549"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871911549"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44776ab356ff402a0f3595"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal": "2023-01-09",
+    "nominal": {
+      "$numberInt": "1715000000"
+    },
+    "keterangan": "Realisasi Tahap 4 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.II_21/22|SBM.PD-1-01-2022|Termin|Tahap 4|2023-01-09|1715000000",
+    "rencana_tahap": "Tahap 4",
+    "rencana_tanggal": "2023-01-09",
+    "rencana_nominal": {
+      "$numberInt": "1715000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782871914744"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782871914744"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4477d9b356ff402a0f359a"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal": "2024-02-18",
+    "nominal": {
+      "$numberInt": "285000000"
+    },
+    "keterangan": "Realisasi Tahap 1 dari rencana pendapatan",
+    "rencana_key": "KERMA_JM_Sem.II_23/24|SBM.PD-1-104-2023|Termin|Tahap 1|2024-02-18|285000000",
+    "rencana_tahap": "Tahap 1",
+    "rencana_tanggal": "2024-02-18",
+    "rencana_nominal": {
+      "$numberInt": "285000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872025629"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782872025629"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4477ddb356ff402a0f359b"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal": "2024-06-27",
+    "nominal": {
+      "$numberInt": "160000000"
+    },
+    "keterangan": "Realisasi Tahap 2 dari rencana pendapatan",
+    "rencana_key": "KERMA_JM_Sem.II_23/24|SBM.PD-1-104-2023|Termin|Tahap 2|2024-06-27|160000000",
+    "rencana_tahap": "Tahap 2",
+    "rencana_tanggal": "2024-06-27",
+    "rencana_nominal": {
+      "$numberInt": "160000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872029537"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782872029537"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4477e1b356ff402a0f359c"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal": "2024-08-15",
+    "nominal": {
+      "$numberInt": "285000000"
+    },
+    "keterangan": "Realisasi Tahap 3 dari rencana pendapatan",
+    "rencana_key": "KERMA_JM_Sem.II_23/24|SBM.PD-1-104-2023|Termin|Tahap 3|2024-08-15|285000000",
+    "rencana_tahap": "Tahap 3",
+    "rencana_tanggal": "2024-08-15",
+    "rencana_nominal": {
+      "$numberInt": "285000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872033136"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782872033136"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4477e4b356ff402a0f359d"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal": "2025-01-30",
+    "nominal": {
+      "$numberInt": "285000000"
+    },
+    "keterangan": "Realisasi Tahap 4 dari rencana pendapatan",
+    "rencana_key": "KERMA_JM_Sem.II_23/24|SBM.PD-1-104-2023|Termin|Tahap 4|2025-01-30|285000000",
+    "rencana_tahap": "Tahap 4",
+    "rencana_tanggal": "2025-01-30",
+    "rencana_nominal": {
+      "$numberInt": "285000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872036911"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782872036911"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447880b356ff402a0f35a1"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "980000000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_23/24|SBM.PD-1-03-2023|Unit Price|Semester 1 - 2023/2024||980000000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "980000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872192933"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447884b356ff402a0f35a2"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "980000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_23/24|SBM.PD-1-03-2023|Unit Price|Semester 2 - 2023/2024||980000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "980000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872196588"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447889b356ff402a0f35a3"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "420000000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_23/24|SBM.PD-1-03-2023|Unit Price|Semester Pendek - 2023/2024||420000000",
+    "rencana_tahap": "Semester Pendek - 2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "420000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872201297"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4478a1b356ff402a0f35a4"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "913500000"
+    },
+    "keterangan": "Realisasi Semester 1  - 2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_MI_Sem.I_23/24|SBM.PD-1-03-2023|Unit Price|Semester 1  - 2024/2025||980000000",
+    "rencana_tahap": "Semester 1  - 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "980000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872225413"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44790cb356ff402a0f35a8"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1485000000"
+    },
+    "keterangan": "Realisasi Semester 1-2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_BA_Sem.I_23/24|SBM.PD-1-105-2023|Unit Price|Semester 1-2023/2024||1485000000",
+    "rencana_tahap": "Semester 1-2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1485000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872332788"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447910b356ff402a0f35a9"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "1485000000"
+    },
+    "keterangan": "Realisasi Semester 2-2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_BA_Sem.I_23/24|SBM.PD-1-105-2023|Unit Price|Semester 2-2023/2024||1485000000",
+    "rencana_tahap": "Semester 2-2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1485000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872336084"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447913b356ff402a0f35aa"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "825000000"
+    },
+    "keterangan": "Realisasi Semester Pendek -2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_BA_Sem.I_23/24|SBM.PD-1-105-2023|Unit Price|Semester Pendek -2023/2024||825000000",
+    "rencana_tahap": "Semester Pendek -2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "825000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872339734"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447917b356ff402a0f35ab"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "1485000000"
+    },
+    "keterangan": "Realisasi Semester 1-2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_BA_Sem.I_23/24|SBM.PD-1-105-2023|Unit Price|Semester 1-2024/2025||1485000000",
+    "rencana_tahap": "Semester 1-2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "1485000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872343033"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44791ab356ff402a0f35ac"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "660000000"
+    },
+    "keterangan": "Realisasi Semester 2-2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_BA_Sem.I_23/24|SBM.PD-1-105-2023|Unit Price|Semester 2-2024/2025||660000000",
+    "rencana_tahap": "Semester 2-2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "660000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872346295"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4479cdb356ff402a0f35b0"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1991250000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_23/24|SBM.PD-1-109-2023|Unit Price|Semester 1 - 2023/2024||1991250000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1991250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872525458"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4479d0b356ff402a0f35b1"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "1991250000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_23/24|SBM.PD-1-109-2023|Unit Price|Semester 2 - 2023/2024||1991250000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1991250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872528645"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4479d4b356ff402a0f35b2"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "1106250000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_23/24|SBM.PD-1-109-2023|Unit Price|Semester Pendek - 2023/2024||1106250000",
+    "rencana_tahap": "Semester Pendek - 2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "1106250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872532820"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4479d8b356ff402a0f35b3"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "1991250000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_23/24|SBM.PD-1-109-2023|Unit Price|Semester 1 - 2024/2025||1991250000",
+    "rencana_tahap": "Semester 1 - 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "1991250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872536265"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4479efb356ff402a0f35b4"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "851625000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_IAITB_Sem.I_23/24|SBM.PD-1-109-2023|Unit Price|Semester 2 - 2024/2025||885000000",
+    "rencana_tahap": "Semester 2 - 2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "885000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782872559676"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c0ab356ff402a0f35b9"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1316250000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_PEPR2_Sem.I_23/24|SBM.PD-1-106-2023|Unit Price|Semester 1 - 2023/2024||1316250000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1316250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873098773"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c0eb356ff402a0f35ba"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "1316250000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_PEPR2_Sem.I_23/24|SBM.PD-1-106-2023|Unit Price|Semester 2 - 2023/2024||1316250000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1316250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873102009"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c11b356ff402a0f35bb"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "731250000"
+    },
+    "keterangan": "Realisasi Semester Pendek – 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_PEPR2_Sem.I_23/24|SBM.PD-1-106-2023|Unit Price|Semester Pendek – 2023/2024||731250000",
+    "rencana_tahap": "Semester Pendek – 2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "731250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873105640"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c14b356ff402a0f35bc"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "1316250000"
+    },
+    "keterangan": "Realisasi Semester 1 – 2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_PEPR2_Sem.I_23/24|SBM.PD-1-106-2023|Unit Price|Semester 1 – 2024/2025||1316250000",
+    "rencana_tahap": "Semester 1 – 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "1316250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873108877"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c21b356ff402a0f35bd"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "483750000"
+    },
+    "keterangan": "Realisasi Semester 2 – 2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_PEPR2_Sem.I_23/24|SBM.PD-1-106-2023|Unit Price|Semester 2 – 2024/2025||585000000",
+    "rencana_tahap": "Semester 2 – 2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "585000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873121254"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c8fb356ff402a0f35c2"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal": "2025-01-30",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana pendapatan",
+    "rencana_key": "KERMA_HK_Sem.I_23/24|SBM.PD-1-107-2023|Termin|Tahap pertama|2025-01-30|405000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-01-30",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873231219"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873231219"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c92b356ff402a0f35c3"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal": "2025-04-30",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana pendapatan",
+    "rencana_key": "KERMA_HK_Sem.I_23/24|SBM.PD-1-107-2023|Termin|Tahap kedua|2025-04-30|405000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2025-04-30",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873234282"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873234282"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c95b356ff402a0f35c4"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal": "2025-08-30",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap ketiga dari rencana pendapatan",
+    "rencana_key": "KERMA_HK_Sem.I_23/24|SBM.PD-1-107-2023|Termin|Tahap ketiga|2025-08-30|405000000",
+    "rencana_tahap": "Tahap ketiga",
+    "rencana_tanggal": "2025-08-30",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873237317"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873237317"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447c98b356ff402a0f35c5"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal": "2026-01-10",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap keempat dari rencana pendapatan",
+    "rencana_key": "KERMA_HK_Sem.I_23/24|SBM.PD-1-107-2023|Termin|Tahap keempat|2026-01-10|405000000",
+    "rencana_tahap": "Tahap keempat",
+    "rencana_tanggal": "2026-01-10",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873240533"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873240533"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447d7bb356ff402a0f35c9"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal": "2023-09-30",
+    "nominal": {
+      "$numberInt": "1147500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_BI_Sem.I_23/24|SBM.PD-1-04-2023|Unit Price|Semester 1 - 2023/2024|2023-09-30|1147500000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-09-30",
+    "rencana_nominal": {
+      "$numberInt": "1147500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873467260"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873717748"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447d7eb356ff402a0f35ca"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal": "2024-01-31",
+    "nominal": {
+      "$numberInt": "1125000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_BI_Sem.I_23/24|SBM.PD-1-04-2023|Unit Price|Semester 2 - 2023/2024|2024-01-31|1125000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-01-31",
+    "rencana_nominal": {
+      "$numberInt": "1125000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873470824"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873717748"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447d81b356ff402a0f35cb"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "675000000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2023/2024 dari rencana pendapatan",
+    "rencana_key": "KERMA_BI_Sem.I_23/24|SBM.PD-1-04-2023|Unit Price|Semester Pendek - 2023/2024|2024-06-30|675000000",
+    "rencana_tahap": "Semester Pendek - 2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "675000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873473634"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873717748"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447d85b356ff402a0f35cc"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal": "2024-08-31",
+    "nominal": {
+      "$numberInt": "1125000000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2024/2025 dari rencana pendapatan",
+    "rencana_key": "KERMA_BI_Sem.I_23/24|SBM.PD-1-04-2023|Unit Price|Semester 1 - 2024/2025|2024-08-31|1125000000",
+    "rencana_tahap": "Semester 1 - 2024/2025",
+    "rencana_tanggal": "2024-08-31",
+    "rencana_nominal": {
+      "$numberInt": "1125000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782873477458"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782873717748"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b39d8589035f791cdc79"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal": "2023-01-15",
+    "nominal": {
+      "$numberInt": "1845000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2022/2023 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_22/23|SBM.PD-1-01-2023|Unit Price|Semester 2 - 2022/2023||1845000000",
+    "rencana_tahap": "Semester 2 - 2022/2023",
+    "rencana_tanggal": "2023-01-15",
+    "rencana_nominal": {
+      "$numberInt": "1845000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887325298"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b3a18589035f791cdc7a"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal": "2023-06-30",
+    "nominal": {
+      "$numberInt": "1025000000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2022/2023 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_22/23|SBM.PD-1-01-2023|Unit Price|Semester Pendek - 2022/2023||1025000000",
+    "rencana_tahap": "Semester Pendek - 2022/2023",
+    "rencana_tanggal": "2023-06-30",
+    "rencana_nominal": {
+      "$numberInt": "1025000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887329142"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b3a48589035f791cdc7b"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1845000000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_22/23|SBM.PD-1-01-2023|Unit Price|Semester 1 - 2023/2024||1845000000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1845000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887332779"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b3d78589035f791cdc7c"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "1685000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_22/23|SBM.PD-1-01-2023|Unit Price|Semester 2 - 2023/2024||1845000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1845000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887383050"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b4768589035f791cdc80"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal": "2023-01-15",
+    "nominal": {
+      "$numberLong": "2227500000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2022/2023 dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.II_22/23|SBM.PD-1-108-2023|Unit Price|Semester 2 - 2022/2023||2227500000",
+    "rencana_tahap": "Semester 2 - 2022/2023",
+    "rencana_tanggal": "2023-01-15",
+    "rencana_nominal": {
+      "$numberLong": "2227500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887542220"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b47a8589035f791cdc81"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal": "2023-06-30",
+    "nominal": {
+      "$numberInt": "1237500000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2022/2023 dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.II_22/23|SBM.PD-1-108-2023|Unit Price|Semester Pendek - 2022/2023||1237500000",
+    "rencana_tahap": "Semester Pendek - 2022/2023",
+    "rencana_tanggal": "2023-06-30",
+    "rencana_nominal": {
+      "$numberInt": "1237500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887546016"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b47d8589035f791cdc82"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberLong": "2227500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.II_22/23|SBM.PD-1-108-2023|Unit Price|Semester 1 - 2023/2024||2227500000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberLong": "2227500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887549886"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b4818589035f791cdc83"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberLong": "2227500000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.II_22/23|SBM.PD-1-108-2023|Unit Price|Semester 2 - 2023/2024||2227500000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberLong": "2227500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887553686"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b4858589035f791cdc84"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "926250000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.II_22/23|SBM.PD-1-108-2023|Unit Price|Semester 1 - 2024/2025||990000000",
+    "rencana_tahap": "Semester 1 - 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "990000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782887557021"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44bbee8589035f791cdc89"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal": "2023-01-15",
+    "nominal": {
+      "$numberInt": "1120000000"
+    },
+    "keterangan": "Realisasi Semester 2- 2022/2023 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_22/23|SBM.PD-1-02-2023|Unit Price|Semester 2- 2022/2023||1120000000",
+    "rencana_tahap": "Semester 2- 2022/2023",
+    "rencana_tanggal": "2023-01-15",
+    "rencana_nominal": {
+      "$numberInt": "1120000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782889454384"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44bbf28589035f791cdc8a"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal": "2023-06-30",
+    "nominal": {
+      "$numberInt": "640000000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2022/2023 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_22/23|SBM.PD-1-02-2023|Unit Price|Semester Pendek - 2022/2023||640000000",
+    "rencana_tahap": "Semester Pendek - 2022/2023",
+    "rencana_tanggal": "2023-06-30",
+    "rencana_nominal": {
+      "$numberInt": "640000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782889458134"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44bbf88589035f791cdc8b"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal": "2023-08-20",
+    "nominal": {
+      "$numberInt": "1120000000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_22/23|SBM.PD-1-02-2023|Unit Price|Semester 1 - 2023/2024||1120000000",
+    "rencana_tahap": "Semester 1 - 2023/2024",
+    "rencana_tanggal": "2023-08-20",
+    "rencana_nominal": {
+      "$numberInt": "1120000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782889464869"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44bbfc8589035f791cdc8c"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "715000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_22/23|SBM.PD-1-02-2023|Unit Price|Semester 2 - 2023/2024||1120000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1120000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782889468600"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44ca518589035f791cdc91"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal": "2025-01-31",
+    "nominal": {
+      "$numberInt": "1207500000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_FI_Sem.II_24/25|SBM.PD-1-73-2024|Termin|Tahap pertama|2025-01-31|1181250000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-01-31",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782893137856"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782893516296"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44ca5b8589035f791cdc92"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_FI_Sem.II_24/25|SBM.PD-1-73-2024|Termin|Tahap kedua|2025-08-31|1181250000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782893147211"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782893461616"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44ca5f8589035f791cdc93"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal": "2026-01-31",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "keterangan": "Realisasi Tahap ketiga dari rencana penerimaan",
+    "rencana_key": "KERMA_FI_Sem.II_24/25|SBM.PD-1-73-2024|Termin|Tahap ketiga|2026-01-31|1181250000",
+    "rencana_tahap": "Tahap ketiga",
+    "rencana_tanggal": "2026-01-31",
+    "rencana_nominal": {
+      "$numberInt": "1181250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782893151804"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782893461616"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cf358589035f791cdca0"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-81-2024",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "202500000"
+    },
+    "keterangan": "Realisasi Semester 1 – 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPC_Sem.I_24/25|SBM.PD-1-81-2024|Unit Price|Semester 1 – 2024/2025||202500000",
+    "rencana_tahap": "Semester 1 – 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "202500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894389363"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cf3b8589035f791cdca1"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-81-2024",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "202500000"
+    },
+    "keterangan": "Realisasi Semester 2 – 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPC_Sem.I_24/25|SBM.PD-1-81-2024|Unit Price|Semester 2 – 2024/2025||202500000",
+    "rencana_tahap": "Semester 2 – 2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "202500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894395163"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cf408589035f791cdca2"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-81-2024",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "202500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2025/2026 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPC_Sem.I_24/25|SBM.PD-1-81-2024|Unit Price|Semester 1 - 2025/2026||202500000",
+    "rencana_tahap": "Semester 1 - 2025/2026",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "202500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894400821"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cffc8589035f791cdca4"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "742500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPI_Sem.I_24/25|SBM.PD-1-49-2024|Unit Price|Semester 1 - 2024/2025||742500000",
+    "rencana_tahap": "Semester 1 - 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "742500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894588430"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d0038589035f791cdca5"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "742500000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPI_Sem.I_24/25|SBM.PD-1-49-2024|Unit Price|Semester 2 - 2024/2025||742500000",
+    "rencana_tahap": "Semester 2 - 2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "742500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894595097"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d0078589035f791cdca6"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "742500000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2025/2026 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPI_Sem.I_24/25|SBM.PD-1-49-2024|Unit Price|Semester 1 - 2025/2026||742500000",
+    "rencana_tahap": "Semester 1 - 2025/2026",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "742500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894599373"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d08e8589035f791cdca7"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal": "2026-02-08",
+    "nominal": {
+      "$numberInt": "643750000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2025/2026 dari rencana penerimaan",
+    "rencana_key": "KERMA_KPI_Sem.I_24/25|SBM.PD-1-49-2024|Unit Price|Semester 2 - 2025/2026||742500000",
+    "rencana_tahap": "Semester 2 - 2025/2026",
+    "rencana_tanggal": "2026-02-08",
+    "rencana_nominal": {
+      "$numberInt": "742500000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894734075"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d18c8589035f791cdcab"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal": "2025-01-30",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_HK_Sem.I_24/25|SBM.PD-1-78-2024|Termin|Tahap pertama|2025-01-30|405000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-01-30",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894988511"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782894988511"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d18f8589035f791cdcac"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal": "2025-04-30",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_HK_Sem.I_24/25|SBM.PD-1-78-2024|Termin|Tahap kedua|2025-04-30|405000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2025-04-30",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894991395"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782894991395"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d1928589035f791cdcad"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal": "2025-08-30",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap ketiga dari rencana penerimaan",
+    "rencana_key": "KERMA_HK_Sem.I_24/25|SBM.PD-1-78-2024|Termin|Tahap ketiga|2025-08-30|405000000",
+    "rencana_tahap": "Tahap ketiga",
+    "rencana_tanggal": "2025-08-30",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782894994182"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782894994182"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d2268589035f791cdcb0"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-39-2024",
+    "tanggal": "2024-09-03",
+    "nominal": {
+      "$numberInt": "600000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_PPNHI_Sem.I_24/25|SBM.PD-1-39-2024|Termin|Tahap pertama|2024-09-03|600000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2024-09-03",
+    "rencana_nominal": {
+      "$numberInt": "600000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895142590"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782895142590"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d27b8589035f791cdcb2"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberLong": "2835000000"
+    },
+    "keterangan": "Realisasi Semester 2-2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_23/24|SBM.PD-1-20-2024|Unit Price|Semester 2-2023/2024||2835000000",
+    "rencana_tahap": "Semester 2-2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberLong": "2835000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895227722"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d27f8589035f791cdcb3"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "1575000000"
+    },
+    "keterangan": "Realisasi Semester Pendek-2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_23/24|SBM.PD-1-20-2024|Unit Price|Semester Pendek-2023/2024||1575000000",
+    "rencana_tahap": "Semester Pendek-2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "1575000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895231518"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d2828589035f791cdcb4"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberLong": "2835000000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_23/24|SBM.PD-1-20-2024|Unit Price|Semester 1 - 2024/2025||2835000000",
+    "rencana_tahap": "Semester 1 - 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberLong": "2835000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895234711"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d2868589035f791cdcb5"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberLong": "2835000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_MI_Sem.II_23/24|SBM.PD-1-20-2024|Unit Price|Semester 2 - 2024/2025||2835000000",
+    "rencana_tahap": "Semester 2 - 2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberLong": "2835000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895238216"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d3018589035f791cdcb9"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "1260000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_23/24|SBM.PD-1-21-2024|Unit Price|Semester 2 - 2023/2024||1260000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1260000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895361104"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d3038589035f791cdcba"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "720000000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_23/24|SBM.PD-1-21-2024|Unit Price|Semester Pendek - 2023/2024||720000000",
+    "rencana_tahap": "Semester Pendek - 2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "720000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895363891"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d3078589035f791cdcbb"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "1260000000"
+    },
+    "keterangan": "Realisasi Semester 1 - 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_23/24|SBM.PD-1-21-2024|Unit Price|Semester 1 - 2024/2025||1260000000",
+    "rencana_tahap": "Semester 1 - 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "1260000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895367022"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44d3448589035f791cdcbc"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "1249500000"
+    },
+    "keterangan": "Realisasi Semester 2-2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_BAI_Sem.II_23/24|SBM.PD-1-21-2024|Unit Price|Semester 2-2024/2025||1260000000",
+    "rencana_tahap": "Semester 2-2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "1260000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782895428068"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45c8908589035f791cdcc1"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal": "2024-02-04",
+    "nominal": {
+      "$numberInt": "1215000000"
+    },
+    "keterangan": "Realisasi Semester 2 - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_BA_Sem.II_23/24|SBM.PD-1-34-2024|Unit Price|Semester 2 - 2023/2024||1215000000",
+    "rencana_tahap": "Semester 2 - 2023/2024",
+    "rencana_tanggal": "2024-02-04",
+    "rencana_nominal": {
+      "$numberInt": "1215000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958224183"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45c8938589035f791cdcc2"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal": "2024-06-30",
+    "nominal": {
+      "$numberInt": "1215000000"
+    },
+    "keterangan": "Realisasi Semester Pendek - 2023/2024 dari rencana penerimaan",
+    "rencana_key": "KERMA_BA_Sem.II_23/24|SBM.PD-1-34-2024|Unit Price|Semester Pendek - 2023/2024||1215000000",
+    "rencana_tahap": "Semester Pendek - 2023/2024",
+    "rencana_tanggal": "2024-06-30",
+    "rencana_nominal": {
+      "$numberInt": "1215000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958227531"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45c8978589035f791cdcc3"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal": "2024-09-08",
+    "nominal": {
+      "$numberInt": "675000000"
+    },
+    "keterangan": "Realisasi Semester 1- 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_BA_Sem.II_23/24|SBM.PD-1-34-2024|Unit Price|Semester 1- 2024/2025||675000000",
+    "rencana_tahap": "Semester 1- 2024/2025",
+    "rencana_tanggal": "2024-09-08",
+    "rencana_nominal": {
+      "$numberInt": "675000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958231125"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45c89b8589035f791cdcc4"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "1215000000"
+    },
+    "keterangan": "Realisasi Semester 2- 2024/2025 dari rencana penerimaan",
+    "rencana_key": "KERMA_BA_Sem.II_23/24|SBM.PD-1-34-2024|Unit Price|Semester 2- 2024/2025||1215000000",
+    "rencana_tahap": "Semester 2- 2024/2025",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "1215000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958235642"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45c8b68589035f791cdcc5"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "390750000"
+    },
+    "keterangan": "Realisasi Semester 1- 2025/2026 dari rencana penerimaan",
+    "rencana_key": "KERMA_BA_Sem.II_23/24|SBM.PD-1-34-2024|Unit Price|Semester 1- 2025/2026||540000000",
+    "rencana_tahap": "Semester 1- 2025/2026",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "540000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958262535"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45c9e28589035f791cdcc9"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "tanggal": "2026-02-20",
+    "nominal": {
+      "$numberInt": "512950000"
+    },
+    "keterangan": "Realisasi Termin 1 dari rencana penerimaan",
+    "rencana_key": "KERMA_JM_Sem.II_25/26|SBM.PD-1-55-2025|Termin|Termin 1|2026-02-20|512950000",
+    "rencana_tahap": "Termin 1",
+    "rencana_tanggal": "2026-02-20",
+    "rencana_nominal": {
+      "$numberInt": "512950000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958562201"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958562201"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45ca508589035f791cdccc"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-40-2025",
+    "tanggal": "2025-10-31",
+    "nominal": {
+      "$numberInt": "70000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_PJT II_Sem.I_25/26|SBM.PD-1-40-2025|Termin|Tahap pertama|2025-10-31|70000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-10-31",
+    "rencana_nominal": {
+      "$numberInt": "70000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958672169"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958672169"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45ca558589035f791cdccd"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-40-2025",
+    "tanggal": "2026-01-31",
+    "nominal": {
+      "$numberInt": "70000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_PJT II_Sem.I_25/26|SBM.PD-1-40-2025|Termin|Tahap kedua|2026-01-31|70000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-31",
+    "rencana_nominal": {
+      "$numberInt": "70000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958677858"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958677858"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cab48589035f791cdccf"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "1470000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.I_25/26|SBM.PD-1-54-2025|Termin|Tahap pertama|2025-08-31|1470000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "1470000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958772395"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958772395"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cab88589035f791cdcd0"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal": "2026-01-31",
+    "nominal": {
+      "$numberInt": "1470000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_IAITB_Sem.I_25/26|SBM.PD-1-54-2025|Termin|Tahap kedua|2026-01-31|1470000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-31",
+    "rencana_nominal": {
+      "$numberInt": "1470000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958776242"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958776242"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cb348589035f791cdcd4"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-58-2025",
+    "tanggal": "2026-01-19",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_KPC_Sem.I_25/26|SBM.PD-1-58-2025|Termin|Tahap pertama|2026-01-19|140000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2026-01-19",
+    "rencana_nominal": {
+      "$numberInt": "140000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958900114"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958900114"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cb3a8589035f791cdcd5"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-58-2025",
+    "tanggal": "2026-01-31",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_KPC_Sem.I_25/26|SBM.PD-1-58-2025|Termin|Tahap kedua|2026-01-31|140000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-31",
+    "rencana_nominal": {
+      "$numberInt": "140000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782958906096"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782958906096"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cbba8589035f791cdcd6"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-51-2025",
+    "tanggal": "2025-11-24",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_PSMBC_Sem.I_25/26|SBM.PD-1-51-2025|Termin|Tahap pertama|2025-11-24|150000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-11-24",
+    "rencana_nominal": {
+      "$numberInt": "150000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959034878"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783491894013"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cbcc8589035f791cdcd7"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-51-2025",
+    "tanggal": "2026-01-05",
+    "nominal": {
+      "$numberInt": "112500000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_PSMBC_Sem.I_25/26|SBM.PD-1-51-2025|Termin|Tahap kedua|2026-01-05|150000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-05",
+    "rencana_nominal": {
+      "$numberInt": "150000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959052894"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783491894013"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cc008589035f791cdcd8"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "280000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_PKT_Sem.I_25/26|SBM.PD-1-53-2025|Unit Price|Tahap pertama|2025-08-31|280000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "280000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959104137"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782959104137"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cc048589035f791cdcd9"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal": "2026-01-31",
+    "nominal": {
+      "$numberInt": "280000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_PKT_Sem.I_25/26|SBM.PD-1-53-2025|Unit Price|Tahap kedua|2026-01-31|280000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-31",
+    "rencana_nominal": {
+      "$numberInt": "280000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959108045"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782959108045"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cc828589035f791cdcdd"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal": "2025-11-24",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_PTC_Sem.I_25/26|SBM.PD-1-46-2025|Termin|Tahap pertama|2025-11-24|402000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-11-24",
+    "rencana_nominal": {
+      "$numberInt": "402000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959234763"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783491941472"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cca18589035f791cdcde"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal": "2026-01-05",
+    "nominal": {
+      "$numberInt": "148000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_PTC_Sem.I_25/26|SBM.PD-1-46-2025|Termin|Tahap kedua|2026-01-05|402000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-05",
+    "rencana_nominal": {
+      "$numberInt": "402000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959265701"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783491941472"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cdfb8589035f791cdce2"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal": "2025-08-31",
+    "nominal": {
+      "$numberInt": "1645000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_BRI_Sem.I_25/26|SBM.PD-1-50-2025|Termin|Tahap pertama|2025-08-31|1645000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-08-31",
+    "rencana_nominal": {
+      "$numberInt": "1645000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959611801"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782959611801"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45ce348589035f791cdce3"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal": "2026-01-31",
+    "nominal": {
+      "$numberInt": "1540000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_BRI_Sem.I_25/26|SBM.PD-1-50-2025|Termin|Tahap kedua|2026-01-31|1645000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2026-01-31",
+    "rencana_nominal": {
+      "$numberInt": "1645000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959668726"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782959668726"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cf0b8589035f791cdce7"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_PLN_Sem.II_24/25|SBM.PD-1-1-2025|Termin|Tahap pertama||1050000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "1050000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959883148"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cf0f8589035f791cdce8"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "keterangan": "Realisasi Tahap kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_PLN_Sem.II_24/25|SBM.PD-1-1-2025|Termin|Tahap kedua||1050000000",
+    "rencana_tahap": "Tahap kedua",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "1050000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959887316"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cf128589035f791cdce9"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal": "2025-02-16",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "keterangan": "Realisasi Tahap ketiga dari rencana penerimaan",
+    "rencana_key": "KERMA_PLN_Sem.II_24/25|SBM.PD-1-1-2025|Termin|Tahap ketiga||1050000000",
+    "rencana_tahap": "Tahap ketiga",
+    "rencana_tanggal": "2025-02-16",
+    "rencana_nominal": {
+      "$numberInt": "1050000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782959890692"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cfd28589035f791cdcee"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-9-2026",
+    "tanggal": "2026-03-03",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "keterangan": "Realisasi Tahap Pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_DI_Sem.II_25/26|SBM.PD-1-9-2026|Termin|Tahap Pertama|2026-03-03|140000000",
+    "rencana_tahap": "Tahap Pertama",
+    "rencana_tanggal": "2026-03-03",
+    "rencana_nominal": {
+      "$numberInt": "140000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782960082098"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1782960082098"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a45cff18589035f791cdcef"
+    },
+    "id_program": "KERMA_TA_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-6-2026",
+    "tanggal": "2026-02-20",
+    "nominal": {
+      "$numberInt": "175000000"
+    },
+    "keterangan": "Realisasi Tahap pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_TA_Sem.II_25/26|SBM.PD-1-6-2026|Termin|Tahap pertama||175000000",
+    "rencana_tahap": "Tahap pertama",
+    "rencana_tanggal": "2026-02-20",
+    "rencana_nominal": {
+      "$numberInt": "175000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1782960113656"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783739526012"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a50b011a67e210082478415"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-9-2026",
+    "tanggal": "2026-06-30",
+    "nominal": {
+      "$numberInt": "84600000"
+    },
+    "keterangan": "Realisasi Tahap Kedua dari rencana penerimaan",
+    "rencana_key": "KERMA_DI_Sem.II_25/26|SBM.PD-1-9-2026|Termin|Tahap Kedua|2026-06-30|84600000",
+    "rencana_tahap": "Tahap Kedua",
+    "rencana_tanggal": "2026-06-30",
+    "rencana_nominal": {
+      "$numberInt": "84600000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783672849479"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783672849479"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a50b026a67e210082478416"
+    },
+    "id_program": "KERMA_IAS_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-12-2026",
+    "tanggal": "2026-02-20",
+    "nominal": {
+      "$numberInt": "250250000"
+    },
+    "keterangan": "Realisasi Tahap Pertama dari rencana penerimaan",
+    "rencana_key": "KERMA_IAS_Sem.II_25/26|SBM.PD-1-12-2026|Termin|Tahap Pertama|2026-02-20|250250000",
+    "rencana_tahap": "Tahap Pertama",
+    "rencana_tanggal": "2026-02-20",
+    "rencana_nominal": {
+      "$numberInt": "250250000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783672870889"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783672870889"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a54b12c2c64dd8231475534"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal": "2026-01-10",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "keterangan": "Realisasi Tahap keempat dari rencana penerimaan",
+    "rencana_key": "KERMA_HK_Sem.I_24/25|SBM.PD-1-78-2024|Termin|Tahap keempat|2026-01-10|405000000",
+    "rencana_tahap": "Tahap keempat",
+    "rencana_tanggal": "2026-01-10",
+    "rencana_nominal": {
+      "$numberInt": "405000000"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783935276213"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783935276213"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

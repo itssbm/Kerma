@@ -1,0 +1,2960 @@
+[
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c3"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1-2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c4"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2-2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c5"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek -2023/2024",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c6"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1-2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c7"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 2-2024/2025",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c8"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "600000000"
+    },
+    "batas_akhir": "2024-09-03",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4c9"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "300000000"
+    },
+    "batas_akhir": "2025-02-03",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ca"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4cb"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2026-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4cc"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4cd"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2027-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ce"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Termin 1",
+    "nominal": {
+      "$numberInt": "512950000"
+    },
+    "batas_akhir": "2026-02-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4cf"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Termin 2",
+    "nominal": {
+      "$numberInt": "730000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4d0"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2025-01-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4d1"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2025-04-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4d2"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2025-08-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4d3"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2026-01-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4dc"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4dd"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4de"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1- 2024/2025",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4df"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2- 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e0"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 1- 2025/2026",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e1"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2- 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e2"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek - 2023/2024",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e3"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e4"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e5"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 1- 2025/2026",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e6"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 – 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e7"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 – 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e8"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2025/2026",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4e9"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2025/2026",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2026-02-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ea"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "1470000000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4eb"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "1470000000"
+    },
+    "batas_akhir": "2026-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ec"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "1470000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ed"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "1470000000"
+    },
+    "batas_akhir": "2027-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ee"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "1645000000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4ef"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "1645000000"
+    },
+    "batas_akhir": "2026-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4f0"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "1645000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4f1"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "1645000000"
+    },
+    "batas_akhir": "2027-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4fb"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2025-01-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4fc"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2025-04-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4fd"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2025-08-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa4fe"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "405000000"
+    },
+    "batas_akhir": "2026-01-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa50b"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "70000000"
+    },
+    "batas_akhir": "2025-10-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa50c"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "70000000"
+    },
+    "batas_akhir": "2026-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa50d"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "70000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa50e"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "70000000"
+    },
+    "batas_akhir": "2027-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa50f"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2026-01-19",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa510"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2026-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa511"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa512"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2027-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a37520b2e76cb59b4cf5aa6"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a37520b2e76cb59b4cf5aa7"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a37520b2e76cb59b4cf5aa8"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2025/2026",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a37520b2e76cb59b4cf5aa9"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2025/2026",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2026-02-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ac04758c60f38db6dd7f"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2- 2022/2023",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ac04758c60f38db6dd80"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek - 2022/2023",
+    "nominal": {
+      "$numberInt": "20000000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ac04758c60f38db6dd81"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ac04758c60f38db6dd82"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38b631758c60f38db6dd8f"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "285000000"
+    },
+    "batas_akhir": "2024-02-18",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38b631758c60f38db6dd90"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "160000000"
+    },
+    "batas_akhir": "2024-06-27",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38b631758c60f38db6dd91"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "285000000"
+    },
+    "batas_akhir": "2024-08-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38b631758c60f38db6dd92"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap 4",
+    "nominal": {
+      "$numberInt": "285000000"
+    },
+    "batas_akhir": "2025-01-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cd6a758c60f38db6dd95"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cd6a758c60f38db6dd96"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cd6a758c60f38db6dd97"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek – 2023/2024",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cd6a758c60f38db6dd98"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1 – 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cd6a758c60f38db6dd99"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 2 – 2024/2025",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cf00758c60f38db6dd9b"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2 - 2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cf00758c60f38db6dd9c"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek - 2022/2023",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cf00758c60f38db6dd9d"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cf00758c60f38db6dd9e"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cf00758c60f38db6dd9f"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38e84a26b7d7f3229d52cb"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1-2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2022-08-21",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38e84a26b7d7f3229d52cc"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2-2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38e84a26b7d7f3229d52cd"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek-2022/2023",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38e84a26b7d7f3229d52ce"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1-2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38e84a26b7d7f3229d52cf"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 2-2023/2024",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ea1e26b7d7f3229d52d2"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2022-08-21",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ea1e26b7d7f3229d52d3"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ea1e26b7d7f3229d52d4"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek - 2022/2023",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ea1e26b7d7f3229d52d5"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ea1e26b7d7f3229d52d6"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f26226b7d7f3229d52e6"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "813250000"
+    },
+    "batas_akhir": "2023-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f26226b7d7f3229d52e7"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "793750000"
+    },
+    "batas_akhir": "2023-02-28",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f26226b7d7f3229d52e8"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "793750000"
+    },
+    "batas_akhir": "2023-05-19",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f26226b7d7f3229d52e9"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap 4",
+    "nominal": {
+      "$numberInt": "793750000"
+    },
+    "batas_akhir": "2023-08-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f4bb26b7d7f3229d52ec"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "292500000"
+    },
+    "batas_akhir": "2023-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f4bb26b7d7f3229d52ed"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "285750000"
+    },
+    "batas_akhir": "2023-02-28",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f4bb26b7d7f3229d52ee"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "285750000"
+    },
+    "batas_akhir": "2023-05-19",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f4bb26b7d7f3229d52ef"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap 4",
+    "nominal": {
+      "$numberInt": "285750000"
+    },
+    "batas_akhir": "2023-08-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f66a26b7d7f3229d52f1"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2022-10-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f66a26b7d7f3229d52f2"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2023-01-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f66a26b7d7f3229d52f3"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2023-08-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f66a26b7d7f3229d52f4"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap 4",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2024-01-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f9e926b7d7f3229d52fc"
+    },
+    "id_program": "KERMA_PNB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2022-08-21",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f9e926b7d7f3229d52fd"
+    },
+    "id_program": "KERMA_PNB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2022/2023",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f9e926b7d7f3229d52fe"
+    },
+    "id_program": "KERMA_PNB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek - 2022/2023",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f9e926b7d7f3229d52ff"
+    },
+    "id_program": "KERMA_PNB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f9e926b7d7f3229d5300"
+    },
+    "id_program": "KERMA_PNB_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38fb2026b7d7f3229d5302"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1-2022/2023",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2022-08-21",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38fb2026b7d7f3229d5303"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2-2022/2023",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38fb2026b7d7f3229d5304"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek-2022/2023",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38fb2026b7d7f3229d5305"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1-2023/2024",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b574906b413622c7602d4"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Termin 1",
+    "nominal": {
+      "$numberInt": "1660000000"
+    },
+    "batas_akhir": "",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b5a4406b413622c7602d6"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "1625000000"
+    },
+    "batas_akhir": "2022-05-23",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b5a4406b413622c7602d7"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "875000000"
+    },
+    "batas_akhir": "2022-08-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b5a4406b413622c7602d8"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "375000000"
+    },
+    "batas_akhir": "2023-01-09",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbabb06b413622c760474"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2-2023/2024",
+    "nominal": {
+      "$numberInt": "45000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbabb06b413622c760475"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek-2023/2024",
+    "nominal": {
+      "$numberInt": "25000000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbabb06b413622c760476"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "45000000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbabb06b413622c760477"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2024/2025",
+    "nominal": {
+      "$numberInt": "45000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbbfa06b413622c760479"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbbfa06b413622c76047a"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek - 2023/2024",
+    "nominal": {
+      "$numberInt": "20000000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbbfa06b413622c76047b"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbbfa06b413622c76047c"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2-2024/2025",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f24c5e44f2eedaab4f941"
+    },
+    "id_program": "KERMA_BTN_Sem.",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "37957502"
+    },
+    "batas_akhir": "",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f265fe44f2eedaab4f942"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberLong": "2401000000"
+    },
+    "batas_akhir": "2022-02-23",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f265fe44f2eedaab4f943"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "1029000000"
+    },
+    "batas_akhir": "2022-05-23",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f265fe44f2eedaab4f944"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "1715000000"
+    },
+    "batas_akhir": "2022-08-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f265fe44f2eedaab4f945"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap 4",
+    "nominal": {
+      "$numberInt": "1715000000"
+    },
+    "batas_akhir": "2023-01-09",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f2733e44f2eedaab4f946"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f2733e44f2eedaab4f947"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f2733e44f2eedaab4f948"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek - 2023/2024",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3f2733e44f2eedaab4f949"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1  - 2024/2025",
+    "nominal": {
+      "$numberInt": "35000000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5587f2689798b184894"
+    },
+    "id_program": "KERMA_IAS_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap Pertama",
+    "nominal": {
+      "$numberInt": "250250000"
+    },
+    "batas_akhir": "2026-02-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5587f2689798b184895"
+    },
+    "id_program": "KERMA_IAS_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap Kedua",
+    "nominal": {
+      "$numberInt": "148050000"
+    },
+    "batas_akhir": "2026-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5587f2689798b184896"
+    },
+    "id_program": "KERMA_IAS_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap Ketiga",
+    "nominal": {
+      "$numberInt": "245000000"
+    },
+    "batas_akhir": "2026-09-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5587f2689798b184897"
+    },
+    "id_program": "KERMA_IAS_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap Keempat",
+    "nominal": {
+      "$numberInt": "245000000"
+    },
+    "batas_akhir": "2027-01-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5787f2689798b184898"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap Pertama",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2026-03-03",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5787f2689798b184899"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap Kedua",
+    "nominal": {
+      "$numberInt": "84600000"
+    },
+    "batas_akhir": "2026-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5787f2689798b18489a"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap Ketiga",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2026-09-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a43c5787f2689798b18489b"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap Keempat",
+    "nominal": {
+      "$numberInt": "140000000"
+    },
+    "batas_akhir": "2027-01-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447e75b356ff402a0f35d0"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "38250000"
+    },
+    "batas_akhir": "2023-09-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447e75b356ff402a0f35d1"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "37500000"
+    },
+    "batas_akhir": "2024-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447e75b356ff402a0f35d2"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek - 2023/2024",
+    "nominal": {
+      "$numberInt": "22500000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a447e75b356ff402a0f35d3"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "37500000"
+    },
+    "batas_akhir": "2024-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b38b8589035f791cdc75"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 2 - 2022/2023",
+    "nominal": {
+      "$numberInt": "45000000"
+    },
+    "batas_akhir": "2023-01-15",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b38b8589035f791cdc76"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester Pendek - 2022/2023",
+    "nominal": {
+      "$numberInt": "25000000"
+    },
+    "batas_akhir": "2023-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b38b8589035f791cdc77"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "45000000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44b38b8589035f791cdc78"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "45000000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cb958589035f791cdc99"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "1207500000"
+    },
+    "batas_akhir": "2025-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cb958589035f791cdc9a"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2025-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cb958589035f791cdc9b"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2026-01-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a44cb958589035f791cdc9c"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "1181250000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded36679d90fc072d160e"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "batas_akhir": "2025-11-24",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded36679d90fc072d160f"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "batas_akhir": "2026-01-05",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded36679d90fc072d1610"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "batas_akhir": "2026-09-01",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded36679d90fc072d1611"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "batas_akhir": "2027-01-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded36679d90fc072d1612"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Tahap kelima",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "batas_akhir": "2027-09-01",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded36679d90fc072d1613"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "6"
+    },
+    "label": "Tahap keenam",
+    "nominal": {
+      "$numberInt": "150000000"
+    },
+    "batas_akhir": "2028-01-03",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded65679d90fc072d1614"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "batas_akhir": "2025-11-24",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded65679d90fc072d1615"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "batas_akhir": "2026-01-05",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded65679d90fc072d1616"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "batas_akhir": "2026-09-01",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded65679d90fc072d1617"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "batas_akhir": "2027-01-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded65679d90fc072d1618"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Tahap kelima",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "batas_akhir": "2027-09-01",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4ded65679d90fc072d1619"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "no_cicilan": {
+      "$numberInt": "6"
+    },
+    "label": "Tahap keenam",
+    "nominal": {
+      "$numberInt": "402000000"
+    },
+    "batas_akhir": "2028-01-03",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4defa2679d90fc072d161a"
+    },
+    "id_program": "KERMA_TA_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "175000000"
+    },
+    "batas_akhir": "2026-02-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4defa2679d90fc072d161b"
+    },
+    "id_program": "KERMA_TA_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "105750000"
+    },
+    "batas_akhir": "2026-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4defa2679d90fc072d161c"
+    },
+    "id_program": "KERMA_TA_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "175000000"
+    },
+    "batas_akhir": "2026-09-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4defa2679d90fc072d161d"
+    },
+    "id_program": "KERMA_TA_Sem.II_25/26",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "175000000"
+    },
+    "batas_akhir": "2027-01-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4e0cb5679d90fc072d161e"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap pertama",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4e0cb5679d90fc072d161f"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap kedua",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4e0cb5679d90fc072d1620"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap ketiga",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4e0cb5679d90fc072d1621"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap keempat",
+    "nominal": {
+      "$numberInt": "1050000000"
+    },
+    "batas_akhir": "2026-08-31",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f1a5d679d90fc072d1627"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Semester 1 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2023-08-20",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f1a5d679d90fc072d1628"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Semester 2 - 2023/2024",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-02-04",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f1a5d679d90fc072d1629"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Semester Pendek - 2023/2024",
+    "nominal": {
+      "$numberInt": "18750000"
+    },
+    "batas_akhir": "2024-06-30",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f1a5d679d90fc072d162a"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Semester 1 - 2024/2025",
+    "nominal": {
+      "$numberInt": "33750000"
+    },
+    "batas_akhir": "2024-09-08",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f1a5d679d90fc072d162b"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "no_cicilan": {
+      "$numberInt": "5"
+    },
+    "label": "Semester 2 - 2024/2025",
+    "nominal": {
+      "$numberInt": "15000000"
+    },
+    "batas_akhir": "2025-02-16",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f539d679d90fc072d1630"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "1"
+    },
+    "label": "Tahap 1",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "batas_akhir": "2022-10-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f539d679d90fc072d1631"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "2"
+    },
+    "label": "Tahap 2",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "batas_akhir": "2023-01-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f539d679d90fc072d1632"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "3"
+    },
+    "label": "Tahap 3",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "batas_akhir": "2023-08-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a4f539d679d90fc072d1633"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "no_cicilan": {
+      "$numberInt": "4"
+    },
+    "label": "Tahap 4",
+    "nominal": {
+      "$numberInt": "1113750000"
+    },
+    "batas_akhir": "2024-01-10",
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

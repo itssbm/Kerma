@@ -1,0 +1,360 @@
+[
+  {
+    "_id": {
+      "$oid": "6a34ce934aac13548cdcb68c"
+    },
+    "id_kontrak": "KONTRAK-2026-001",
+    "id_program": "",
+    "status": "approved",
+    "no_kontrak_mitra": "123",
+    "no_kontrak_sbm": "456",
+    "hari": "Senin",
+    "tgl_angka": {
+      "$numberInt": "1"
+    },
+    "bulan_angka": {
+      "$numberInt": "1"
+    },
+    "tahun_angka": {
+      "$numberInt": "2026"
+    },
+    "tgl_kata": "satu",
+    "bulan_kata": "Januari",
+    "tahun_kata": "dua ribu dua puluh enam",
+    "strata_kata": "Magister",
+    "prodi": "Magister Administrasi Bisnis",
+    "semester": "Semester I",
+    "tahun_akademik": "2026/2027",
+    "nama_mitra": "PT Telkom Akses",
+    "nama_pejabat_mitra": "X",
+    "jabatan_pejabat_mitra": "test",
+    "dasar_jabatan_mitra": "test",
+    "industri_mitra": "Konstruksi",
+    "dasar_pendirian_mitra": "test",
+    "alamat_mitra": "Telkom Landmark Tower, Jl. Jend. Gatot Subroto Kav. 52",
+    "kota_mitra": "Jakarta Selatan",
+    "provinsi_mitra": "DKI Jakarta",
+    "negara_mitra": "Indonesia",
+    "kodepos_mitra": "40123",
+    "nama_pic_korespondensi_mitra": "Z",
+    "jabatan_pic_korespondensi_mitra": "test",
+    "kode_tlp_mitra": "+622",
+    "no_tlp_mitra": "1234567",
+    "email_mitra": "test@email.com",
+    "nama_sbm": "",
+    "nama_pejabat_sbm": "Y",
+    "jabatan_pejabat_sbm": "test",
+    "dasar_jabatan_sbm": "test",
+    "industri_sbm": "Pendidikan",
+    "dasar_pendirian_sbm": "test",
+    "alamat_sbm": "test",
+    "kota_sbm": "Bandung",
+    "provinsi_sbm": "Jawa Barat",
+    "negara_sbm": "Indonesia",
+    "kodepos_sbm": "4012345",
+    "nama_pic_korespondensi_sbm": "SBM",
+    "jabatan_pic_korespondensi_sbm": "test",
+    "kode_tlp_sbm": "+622",
+    "no_tlp_sbm": "2053125",
+    "email_sbm": "sbm@email.com",
+    "jangka_waktu_pelaksanaan_angka_bulan": {
+      "$numberInt": "24"
+    },
+    "jangka_waktu_pelaksanaan_kata_bulan": "dua puluh empat",
+    "tgl_awal_program": "2025-08-01",
+    "tgl_akhir_program": "2028-08-01",
+    "lama_perpanjangan_angka_semester": {
+      "$numberInt": "2"
+    },
+    "lama_perpanjangan_kata_semester": "dua",
+    "lama_perpanjangan_angka_bulan": {
+      "$numberInt": "12"
+    },
+    "lama_perpanjangan_kata_bulan": "dua belas",
+    "jangka_waktu_kontrak_angka_bulan": {
+      "$numberInt": "36"
+    },
+    "jangka_waktu_kontrak_kata_bulan": "tiga puluh enam",
+    "tgl_berakhir_kontrak_angka": {
+      "$numberInt": "1"
+    },
+    "bulan_berakhir_kontrak_angka": {
+      "$numberInt": "8"
+    },
+    "tahun_berakhir_kontrak_angka": {
+      "$numberInt": "2029"
+    },
+    "pic_pembiayaan": "Peserta Didik",
+    "nilai_kontrak_angka": null,
+    "nilai_kontrak_kata": "nol rupiah",
+    "jumlah_peserta_didik_angka": {
+      "$numberInt": "30"
+    },
+    "jumlah_peserta_didik_kata": "tiga puluh",
+    "BPP_per_peserta_angka": {
+      "$numberInt": "140000000"
+    },
+    "BPP_per_peserta_kata": "seratus empat puluh juta rupiah",
+    "BPP_sem_panjang_angka": {
+      "$numberInt": "33750000"
+    },
+    "BPP_sem_panjang_kata": "tiga puluh tiga juta tujuh ratus lima puluh ribu rupiah",
+    "BPP_sem_pendek_angka": null,
+    "BPP_sem_pendek_kata": "",
+    "BPP_ulang_panjang_angka": null,
+    "BPP_ulang_pendek_angka": null,
+    "BPP_tugas_akhir_angka": null,
+    "rincian_bpp": [
+      {
+        "tahap": "Semester 1 - 2024/2025",
+        "BPP_per_mahasiswa": null,
+        "jumlah_mahasiswa": null,
+        "total_BPP": null,
+        "batas_pembayaran": "2025-01-31"
+      },
+      {
+        "tahap": "Semester 2 - 2024/2025",
+        "BPP_per_mahasiswa": null,
+        "jumlah_mahasiswa": null,
+        "total_BPP": null,
+        "batas_pembayaran": "2025-08-31"
+      },
+      {
+        "tahap": "Semester 1 - 2025/2026",
+        "BPP_per_mahasiswa": null,
+        "jumlah_mahasiswa": null,
+        "total_BPP": null,
+        "batas_pembayaran": "2026-01-31"
+      },
+      {
+        "tahap": "Semester 1 - 2025/2026",
+        "BPP_per_mahasiswa": null,
+        "jumlah_mahasiswa": null,
+        "total_BPP": null,
+        "batas_pembayaran": "2026-08-31"
+      },
+      {
+        "tahap": "",
+        "BPP_per_mahasiswa": null,
+        "jumlah_mahasiswa": null,
+        "total_BPP": null,
+        "batas_pembayaran": ""
+      }
+    ],
+    "dibuat_oleh": "Iwan",
+    "disubmit_pada": {
+      "$date": {
+        "$numberLong": "1781845731244"
+      }
+    },
+    "diapprove_oleh": "Doli",
+    "diapprove_pada": {
+      "$date": {
+        "$numberLong": "1781845747448"
+      }
+    },
+    "catatan_reviewer": "",
+    "dibuat_pada": {
+      "$date": {
+        "$numberLong": "1781845651387"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a34d441e5cf12bc4b625c77"
+    },
+    "id_kontrak": "KONTRAK-2026-002",
+    "id_program": "",
+    "status": "draft",
+    "no_kontrak_mitra": "SP-43 /KPI46000/2024-S0",
+    "no_kontrak_sbm": "26/IT1.C09/SPK/2024",
+    "hari": "Senin",
+    "tgl_angka": {
+      "$numberInt": "23"
+    },
+    "bulan_angka": {
+      "$numberInt": "9"
+    },
+    "tahun_angka": {
+      "$numberInt": "2024"
+    },
+    "tgl_kata": "dua puluh tiga",
+    "bulan_kata": "September",
+    "tahun_kata": "dua ribu dua puluh empat",
+    "strata_kata": "Magister",
+    "prodi": "Magister Administrasi Bisnis",
+    "semester": "Semester I",
+    "tahun_akademik": "2026/2027",
+    "nama_mitra": "PT Kilang Pertamina Internasional",
+    "nama_pejabat_mitra": "Yulianto Triwibowo",
+    "jabatan_pejabat_mitra": "General Manager RU III Plaju",
+    "dasar_jabatan_mitra": "Surat Keputusan Mutasi Jabatan No. SKMJ-00160/K20000/2022-S8 tanggal 30 Oktober 2022 tentang Mutasi Jabatan",
+    "industri_mitra": "Industri Pengolahan",
+    "dasar_pendirian_mitra": "hukum Indonesia melalui Akta Nomor 08 tanggal 13 November 2017 yang dibuat di hadapan Notaris Lenny Janis Ishak, S.H. Akta tersebut telah disahkan oleh Menteri Hukum dan HAM RI dalam Surat Keputusan Nomor AHU0051207.AН.01.01 ТАHUN 2017 tertanggal 13 November 2017 tentang Pengesahan Pendirian Badan Hukum Perseroan Terbatas PT KPI",
+    "alamat_mitra": "Grha Pertamina, Jl. Medan Merdeka Timur No. 6",
+    "kota_mitra": "Jakarta Pusat",
+    "provinsi_mitra": "DKI Jakarta",
+    "negara_mitra": "Indonesia",
+    "kodepos_mitra": "402222",
+    "nama_pic_korespondensi_mitra": "Erfin Andri",
+    "jabatan_pic_korespondensi_mitra": "Sr Officer II HСВР",
+    "kode_tlp_mitra": "+622",
+    "no_tlp_mitra": "81311086030",
+    "email_mitra": "erfin.andri@pertamina.com",
+    "nama_sbm": "Sekolah Bisnis dan Manajemen Institut Teknologi Bandung",
+    "nama_pejabat_sbm": "Prof. Dr. Ir. Ignatius Pulung Nurprasetio, M.SME.,",
+    "jabatan_pejabat_sbm": "Dekan",
+    "dasar_jabatan_sbm": "Keputusan Rektor Institut Teknologi Bandung Nomor 147/IT1.A/SK-KP/2024 tentang Perpanjangan Dekan dan Wakil Dekan Fakultas dan Sekolah di Lingkungan Institut Teknologi Bandung dan Peraturan Rektor Institut Teknologi Bandung Nomor 054A/PER/I1.A/TU/2020 tentang Pedoman Tata Naskah Dinas Di Lingkungan Institut Teknologi Bandung",
+    "industri_sbm": "Pendidikan",
+    "dasar_pendirian_sbm": "Peraturan Rektor ITB",
+    "alamat_sbm": "Jalan Ganesa No. 10, Kelurahan Tamansari, Kecamatan Bandung Wetan, Kota Bandung",
+    "kota_sbm": "Bandung",
+    "provinsi_sbm": "Jawa Barat",
+    "negara_sbm": "Indonesia",
+    "kodepos_sbm": "401234",
+    "nama_pic_korespondensi_sbm": "Dr. Sylviana Maya Damayanti",
+    "jabatan_pic_korespondensi_sbm": "Ketua Program Studi MBA",
+    "kode_tlp_sbm": "+622",
+    "no_tlp_sbm": "2531923",
+    "email_sbm": "sylvianamaya@itb.ac.id",
+    "jangka_waktu_pelaksanaan_angka_bulan": {
+      "$numberInt": "24"
+    },
+    "jangka_waktu_pelaksanaan_kata_bulan": "dua puluh empat",
+    "tgl_awal_program": "2026-07-20",
+    "tgl_akhir_program": "2028-08-20",
+    "lama_perpanjangan_angka_semester": {
+      "$numberInt": "2"
+    },
+    "lama_perpanjangan_kata_semester": "dua",
+    "lama_perpanjangan_angka_bulan": {
+      "$numberInt": "12"
+    },
+    "lama_perpanjangan_kata_bulan": "dua belas",
+    "jangka_waktu_kontrak_angka_bulan": {
+      "$numberInt": "36"
+    },
+    "jangka_waktu_kontrak_kata_bulan": "tiga puluh enam",
+    "tgl_berakhir_kontrak_angka": {
+      "$numberInt": "20"
+    },
+    "bulan_berakhir_kontrak_angka": {
+      "$numberInt": "8"
+    },
+    "tahun_berakhir_kontrak_angka": {
+      "$numberInt": "2029"
+    },
+    "pic_pembiayaan": "Peserta Didik",
+    "nilai_kontrak_angka": {
+      "$numberLong": "2970000000"
+    },
+    "nilai_kontrak_kata": "dua miliar sembilan ratus tujuh puluh juta rupiah",
+    "jumlah_peserta_didik_angka": {
+      "$numberInt": "22"
+    },
+    "jumlah_peserta_didik_kata": "dua puluh dua",
+    "BPP_per_peserta_angka": {
+      "$numberInt": "135000000"
+    },
+    "BPP_per_peserta_kata": "seratus tiga puluh lima juta rupiah",
+    "BPP_sem_panjang_angka": {
+      "$numberInt": "33750000"
+    },
+    "BPP_sem_panjang_kata": "tiga puluh tiga juta tujuh ratus lima puluh ribu rupiah",
+    "BPP_sem_pendek_angka": {
+      "$numberInt": "18750000"
+    },
+    "BPP_sem_pendek_kata": "delapan belas juta tujuh ratus lima puluh ribu rupiah",
+    "BPP_ulang_panjang_angka": {
+      "$numberInt": "5000000"
+    },
+    "BPP_ulang_pendek_angka": {
+      "$numberInt": "2500000"
+    },
+    "BPP_tugas_akhir_angka": {
+      "$numberInt": "5000000"
+    },
+    "rincian_bpp": [
+      {
+        "tahap": "Semester 1 - 2024/2025",
+        "BPP_per_mahasiswa": {
+          "$numberInt": "33750000"
+        },
+        "jumlah_peserta_didik": {
+          "$numberInt": "22"
+        },
+        "total_BPP": {
+          "$numberInt": "742500000"
+        },
+        "batas_pembayaran": "2026-06-04"
+      },
+      {
+        "tahap": "Semester 2 - 2024/2025",
+        "BPP_per_mahasiswa": {
+          "$numberInt": "33750000"
+        },
+        "jumlah_peserta_didik": {
+          "$numberInt": "22"
+        },
+        "total_BPP": {
+          "$numberInt": "742500000"
+        },
+        "batas_pembayaran": "2026-10-14"
+      },
+      {
+        "tahap": "Semester 1 - 2025/2026",
+        "BPP_per_mahasiswa": {
+          "$numberInt": "33750000"
+        },
+        "jumlah_peserta_didik": {
+          "$numberInt": "22"
+        },
+        "total_BPP": {
+          "$numberInt": "742500000"
+        },
+        "batas_pembayaran": "2027-04-21"
+      },
+      {
+        "tahap": "Semester 2 - 2025/2026",
+        "BPP_per_mahasiswa": {
+          "$numberInt": "33750000"
+        },
+        "jumlah_peserta_didik": {
+          "$numberInt": "22"
+        },
+        "total_BPP": {
+          "$numberInt": "742500000"
+        },
+        "batas_pembayaran": "2028-02-01"
+      },
+      {
+        "tahap": "",
+        "BPP_per_mahasiswa": null,
+        "jumlah_peserta_didik": {
+          "$numberInt": "22"
+        },
+        "total_BPP": null,
+        "batas_pembayaran": ""
+      }
+    ],
+    "dibuat_oleh": "Iwan D. S.",
+    "disubmit_pada": null,
+    "diapprove_oleh": "",
+    "diapprove_pada": null,
+    "catatan_reviewer": "",
+    "dibuat_pada": {
+      "$date": {
+        "$numberLong": "1781847105403"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    },
+    "bentuk_usaha_mitra": "Perseroan Terbatas",
+    "id_mitra": "KPI"
+  }
+]

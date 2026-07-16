@@ -1,0 +1,2578 @@
+[
+  {
+    "_id": {
+      "$oid": "6a5341642a3be3c8e4a859b2"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad43",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124227"
+      }
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-08-2022",
+    "nominal": {
+      "$numberInt": "2139500000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124227"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341642a3be3c8e4a859b3"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad45",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124346"
+      }
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-09-2022",
+    "nominal": {
+      "$numberInt": "915500000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124346"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341642a3be3c8e4a859b4"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad47",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124474"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-13-2022",
+    "nominal": {
+      "$numberInt": "707400000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124474"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341642a3be3c8e4a859b5"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad49",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124590"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-10-2022",
+    "nominal": {
+      "$numberLong": "2194100000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124590"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341642a3be3c8e4a859b6"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad4b",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124712"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-10-2022",
+    "nominal": {
+      "$numberInt": "105563240"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124712"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341642a3be3c8e4a859b7"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad4d",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124826"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-10-2022",
+    "nominal": {
+      "$numberInt": "783059377"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124826"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859b8"
+    },
+    "id_rencana_anggaran": "6a5341641e8eb66ada48ad4f",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124938"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kategori": "Belanja Modal",
+    "keterangan": "Realisasi RI Belanja Modal",
+    "kode_file": "SBM.PD-1-10-2022",
+    "nominal": {
+      "$numberInt": "181903500"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124938"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859b9"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad51",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125050"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-06-2022",
+    "nominal": {
+      "$numberInt": "1907000000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125050"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859ba"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad53",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125163"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-06-2022",
+    "nominal": {
+      "$numberInt": "166062152"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125163"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859bb"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad55",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125281"
+      }
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-11-2022",
+    "nominal": {
+      "$numberLong": "2404650000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125281"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859bc"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad57",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125400"
+      }
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-11-2022",
+    "nominal": {
+      "$numberInt": "54225165"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125400"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859bd"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad59",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125510"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-07-2022",
+    "nominal": {
+      "$numberLong": "2624150000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125510"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859be"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad5b",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125622"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-07-2022",
+    "nominal": {
+      "$numberInt": "4696778"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125622"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859bf"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad5d",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125733"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-07-2022",
+    "nominal": {
+      "$numberInt": "594069847"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125733"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341652a3be3c8e4a859c0"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad5f",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125846"
+      }
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-05-2022",
+    "nominal": {
+      "$numberInt": "1222500000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125846"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c1"
+    },
+    "id_rencana_anggaran": "6a5341651e8eb66ada48ad61",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125961"
+      }
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-05-2022",
+    "nominal": {
+      "$numberInt": "15461279"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125961"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c2"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad63",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126082"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-04-2022",
+    "nominal": {
+      "$numberInt": "1755750000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126082"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c3"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad65",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126198"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-01-2022",
+    "nominal": {
+      "$numberLong": "3399500000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126198"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c4"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad67",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126309"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-01-2022",
+    "nominal": {
+      "$numberInt": "32742245"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126309"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c5"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad69",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126420"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-01-2022",
+    "nominal": {
+      "$numberInt": "753872036"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126420"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c6"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad6b",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126532"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kategori": "Belanja Modal",
+    "keterangan": "Realisasi RI Belanja Modal",
+    "kode_file": "SBM.PD-1-01-2022",
+    "nominal": {
+      "$numberInt": "19787000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126532"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c7"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad6d",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126644"
+      }
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-104-2023",
+    "nominal": {
+      "$numberInt": "242175000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126644"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c8"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad6f",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126757"
+      }
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-104-2023",
+    "nominal": {
+      "$numberInt": "145086418"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126757"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341662a3be3c8e4a859c9"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad71",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126872"
+      }
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-104-2023",
+    "nominal": {
+      "$numberInt": "381496500"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126872"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859ca"
+    },
+    "id_rencana_anggaran": "6a5341661e8eb66ada48ad73",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126983"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-03-2023",
+    "nominal": {
+      "$numberInt": "434450000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126983"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859cb"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad75",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127097"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-03-2023",
+    "nominal": {
+      "$numberInt": "673200"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127097"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859cc"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad77",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127212"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-03-2023",
+    "nominal": {
+      "$numberInt": "258802996"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127212"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859cd"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad79",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127321"
+      }
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-105-2023",
+    "nominal": {
+      "$numberInt": "976225000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127321"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859ce"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad7b",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127436"
+      }
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-105-2023",
+    "nominal": {
+      "$numberInt": "301651642"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127436"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859cf"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad7d",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127545"
+      }
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-105-2023",
+    "nominal": {
+      "$numberLong": "2843472341"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127545"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859d0"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad7f",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127658"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-109-2023",
+    "nominal": {
+      "$numberInt": "1113517500"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127658"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859d1"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad81",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127770"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-109-2023",
+    "nominal": {
+      "$numberInt": "211902763"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127770"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341672a3be3c8e4a859d2"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad83",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127896"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-109-2023",
+    "nominal": {
+      "$numberLong": "3339549261"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127896"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d3"
+    },
+    "id_rencana_anggaran": "6a5341671e8eb66ada48ad85",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128011"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kategori": "Belanja Modal",
+    "keterangan": "Realisasi RI Belanja Modal",
+    "kode_file": "SBM.PD-1-109-2023",
+    "nominal": {
+      "$numberInt": "33627450"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128011"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d4"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad87",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128130"
+      }
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-106-2023",
+    "nominal": {
+      "$numberInt": "567760000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128130"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d5"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad89",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128246"
+      }
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-106-2023",
+    "nominal": {
+      "$numberInt": "143457075"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128246"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d6"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad8b",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128358"
+      }
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-106-2023",
+    "nominal": {
+      "$numberInt": "1102052210"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128358"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d7"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad8d",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128471"
+      }
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kategori": "Belanja Modal",
+    "keterangan": "Realisasi RI Belanja Modal",
+    "kode_file": "SBM.PD-1-106-2023",
+    "nominal": {
+      "$numberInt": "1980442450"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128471"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d8"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad8f",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128583"
+      }
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-107-2023",
+    "nominal": {
+      "$numberInt": "480800000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128583"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859d9"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad91",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128703"
+      }
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-107-2023",
+    "nominal": {
+      "$numberInt": "31002337"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128703"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341682a3be3c8e4a859da"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad93",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128816"
+      }
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-107-2023",
+    "nominal": {
+      "$numberInt": "415666409"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128816"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859db"
+    },
+    "id_rencana_anggaran": "6a5341681e8eb66ada48ad95",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128930"
+      }
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-04-2023",
+    "nominal": {
+      "$numberInt": "400550000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128930"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859dc"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ad97",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129042"
+      }
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-04-2023",
+    "nominal": {
+      "$numberInt": "361491718"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129042"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859dd"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ad99",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129154"
+      }
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-04-2023",
+    "nominal": {
+      "$numberLong": "2201848854"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129154"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859de"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ad9b",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129266"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-01-2023",
+    "nominal": {
+      "$numberInt": "1254900000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129266"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859df"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ad9d",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129399"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-01-2023",
+    "nominal": {
+      "$numberInt": "346436000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129399"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859e0"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ad9f",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129556"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-01-2023",
+    "nominal": {
+      "$numberLong": "2182430638"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129556"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859e1"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ada1",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129707"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-108-2023",
+    "nominal": {
+      "$numberInt": "1020475000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129707"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341692a3be3c8e4a859e2"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ada3",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129833"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-108-2023",
+    "nominal": {
+      "$numberInt": "464132650"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129833"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e3"
+    },
+    "id_rencana_anggaran": "6a5341691e8eb66ada48ada5",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129946"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-108-2023",
+    "nominal": {
+      "$numberLong": "3061692156"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129946"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e4"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48ada7",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130063"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kategori": "Belanja Modal",
+    "keterangan": "Realisasi RI Belanja Modal",
+    "kode_file": "SBM.PD-1-108-2023",
+    "nominal": {
+      "$numberInt": "1147341990"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130063"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e5"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48ada9",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130174"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-02-2023",
+    "nominal": {
+      "$numberInt": "1079050000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130174"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e6"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adab",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130286"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-02-2023",
+    "nominal": {
+      "$numberInt": "92537500"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130286"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e7"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adad",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130399"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-02-2023",
+    "nominal": {
+      "$numberInt": "695219387"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130399"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e8"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adaf",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130511"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kategori": "Belanja Modal",
+    "keterangan": "Realisasi RI Belanja Modal",
+    "kode_file": "SBM.PD-1-02-2023",
+    "nominal": {
+      "$numberInt": "346530900"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130511"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859e9"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adb1",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130631"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-73-2024",
+    "nominal": {
+      "$numberInt": "703900000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130631"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859ea"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adb3",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130742"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-73-2024",
+    "nominal": {
+      "$numberInt": "30593620"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130742"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a2a3be3c8e4a859eb"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adb5",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130864"
+      }
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-73-2024",
+    "nominal": {
+      "$numberInt": "549902316"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130864"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859ec"
+    },
+    "id_rencana_anggaran": "6a53416a1e8eb66ada48adb7",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130977"
+      }
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-81-2024",
+    "nominal": {
+      "$numberInt": "110500000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130977"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859ed"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adb9",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131092"
+      }
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-49-2024",
+    "nominal": {
+      "$numberInt": "718950000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131092"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859ee"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adbb",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131204"
+      }
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-49-2024",
+    "nominal": {
+      "$numberInt": "19018658"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131204"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859ef"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adbd",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131316"
+      }
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-49-2024",
+    "nominal": {
+      "$numberInt": "775020409"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131316"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859f0"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adbf",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131427"
+      }
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-78-2024",
+    "nominal": {
+      "$numberInt": "266250000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131427"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859f1"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adc1",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131542"
+      }
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-78-2024",
+    "nominal": {
+      "$numberInt": "112300000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131542"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859f2"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adc3",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131652"
+      }
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-39-2024",
+    "nominal": {
+      "$numberInt": "324500000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131652"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859f3"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adc5",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131765"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-20-2024",
+    "nominal": {
+      "$numberInt": "625062500"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131765"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b2a3be3c8e4a859f4"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adc7",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131876"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-20-2024",
+    "nominal": {
+      "$numberInt": "261735583"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131876"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859f5"
+    },
+    "id_rencana_anggaran": "6a53416b1e8eb66ada48adc9",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131988"
+      }
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-20-2024",
+    "nominal": {
+      "$numberLong": "3602980004"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131988"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859f6"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48adcb",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132100"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-21-2024",
+    "nominal": {
+      "$numberInt": "496900000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132100"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859f7"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48adcd",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132218"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-21-2024",
+    "nominal": {
+      "$numberInt": "591372270"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132218"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859f8"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48adcf",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132336"
+      }
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-21-2024",
+    "nominal": {
+      "$numberInt": "981689395"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132336"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859f9"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48add1",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132451"
+      }
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-34-2024",
+    "nominal": {
+      "$numberInt": "751350000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132451"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859fa"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48add3",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132562"
+      }
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-34-2024",
+    "nominal": {
+      "$numberInt": "44499732"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132562"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859fb"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48add5",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132674"
+      }
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-34-2024",
+    "nominal": {
+      "$numberInt": "1009494025"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132674"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c2a3be3c8e4a859fc"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48add7",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132791"
+      }
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-55-2025",
+    "nominal": {
+      "$numberInt": "105000000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132791"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a859fd"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48add9",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132908"
+      }
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-55-2025",
+    "nominal": {
+      "$numberInt": "7600000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132908"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a859fe"
+    },
+    "id_rencana_anggaran": "6a53416c1e8eb66ada48addb",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133024"
+      }
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-40-2025",
+    "nominal": {
+      "$numberInt": "52800000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133024"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a859ff"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48addd",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133137"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-54-2025",
+    "nominal": {
+      "$numberInt": "243400000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133137"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a85a00"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48addf",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133250"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-54-2025",
+    "nominal": {
+      "$numberInt": "2104735"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133250"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a85a01"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48ade1",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133364"
+      }
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-54-2025",
+    "nominal": {
+      "$numberInt": "274772231"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133364"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a85a02"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48ade3",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133476"
+      }
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-53-2025",
+    "nominal": {
+      "$numberInt": "110000000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133476"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a85a03"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48ade5",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133593"
+      }
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-53-2025",
+    "nominal": {
+      "$numberInt": "1969140"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133593"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a85a04"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48ade7",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133704"
+      }
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-53-2025",
+    "nominal": {
+      "$numberInt": "35602035"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133704"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d2a3be3c8e4a85a05"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48ade9",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133847"
+      }
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-46-2025",
+    "nominal": {
+      "$numberInt": "193850000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133847"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a06"
+    },
+    "id_rencana_anggaran": "6a53416d1e8eb66ada48adeb",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133959"
+      }
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-46-2025",
+    "nominal": {
+      "$numberInt": "544911"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133959"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a07"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48aded",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134074"
+      }
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-46-2025",
+    "nominal": {
+      "$numberInt": "14939260"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134074"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a08"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48adef",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134186"
+      }
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-50-2025",
+    "nominal": {
+      "$numberInt": "375600000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134186"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a09"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48adf1",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134302"
+      }
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-50-2025",
+    "nominal": {
+      "$numberInt": "4111890"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134302"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a0a"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48adf3",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134413"
+      }
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-50-2025",
+    "nominal": {
+      "$numberInt": "40166647"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134413"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a0b"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48adf5",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134524"
+      }
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kategori": "Belanja Pegawai",
+    "keterangan": "Realisasi RI Belanja Pegawai",
+    "kode_file": "SBM.PD-1-1-2025",
+    "nominal": {
+      "$numberInt": "647100000"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134524"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a0c"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48adf7",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134639"
+      }
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kategori": "Belanja Jasa",
+    "keterangan": "Realisasi RI Belanja Jasa",
+    "kode_file": "SBM.PD-1-1-2025",
+    "nominal": {
+      "$numberInt": "220199050"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134639"
+      }
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e2a3be3c8e4a85a0d"
+    },
+    "id_rencana_anggaran": "6a53416e1e8eb66ada48adf9",
+    "__v": {
+      "$numberInt": "0"
+    },
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134756"
+      }
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kategori": "Belanja Barang",
+    "keterangan": "Realisasi RI Belanja Barang",
+    "kode_file": "SBM.PD-1-1-2025",
+    "nominal": {
+      "$numberInt": "15130250"
+    },
+    "sumber": "saldo_ri",
+    "tanggal": "",
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134756"
+      }
+    }
+  }
+]

@@ -1,0 +1,6810 @@
+[
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad42"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "2139500000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a446789ef8001597452ea4d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124154"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124154"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad43"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "kode_file": "SBM.PD-1-08-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "2139500000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a446789ef8001597452ea4d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124188"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124188"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad44"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "915500000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4469a20bad9888b0ecaec4",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124288"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124288"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad45"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-09-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "915500000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4469a20bad9888b0ecaec4",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124317"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124317"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad46"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "707400000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44733ab356ff402a0f356c",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124415"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124415"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad47"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-13-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "707400000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44733ab356ff402a0f356c",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124445"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124445"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad48"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberLong": "2194100000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44744eb356ff402a0f3572",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124529"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124529"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad49"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "2194100000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44744eb356ff402a0f3572",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124559"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124559"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad4a"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "105563240"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44745bb356ff402a0f3573",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124648"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124648"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad4b"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "105563240"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44745bb356ff402a0f3573",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124681"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124681"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad4c"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "783059377"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447467b356ff402a0f3574",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124767"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124767"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad4d"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "783059377"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447467b356ff402a0f3574",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124797"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124797"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad4e"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "181903500"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447474b356ff402a0f3575",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124881"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124881"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad4f"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-10-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "181903500"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447474b356ff402a0f3575",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124909"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124909"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341641e8eb66ada48ad50"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1907000000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447502b356ff402a0f357b",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841124992"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841124992"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad51"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1907000000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447502b356ff402a0f357b",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125020"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125020"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad52"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "166062152"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44750eb356ff402a0f357c",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125106"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125106"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad53"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-06-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "166062152"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44750eb356ff402a0f357c",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125135"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125135"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad54"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberLong": "2404650000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447598b356ff402a0f3581",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125221"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125221"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad55"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "2404650000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447598b356ff402a0f3581",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125250"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125250"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad56"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "54225165"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4475a4b356ff402a0f3582",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125338"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125338"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad57"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "kode_file": "SBM.PD-1-11-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "54225165"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4475a4b356ff402a0f3582",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125367"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125367"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad58"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberLong": "2624150000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447648b356ff402a0f3588",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125453"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125453"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad59"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "2624150000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447648b356ff402a0f3588",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125482"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125482"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad5a"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "4696778"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44765bb356ff402a0f3589",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125564"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125564"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad5b"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "4696778"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44765bb356ff402a0f3589",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125594"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125594"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad5c"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "594069847"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447668b356ff402a0f358a",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125676"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125676"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad5d"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "kode_file": "SBM.PD-1-07-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "594069847"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447668b356ff402a0f358a",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125705"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125705"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad5e"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1222500000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4476b2b356ff402a0f358c",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125788"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125788"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad5f"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1222500000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4476b2b356ff402a0f358c",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125818"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125818"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad60"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "15461279"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4476bcb356ff402a0f358d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125903"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125903"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341651e8eb66ada48ad61"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "kode_file": "SBM.PD-1-05-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "15461279"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4476bcb356ff402a0f358d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841125932"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841125932"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad62"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-04-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1755750000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447722b356ff402a0f3591",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126019"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126019"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad63"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-04-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1755750000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447722b356ff402a0f3591",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126053"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126053"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad64"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberLong": "3399500000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447781b356ff402a0f3596",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126137"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126137"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad65"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "3399500000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447781b356ff402a0f3596",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126169"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126169"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad66"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "32742245"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44778fb356ff402a0f3597",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126252"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126252"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad67"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "32742245"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44778fb356ff402a0f3597",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126281"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126281"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad68"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "753872036"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44779cb356ff402a0f3598",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126363"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126363"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad69"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "753872036"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44779cb356ff402a0f3598",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126391"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126391"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad6a"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "19787000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4477a9b356ff402a0f3599",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126475"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126475"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad6b"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "kode_file": "SBM.PD-1-01-2022",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "19787000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4477a9b356ff402a0f3599",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126504"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126504"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad6c"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "242175000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4477f7b356ff402a0f359e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126588"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126588"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad6d"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "242175000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4477f7b356ff402a0f359e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126616"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126616"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad6e"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "145086418"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447802b356ff402a0f359f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126700"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126700"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad6f"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "145086418"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447802b356ff402a0f359f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126729"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126729"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad70"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "381496500"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44780db356ff402a0f35a0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126813"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126813"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad71"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-104-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "381496500"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44780db356ff402a0f35a0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126841"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126841"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad72"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "434450000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4478b8b356ff402a0f35a5",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126927"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126927"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341661e8eb66ada48ad73"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "434450000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4478b8b356ff402a0f35a5",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841126955"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841126955"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad74"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "673200"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4478c3b356ff402a0f35a6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127040"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127040"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad75"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "673200"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4478c3b356ff402a0f35a6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127069"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127069"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad76"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "258802996"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4478d0b356ff402a0f35a7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127154"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127154"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad77"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-03-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "258802996"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a4478d0b356ff402a0f35a7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127183"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127183"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad78"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "976225000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44792db356ff402a0f35ad",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127265"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127265"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad79"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "976225000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44792db356ff402a0f35ad",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127294"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127294"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad7a"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "301651642"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447939b356ff402a0f35ae",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127377"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127377"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad7b"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "301651642"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447939b356ff402a0f35ae",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127407"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127407"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad7c"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberLong": "2843472341"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447944b356ff402a0f35af",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127488"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127488"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad7d"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-105-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "2843472341"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447944b356ff402a0f35af",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127516"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127516"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad7e"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1113517500"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a0fb356ff402a0f35b5",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127602"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127602"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad7f"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1113517500"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a0fb356ff402a0f35b5",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127630"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127630"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad80"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "211902763"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a1bb356ff402a0f35b6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127712"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127712"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad81"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "211902763"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a1bb356ff402a0f35b6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127740"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127740"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad82"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberLong": "3339549261"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a27b356ff402a0f35b7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127826"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127826"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad83"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "3339549261"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a27b356ff402a0f35b7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127857"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127857"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad84"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "33627450"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a33b356ff402a0f35b8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127951"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127951"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341671e8eb66ada48ad85"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-109-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "33627450"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447a33b356ff402a0f35b8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841127979"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841127979"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad86"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "567760000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c35b356ff402a0f35be",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128068"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128068"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad87"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "567760000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c35b356ff402a0f35be",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128098"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128098"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad88"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "143457075"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c44b356ff402a0f35bf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128187"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128187"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad89"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "143457075"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c44b356ff402a0f35bf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128218"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128218"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad8a"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "1102052210"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c51b356ff402a0f35c0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128300"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128300"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad8b"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1102052210"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c51b356ff402a0f35c0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128330"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128330"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad8c"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "1980442450"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c5db356ff402a0f35c1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128413"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128413"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad8d"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-106-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1980442450"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447c5db356ff402a0f35c1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128443"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128443"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad8e"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "480800000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447ca9b356ff402a0f35c6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128526"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128526"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad8f"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "480800000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447ca9b356ff402a0f35c6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128555"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128555"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad90"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "31002337"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447cb4b356ff402a0f35c7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128643"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128643"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad91"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "31002337"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447cb4b356ff402a0f35c7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128673"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128673"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad92"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "415666409"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447cc0b356ff402a0f35c8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128758"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128758"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad93"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-107-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "415666409"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447cc0b356ff402a0f35c8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128788"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128788"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad94"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "400550000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447da2b356ff402a0f35cd",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128872"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128872"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad95"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "400550000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447da2b356ff402a0f35cd",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128900"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128900"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341681e8eb66ada48ad96"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "361491718"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447daeb356ff402a0f35ce",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841128984"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841128984"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad97"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "361491718"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447daeb356ff402a0f35ce",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129013"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129013"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad98"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberLong": "2201848854"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447dbeb356ff402a0f35cf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129096"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129096"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad99"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "kode_file": "SBM.PD-1-04-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "2201848854"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a447dbeb356ff402a0f35cf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129125"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129125"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad9a"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1254900000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b3ef8589035f791cdc7d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129209"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129209"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad9b"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1254900000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b3ef8589035f791cdc7d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129238"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129238"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad9c"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "346436000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b3fd8589035f791cdc7e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129340"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129340"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad9d"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "346436000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b3fd8589035f791cdc7e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129371"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129371"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad9e"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberLong": "2182430638"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4098589035f791cdc7f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129472"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129472"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ad9f"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-01-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "2182430638"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4098589035f791cdc7f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129519"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129519"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ada0"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1020475000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4988589035f791cdc85",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129636"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129636"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ada1"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1020475000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4988589035f791cdc85",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129674"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129674"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ada2"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "464132650"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4a68589035f791cdc86",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129772"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129772"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ada3"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "464132650"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4a68589035f791cdc86",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129804"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129804"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ada4"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberLong": "3061692156"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4b58589035f791cdc87",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129889"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129889"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a5341691e8eb66ada48ada5"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "3061692156"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4b58589035f791cdc87",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841129918"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841129918"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48ada6"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "1147341990"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4c38589035f791cdc88",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130001"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130001"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48ada7"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-108-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1147341990"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44b4c38589035f791cdc88",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130030"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130030"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48ada8"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "1079050000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc128589035f791cdc8d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130118"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130118"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48ada9"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1079050000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc128589035f791cdc8d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130146"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130146"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adaa"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "92537500"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc208589035f791cdc8e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130229"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130229"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adab"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "92537500"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc208589035f791cdc8e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130257"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130257"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adac"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "695219387"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc298589035f791cdc8f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130341"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130341"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adad"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "695219387"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc298589035f791cdc8f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130370"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130370"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adae"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "346530900"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc348589035f791cdc90",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130453"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130453"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adaf"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "kode_file": "SBM.PD-1-02-2023",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Modal",
+    "kategori_belanja": "Belanja Modal",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "346530900"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44bc348589035f791cdc90",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130483"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130483"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb0"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "703900000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cbed8589035f791cdc9d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130570"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130570"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb1"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "703900000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cbed8589035f791cdc9d",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130599"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130599"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb2"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "30593620"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cbfa8589035f791cdc9e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130686"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130686"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb3"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "30593620"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cbfa8589035f791cdc9e",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130714"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130714"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb4"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "549902316"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cc048589035f791cdc9f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130805"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130805"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb5"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-73-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "549902316"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cc048589035f791cdc9f",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130832"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130832"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb6"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-81-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "110500000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cf8c8589035f791cdca3",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130920"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130920"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416a1e8eb66ada48adb7"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-81-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "110500000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44cf8c8589035f791cdca3",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841130948"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841130948"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adb8"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "718950000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d0e98589035f791cdca8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131031"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131031"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adb9"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "718950000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d0e98589035f791cdca8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131064"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131064"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adba"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "19018658"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d0f68589035f791cdca9",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131146"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131146"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adbb"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "19018658"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d0f68589035f791cdca9",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131176"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131176"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adbc"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "775020409"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d10b8589035f791cdcaa",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131258"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131258"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adbd"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-49-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "775020409"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d10b8589035f791cdcaa",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131286"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131286"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adbe"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "266250000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d1cb8589035f791cdcae",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131369"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131369"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adbf"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "266250000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d1cb8589035f791cdcae",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131398"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131398"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc0"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "112300000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d1db8589035f791cdcaf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131481"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131481"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc1"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-78-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "112300000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d1db8589035f791cdcaf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131510"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131510"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc2"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-39-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "324500000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d24e8589035f791cdcb1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131595"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131595"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc3"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "kode_file": "SBM.PD-1-39-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "324500000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d24e8589035f791cdcb1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131623"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131623"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc4"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "625062500"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d2a18589035f791cdcb6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131706"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131706"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc5"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "625062500"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d2a18589035f791cdcb6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131735"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131735"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc6"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "261735583"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d2ac8589035f791cdcb7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131819"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131819"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc7"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "261735583"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d2ac8589035f791cdcb7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131847"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131847"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc8"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberLong": "3602980004"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d2b88589035f791cdcb8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131930"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131930"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416b1e8eb66ada48adc9"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-20-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberLong": "3602980004"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d2b88589035f791cdcb8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841131959"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841131959"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adca"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "496900000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d37f8589035f791cdcbd",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132042"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132042"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adcb"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "496900000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d37f8589035f791cdcbd",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132072"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132072"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adcc"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "591372270"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d3908589035f791cdcbe",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132157"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132157"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adcd"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "591372270"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d3908589035f791cdcbe",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132187"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132187"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adce"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "981689395"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d4178589035f791cdcc0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132276"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132276"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adcf"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-21-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "981689395"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a44d4178589035f791cdcc0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132306"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132306"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add0"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "751350000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45c8db8589035f791cdcc6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132389"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132389"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add1"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "751350000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45c8db8589035f791cdcc6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132423"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132423"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add2"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "44499732"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45c8f28589035f791cdcc7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132505"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132505"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add3"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "44499732"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45c8f28589035f791cdcc7",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132533"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132533"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add4"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "1009494025"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45c9058589035f791cdcc8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132617"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132617"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add5"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "kode_file": "SBM.PD-1-34-2024",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1009494025"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45c9058589035f791cdcc8",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132646"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132646"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add6"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "105000000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ca048589035f791cdcca",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132730"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132730"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add7"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "105000000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ca048589035f791cdcca",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132761"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132761"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add8"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "7600000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ca128589035f791cdccb",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132850"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132850"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48add9"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "kode_file": "SBM.PD-1-55-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "7600000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ca128589035f791cdccb",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132880"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132880"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48adda"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-40-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "52800000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ca708589035f791cdcce",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132962"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132962"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416c1e8eb66ada48addb"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-40-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "52800000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ca708589035f791cdcce",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841132992"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841132992"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48addc"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "243400000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cad28589035f791cdcd1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133079"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133079"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48addd"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "243400000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cad28589035f791cdcd1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133108"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133108"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48adde"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "2104735"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cae38589035f791cdcd2",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133190"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133190"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48addf"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "2104735"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cae38589035f791cdcd2",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133222"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133222"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade0"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "274772231"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cafd8589035f791cdcd3",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133307"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133307"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade1"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-54-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "274772231"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cafd8589035f791cdcd3",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133336"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133336"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade2"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "110000000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cc238589035f791cdcda",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133419"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133419"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade3"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "110000000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cc238589035f791cdcda",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133447"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133447"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade4"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "1969140"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cc2e8589035f791cdcdb",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133532"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133532"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade5"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "1969140"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cc2e8589035f791cdcdb",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133563"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133563"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade6"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "35602035"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cc388589035f791cdcdc",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133647"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133647"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade7"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-53-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "35602035"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cc388589035f791cdcdc",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133677"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133677"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade8"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "193850000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cccd8589035f791cdcdf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133789"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133789"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48ade9"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "193850000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cccd8589035f791cdcdf",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133818"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133818"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48adea"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "544911"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ccd78589035f791cdce0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133901"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133901"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416d1e8eb66ada48adeb"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "544911"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ccd78589035f791cdce0",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841133930"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841133930"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adec"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "14939260"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cce08589035f791cdce1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134014"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134014"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48aded"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-46-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "14939260"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cce08589035f791cdce1",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134042"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134042"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adee"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "375600000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ce7d8589035f791cdce4",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134130"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134130"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adef"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "375600000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ce7d8589035f791cdce4",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134159"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134159"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf0"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "4111890"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ce888589035f791cdce5",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134241"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134241"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf1"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "4111890"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ce888589035f791cdce5",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134269"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134269"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf2"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "40166647"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ce928589035f791cdce6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134356"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134356"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf3"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "kode_file": "SBM.PD-1-50-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "40166647"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45ce928589035f791cdce6",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134384"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134384"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf4"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "647100000"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cf438589035f791cdcea",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134467"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134467"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf5"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Pegawai",
+    "kategori_belanja": "Belanja Pegawai",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "647100000"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cf438589035f791cdcea",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134496"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134496"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf6"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "220199050"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cf5e8589035f791cdcec",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134581"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134581"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf7"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Jasa",
+    "kategori_belanja": "Belanja Jasa",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "220199050"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cf5e8589035f791cdcec",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134611"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134611"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf8"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "15130250"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "0"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cf9b8589035f791cdced",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134694"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134694"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a53416e1e8eb66ada48adf9"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "kode_file": "SBM.PD-1-1-2025",
+    "tanggal_ri": "",
+    "tanggal_realisasi_ri": "",
+    "tgl_invoice": "",
+    "no_invoice": "",
+    "uraian": "Realisasi RI Belanja Barang",
+    "kategori_belanja": "Belanja Barang",
+    "ri": {
+      "$numberInt": "0"
+    },
+    "pemasukan": {
+      "$numberInt": "0"
+    },
+    "pengeluaran_ri": {
+      "$numberInt": "15130250"
+    },
+    "sumber": "migrasi_rekap_lama",
+    "id_realisasi_anggaran_lama": "6a45cf9b8589035f791cdced",
+    "createdAt": {
+      "$date": {
+        "$numberLong": "1783841134727"
+      }
+    },
+    "updatedAt": {
+      "$date": {
+        "$numberLong": "1783841134727"
+      }
+    },
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

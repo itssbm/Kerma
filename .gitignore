@@ -1,0 +1,49 @@
+# # Dependency directories
+# node_modules/
+
+# Environment and local config
+.env
+.env.*
+
+# # Logs
+# *.log
+# tmp-server-err.log
+# tmp-server-out.log
+# logs/
+
+# # OS generated files
+# .DS_Store
+# Thumbs.db
+
+# # Editor / IDE
+# .vscode/
+# .idea/
+# *.swp
+
+# # Package managers
+# .pnpm-store/
+# .npm/
+# .yarn/
+# yarn-debug.log*
+# yarn-error.log*
+# npm-debug.log*
+# pnpm-debug.log*
+
+# # Test / coverage output
+# coverage/
+# .nyc_output/
+
+# # Build artifacts
+# dist/
+# build/
+
+# # Temporary files
+# tmp/
+# temp/
+
+# # Vercel / deployment
+# .vercel/
+
+# # Data/backup generated locally (uncomment if needed)
+# # data/
+# # mongo-data-export/

@@ -1,0 +1,44 @@
+[
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa517"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "no": {
+      "$numberInt": "1"
+    },
+    "nama_file": "KERMA_2_add_1.pdf",
+    "tgl_upload": "13/06/2026",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa518"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "no": {
+      "$numberInt": "1"
+    },
+    "nama_file": "KERMA_15_add_1.pdf",
+    "tgl_upload": "13/06/2026",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63aa8cbcf559b6faa519"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "no": {
+      "$numberInt": "1"
+    },
+    "nama_file": "KERMA_16_add_1.pdf",
+    "tgl_upload": "13/06/2026",
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

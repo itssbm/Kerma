@@ -1,0 +1,2734 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Hub Kerja Sama</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260712-rekap-anggaran-formula-row">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="/images/logo-itb.png" alt="Logo ITB" class="logo-itb">
+                <h2>KEMITRAAN BISNIS</h2>
+                <div class="logo-subtitle">SBM ITB</div>
+            </div>
+            <div class="user-info-sidebar" id="userInfoSidebar">
+                <div class="user-card">
+                    <div class="user-avatar" id="userAvatarSidebar">K</div>
+                    <div class="user-meta">
+                        <div id="userRoleBadge">-</div>
+                        <div id="userNamaSidebar">-</div>
+                    </div>
+                </div>
+                <button id="btnLogout" type="button">Keluar</button>
+            </div>
+            <nav class="navigation" aria-label="Navigasi utama">
+                <span class="nav-category role-pimpinan-only">Strategis</span>
+                <a href="#" class="nav-item role-pimpinan-only" id="menuPimpinan"><span class="nav-icon">📈</span>Dashboard Pimpinan</a>
+
+                <span class="nav-category">Rekap Data</span>
+                <a href="#" class="nav-item" id="menuMitra"><span class="nav-icon">🏢</span>Daftar Mitra</a>
+                <a href="#" class="nav-item active" id="menuDaftar" aria-current="page"><span class="nav-icon">🤝</span>Daftar Kerma</a>
+                <a href="#" class="nav-item" id="menuPegawai"><span class="nav-icon">👥</span>Daftar Pegawai</a>
+                <a href="#" class="nav-item" id="menuJabatan"><span class="nav-icon">🏷️</span>Daftar Jabatan</a>
+                <a href="#" class="nav-item" id="menuMahasiswa"><span class="nav-icon">🎓</span>Daftar Mahasiswa</a>
+                <a href="#" class="nav-item" id="menuIndustri"><span class="nav-icon">🏭</span>Daftar Industri</a>
+
+                <span class="nav-category">Entri Data</span>
+                <a href="#" class="nav-item" id="menuTambahMitra"><span class="nav-icon">🏢</span>Tambah Mitra</a>
+                <a href="#" class="nav-item" id="menuTambah"><span class="nav-icon">🤝</span>Tambah Kerma</a>
+                <a href="#" class="nav-item" id="menuTambahMahasiswa"><span class="nav-icon">🎓</span>Tambah Mahasiswa</a>
+                <a href="#" class="nav-item" id="menuTambahIndustri"><span class="nav-icon">🏭</span>Tambah Industri</a>
+
+                <span class="nav-category">Keuangan</span>
+                <a href="#" class="nav-item" id="menuPendapatan"><span class="nav-icon">💵</span>Penerimaan</a>
+                <a href="#" class="nav-item" id="menuPengeluaran"><span class="nav-icon">💸</span>Pengeluaran</a>
+                <a href="#" class="nav-item" id="menuSisaAnggaran"><span class="nav-icon">🧮</span>Neraca</a>
+
+                <span class="nav-category">Ekspor</span>
+                <a href="#" class="nav-item" id="menuPlottingKerma"><span class="nav-icon">🧩</span>Pengelola Kerma</a>
+                <a href="#" class="nav-item" id="menuLaporan"><span class="nav-icon">📊</span>Laporan</a>
+                <a href="#" class="nav-item" id="menuKontrak"><span class="nav-icon">📝</span>Kontrak / PKS</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+
+            <section id="sectionPimpinan" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Strategic command view</span>
+                        <h1>Dashboard Pimpinan</h1>
+                        <p>Melihat kondisi kontrak dan proyeksi uang masuk Kerma untuk keputusan alokasi strategis.</p>
+                    </div>
+                </header>
+
+                <div class="executive-note">
+                    <strong>Catatan data</strong>
+                    <span>Indikator keuangan adalah cash flow dari jadwal pembiayaan/termin dan realisasi anggaran. Setiap belanja mengurangi saldo kontrak terkait.</span>
+                </div>
+
+                <div class="insight-grid sisa-anggaran-summary sisa-anggaran-summary--dashboard" aria-label="Ringkasan keuangan pimpinan">
+                    <article class="insight-card">
+                        <span class="insight-label insight-label--tooltip">Nilai Kontrak
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Total nilai kontrak dari seluruh kontrak." data-tooltip="Total nilai kontrak dari seluruh kontrak.">i</span>
+                        </span>
+                        <strong id="statSisaAnggaranNilai">Rp 0</strong>
+                        <small id="statSisaAnggaranKontrak">0 kontrak</small>
+                    </article>
+                    <article class="insight-card insight-card--clickable" id="cardSisaAnggaranPenerimaan" data-neraca-detail="penerimaan" role="button" tabindex="0" aria-controls="panelDetailNeracaAtas" aria-expanded="false" title="Klik untuk melihat detail realisasi penerimaan">
+                        <span class="insight-label insight-label--tooltip">Realisasi Penerimaan
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Uang yang benar-benar sudah diterima dari mitra." data-tooltip="Uang yang benar-benar sudah diterima dari mitra.">i</span>
+                        </span>
+                        <strong id="statSisaAnggaranPenerimaan">Rp 0</strong>
+                    </article>
+                    <article class="insight-card insight-card--clickable" id="cardSisaAnggaranBelumDiterima" data-neraca-detail="belum" role="button" tabindex="0" aria-controls="panelDetailNeracaAtas" aria-expanded="false" title="Klik untuk melihat detail belum diterima">
+                        <span class="insight-label insight-label--tooltip">Belum Diterima
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Nilai kontrak yang belum masuk sebagai realisasi penerimaan." data-tooltip="Nilai kontrak yang belum masuk sebagai realisasi penerimaan.">i</span>
+                        </span>
+                        <strong id="statSisaAnggaranBelumDiterima">Rp 0</strong>
+                    </article>
+                    <div class="executive-panel neraca-detail-panel" id="panelDetailNeracaAtas" aria-label="Detail neraca" hidden>
+                        <div class="neraca-detail-body" id="bodyDetailNeracaAtas">
+                            <div class="neraca-detail-summary">
+                                <article class="neraca-detail-filter-card" data-belum-diterima-filter="Akan Diterima" role="button" tabindex="0" aria-pressed="false" title="Tampilkan hanya yang akan diterima">
+                                    <span>Akan diterima</span>
+                                    <strong id="statBelumDiterimaAkan">Rp 0</strong>
+                                    <small id="statBelumDiterimaAkanJumlah">0 item</small>
+                                </article>
+                                <article class="neraca-detail-filter-card" data-belum-diterima-filter="Lewat Rencana" role="button" tabindex="0" aria-pressed="false" title="Tampilkan hanya yang lewat rencana">
+                                    <span>Lewat rencana</span>
+                                    <strong id="statBelumDiterimaLewat">Rp 0</strong>
+                                    <small id="statBelumDiterimaLewatJumlah">0 item</small>
+                                </article>
+                                <article class="neraca-detail-filter-card" data-belum-diterima-filter="Belum Terjadwal" role="button" tabindex="0" aria-pressed="false" title="Tampilkan hanya yang belum terjadwal">
+                                    <span>Belum terjadwal</span>
+                                    <strong id="statBelumDiterimaTanpaTanggal">Rp 0</strong>
+                                    <small id="statBelumDiterimaTanpaTanggalJumlah">0 item</small>
+                                </article>
+                            </div>
+                            <div class="table-container table-container--compact neraca-detail-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Kode File</th>
+                                            <th>Mitra</th>
+                                            <th>Judul PKS</th>
+                                            <th>Tahap</th>
+                                            <th>Rencana Pembayaran</th>
+                                            <th>Nominal</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTabelBelumDiterimaNeraca">
+                                        <tr class="table-state-row"><td colspan="8"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat detail belum diterima</strong><small>Mengambil rencana penerimaan yang belum terealisasi.</small></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <article class="insight-card insight-card--clickable" id="cardSisaAnggaranRealisasi" data-neraca-detail="realisasi" role="button" tabindex="0" aria-controls="panelDetailNeracaBawah" aria-expanded="false" title="Klik untuk melihat detail realisasi anggaran">
+                        <span class="insight-label insight-label--tooltip">Total Realisasi Anggaran
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Akumulasi belanja atau realisasi anggaran yang sudah tercatat." data-tooltip="Akumulasi belanja atau realisasi anggaran yang sudah tercatat.">i</span>
+                        </span>
+                        <strong id="statSisaAnggaranRealisasi">Rp 0</strong>
+                    </article>
+                    <article class="insight-card insight-card--primary insight-card--clickable" id="cardSisaAnggaranTotal" data-neraca-detail="sisa" role="button" tabindex="0" aria-controls="panelDetailNeracaBawah" aria-expanded="false" title="Klik untuk melihat detail sisa anggaran per kontrak">
+                        <span class="insight-label insight-label--tooltip">Sisa Anggaran
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Total realisasi penerimaan dikurangi total realisasi anggaran." data-tooltip="Total realisasi penerimaan dikurangi total realisasi anggaran.">i</span>
+                        </span>
+                        <strong id="statSisaAnggaranTotal">Rp 0</strong>
+                    </article>
+                    <article class="insight-card" id="cardSisaAnggaranSerapan">
+                        <span class="insight-label insight-label--tooltip">Serapan Anggaran
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Persentase realisasi anggaran dibandingkan total realisasi penerimaan." data-tooltip="Persentase realisasi anggaran dibandingkan total realisasi penerimaan.">i</span>
+                        </span>
+                        <strong id="statSisaAnggaranSerapan">0%</strong>
+                    </article>
+                    <div class="executive-panel neraca-detail-panel" id="panelDetailNeracaBawah" aria-label="Detail neraca" hidden>
+                        <div class="neraca-detail-body" id="bodyDetailNeracaBawah">
+                            <div class="table-state table-state--empty"><strong>Pilih indikator</strong><small>Klik salah satu indikator Neraca untuk melihat detailnya.</small></div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="executive-panel finance-statement-panel finance-statement-panel--modal-source" aria-label="Neraca keuangan manajerial" hidden>
+                    <div class="panel-title finance-statement-title">
+                        <div class="panel-title-inline">
+                            <h2>Neraca Keuangan Manajerial</h2>
+                            <span class="info-tooltip" tabindex="0" aria-label="Laporan posisi keuangan berbasis data kontrak, realisasi penerimaan, dan realisasi anggaran yang tercatat. Ini adalah neraca manajerial, bukan laporan audit." data-tooltip="Laporan posisi keuangan berbasis data kontrak, realisasi penerimaan, dan realisasi anggaran yang tercatat. Ini adalah neraca manajerial, bukan laporan audit.">i</span>
+                        </div>
+                        <span class="finance-statement-badge" id="neracaKeuanganStatus">Seimbang</span>
+                    </div>
+                    <div class="finance-statement-grid">
+                        <div class="finance-statement-column">
+                            <div class="finance-statement-heading">Aset</div>
+                            <div class="finance-statement-category">Aset Lancar</div>
+                            <div class="finance-statement-row">
+                                <span>Kas dan setara kas
+                                    <span class="info-tooltip" tabindex="0" aria-label="Saldo positif dari realisasi penerimaan setelah dikurangi realisasi anggaran." data-tooltip="Saldo positif dari realisasi penerimaan setelah dikurangi realisasi anggaran.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganKas">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Piutang kontrak
+                                    <span class="info-tooltip" tabindex="0" aria-label="Nilai kontrak yang belum diterima sebagai realisasi penerimaan." data-tooltip="Nilai kontrak yang belum diterima sebagai realisasi penerimaan.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganPiutang">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Uang muka dan pembayaran di muka
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada modul pencatatan uang muka atau pembayaran di muka, sehingga nilainya ditampilkan Rp 0." data-tooltip="Belum ada modul pencatatan uang muka atau pembayaran di muka, sehingga nilainya ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganUangMuka">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Aset lancar lainnya
+                                    <span class="info-tooltip" tabindex="0" aria-label="Item cadangan untuk aset lancar lain yang belum tersedia modul datanya." data-tooltip="Item cadangan untuk aset lancar lain yang belum tersedia modul datanya.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganAsetLancarLainnya">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--subtotal">
+                                <span>Jumlah Aset Lancar</span>
+                                <strong id="neracaKeuanganTotalAsetLancar">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-category">Aset Tidak Lancar</div>
+                            <div class="finance-statement-row">
+                                <span>Aset tetap
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada modul aset tetap, sehingga nilainya ditampilkan Rp 0." data-tooltip="Belum ada modul aset tetap, sehingga nilainya ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganAsetTetap">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Akumulasi penyusutan
+                                    <span class="info-tooltip" tabindex="0" aria-label="Kontra aset untuk penyusutan aset tetap. Belum ada modul penyusutan, sehingga nilainya Rp 0." data-tooltip="Kontra aset untuk penyusutan aset tetap. Belum ada modul penyusutan, sehingga nilainya Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganAkumulasiPenyusutan">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Aset tidak lancar lainnya
+                                    <span class="info-tooltip" tabindex="0" aria-label="Item cadangan untuk aset tidak lancar lain yang belum tersedia modul datanya." data-tooltip="Item cadangan untuk aset tidak lancar lain yang belum tersedia modul datanya.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganAsetTidakLancarLainnya">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--subtotal">
+                                <span>Jumlah Aset Tidak Lancar</span>
+                                <strong id="neracaKeuanganTotalAsetTidakLancar">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--total">
+                                <span>Total Aset</span>
+                                <strong id="neracaKeuanganTotalAset">Rp 0</strong>
+                            </div>
+                        </div>
+
+                        <div class="finance-statement-column">
+                            <div class="finance-statement-heading">Kewajiban dan Posisi Dana</div>
+                            <div class="finance-statement-category">Kewajiban Lancar</div>
+                            <div class="finance-statement-row">
+                                <span>Utang usaha
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada modul utang usaha, sehingga nilainya ditampilkan Rp 0." data-tooltip="Belum ada modul utang usaha, sehingga nilainya ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganUtangUsaha">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Beban akrual
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada modul beban akrual, sehingga nilainya ditampilkan Rp 0." data-tooltip="Belum ada modul beban akrual, sehingga nilainya ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganBebanAkrual">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Penerimaan diterima di muka
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada modul pengakuan pendapatan akrual, sehingga penerimaan diterima di muka ditampilkan Rp 0." data-tooltip="Belum ada modul pengakuan pendapatan akrual, sehingga penerimaan diterima di muka ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganPenerimaanDimuka">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Kewajiban/defisit tercatat
+                                    <span class="info-tooltip" tabindex="0" aria-label="Jika realisasi anggaran melebihi penerimaan tercatat, selisihnya ditampilkan sebagai defisit pendanaan. Di luar itu, modul utang/kewajiban belum tersedia." data-tooltip="Jika realisasi anggaran melebihi penerimaan tercatat, selisihnya ditampilkan sebagai defisit pendanaan. Di luar itu, modul utang/kewajiban belum tersedia.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganDefisitPendanaan">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--subtotal">
+                                <span>Jumlah Kewajiban Lancar</span>
+                                <strong id="neracaKeuanganTotalKewajibanLancar">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-category">Kewajiban Tidak Lancar</div>
+                            <div class="finance-statement-row">
+                                <span>Utang jangka panjang
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada modul utang jangka panjang, sehingga nilainya ditampilkan Rp 0." data-tooltip="Belum ada modul utang jangka panjang, sehingga nilainya ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganUtangJangkaPanjang">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Kewajiban tidak lancar lainnya
+                                    <span class="info-tooltip" tabindex="0" aria-label="Item cadangan untuk kewajiban tidak lancar lain yang belum tersedia modul datanya." data-tooltip="Item cadangan untuk kewajiban tidak lancar lain yang belum tersedia modul datanya.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganKewajibanTidakLancarLainnya">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--subtotal">
+                                <span>Jumlah Kewajiban Tidak Lancar</span>
+                                <strong id="neracaKeuanganTotalKewajibanTidakLancar">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--subtotal">
+                                <span>Total Kewajiban</span>
+                                <strong id="neracaKeuanganTotalKewajiban">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-category">Posisi Dana</div>
+                            <div class="finance-statement-row">
+                                <span>Dana terikat kontrak
+                                    <span class="info-tooltip" tabindex="0" aria-label="Belum ada pemisahan dana terikat per kontrak dalam modul akuntansi, sehingga nilainya ditampilkan Rp 0." data-tooltip="Belum ada pemisahan dana terikat per kontrak dalam modul akuntansi, sehingga nilainya ditampilkan Rp 0.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganDanaTerikat">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Surplus/(defisit) manajerial berjalan
+                                    <span class="info-tooltip" tabindex="0" aria-label="Posisi dana penyeimbang agar Total Aset sama dengan Total Kewajiban ditambah Posisi Dana." data-tooltip="Posisi dana penyeimbang agar Total Aset sama dengan Total Kewajiban ditambah Posisi Dana.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganSurplusManajerial">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row">
+                                <span>Penyesuaian posisi dana
+                                    <span class="info-tooltip" tabindex="0" aria-label="Item cadangan untuk penyesuaian posisi dana yang belum tersedia modul datanya." data-tooltip="Item cadangan untuk penyesuaian posisi dana yang belum tersedia modul datanya.">i</span>
+                                </span>
+                                <strong id="neracaKeuanganPenyesuaianDana">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--subtotal">
+                                <span>Jumlah Posisi Dana</span>
+                                <strong id="neracaKeuanganTotalPosisiDana">Rp 0</strong>
+                            </div>
+                            <div class="finance-statement-row finance-statement-row--total">
+                                <span>Total Kewajiban + Posisi Dana</span>
+                                <strong id="neracaKeuanganTotalPasiva">Rp 0</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="finance-statement-reconcile">
+                        <div>
+                            <span>Persamaan neraca</span>
+                            <strong id="neracaKeuanganPersamaan">Aset = Kewajiban + Posisi Dana</strong>
+                        </div>
+                        <div>
+                            <span>Nilai kontrak</span>
+                            <strong id="neracaKeuanganNilaiKontrak">Rp 0</strong>
+                        </div>
+                        <div>
+                            <span>Total realisasi anggaran</span>
+                            <strong id="neracaKeuanganRealisasiAnggaran">Rp 0</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="general-summary-card dashboard-bottom-summary" aria-label="Ringkasan kontrak pendukung dashboard">
+                    <div class="general-period-filter">
+                        <div class="exec-filter-group">
+                            <label for="generalTahunPimpinan">Tahun</label>
+                            <select id="generalTahunPimpinan" class="filter-input">
+                                <option value="all">All</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="general-summary-metric general-summary-metric--primary">
+                        <span class="insight-label--tooltip">Total kontrak
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Berdasarkan tanggal kontrak." data-tooltip="Berdasarkan tanggal kontrak.">i</span>
+                        </span>
+                        <strong id="jumlahKontrakPimpinan">0</strong>
+                    </div>
+                    <div class="general-summary-metric">
+                        <span class="insight-label--tooltip">Total mitra
+                            <span class="info-tooltip info-tooltip--card" tabindex="0" aria-label="Mitra unik pada periode." data-tooltip="Mitra unik pada periode.">i</span>
+                        </span>
+                        <strong id="totalMitraPimpinan">0</strong>
+                    </div>
+                </div>
+
+                <div class="executive-chart-preview-row dashboard-bottom-charts">
+                    <div class="executive-panel executive-panel--yearly-nominal executive-panel--chart-preview" data-indicator-detail="yearly" role="button" tabindex="0" aria-label="Buka detail penerimaan per tahun">
+                        <div class="panel-title">
+                            <div>
+                                <div class="panel-title-inline">
+                                    <h2>Penerimaan per Tahun</h2>
+                                    <span class="info-tooltip" tabindex="0" aria-label="Total realisasi penerimaan per tahun berdasarkan tanggal pembayaran kontrak." data-tooltip="Total realisasi penerimaan per tahun berdasarkan tanggal pembayaran kontrak.">i</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="yearly-nominal-layout">
+                            <div id="chartNominalTahunanPimpinan" class="yearly-chart-shell"></div>
+                            <div id="tabelNominalTahunanPimpinan" class="yearly-table-wrap"></div>
+                        </div>
+                    </div>
+
+                    <div class="executive-panel executive-panel--yearly-count executive-panel--chart-preview" data-indicator-detail="yearly-count" role="button" tabindex="0" aria-label="Buka detail jumlah kontrak per tahun">
+                        <div class="panel-title">
+                            <div>
+                                <div class="panel-title-inline">
+                                    <h2>Jumlah Kontrak per Tahun</h2>
+                                    <span class="info-tooltip" tabindex="0" aria-label="Jumlah kontrak yang ditandatangani per tahun berdasarkan tanggal kontrak." data-tooltip="Jumlah kontrak yang ditandatangani per tahun berdasarkan tanggal kontrak.">i</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="yearly-count-layout">
+                            <div id="chartJumlahKontrakTahunanPimpinan" class="yearly-chart-shell"></div>
+                            <div id="tabelJumlahKontrakTahunanPimpinan" class="yearly-table-wrap"></div>
+                        </div>
+                    </div>
+
+                    <div class="executive-panel executive-panel--relationship executive-panel--chart-preview" data-indicator-detail="relationship" role="button" tabindex="0" aria-label="Buka detail pola kerja sama mitra">
+                        <div class="panel-title">
+                            <div>
+                                <div class="panel-title-inline">
+                                    <h2>Pola Kerja Sama Mitra</h2>
+                                    <span class="info-tooltip" tabindex="0" aria-label="Identifikasi mitra berulang, mitra yang perlu dimitigasi, dan mitra baru yang berpotensi ditindaklanjuti." data-tooltip="Identifikasi mitra berulang, mitra yang perlu dimitigasi, dan mitra baru yang berpotensi ditindaklanjuti.">i</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relationship-analytics-layout">
+                            <div id="chartRelasiMitraPimpinan" class="relationship-chart"></div>
+                            <div id="tabelRelasiMitraPimpinan" class="relationship-table-wrap"></div>
+                        </div>
+                    </div>
+
+                    <div class="executive-panel executive-panel--status-chart executive-panel--chart-preview" data-indicator-detail="status" role="button" tabindex="0" aria-label="Buka detail komposisi kontrak">
+                        <div class="panel-title">
+                            <div>
+                                <div class="panel-title-inline">
+                                    <h2>Komposisi Kontrak</h2>
+                                    <span class="info-tooltip" tabindex="0" aria-label="Jumlah kontrak berjalan dan berakhir pada periode yang dipilih." data-tooltip="Jumlah kontrak berjalan dan berakhir pada periode yang dipilih.">i</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="status-chart-layout">
+                            <div id="statusPiePimpinan" class="status-pie-wrap"></div>
+                            <div id="statusProgramTablePimpinan" class="status-program-table"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            
+            <section id="sectionDaftar" class="view-section active">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Partnership command center</span>
+                        <h1>Daftar Kerja Sama (Kerma)</h1>
+                        <p>Monitor kontrak, status, dan risiko masa berlaku dalam satu tampilan kerja.</p>
+                    </div>
+                </header>
+                <div class="insight-grid" aria-label="Ringkasan kerja sama">
+                    <article class="insight-card insight-card--primary">
+                        <span class="insight-label">Total Kerma</span>
+                        <strong id="statKermaTotal">-</strong>
+                        <small>Seluruh kerja sama tercatat</small>
+                    </article>
+                    <article class="insight-card">
+                        <span class="insight-label">Kontrak Aktif</span>
+                        <strong id="statKermaAktif">-</strong>
+                        <small>Masih berjalan</small>
+                    </article>
+                    <article class="insight-card">
+                        <span class="insight-label">Perlu Atensi</span>
+                        <strong id="statKermaWarning">-</strong>
+                        <small>Berakhir kurang dari 12 bulan</small>
+                    </article>
+                    <article class="insight-card">
+                        <span class="insight-label">Nilai Kontrak</span>
+                        <strong id="statKermaNilai">-</strong>
+                        <small>Akumulasi nilai tercatat</small>
+                    </article>
+                </div>
+                <div class="filter-panel">
+                    <div class="filter-row">
+                        <div class="filter-group filter-group--wide">
+                            <label class="filter-label">Cari</label>
+                            <input type="text" id="filterCari" class="filter-input" placeholder="Cari seluruh kolom data kerma...">
+                        </div>
+                        <div class="filter-group filter-group--action">
+                            <button id="btnResetFilter" class="btn-reset">Reset</button>
+                        </div>
+                    </div>
+                    <p id="infoHasilFilter" class="filter-info"></p>
+                    <div class="warn-legend">
+                        <span class="warn-legend-label">Peringatan sisa kontrak:</span>
+                        <span class="badge badge-warn-3bln">⚠ 1–3 Bln</span>
+                        <span class="badge badge-warn-6bln">⚠ 4–6 Bln</span>
+                        <span class="badge badge-warn-1thn">⚠ 7–11 Bln</span>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th data-col="id_program">ID Program</th>
+                                <th data-col="nama_mitra">Nama Mitra</th>
+                                <th data-col="no_kontrak_institusi">No. Kontrak Institusi</th>
+                                <th data-col="no_kontrak_mitra">No. Kontrak Mitra</th>
+                                <th data-col="judul_pks">Judul PKS</th>
+                                <th data-col="strata">Strata</th>
+                                <th data-col="tgl_kontrak">Tgl. Kontrak</th>
+                                <th data-col="tgl_akhir_kontrak">Tgl. Akhir Kontrak</th>
+                                <th data-col="nilai_kontrak">Nilai Kontrak</th>
+                                <th data-col="kode_file">Kode File</th>
+                                <th data-col="jenis_kerma">Jenis Kerma</th>
+                                <th data-col="jumlah_mahasiswa">Jml. Mhs.</th>
+                                <th data-col="cara_pembayaran">Cara Bayar</th>
+                                <th data-col="status_kontrak">Status Kontrak</th>
+                                <th>File Kontrak</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelKerma">
+                            <tr class="table-state-row"><td colspan="17"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat data kerma</strong><small>Mengambil riwayat kerja sama dan status kontrak.</small></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="file" id="fileInputKontrak" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" style="display:none;">
+            </section>
+
+            <section id="sectionTambah" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Entry flow</span>
+                        <h1>Tambah Data Kerma</h1>
+                        <p>Susun data kerja sama dari identitas program sampai pembiayaan kontrak.</p>
+                    </div>
+                </header>
+                <div class="form-flow" aria-label="Alur data kerma">
+                    <div class="flow-step is-active"><span>1</span><strong>Program</strong><small>ID, mitra, judul PKS</small></div>
+                    <div class="flow-step"><span>2</span><strong>Periode</strong><small>Tanggal dan strata</small></div>
+                    <div class="flow-step"><span>3</span><strong>Pembiayaan</strong><small>Nilai dan termin</small></div>
+                    <div class="flow-step"><span>4</span><strong>Dokumen</strong><small>File kontrak/PKS</small></div>
+                </div>
+                <div class="form-container">
+                    <form id="formTambahKerma" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">ID Program <span class="form-required">*</span></label>
+                                <input type="text" name="id_program" class="form-input" placeholder="Contoh: KERMA_PLN_Sem. II_23/24" required>
+                                <small class="field-hint">Format: <code>KERMA_[ID Mitra]_[Semester]_[Tahun Ajaran]</code></small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nama Mitra <span class="form-required">*</span></label>
+                                <select name="nama_mitra" id="selectNamaMitraKerma" class="form-input" required>
+                                    <option value="">-- Pilih Mitra --</option>
+                                </select>
+                                <small class="field-hint">Mitra belum terdaftar? Tambahkan terlebih dahulu di <strong>Tambah Mitra</strong>.</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">No. Kontrak Institusi</label>
+                                <input type="text" name="no_kontrak_institusi" class="form-input" placeholder="Nomor kontrak pihak institusi">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">No. Kontrak Mitra</label>
+                                <input type="text" name="no_kontrak_mitra" class="form-input" placeholder="Nomor kontrak pihak mitra">
+                            </div>
+                            <div class="form-group form-group--full">
+                                <label class="form-label">Judul PKS <span class="form-required">*</span></label>
+                                <textarea name="judul_pks" class="form-input form-textarea" placeholder="Judul Perjanjian Kerja Sama" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Strata</label>
+                                <div class="strata-group">
+                                    <label class="strata-opt"><input type="radio" name="strata" value="S1"> S1</label>
+                                    <label class="strata-opt"><input type="radio" name="strata" value="S2"> S2</label>
+                                    <label class="strata-opt"><input type="radio" name="strata" value="S3"> S3</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Jumlah Mahasiswa</label>
+                                <input type="number" name="jumlah_mahasiswa" class="form-input" placeholder="0" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tgl. Kontrak</label>
+                                <input type="date" name="tgl_kontrak" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tgl. Akhir Kontrak</label>
+                                <input type="date" name="tgl_akhir_kontrak" class="form-input">
+                            </div>
+                        </div>
+
+                        <!-- Container Cara Pembayaran -->
+                        <div class="container-pembayaran">
+                            <div class="pembayaran-header" style="margin-bottom:16px;">Pembiayaan Kontrak</div>
+                            <div class="form-group" style="max-width:280px;margin-bottom:16px;">
+                                <label class="form-label">Cara Pembayaran</label>
+                                <select name="cara_pembayaran" id="caraPembayaranTambah" class="form-input">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Lump Sum">Lump Sum</option>
+                                    <option value="Termin">Termin</option>
+                                    <option value="Unit Price">Unit Price</option>
+                                </select>
+                            </div>
+
+                            <!-- Lump Sum -->
+                            <div id="seksiPenuh" style="display:none;margin-bottom:16px;">
+                                <p class="pembayaran-desc">Nilai kontrak ditetapkan secara fix sesuai yang tercantum dalam kontrak.</p>
+                                <div class="form-group" style="max-width:280px;">
+                                    <label class="form-label">Batas Akhir Pembayaran</label>
+                                    <input type="date" name="batas_akhir_pembayaran" id="batasAkhirPenuh" class="form-input">
+                                </div>
+                            </div>
+
+                            <!-- Termin -->
+                            <div id="seksiTermin" style="display:none;margin-bottom:16px;">
+                                <p class="pembayaran-desc">Nilai kontrak merupakan penjumlahan seluruh termin yang diisi secara manual. Nilai Kontrak terisi otomatis.</p>
+                                <div id="daftarCicilanTermin" class="daftar-cicilan"></div>
+                                <button type="button" id="btnTambahCicilanTermin" class="btn-secondary" style="margin-top:10px;">＋ Tambah Termin</button>
+                            </div>
+
+                            <!-- Unit Price -->
+                            <div id="seksiBertahap" style="display:none;margin-bottom:16px;">
+                                <p class="pembayaran-desc">Nilai kontrak = Harga per Mahasiswa × Jumlah Mahasiswa. Nilai Kontrak terisi otomatis.</p>
+                                <div class="form-group" style="max-width:280px;margin-bottom:16px;">
+                                    <label class="form-label">Harga per Mahasiswa (Rp)</label>
+                                    <input type="number" name="harga_per_mahasiswa" id="hargaPerMhsTambah" class="form-input" placeholder="0" min="0">
+                                </div>
+                                <div id="daftarCicilan" class="daftar-cicilan"></div>
+                                <button type="button" id="btnTambahCicilan" class="btn-secondary" style="margin-top:10px;">＋ Tambah Semester</button>
+                            </div>
+
+                            <!-- Nilai Kontrak & Kode File di bagian bawah container -->
+                            <div class="form-grid" style="margin-top:16px;">
+                                <div class="form-group">
+                                    <label class="form-label">Nilai Kontrak (Rp)</label>
+                                    <input type="number" name="nilai_kontrak" class="form-input" placeholder="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Kode File</label>
+                                    <input type="text" name="kode_file" class="form-input" placeholder="Kode referensi file">
+                                    <small class="field-hint">Gunakan awalan <code>SBM.PD</code> untuk Pendidikan, <code>SBM.PN</code> untuk Penelitian, atau <code>SBM.PM</code> untuk Pengabdian Masyarakat. Contoh: <code>SBM.PD-1-12-2026</code>.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- File Kontrak -->
+                        <div class="form-group" style="margin-bottom:24px;">
+                            <label class="form-label">File Kontrak / PKS</label>
+                            <input type="file" name="file_kontrak" id="fileKontrakForm" class="form-input-file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png">
+                            <small class="field-hint">Format: PDF, Word, Excel, atau gambar. Maks. 15 MB.</small>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Simpan Data Kerma</button>
+                            <span id="formAlert" class="form-alert" style="display:none;"></span>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="sectionRealisasi" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Finance operations</span>
+                        <h1>Keuangan</h1>
+                        <p>Kelola penerimaan dan pengeluaran per kontrak agar saldo cash flow serta neraca dapat dipantau.</p>
+                    </div>
+                </header>
+
+                <div class="mahasiswa-panel realisasi-tabs-container">
+                    <div id="saldoKodeFileToolbar" class="saldo-shared-toolbar" style="display:none;">
+                        <div class="saldo-kode-file-field">
+                            <label class="filter-label" for="filterSaldoKodeFile">Kode File</label>
+                            <div class="kode-file-control-row">
+                                <input type="text" id="filterSaldoKodeFile" class="filter-input" list="datalistSaldoKodeFile" placeholder="Pilih / ketik Kode File" autocomplete="off">
+                                <button type="button" id="btnResetSaldoKodeFile" class="btn-reset btn-reset-kode-file">Reset</button>
+                                <datalist id="datalistSaldoKodeFile"></datalist>
+                            </div>
+                            <div class="saldo-kode-file-meta" id="infoSaldoKodeFileDetail" aria-live="polite">
+                                <div><span>Mitra</span><strong id="infoSaldoMitra">-</strong></div>
+                                <div><span>Judul PKS</span><strong id="infoSaldoJudulKerma">-</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rekapKodeFileToolbar" class="saldo-shared-toolbar" style="display:none;">
+                        <div class="saldo-kode-file-field">
+                            <label class="filter-label" for="filterRekapKodeFile">Kode File</label>
+                            <div class="kode-file-control-row">
+                                <input type="text" id="filterRekapKodeFile" class="filter-input" list="datalistRekapKodeFile" placeholder="Pilih / ketik Kode File" autocomplete="off">
+                                <button type="button" id="btnResetRekapKodeFile" class="btn-reset btn-reset-kode-file">Reset</button>
+                                <datalist id="datalistRekapKodeFile"></datalist>
+                            </div>
+                            <div class="saldo-kode-file-meta" id="infoRekapKodeFileDetail" aria-live="polite">
+                                <div><span>Mitra</span><strong id="infoRekapMitra">-</strong></div>
+                                <div><span>Judul PKS</span><strong id="infoRekapJudulPks">-</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="rabKodeFileToolbar" class="saldo-shared-toolbar rab-kode-file-toolbar" style="display:none;">
+                        <div class="saldo-kode-file-field">
+                            <label class="filter-label" for="filterRabKodeFile">Kode File</label>
+                            <div class="kode-file-control-row">
+                                <input type="text" id="filterRabKodeFile" class="filter-input" list="datalistRabKodeFile" placeholder="Pilih / ketik Kode File" autocomplete="off">
+                                <button type="button" id="btnResetRabKodeFile" class="btn-reset btn-reset-kode-file">Reset</button>
+                                <datalist id="datalistRabKodeFile"></datalist>
+                            </div>
+                            <div class="saldo-kode-file-meta" id="infoRabKodeFileDetail" aria-live="polite">
+                                <div><span>Mitra</span><strong id="infoRabMitra">-</strong></div>
+                                <div><span>Judul PKS</span><strong id="infoRabJudulPks">-</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mahasiswa-tab-bar" role="tablist" aria-label="Tab realisasi keuangan">
+                        <button class="mahasiswa-tab active" id="tabRencanaPendapatan" type="button" role="tab" aria-selected="true" aria-controls="panelRencanaPendapatan">Rencana Penerimaan</button>
+                        <button class="mahasiswa-tab" id="tabUangMasuk" type="button" role="tab" aria-selected="false" aria-controls="panelUangMasuk">Realisasi Penerimaan</button>
+                        <button class="mahasiswa-tab" id="tabRabAnggaran" type="button" role="tab" aria-selected="false" aria-controls="panelRabAnggaran" style="display:none;">RAB</button>
+                        <button class="mahasiswa-tab" id="tabRealisasiRiInvoice" type="button" role="tab" aria-selected="false" aria-controls="panelRealisasiRiInvoice" style="display:none;">Saldo RI</button>
+                        <button class="mahasiswa-tab" id="tabRencanaAnggaran" type="button" role="tab" aria-selected="false" aria-controls="panelRencanaAnggaran" style="display:none;">Saldo Penerimaan</button>
+                        <button class="mahasiswa-tab" id="tabRealisasiAnggaran" type="button" role="tab" aria-selected="false" aria-controls="panelRealisasiAnggaran" style="display:none;">Rekapitulasi Realisasi Anggaran</button>
+                    </div>
+
+                    <div id="panelRencanaPendapatan" role="tabpanel" aria-labelledby="tabRencanaPendapatan">
+                        <div class="rencana-income-section rencana-income-section--general">
+                            <div class="rencana-income-section-head">
+                                <div>
+                                    <h2>General</h2>
+                                </div>
+                            </div>
+                            <div class="rencana-income-summary" aria-label="Ringkasan rencana penerimaan">
+                                <article class="rencana-income-card">
+                                    <span>Total Nilai Kontrak</span>
+                                    <strong id="statRencanaPendapatanNilaiKontrak">Rp 0</strong>
+                                    <small id="statRencanaPendapatanNilaiKontrakJumlah">0 kontrak</small>
+                                </article>
+                                <article class="rencana-income-card">
+                                    <span>Total Realisasi Penerimaan</span>
+                                    <strong id="statRencanaPendapatanRealisasi">Rp 0</strong>
+                                    <small id="statRencanaPendapatanRealisasiJumlah">0 transaksi dibukukan</small>
+                                </article>
+                                <article class="rencana-income-card rencana-income-card--primary" id="cardRencanaPendapatanTotal" aria-controls="panelDetailRencanaPendapatan" aria-expanded="true">
+                                    <span>Total Belum Diterima</span>
+                                    <strong id="statRencanaPendapatanTotal">Rp 0</strong>
+                                    <small id="statRencanaPendapatanJumlah">0 kontrak bersisa</small>
+                                </article>
+                            </div>
+                        </div>
+
+                        <div class="rencana-income-section rencana-income-section--periode">
+                            <div class="rencana-income-section-head rencana-income-section-head--period-inline" aria-label="Filter periode rencana penerimaan">
+                                <h2>Per Periode</h2>
+                                <div class="period-field period-field--date-placeholder" data-placeholder="Tanggal awal">
+                                    <input type="date" id="filterRencanaPendapatanMulai" class="filter-input date-placeholder-input" aria-label="Tanggal awal">
+                                </div>
+                                <div class="period-field period-field--date-placeholder" data-placeholder="Tanggal akhir">
+                                    <input type="date" id="filterRencanaPendapatanSelesai" class="filter-input date-placeholder-input" aria-label="Tanggal akhir">
+                                </div>
+                            </div>
+                            <div class="rencana-income-detail-panel" id="panelDetailRencanaPendapatan">
+                                <div class="rencana-income-detail-summary" aria-label="Ringkasan detail rencana penerimaan">
+                                    <button type="button" class="rencana-income-detail-card" data-rencana-detail-filter="Skema Pembayaran">
+                                        <span>Skema Pembayaran</span>
+                                        <strong id="detailRencanaSkemaTotal">Rp 0,-</strong>
+                                        <small id="detailRencanaSkemaJumlah">0 kontrak</small>
+                                    </button>
+                                    <button type="button" class="rencana-income-detail-card" data-rencana-detail-filter="Realisasi Penerimaan">
+                                        <span>Total Realisasi Penerimaan</span>
+                                        <strong id="detailRencanaRealisasiTotal">Rp 0,-</strong>
+                                        <small id="detailRencanaRealisasiJumlah">0 transaksi dibukukan</small>
+                                    </button>
+                                    <button type="button" class="rencana-income-detail-card" data-rencana-detail-filter="Akan Diterima">
+                                        <span>Akan diterima</span>
+                                        <strong id="detailRencanaAkanTotal">Rp 0,-</strong>
+                                        <small id="detailRencanaAkanJumlah">0 item</small>
+                                    </button>
+                                    <button type="button" class="rencana-income-detail-card" data-rencana-detail-filter="Lewat Rencana">
+                                        <span>Lewat rencana</span>
+                                        <strong id="detailRencanaLewatTotal">Rp 0,-</strong>
+                                        <small id="detailRencanaLewatJumlah">0 item</small>
+                                    </button>
+                                    <button type="button" class="rencana-income-detail-card" data-rencana-detail-filter="Belum Terjadwal">
+                                        <span>Belum terjadwal</span>
+                                        <strong id="detailRencanaBelumTotal">Rp 0,-</strong>
+                                        <small id="detailRencanaBelumJumlah">0 kontrak</small>
+                                    </button>
+                                </div>
+                                <div class="table-container table-container--compact rencana-income-detail-table rencana-termin-table-wrap">
+                                    <table class="rencana-termin-detail-table">
+                                        <thead id="headDetailRencanaPendapatanTermin"></thead>
+                                        <tbody id="bodyDetailRencanaPendapatan">
+                                            <tr class="table-state-row"><td colspan="9"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat detail rencana penerimaan</strong><small>Mengelompokkan termin sesuai periode yang dipilih.</small></div></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="panelUangMasuk" role="tabpanel" aria-labelledby="tabUangMasuk" style="display:none;">
+                        <div class="uang-masuk-layout">
+                            <div class="uang-masuk-form-pane">
+                                <div class="panel-title panel-title--compact">
+                                    <div class="panel-title-inline">
+                                        <h2>Realisasi Penerimaan</h2>
+                                        <span class="info-tooltip" tabindex="0" aria-label="Catat uang yang benar-benar diterima SBM dari mitra." data-tooltip="Catat uang yang benar-benar diterima SBM dari mitra.">i</span>
+                                    </div>
+                                </div>
+                                <form id="formRealisasiPembayaran" class="payment-compact-form" novalidate>
+                                    <div class="form-grid payment-compact-grid">
+                                        <div class="form-group payment-field--kode">
+                                            <label class="form-label">Kode File <span class="form-required">*</span></label>
+                                            <div class="kode-file-control-row kode-file-control-row--form">
+                                                <select name="kode_file" id="selectPembayaranKodeFile" class="form-input" required>
+                                                    <option value="">-- Pilih Kode File --</option>
+                                                </select>
+                                                <button type="button" id="btnResetPembayaranKodeFile" class="btn-reset btn-reset-kode-file">Reset</button>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Realisasi Pembayaran <span class="form-required">*</span></label>
+                                            <input type="date" name="tanggal" class="form-input" required>
+                                        </div>
+                                        <div class="form-group payment-field--nominal-calc">
+                                            <label class="form-label">Nominal Penerimaan <span class="form-required">*</span></label>
+                                            <div class="penerimaan-calc-row" aria-label="Kalkulasi nominal realisasi penerimaan">
+                                                <input type="number" name="nominal_bruto" id="nominalPembayaranBruto" class="form-input penerimaan-calc-input penerimaan-calc-input--money" min="0" placeholder="Nominal">
+                                                <span class="penerimaan-calc-op">x</span>
+                                                <input type="number" name="potongan_persen" id="persenPotonganPembayaran" class="form-input penerimaan-calc-input penerimaan-calc-input--percent" min="0" max="100" step="0.01" value="20" aria-label="Persentase potongan">
+                                                <span class="penerimaan-calc-suffix">%</span>
+                                                <span class="penerimaan-calc-op">=</span>
+                                                <input type="number" name="nominal" id="nominalPembayaranNetto" class="form-input penerimaan-calc-input penerimaan-calc-input--money" min="1" placeholder="Hasil" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Keterangan</label>
+                                            <input type="text" name="keterangan" class="form-input" placeholder="Catatan singkat">
+                                        </div>
+                                    </div>
+                                    <div class="form-actions payment-compact-actions">
+                                        <button type="submit" class="btn-primary">Simpan Penerimaan</button>
+                                        <button type="button" id="btnBatalEditPembayaran" class="btn-secondary" style="display:none;">Batal Edit</button>
+                                        <span id="formAlertPembayaran" class="form-alert" style="display:none;"></span>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="uang-masuk-table-pane">
+                                <div class="panel-title panel-title--spaced payment-list-header">
+                                    <div class="panel-title-inline">
+                                        <h2>Daftar Realisasi Penerimaan</h2>
+                                        <span class="info-tooltip" tabindex="0" aria-label="Riwayat uang yang sudah diterima SBM dari pihak mitra." data-tooltip="Riwayat uang yang sudah diterima SBM dari pihak mitra.">i</span>
+                                    </div>
+                                    <div class="payment-search-wrap">
+                                        <div class="payment-searchbar">
+                                            <label class="filter-label" for="filterPembayaranCari">Cari Penerimaan</label>
+                                            <input type="text" id="filterPembayaranCari" class="filter-input" placeholder="Cari data...">
+                                            <button id="btnResetFilterPembayaran" class="btn-reset">Reset</button>
+                                        </div>
+                                        <p id="infoHasilPembayaran" class="filter-info"></p>
+                                    </div>
+                                </div>
+                                <div class="table-container table-container--compact">
+                                    <table class="payment-history-table">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th data-col="kode_file">Kode File</th>
+                                                <th data-col="nama_mitra">Mitra</th>
+                                                <th data-col="tanggal_realisasi">Realisasi Pembayaran</th>
+                                                <th data-col="tanggal_rencana">Rencana Pembayaran</th>
+                                                <th data-col="nominal_bruto_display">Nominal</th>
+                                                <th data-col="nominal_dpi_display">DPI: 20%</th>
+                                                <th data-col="nominal_display">Realisasi Penerimaan</th>
+                                                <th data-col="keterangan">Keterangan</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyTabelPembayaran">
+                                            <tr class="table-state-row"><td colspan="10"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat realisasi penerimaan</strong><small>Mengambil realisasi uang diterima SBM.</small></div></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="panelRabAnggaran" role="tabpanel" aria-labelledby="tabRabAnggaran" style="display:none;">
+                        <div class="uang-masuk-table-pane">
+                            <div class="panel-title panel-title--spaced payment-list-header">
+                                <div class="panel-title-inline">
+                                    <h2>RAB</h2>
+                                    <span class="info-tooltip" tabindex="0" aria-label="Rencana Anggaran Biaya per Kode File. Total dihitung dari Harga Satuan dikali Volume." data-tooltip="Rencana Anggaran Biaya per Kode File. Total dihitung dari Harga Satuan dikali Volume.">i</span>
+                                </div>
+                                <div class="rab-summary" aria-label="Ringkasan RAB">
+                                    <article>
+                                        <span>Total RAB</span>
+                                        <strong id="rabSummaryTotal">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Jumlah Item</span>
+                                        <strong id="rabSummaryJumlah">0</strong>
+                                    </article>
+                                </div>
+                                <div class="rab-header-actions">
+                                    <button type="button" id="btnBuatRiRab" class="btn-secondary btn-rab-add-main" disabled>Buat RI</button>
+                                    <button type="button" id="btnTambahRabAnggaran" class="btn-primary btn-rab-add-main">Tambah RAB</button>
+                                </div>
+                            </div>
+                            <div class="table-container table-container--compact rab-table-wrap">
+                                <table class="rab-anggaran-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>
+                                                <label class="rab-check-head" title="Pilih semua RAB yang belum RI">
+                                                    <span>Pilih</span>
+                                                    <input type="checkbox" id="checkAllRabAnggaran" aria-label="Pilih semua RAB">
+                                                </label>
+                                            </th>
+                                            <th>Kode File</th>
+                                            <th>Uraian</th>
+                                            <th>Kategori Belanja</th>
+                                            <th>Satuan</th>
+                                            <th>Harga Satuan</th>
+                                            <th>Volume</th>
+                                            <th>Total</th>
+                                            <th>Keterangan</th>
+                                            <th>RI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTabelRabAnggaran">
+                                        <tr class="table-state-row"><td colspan="11"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat RAB</strong><small>Mengambil data Rencana Anggaran Biaya.</small></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="panelRealisasiRiInvoice" role="tabpanel" aria-labelledby="tabRealisasiRiInvoice" style="display:none;">
+                        <div class="uang-masuk-table-pane">
+                            <div class="panel-title panel-title--spaced payment-list-header">
+                                <div class="panel-title-inline">
+                                    <h2>Saldo RI</h2>
+                                    <span class="info-tooltip" tabindex="0" aria-label="Daftar RI dan realisasi RI sebagai transaksi terpisah berdasarkan tanggal masing-masing." data-tooltip="Daftar RI dan realisasi RI sebagai transaksi terpisah berdasarkan tanggal masing-masing.">i</span>
+                                </div>
+                                <div class="rencana-anggaran-toolbar realisasi-ri-toolbar" aria-label="Filter Realisasi RI">
+                                    <label class="filter-label" for="filterRealisasiRiKodeFile" hidden aria-hidden="true">Kode File</label>
+                                    <select id="filterRealisasiRiKodeFile" class="filter-input" hidden aria-hidden="true">
+                                        <option value="">-- Pilih Kode File --</option>
+                                    </select>
+                                    <div class="rencana-anggaran-contract-value">
+                                        <span>Total RI</span>
+                                        <strong id="nilaiKontrakRealisasiRi">Rp 0,-</strong>
+                                        <small id="infoKontrakRealisasiRi">Pilih kode file untuk melihat data.</small>
+                                    </div>
+                                    <div class="rencana-anggaran-contract-value">
+                                        <span>Saldo RI</span>
+                                        <strong id="saldoDefinitifRealisasiRi">Rp 0,-</strong>
+                                        <small>RI dikurangi Realisasi RI</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-container table-container--compact">
+                                <table class="realisasi-ri-progress-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>No. Referensi</th>
+                                            <th>Uraian</th>
+                                            <th>Kategori Belanja</th>
+                                            <th>RI</th>
+                                            <th>Realisasi RI</th>
+                                            <th>Saldo RI</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTabelRealisasiRiInvoice">
+                                        <tr class="table-state-row"><td colspan="8"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat Saldo RI</strong><small>Mengambil data RI dan realisasi RI.</small></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="panelRencanaAnggaran" role="tabpanel" aria-labelledby="tabRencanaAnggaran" style="display:none;">
+                        <div class="rencana-anggaran-layout">
+                            <div class="uang-masuk-table-pane">
+                                <div class="panel-title panel-title--spaced payment-list-header">
+                                    <div class="panel-title-inline">
+                                        <h2>Saldo Penerimaan</h2>
+                                        <span class="info-tooltip" tabindex="0" aria-label="Saldo proyektif dan definitif dihitung berjalan berdasarkan urutan Tanggal Pembukuan dari yang paling awal." data-tooltip="Saldo proyektif dan definitif dihitung berjalan berdasarkan urutan Tanggal Pembukuan dari yang paling awal.">i</span>
+                                    </div>
+                                    <div class="rencana-anggaran-toolbar" aria-label="Filter rencana anggaran">
+                                        <label class="filter-label" for="filterRencanaAnggaranKodeFile" hidden aria-hidden="true">Kode File</label>
+                                        <select id="filterRencanaAnggaranKodeFile" class="filter-input" hidden aria-hidden="true">
+                                            <option value="">-- Pilih Kode File --</option>
+                                        </select>
+                                        <div class="rencana-anggaran-contract-value">
+                                            <span>Total Penerimaan</span>
+                                            <strong id="nilaiKontrakRencanaAnggaran">Rp 0,-</strong>
+                                            <small id="infoKontrakRencanaAnggaran">Pilih kode file untuk melihat data.</small>
+                                        </div>
+                                        <div class="rencana-anggaran-contract-value">
+                                            <span>Saldo Proyektif</span>
+                                            <strong id="saldoProyektifRencanaAnggaran">Rp 0,-</strong>
+                                            <small>Realisasi penerimaan dikurangi RI</small>
+                                        </div>
+                                        <div class="rencana-anggaran-contract-value">
+                                            <span>Saldo Definitif</span>
+                                            <strong id="saldoDefinitifRencanaAnggaran">Rp 0,-</strong>
+                                            <small>Realisasi penerimaan dikurangi Realisasi RI</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-container table-container--compact">
+                                    <table class="rencana-anggaran-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Tanggal Pembukuan</th>
+                                                <th>Uraian</th>
+                                                <th>Realisasi Penerimaan</th>
+                                                <th>RI</th>
+                                                <th>Saldo Proyektif</th>
+                                                <th>Realisasi RI</th>
+                                                <th>Saldo Definitif</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyTabelRencanaAnggaran">
+                                            <tr class="table-state-row"><td colspan="7"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat Saldo Penerimaan</strong><small>Mengambil data realisasi penerimaan, RI, dan realisasi RI.</small></div></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="panelRealisasiAnggaran" role="tabpanel" aria-labelledby="tabRealisasiAnggaran" style="display:none;">
+                        <div class="uang-masuk-layout">
+                            <div class="uang-masuk-table-pane">
+                                <div class="panel-title panel-title--spaced payment-list-header">
+                                    <div class="panel-title-inline">
+                                        <h2>Daftar Realisasi Anggaran</h2>
+                                        <span class="info-tooltip" tabindex="0" aria-label="Monitor pengeluaran dan saldo pembayaran tersedia per kontrak." data-tooltip="Monitor pengeluaran dan saldo pembayaran tersedia per kontrak.">i</span>
+                                    </div>
+                                    <div class="payment-search-wrap">
+                                        <div class="rencana-view-toggle rekap-version-toggle" aria-label="Pilih versi rekapitulasi realisasi anggaran">
+                                            <button type="button" class="rencana-view-btn" id="btnRekapVersiProyektif" aria-pressed="false">Proyektif</button>
+                                            <button type="button" class="rencana-view-btn active" id="btnRekapVersiDefinitif" aria-pressed="true">Definitif</button>
+                                        </div>
+                                        <div class="payment-searchbar">
+                                            <label class="filter-label" for="filterRealisasiCari">Cari Anggaran</label>
+                                            <input type="text" id="filterRealisasiCari" class="filter-input" placeholder="Cari data...">
+                                            <button id="btnResetFilterRealisasi" class="btn-reset">Reset</button>
+                                        </div>
+                                        <p id="infoHasilRealisasi" class="filter-info"></p>
+                                    </div>
+                                </div>
+                                <div class="rekap-anggaran-summary" aria-label="Ringkasan rekapitulasi realisasi anggaran">
+                                    <article>
+                                        <span>Total Realisasi Penerimaan</span>
+                                        <strong id="rekapSummaryPenerimaan">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Total Belanja Pegawai</span>
+                                        <strong id="rekapSummaryPegawai">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Total Belanja Barang</span>
+                                        <strong id="rekapSummaryBarang">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Total Belanja Jasa</span>
+                                        <strong id="rekapSummaryJasa">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Total Belanja Modal</span>
+                                        <strong id="rekapSummaryModal">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Total Realisasi RI</span>
+                                        <strong id="rekapSummaryRealisasi">Rp 0,-</strong>
+                                    </article>
+                                    <article>
+                                        <span>Total Saldo Definitif</span>
+                                        <strong id="rekapSummarySaldoDefinitif">Rp 0,-</strong>
+                                    </article>
+                                </div>
+                                <div class="table-container table-container--compact">
+                                    <table class="realisasi-anggaran-table">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th data-col="kode_file">Kode File</th>
+                                                <th data-col="nama_mitra">Mitra</th>
+                                                <th data-col="judul_pks">Judul PKS</th>
+                                                <th data-col="total_pembayaran_program_display">Realisasi Penerimaan</th>
+                                                <th data-col="pegawai_display">Pegawai</th>
+                                                <th data-col="barang_display">Barang</th>
+                                                <th data-col="jasa_display">Jasa</th>
+                                                <th data-col="modal_display">Modal</th>
+                                                <th data-col="total_realisasi_program_display">Total Realisasi RI</th>
+                                                <th data-col="saldo_tersedia_program_display">Saldo Definitif</th>
+                                            </tr>
+                                            <tr class="table-formula-row" aria-label="Kode kolom dan rumus perhitungan">
+                                                <th>A</th>
+                                                <th>B</th>
+                                                <th>C</th>
+                                                <th>D</th>
+                                                <th>E</th>
+                                                <th>F</th>
+                                                <th>G</th>
+                                                <th>H</th>
+                                                <th>I</th>
+                                                <th>J = F + G + H + I</th>
+                                                <th>K = E - J</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bodyTabelRealisasi">
+                                            <tr class="table-state-row"><td colspan="11"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat realisasi anggaran</strong><small>Mengambil pengeluaran per kontrak.</small></div></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sectionSisaAnggaran" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Neraca kontrak</span>
+                        <h1>Neraca</h1>
+                        <p>Memantau posisi nilai kontrak, realisasi penerimaan, dan realisasi anggaran per kontrak.</p>
+                    </div>
+                </header>
+
+                <div class="filter-panel filter-panel--neraca">
+                    <div class="filter-row neraca-toolbar">
+                        <div class="filter-group filter-group--action neraca-toolbar-action">
+                            <button type="button" id="btnLihatNeracaKeuangan" class="btn-secondary">Lihat Neraca Keuangan</button>
+                        </div>
+                        <div class="filter-group neraca-searchbar">
+                            <label class="filter-label" for="filterSisaAnggaranCari">Cari</label>
+                            <input type="text" id="filterSisaAnggaranCari" class="filter-input" placeholder="Cari kode file, mitra, judul, nominal...">
+                            <button id="btnResetFilterSisaAnggaran" class="btn-reset">Reset</button>
+                        </div>
+                    </div>
+                    <p id="infoHasilSisaAnggaran" class="filter-info"></p>
+                </div>
+
+                <div class="table-container sisa-anggaran-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-col="no">No.</th>
+                                <th data-col="kode_file">Kode File</th>
+                                <th data-col="nama_mitra">Mitra</th>
+                                <th data-col="judul_pks">Judul PKS</th>
+                                <th data-col="nilai_kontrak_display">Nilai Kontrak</th>
+                                <th data-col="total_realisasi_pendapatan_display">Realisasi Penerimaan</th>
+                                <th data-col="total_realisasi_anggaran_display">Realisasi Anggaran</th>
+                                <th data-col="sisa_anggaran_display">Sisa Anggaran</th>
+                                <th data-col="persentase_serapan_display">Serapan</th>
+                                <th data-col="status_kontrak">Status Kontrak</th>
+                                <th data-col="tgl_kontrak">Tgl. Kontrak</th>
+                                <th data-col="tgl_akhir_kontrak">Tgl. Kontrak Berakhir</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelSisaAnggaran">
+                            <tr class="table-state-row"><td colspan="12"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat neraca</strong><small>Menghitung posisi nilai kontrak dan realisasi anggaran.</small></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sectionPegawai" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Employee roster</span>
+                        <h1>Daftar Pegawai</h1>
+                        <p>Kelola data pegawai yang menjadi dasar target distribusi plotting kerma.</p>
+                    </div>
+                    <div class="top-header-actions">
+                        <button type="button" id="btnTambahPegawai" class="btn-primary">+ Tambah Pegawai</button>
+                    </div>
+                </header>
+                <div class="table-container">
+                    <table class="pegawai-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Peran</th>
+                                <th>Status</th>
+                                <th>Jabatan SBM</th>
+                                <th>Jabatan SBM 2</th>
+                                <th>Level Jabatan 1</th>
+                                <th>Level Jabatan 2</th>
+                                <th>Target Kerma</th>
+                                <th>Keterangan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelPegawai"></tbody>
+                    </table>
+                </div>
+                <datalist id="listJabatanSbm"></datalist>
+                <datalist id="listLevelJabatan"></datalist>
+            </section>
+
+            <section id="sectionJabatan" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Position master data</span>
+                        <h1>Daftar Jabatan</h1>
+                        <p>Master data jabatan yang terbentuk dari Jabatan SBM dan Jabatan SBM 2 pada Daftar Pegawai.</p>
+                    </div>
+                    <div class="top-header-actions">
+                        <span id="infoJumlahJabatan" class="filter-info"></span>
+                    </div>
+                </header>
+                <div class="table-container">
+                    <table class="jabatan-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Jabatan</th>
+                                <th>Level Jabatan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelJabatan"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sectionMahasiswa" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Student roster</span>
+                        <h1>Data Mahasiswa Kerma</h1>
+                        <p>Menampilkan data mahasiswa yang terlibat dalam program kerja sama.</p>
+                    </div>
+                </header>
+                <div class="filter-panel">
+                    <div class="filter-row">
+                        <div class="filter-group filter-group--wide">
+                            <label class="filter-label">Cari</label>
+                            <input type="text" id="filterMahasiswaCari" class="filter-input" placeholder="Cari seluruh kolom mahasiswa...">
+                        </div>
+                        <div class="filter-group filter-group--action">
+                            <button id="btnResetFilterMahasiswa" class="btn-reset">Reset</button>
+                            <button id="btnHapusTerpilihMahasiswa" class="btn-secondary" style="color:#e53e3e;border-color:#e53e3e;" disabled>🗑 Hapus Terpilih (<span id="jumlahTerpilihMahasiswa">0</span>)</button>
+                        </div>
+                    </div>
+                    <p id="infoHasilMahasiswa" class="filter-info"></p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:36px;text-align:center;"><input type="checkbox" id="chkSelectAllMahasiswa"></th>
+                                <th>No.</th>
+                                <th data-col="id_program">ID Program</th>
+                                <th data-col="nama">Nama</th>
+                                <th data-col="nim">NIM</th>
+                                <th data-col="fakultas">Fakultas</th>
+                                <th data-col="prodi">Prodi</th>
+                                <th data-col="tahun_masuk">Thn. Masuk</th>
+                                <th data-col="semester_masuk">Sem. Masuk</th>
+                                <th data-col="status">Status</th>
+                                <th data-col="sks_lulus">SKS Lulus</th>
+                                <th data-col="ipk">IPK</th>
+                                <th data-col="dosen_wali">Dosen Wali</th>
+                                <th data-col="pembimbing_1">Pembimbing 1</th>
+                                <th data-col="pembimbing_2">Pembimbing 2</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelMahasiswa">
+                            <tr class="table-state-row"><td colspan="16"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat data mahasiswa</strong><small>Mengambil roster mahasiswa lintas program.</small></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sectionTambahMahasiswa" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Student entry</span>
+                        <h1>Tambah Data Mahasiswa</h1>
+                        <p>Tambahkan data mahasiswa secara manual atau import dari file Excel.</p>
+                    </div>
+                </header>
+                <div class="form-flow" aria-label="Alur data mahasiswa">
+                    <div class="flow-step is-active"><span>1</span><strong>Program</strong><small>Pilih ID Kerma</small></div>
+                    <div class="flow-step"><span>2</span><strong>Profil</strong><small>NIM dan akademik</small></div>
+                    <div class="flow-step"><span>3</span><strong>Status</strong><small>Aktif, Undri, DO</small></div>
+                    <div class="flow-step"><span>4</span><strong>Simpan</strong><small>Update roster</small></div>
+                </div>
+                <div class="form-container">
+                    <div class="mahasiswa-tab-bar">
+                        <button class="mahasiswa-tab active" id="tabManual">Tambah Manual</button>
+                        <button class="mahasiswa-tab" id="tabImport">Import Excel</button>
+                    </div>
+                    <div id="panelManual">
+                        <form id="formTambahMahasiswa" novalidate>
+                            <div class="form-grid">
+                                <div class="form-group form-group--full">
+                                    <label class="form-label">ID Program / Kerma <span class="form-required">*</span></label>
+                                    <select name="id_program" id="selectProgramMahasiswa" class="form-input" required>
+                                        <option value="">-- Pilih Program --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">NIM <span class="form-required">*</span></label>
+                                    <input type="text" name="nim" class="form-input" placeholder="Nomor Induk Mahasiswa" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nama <span class="form-required">*</span></label>
+                                    <input type="text" name="nama" class="form-input" placeholder="Nama lengkap mahasiswa" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Fakultas</label>
+                                    <select name="fakultas" class="form-input">
+                                        <option value="">-- Pilih Fakultas --</option>
+                                        <option value="Sekolah Bisnis dan Manajemen (SBM)">Sekolah Bisnis dan Manajemen (SBM)</option>
+                                        <option value="Sekolah Farmasi (SF)">Sekolah Farmasi (SF)</option>
+                                        <option value="Sekolah Ilmu dan Teknologi Hayati (SITH)">Sekolah Ilmu dan Teknologi Hayati (SITH)</option>
+                                        <option value="Sekolah Teknik Elektro dan Informatika (STEI)">Sekolah Teknik Elektro dan Informatika (STEI)</option>
+                                        <option value="Sekolah Pascasarjana Ilmu dan Teknologi Multidisiplin (SPITM)">Sekolah Pascasarjana Ilmu dan Teknologi Multidisiplin (SPITM)</option>
+                                        <option value="Sekolah Arsitektur, Perencanaan dan Pengembangan Kebijakan (SAPPK)">Sekolah Arsitektur, Perencanaan dan Pengembangan Kebijakan (SAPPK)</option>
+                                        <option value="Fakultas Teknik Sipil dan Lingkungan (FTSL)">Fakultas Teknik Sipil dan Lingkungan (FTSL)</option>
+                                        <option value="Fakultas Teknik Pertambangan dan Perminyakan (FTTM)">Fakultas Teknik Pertambangan dan Perminyakan (FTTM)</option>
+                                        <option value="Fakultas Teknik Mesin dan Dirgantara (FTMD)">Fakultas Teknik Mesin dan Dirgantara (FTMD)</option>
+                                        <option value="Fakultas Teknologi Industri (FTI)">Fakultas Teknologi Industri (FTI)</option>
+                                        <option value="Fakultas Seni Rupa dan Desain (FSRD)">Fakultas Seni Rupa dan Desain (FSRD)</option>
+                                        <option value="Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)">Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)</option>
+                                        <option value="Fakultas Ilmu dan Teknologi Kebumian (FITB)">Fakultas Ilmu dan Teknologi Kebumian (FITB)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Program Studi</label>
+                                    <select name="prodi" class="form-input">
+                                        <option value="">-- Pilih Program Studi --</option>
+                                        <option value="Sarjana Manajemen (SM)">Sarjana Manajemen (SM)</option>
+                                        <option value="Sarjana Kewirausahaan (SW)">Sarjana Kewirausahaan (SW)</option>
+                                        <option value="Administrasi Bisnis">Administrasi Bisnis</option>
+                                        <option value="Administrasi Bisnis (Kampus Jakarta)">Administrasi Bisnis (Kampus Jakarta)</option>
+                                        <option value="Magister Sains Manajemen (MSM)">Magister Sains Manajemen (MSM)</option>
+                                        <option value="Doktor Sains Manajemen (DSM)">Doktor Sains Manajemen (DSM)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Tahun Masuk</label>
+                                    <input type="number" name="tahun_masuk" class="form-input" placeholder="Contoh: 2022" min="2000" max="2100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Semester Masuk</label>
+                                    <select name="semester_masuk" class="form-input">
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Sem. 1">Sem. 1</option>
+                                        <option value="Sem. 2">Sem. 2</option>
+                                        <option value="Sem. Pendek">Sem. Pendek</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Dosen Wali</label>
+                                    <input type="text" name="dosen_wali" class="form-input" placeholder="Nama dosen wali">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select name="status" class="form-input">
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Undri">Undri</option>
+                                        <option value="DO">DO</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">SKS Lulus</label>
+                                    <input type="number" name="sks_lulus" class="form-input" placeholder="0" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">IPK</label>
+                                    <input type="number" name="ipk" class="form-input" placeholder="0.00" min="0" max="4" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Pembimbing 1</label>
+                                    <input type="text" name="pembimbing_1" class="form-input" placeholder="Nama dosen pembimbing 1">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Pembimbing 2</label>
+                                    <input type="text" name="pembimbing_2" class="form-input" placeholder="Nama dosen pembimbing 2">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Simpan Mahasiswa</button>
+                                <span id="formAlertMahasiswa" class="form-alert" style="display:none;"></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="panelImport" style="display:none;">
+                        <p class="import-hint">Upload file Excel (.xlsx). Header kolom yang dikenali: <em>nim, nama, fakultas, prodi, tahun_masuk, semester_masuk, dosen_wali, status, sks_lulus, ipk, pembimbing_1, pembimbing_2, id_program</em>.</p>
+                        <div class="form-grid">
+                            <div class="form-group form-group--full">
+                                <label class="form-label">ID Program / Kerma (opsional)</label>
+                                <select id="importSelectKerma" class="form-input">
+                                    <option value="">-- Ambil dari file --</option>
+                                </select>
+                                <small class="field-hint" style="margin-top:4px;">Jika dipilih, akan menggantikan kolom id_program di file.</small>
+                            </div>
+                            <div class="form-group form-group--full">
+                                <label class="form-label">File Excel <span class="form-required">*</span></label>
+                                <input type="file" id="fileImportMahasiswa" accept=".xlsx,.xls" class="form-input-file">
+                            </div>
+                        </div>
+                        <div class="form-actions" style="flex-wrap:wrap;gap:10px;">
+                            <button id="btnProseImport" class="btn-primary">Proses Import</button>
+                            <a href="/api/template-mahasiswa" class="btn-secondary">Download Template</a>
+                            <span id="importAlert" class="form-alert" style="display:none;width:100%;margin:0;"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sectionMitra" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Partner directory</span>
+                        <h1>Data Mitra</h1>
+                        <p>Menampilkan daftar institusi dan perusahaan mitra kerja sama.</p>
+                    </div>
+                </header>
+                <div class="filter-panel">
+                    <div class="filter-row">
+                        <div class="filter-group filter-group--wide">
+                            <label class="filter-label">Cari</label>
+                            <input type="text" id="filterMitraCari" class="filter-input" placeholder="Cari seluruh kolom mitra...">
+                        </div>
+                        <div class="filter-group filter-group--action">
+                            <button id="btnResetFilterMitra" class="btn-reset">Reset</button>
+                        </div>
+                    </div>
+                    <p id="infoHasilMitra" class="filter-info"></p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th data-col="id_mitra">ID Mitra</th>
+                                <th data-col="nama_mitra">Nama Mitra</th>
+                                <th data-col="industri">Industri</th>
+                                <th data-col="alamat">Alamat</th>
+                                <th data-col="kota">Kota</th>
+                                <th data-col="provinsi">Provinsi</th>
+                                <th data-col="negara">Negara</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelMitra">
+                            <tr class="table-state-row"><td colspan="9"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat data mitra</strong><small>Mengambil direktori institusi dan perusahaan mitra.</small></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sectionTambahMitra" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Partner entry</span>
+                        <h1>Tambah Data Mitra</h1>
+                        <p>Tambahkan mitra secara manual atau impor dari file Excel di folder <code>data/</code>.</p>
+                    </div>
+                </header>
+                <div class="form-flow" aria-label="Alur data mitra">
+                    <div class="flow-step is-active"><span>1</span><strong>ID Mitra</strong><small>Kode singkat unik</small></div>
+                    <div class="flow-step"><span>2</span><strong>Profil</strong><small>Nama dan industri</small></div>
+                    <div class="flow-step"><span>3</span><strong>Lokasi</strong><small>Kota, provinsi, negara</small></div>
+                    <div class="flow-step"><span>4</span><strong>Simpan</strong><small>Siap dipilih di Kerma</small></div>
+                </div>
+                <div class="form-container">
+                    <div class="mahasiswa-tab-bar">
+                        <button class="mahasiswa-tab active" id="tabManualMitra">Tambah Manual</button>
+                        <button class="mahasiswa-tab" id="tabImportMitra">Import dari Folder Data</button>
+                    </div>
+                    <div id="panelManualMitra">
+                        <form id="formTambahMitra" novalidate>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">ID Mitra <span class="form-required">*</span></label>
+                                    <input type="text" name="id_mitra" class="form-input" placeholder="Contoh: KPC" required>
+                                    <small class="field-hint">Singkatan nama mitra — contoh: PT Kaltim Prima Coal → <code>KPC</code></small>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nama Mitra <span class="form-required">*</span></label>
+                                    <input type="text" name="nama_mitra" class="form-input" placeholder="Nama institusi/perusahaan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Industri</label>
+                                    <select name="industri" id="selectIndustriMitra" class="form-input">
+                                        <option value="">-- Pilih Industri --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Kota</label>
+                                    <input type="text" name="kota" class="form-input" placeholder="Contoh: Bandung">
+                                </div>
+                                <div class="form-group form-group--full">
+                                    <label class="form-label">Alamat</label>
+                                    <textarea name="alamat" class="form-input form-textarea" placeholder="Alamat lengkap"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Provinsi</label>
+                                    <input type="text" name="provinsi" class="form-input" placeholder="Contoh: Jawa Barat">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Negara</label>
+                                    <input type="text" name="negara" class="form-input" placeholder="Contoh: Indonesia">
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Simpan Mitra</button>
+                                <span id="formAlertMitra" class="form-alert" style="display:none;"></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="panelImportMitra" style="display:none;">
+                        <p class="import-hint">
+                            Letakkan file <code>.xlsx</code> di folder <code>data/</code> lalu pilih dari daftar di bawah.<br>
+                            Header kolom yang dikenali: <em>id_mitra, nama_mitra, industri, alamat, provinsi, kota, negara</em>.
+                            <a href="/api/template-mitra" class="btn-link" style="margin-left:8px;">⬇ Unduh Template</a>
+                        </p>
+                        <div class="form-grid" style="max-width:520px;">
+                            <div class="form-group form-group--full">
+                                <label class="form-label">Pilih File Excel</label>
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <select id="selectFileMitra" class="filter-input" style="flex:1;">
+                                        <option value="">-- Memuat daftar file... --</option>
+                                    </select>
+                                    <button type="button" id="btnRefreshFileMitra" class="btn-secondary" title="Refresh daftar file">↺</button>
+                                </div>
+                                <small class="field-hint">Hanya file <code>.xlsx</code> di folder <code>data/</code> yang tampil (selain database_kerma.xlsx).</small>
+                            </div>
+                        </div>
+                        <div class="form-actions" style="margin-top:16px;">
+                            <button type="button" id="btnProsesImportMitra" class="btn-primary" disabled>Import Mitra</button>
+                            <span id="alertImportMitra" class="form-alert" style="display:none;"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sectionIndustri" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Industry taxonomy</span>
+                        <h1>Daftar Industri</h1>
+                        <p>Kategori sektor/industri resmi Indonesia berdasarkan klasifikasi KBLI.</p>
+                    </div>
+                </header>
+                <div class="filter-panel">
+                    <div class="filter-row">
+                        <div class="filter-group filter-group--wide">
+                            <label class="filter-label">Cari</label>
+                            <input type="text" id="filterIndustriCari" class="filter-input" placeholder="Cari seluruh kolom industri...">
+                        </div>
+                        <div class="filter-group filter-group--action">
+                            <button id="btnResetFilterIndustri" class="btn-reset">Reset</button>
+                        </div>
+                    </div>
+                    <p id="infoHasilIndustri" class="filter-info"></p>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-col="kode_kategori" style="width:80px;">Kode</th>
+                                <th data-col="nama_sektor">Nama Sektor / Industri Resmi di Indonesia</th>
+                                <th data-col="contoh_ruang_lingkup">Contoh Isi / Ruang Lingkup Mitra</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelIndustri">
+                            <tr class="table-state-row"><td colspan="3"><div class="table-state table-state--loading"><span class="state-dot" aria-hidden="true"></span><strong>Memuat data industri</strong><small>Mengambil kategori sektor dan ruang lingkup.</small></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sectionTambahIndustri" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Industry entry</span>
+                        <h1>Tambah Data Industri</h1>
+                        <p>Tambahkan kategori sektor/industri baru ke dalam daftar.</p>
+                    </div>
+                </header>
+                <div class="form-container">
+                    <form id="formTambahIndustri" novalidate>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Kode Kategori <span class="form-required">*</span></label>
+                                <input type="text" name="kode_kategori" class="form-input" placeholder="Contoh: A, B, AA" required>
+                                <small class="field-hint">Huruf kapital, unik per kategori.</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Nama Sektor / Industri <span class="form-required">*</span></label>
+                                <input type="text" name="nama_sektor" class="form-input" placeholder="Nama resmi sektor industri" required>
+                            </div>
+                            <div class="form-group form-group--full">
+                                <label class="form-label">Contoh Isi / Ruang Lingkup Mitra</label>
+                                <textarea name="contoh_ruang_lingkup" class="form-input form-textarea" placeholder="Contoh mitra atau cakupan kegiatan pada sektor ini"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Simpan Industri</button>
+                            <span id="formAlertIndustri" class="form-alert" style="display:none;"></span>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="sectionPlottingKerma" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Export planning</span>
+                        <h1>Plotting Kerma</h1>
+                        <p>Susun target dan peran personel pada setiap PKS yang akan diplotkan.</p>
+                    </div>
+                </header>
+                <div class="plotting-panel">
+                    <div class="mahasiswa-tab-bar plotting-tab-bar" role="tablist" aria-label="Tab plotting kerma">
+                        <button class="mahasiswa-tab" id="tabBatasanSimulasiPlotting" type="button" role="tab" aria-selected="false" aria-controls="panelBatasanSimulasiPlotting">Batasan Simulasi</button>
+                        <button class="mahasiswa-tab" id="tabPlottingDasar" type="button" role="tab" aria-selected="false" aria-controls="panelPlottingDasar">Perhitungan Dasar</button>
+                        <button class="mahasiswa-tab active" id="tabTargetDistribusi" type="button" role="tab" aria-selected="true" aria-controls="panelTargetDistribusi">Target Distribusi</button>
+                        <button class="mahasiswa-tab" id="tabDaftarPksPlotting" type="button" role="tab" aria-selected="false" aria-controls="panelDaftarPksPlotting" hidden>Daftar PKS</button>
+                        <button class="mahasiswa-tab" id="tabPlotKerma" type="button" role="tab" aria-selected="false" aria-controls="panelPlotKerma">Plot SK</button>
+                    </div>
+                    <div id="panelTargetDistribusi" class="plotting-tab-panel" role="tabpanel" aria-labelledby="tabTargetDistribusi">
+                        <div class="plotting-guidance-card" role="note">
+                            <div class="plotting-guidance-header">
+                                <strong>Simulasi Distribusi</strong>
+                                <div class="plotting-guidance-actions">
+                                    <button type="button" id="btnSimulasiDistribusi" class="btn-secondary btn-secondary--compact">Simulasi</button>
+                                    <button type="button" id="btnOptimalkanDistribusi" class="btn-secondary btn-secondary--compact">Optimalkan</button>
+                                    <button type="button" id="btnResetSimulasiDistribusi" class="btn-secondary btn-secondary--compact">Reset Simulasi</button>
+                                </div>
+                            </div>
+                            <div id="statusSimulasiDistribusi" class="plotting-guidance-status" hidden></div>
+                            <div class="plotting-simulation-summary" aria-label="Validasi kebutuhan PKS simulasi">
+                                <div>
+                                    <span>PKS Simulasi Terakhir</span>
+                                    <strong id="kebutuhanPksSimulasiPlotting">-</strong>
+                                </div>
+	                                <div>
+	                                    <span>PKS Perhitungan Dasar</span>
+	                                    <strong id="kebutuhanPksDasarTargetPlotting">-</strong>
+	                                </div>
+	                                <div>
+	                                    <span>PKS yang ditetapkan</span>
+	                                    <input type="number" id="pksDitetapkanPlotting" class="plotting-summary-input" min="0" step="1" placeholder="0">
+	                                </div>
+	                                <div>
+	                                    <span>Validasi</span>
+	                                    <strong id="validasiPksSimulasiPlotting">Belum ada simulasi</strong>
+	                                </div>
+                            </div>
+                        </div>
+                        <div class="plotting-distribution-summary" aria-label="Ringkasan distribusi">
+                            <article>
+                                <span>Total Realisasi Distribusi</span>
+                                <strong id="totalRealisasiDistribusiPlotting">Rp 0,-</strong>
+                            </article>
+                            <article>
+                                <span>Total Selisih Distribusi</span>
+                                <strong id="totalSelisihDistribusiPlotting">Rp 0,-</strong>
+                            </article>
+                        </div>
+                        <div class="table-container plotting-table-container">
+                            <table class="plotting-target-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">No.</th>
+                                        <th rowspan="2">Nama</th>
+                                        <th rowspan="2">Target Distribusi</th>
+                                        <th class="plotting-pks-head" colspan="5">PKS</th>
+                                        <th rowspan="2">Realisasi Distribusi</th>
+                                        <th rowspan="2">Selisih Distribusi</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="plotting-role-head" title="Penanggung Jawab"><span>PJ</span><small data-target-role-capacity="PJ">-</small></th>
+                                        <th class="plotting-role-head" title="Pengarah"><span>PG</span><small data-target-role-capacity="Pengarah">-</small></th>
+                                        <th class="plotting-role-head" title="Ketua"><span>K</span><small data-target-role-capacity="Ketua">-</small></th>
+                                        <th class="plotting-role-head" title="Kepala Admin"><span>KA</span><small data-target-role-capacity="Kepala Admin">-</small></th>
+                                        <th class="plotting-role-head" title="Anggota"><span>A</span><small data-target-role-capacity="Anggota">-</small></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bodyTabelTargetDistribusi"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="panelBatasanSimulasiPlotting" class="plotting-tab-panel" role="tabpanel" aria-labelledby="tabBatasanSimulasiPlotting" style="display:none;">
+                        <section class="plotting-basic-section" aria-label="Batasan Simulasi">
+                            <div class="plotting-section-title">
+                                <div>
+                                    <h2>Batasan Simulasi</h2>
+                                    <p>Atur batas yang dipakai sistem saat menjalankan simulasi distribusi kerma.</p>
+                                </div>
+                                <div class="plotting-title-actions">
+                                    <button type="button" id="btnTambahBatasanUmumSimulasi" class="btn-secondary btn-secondary--compact">+ Tambah Batasan</button>
+                                </div>
+                            </div>
+                            <div class="plotting-guidance-card" role="note">
+                                <div class="plotting-guidance-header">
+                                    <strong>Petunjuk pengisian jabatan</strong>
+                                </div>
+                                <p>Tarif jabatan dihitung per bulan. Durasi pada Perhitungan Dasar berarti jumlah bulan pembayaran. Isi kolom PJ, PG, K, KA, dan A dengan angka PKS penuh seperti <b>1</b>, <b>2</b>, atau <b>3</b>. Jika tidak penuh, gunakan format <b>(bulan dibayar/durasi)</b>, misalnya <b>(4/6)</b> untuk pembayaran 4 bulan dari total durasi 6 bulan. Jika tidak ada alokasi, kosongkan saja dan sistem akan menampilkan <b>-</b>. Jika ada beberapa PKS, gunakan format seperti <b>3 + (4/6)</b>, artinya 3 PKS dibayar penuh dan 1 PKS dibayar 4 bulan. Realisasi Distribusi dihitung dari <b>tarif per bulan x total bulan dibayar</b>. Batas selisih, aturan minus, role Dosen/Staf, prioritas Dosen/Staf, kapasitas PKS, posisi kosong, dan batasan level jabatan mengikuti pengaturan pada tabel di bawah.</p>
+                            </div>
+                            <div class="table-container table-container--compact plotting-basic-table-container">
+                                <table class="plotting-rule-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Batasan</th>
+                                            <th>Pengaturan</th>
+                                            <th>Dampak Simulasi</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTabelBatasanSimulasiPlotting"></tbody>
+                                </table>
+                            </div>
+                            <div class="plotting-section-title plotting-section-title--compact">
+                                <div>
+                                    <h2>Batasan Level Jabatan</h2>
+                                    <p>Pilih role PKS yang diperbolehkan untuk setiap level jabatan.</p>
+                                </div>
+                                <div class="plotting-title-actions">
+                                    <button type="button" id="btnTambahBatasanLevelSimulasi" class="btn-secondary btn-secondary--compact">+ Tambah Batasan</button>
+                                </div>
+                            </div>
+                            <div class="table-container table-container--compact plotting-basic-table-container">
+                                <table class="plotting-level-rule-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Level Jabatan</th>
+                                            <th title="Penanggung Jawab">PJ</th>
+                                            <th title="Pengarah">PG</th>
+                                            <th title="Ketua">K</th>
+                                            <th title="Kepala Admin">KA</th>
+                                            <th title="Anggota">A</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyTabelLevelJabatanSimulasiPlotting"></tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="panelPlottingDasar" class="plotting-tab-panel" role="tabpanel" aria-labelledby="tabPlottingDasar" style="display:none;">
+	                        <section class="plotting-basic-section" aria-label="Harga Jabatan">
+	                            <div class="plotting-section-title">
+	                                <div>
+	                                    <h2 class="panel-title-inline">Harga Jabatan
+	                                        <span id="statusSimpanPerhitunganDasar" class="info-tooltip" tabindex="0" aria-label="Isi durasi dan personil per kerma untuk menghitung Total per Kerma." data-tooltip="Isi durasi dan personil per kerma untuk menghitung Total per Kerma.">i</span>
+	                                    </h2>
+	                                    <p>Hitung kebutuhan biaya jabatan berdasarkan tarif, durasi, dan personil per kerma.</p>
+		                                </div>
+			                                <div class="plotting-title-actions">
+			                                    <button type="button" id="btnToggleHargaJabatan" class="btn-secondary">Sembunyikan Tabel</button>
+			                                    <button type="button" id="btnEditMasterTarif" class="btn-secondary">Edit Master Tarif</button>
+			                                </div>
+			                            </div>
+			                            <div class="plotting-period-row" aria-label="Periode Tim Pengelola Kerma">
+			                                <label class="plotting-period-field">
+			                                    <span>Periode Awal</span>
+			                                    <input type="month" id="periodePengelolaAwal" class="form-input plotting-input">
+			                                </label>
+			                                <label class="plotting-period-field">
+			                                    <span>Periode Akhir</span>
+			                                    <input type="month" id="periodePengelolaAkhir" class="form-input plotting-input">
+			                                </label>
+			                                <strong id="labelPeriodePengelolaKerma" class="plotting-period-caption">Pilih periode Tim Pengelola Kerma</strong>
+			                            </div>
+		                            <div class="plotting-basic-content">
+		                                <div class="plotting-basic-summary" aria-label="Ringkasan perhitungan dasar">
+		                                    <div class="plotting-basic-total">
+		                                        <span>Total per Kerma</span>
+	                                        <strong id="totalPerKermaPlotting">Rp 0,-</strong>
+	                                    </div>
+	                                    <div class="plotting-basic-total">
+	                                        <span>Target Distribusi</span>
+	                                        <strong id="targetDistribusiPlotting">Rp 0,-</strong>
+	                                    </div>
+			                                    <div class="plotting-basic-total">
+			                                        <span>Total Kebutuhan PKS</span>
+			                                        <strong id="totalKebutuhanPksPlotting">0 PKS</strong>
+			                                    </div>
+			                                    <div class="plotting-basic-total">
+			                                        <span>Total Pengelola Kerma</span>
+			                                        <strong id="totalPengelolaKermaPlotting">0</strong>
+			                                    </div>
+			                                    <div class="plotting-basic-total">
+			                                        <span>Total Posisi Tersedia</span>
+			                                        <strong id="totalPosisiTersediaPlotting">0</strong>
+			                                    </div>
+		                                </div>
+	                                <div id="panelHargaJabatanTable" class="table-container table-container--compact plotting-basic-table-container">
+	                                    <table class="plotting-basic-table">
+	                                        <thead>
+	                                            <tr>
+	                                                <th>Jabatan</th>
+	                                                <th>Tarif</th>
+	                                                <th>Durasi</th>
+	                                                <th>Personil per Kerma</th>
+	                                                <th>Total Rupiah</th>
+		                                                <th>Posisi tersedia</th>
+	                                            </tr>
+	                                        </thead>
+	                                        <tbody id="bodyTabelHargaJabatan"></tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+		                        </section>
+		                        <section class="plotting-pks-section" aria-label="Daftar PKS yang dapat dialokasikan">
+		                            <div class="plotting-section-title plotting-section-title--compact">
+		                                <div>
+		                                    <h2 class="panel-title-inline">Daftar PKS
+		                                        <span class="info-tooltip" tabindex="0" aria-label="Pilih PKS yang akan dialokasikan sesuai Total Kebutuhan PKS." data-tooltip="Pilih PKS yang akan dialokasikan sesuai Total Kebutuhan PKS.">i</span>
+		                                    </h2>
+		                                </div>
+		                            </div>
+		                            <div class="plotting-pks-content">
+		                                <div class="plotting-pks-summary">
+		                                    <article>
+		                                        <span>Minimal Sisa Anggaran</span>
+	                                            <strong id="minimalSisaPksPlotting">Rp 0,-</strong>
+	                                        </article>
+	                                        <article>
+	                                            <span>PKS Dapat Dialokasikan</span>
+	                                            <strong id="jumlahPksDapatDialokasikan">0</strong>
+	                                        </article>
+	                                        <article>
+	                                            <span>Total Sisa Anggaran</span>
+	                                            <strong id="totalSisaPksDapatDialokasikan">Rp 0,-</strong>
+	                                        </article>
+	                                    </div>
+	                                    <div class="plotting-pks-table-pane">
+	                                        <div class="table-container plotting-table-container">
+		                                        <table class="plotting-pks-table">
+		                                            <thead>
+		                                                <tr>
+		                                                    <th>No.</th>
+		                                                    <th>Pilih</th>
+		                                                    <th>No. PKS</th>
+		                                                    <th>Kode File</th>
+		                                                    <th>Mitra</th>
+		                                                    <th>Judul PKS</th>
+			                                                    <th>Realisasi Penerimaan</th>
+			                                                    <th>Belum diterima</th>
+			                                                    <th>Nilai Kontrak</th>
+			                                                    <th>Sisa Anggaran</th>
+		                                                </tr>
+		                                            </thead>
+		                                            <tbody id="bodyTabelDaftarPksPlotting"></tbody>
+		                                        </table>
+	                                        </div>
+	                                        <div class="plotting-pks-actions">
+	                                            <button type="button" id="btnSimpanPerhitunganDasar" class="btn-primary">Simpan</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+		                        </section>
+	                    </div>
+	                    <div id="panelDaftarPksPlotting" class="plotting-tab-panel" role="tabpanel" aria-labelledby="tabDaftarPksPlotting" style="display:none;"></div>
+                    <div id="panelPlotKerma" class="plotting-tab-panel" role="tabpanel" aria-labelledby="tabPlotKerma" style="display:none;">
+                        <div class="table-container plotting-table-container">
+                            <table id="tabelPlottingKerma" class="plotting-table">
+                                <thead id="headTabelPlottingKerma"></thead>
+                                <tbody id="bodyTabelPlottingKerma"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sectionLaporan" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Export studio</span>
+                        <h1>Penyelenggaraan Laporan</h1>
+                        <p>Pilih satu atau beberapa kerja sama untuk mengunduh laporan otomatis.</p>
+                    </div>
+                </header>
+                <div class="laporan-container">
+                    <div class="laporan-searchbar">
+                        <input type="text" id="filterKodeFile" class="filter-input" placeholder="Cari seluruh data laporan...">
+                        <span id="infoHasilLaporan" class="filter-info"></span>
+                    </div>
+                    <div class="laporan-toolbar">
+                        <label class="list-item-selectall">
+                            <input type="checkbox" id="chkSelectAll">
+                            <span>Pilih Semua</span>
+                        </label>
+                        <button type="button" id="btnDownload" class="btn-primary">Buat Laporan</button>
+                    </div>
+                    <div class="laporan-list" id="containerOpsiLaporan"></div>
+                </div>
+            </section>
+
+            <!-- Section: Kontrak / PKS -->
+            <section id="sectionKontrak" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Document workflow</span>
+                        <h1>Kontrak / PKS</h1>
+                        <p>Buat dan kelola dokumen kontrak kerja sama. Draft → Submit → Approved → Unduh.</p>
+                    </div>
+                    <div class="top-header-actions">
+                        <button type="button" id="btnBuatKontrak" class="btn-primary">+ Buat Kontrak Baru</button>
+                    </div>
+                </header>
+                <div class="table-container">
+                    <table id="tabelKontrak">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>ID Kontrak</th>
+                                <th>No. Kontrak Mitra</th>
+                                <th>No. Kontrak SBM</th>
+                                <th>Tgl. TTD</th>
+                                <th>Status</th>
+                                <th>Dibuat Oleh</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyTabelKontrak"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="sectionFormKontrak" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Document builder</span>
+                        <h1 id="kontrakFormJudul">Buat Kontrak / PKS Baru</h1>
+                        <p id="kontrakFormSubjudul">Lengkapi data kontrak dari administrasi, para pihak, program, sampai pembiayaan.</p>
+                    </div>
+                    <div class="top-header-actions">
+                        <button type="button" id="btnKembaliDaftarKontrak" class="btn-secondary">Kembali ke Daftar</button>
+                    </div>
+                </header>
+                <div class="form-flow form-flow--contract" aria-label="Alur pembuatan kontrak">
+                    <div class="flow-step is-active" data-contract-flow="para-pihak" role="button" tabindex="0"><span>1</span><strong>Para Pihak</strong><small>Mitra dan SBM</small></div>
+                    <div class="flow-step" data-contract-flow="program" role="button" tabindex="0"><span>2</span><strong>Program</strong><small>Studi dan periode</small></div>
+                    <div class="flow-step" data-contract-flow="pembiayaan" role="button" tabindex="0"><span>3</span><strong>Pembiayaan</strong><small>Nilai, BPP, draft</small></div>
+                    <div class="flow-step" data-contract-flow="administrasi" role="button" tabindex="0"><span>4</span><strong>Administrasi</strong><small>Admin, nomor, tanggal</small></div>
+                </div>
+                <div id="formKontrakHost" class="form-container form-container--kontrak"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/target-distribusi-data.js?v=20260706-add-simulation-rule"></script>
+    <script src="js/script.js?v=20260712-rekap-anggaran-formula-row"></script>
+
+    <div id="modalIndikatorDetail" class="modal-overlay" style="display:none;">
+        <div class="modal-card modal-card--indicator-detail">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalIndikatorJudul">Detail Indikator</h2>
+                    <p id="modalIndikatorDeskripsi"></p>
+                </div>
+                <button id="btnTutupModalIndikator" class="modal-close" type="button">✕</button>
+            </div>
+            <div id="modalIndikatorBody" class="indicator-detail-body"></div>
+        </div>
+    </div>
+
+    <div id="modalNeracaKeuangan" class="modal-overlay" style="display:none;">
+        <div class="modal-card modal-card--finance-statement">
+            <div class="modal-header">
+                <div>
+                    <h2>Neraca Keuangan Manajerial</h2>
+                    <p>Ringkasan posisi keuangan berdasarkan data kontrak, realisasi penerimaan, dan realisasi anggaran.</p>
+                </div>
+                <button id="btnTutupModalNeracaKeuangan" class="modal-close" type="button">✕</button>
+            </div>
+            <div id="modalNeracaKeuanganBody" class="finance-statement-modal-body"></div>
+        </div>
+    </div>
+
+    <div id="modalSimulasiDistribusi" class="modal-overlay" style="display:none;">
+        <div class="modal-card modal-card--simulation-result">
+            <div class="modal-header">
+                <div>
+                    <h2>Hasil Simulasi Distribusi</h2>
+                    <p>Ringkasan hasil simulasi dan catatan validasi alokasi PKS.</p>
+                </div>
+                <button id="btnTutupModalSimulasiDistribusi" class="modal-close" type="button">✕</button>
+            </div>
+            <div id="modalSimulasiDistribusiBody" class="simulation-result-modal-body"></div>
+            <div class="modal-footer modal-footer--simulation">
+                <button type="button" id="btnBerhentiModalSimulasiDistribusi" class="btn-secondary">Berhenti</button>
+                <button type="button" id="btnLanjutModalSimulasiDistribusi" class="btn-primary">Lanjutkan</button>
+                <button type="button" id="btnOkModalSimulasiDistribusi" class="btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Kontrak -->
+    <div id="modalKontrak" class="modal-overlay" style="display:none;">
+        <div class="modal-card" style="width:800px;max-height:90vh;overflow-y:auto;">
+            <div class="modal-header">
+                <div>
+                    <h2 id="modalKontrakJudul">Buat Kontrak / PKS Baru</h2>
+                    <p id="modalKontrakSubjudul" style="font-size:11px;color:#718096;margin-top:2px;"></p>
+                </div>
+                <button id="btnTutupModalKontrak" class="modal-close" type="button">✕</button>
+            </div>
+            <form id="formKontrak" novalidate>
+                <input type="hidden" id="kontrakIdEdit">
+
+                <!-- Admin -->
+                <div class="form-section-label">Identitas Pembuat</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Nama Admin <span class="form-required">*</span></label>
+                        <input type="text" id="kontrakDibuatOleh" class="form-input" placeholder="Nama lengkap pembuat kontrak" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ID Program Kerma <small style="font-weight:400">(opsional)</small></label>
+                        <input type="text" id="kontrakIdProgram" class="form-input" placeholder="Kosongkan jika belum terhubung">
+                        <small class="field-hint">Format: <code>KERMA_[ID Mitra]_[Semester]_[Tahun Ajaran]</code>. Contoh: <code>KERMA_PLN_Sem. II_23/24</code></small>
+                    </div>
+                </div>
+
+                <!-- Administrasi Kontrak -->
+                <div class="form-section-label">Administrasi Kontrak</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">No. Kontrak Mitra</label>
+                        <input type="text" id="kontrakNoMitra" class="form-input" placeholder="No. kontrak dari pihak mitra">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">No. Kontrak SBM</label>
+                        <input type="text" id="kontrakNoSbm" class="form-input" placeholder="No. kontrak dari SBM-ITB">
+                    </div>
+                </div>
+
+                <!-- Tanggal Tandatangan -->
+                <div class="form-section-label">Tanggal Tandatangan Kontrak</div>
+                <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                    <div class="form-group">
+                        <label class="form-label">Hari</label>
+                        <select id="kontrakHari" class="form-input">
+                            <option value="">-- Pilih Hari --</option>
+                            <option>Senin</option><option>Selasa</option><option>Rabu</option>
+                            <option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tanggal (angka)</label>
+                        <input type="number" id="kontrakTglAngka" class="form-input" min="1" max="31" placeholder="1–31">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tanggal (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakTglKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bulan (angka)</label>
+                        <input type="number" id="kontrakBulanAngka" class="form-input" min="1" max="12" placeholder="1–12">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bulan (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakBulanKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tahun (angka)</label>
+                        <input type="number" id="kontrakTahunAngka" class="form-input" min="2000" max="2100" placeholder="2026">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2">
+                        <label class="form-label">Tahun (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakTahunKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                </div>
+
+                <!-- Info Program -->
+                <div class="form-section-label">Info Program</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Strata</label>
+                        <select id="kontrakStrata" class="form-input">
+                            <option value="">-- Pilih Strata --</option>
+                            <option value="Magister">Magister</option>
+                            <option value="Doktor">Doktor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Program Studi</label>
+                        <select id="kontrakProdi" class="form-input">
+                            <option value="">-- Pilih Strata dulu --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Semester</label>
+                        <select id="kontrakSemester" class="form-input">
+                            <option value="">-- Pilih Semester --</option>
+                            <option value="Semester I">Semester I</option>
+                            <option value="Semester II">Semester II</option>
+                            <option value="Semester Pendek">Semester Pendek</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tahun Akademik</label>
+                        <select id="kontrakTahunAkademik" class="form-input">
+                            <option value="">-- Pilih Tahun Akademik --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Profil Mitra -->
+                <div class="form-section-label">Profil Pihak Mitra</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">ID Mitra</label>
+                        <input type="text" id="kontrakIdMitra" class="form-input" placeholder="Terisi otomatis dari data mitra" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Mitra</label>
+                        <select id="kontrakNamaMitra" class="form-input">
+                            <option value="">-- Pilih Mitra --</option>
+                            <option value="__tambah_baru__" style="color:#004B87;font-weight:600;">+ Tambah Mitra Baru</option>
+                        </select>
+                        <input type="text" id="kontrakNamaMitraManual" class="form-input mitra-manual-input" placeholder="Ketik nama mitra baru" autocomplete="off" hidden disabled>
+                        <small class="field-hint">Jika mitra belum ada di daftar, pilih <strong>+ Tambah Mitra Baru</strong> lalu isi nama mitra.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Pejabat Mitra</label>
+                        <input type="text" id="kontrakNamaPejabatMitra" class="form-input" placeholder="Nama pejabat yang berwenang">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jabatan Pejabat Mitra</label>
+                        <input type="text" id="kontrakJabatanPejabatMitra" class="form-input" placeholder="Jabatan pejabat mitra">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Dasar Jabatan Mitra</label>
+                        <input type="text" id="kontrakDasarJabatanMitra" class="form-input" placeholder="Contoh: Surat Keputusan No. ...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bentuk Usaha / Badan Hukum Mitra</label>
+                        <input type="text" id="kontrakBentukUsahaMitra" class="form-input" placeholder="Contoh: PT, CV, Yayasan, Koperasi">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Industri</label>
+                        <select id="kontrakIndustriMitra" class="form-input">
+                            <option value="">-- Pilih Industri Mitra --</option>
+                        </select>
+                        <small class="field-hint">Pilih industri mitra.</small>
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Dasar Pendirian Mitra</label>
+                        <input type="text" id="kontrakDasarPendirianMitra" class="form-input" placeholder="Akta pendirian / peraturan yang mendasari berdirinya mitra">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Alamat Mitra</label>
+                        <input type="text" id="kontrakAlamatMitra" class="form-input" placeholder="Alamat lengkap (terisi otomatis saat mitra dipilih)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kota</label>
+                        <input type="text" id="kontrakKotaMitra" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Provinsi</label>
+                        <input type="text" id="kontrakProvinsiMitra" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Negara</label>
+                        <input type="text" id="kontrakNegaraMitra" class="form-input" placeholder="Indonesia">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kode Pos</label>
+                        <input type="text" id="kontrakKodeposMitra" class="form-input" placeholder="Kode pos">
+                    </div>
+                </div>
+
+                <!-- Korespondensi Mitra -->
+                <div class="form-section-label">Korespondensi — Pihak Mitra</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">PIC Korespondensi Mitra <small>(Untuk Perhatian)</small></label>
+                        <input type="text" id="kontrakNamaPicKorMitra" class="form-input" placeholder="Nama penerima surat mitra">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jabatan PIC Korespondensi Mitra</label>
+                        <input type="text" id="kontrakJabatanPicKorMitra" class="form-input" placeholder="Jabatan penerima surat">
+                    </div>
+                    <div class="form-group">
+                        <div style="display:flex;gap:8px;align-items:flex-end;">
+                            <div style="flex:0 0 80px;">
+                                <label class="form-label">Kode Tlp.</label>
+                                <input type="text" id="kontrakKodeTlpMitra" class="form-input" placeholder="+62">
+                            </div>
+                            <div style="flex:1;">
+                                <label class="form-label">No. Telepon Mitra</label>
+                                <input type="text" id="kontrakNoTlpMitra" class="form-input" placeholder="No. telepon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Mitra</label>
+                        <input type="email" id="kontrakEmailMitra" class="form-input" placeholder="email@mitra.com">
+                    </div>
+                </div>
+
+                <!-- Profil SBM -->
+                <div class="form-section-label">Profil Pihak SBM</div>
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Nama Institusi SBM</label>
+                        <input type="text" id="kontrakNamaSbm" class="form-input" placeholder="Sekolah Bisnis dan Manajemen Institut Teknologi Bandung">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Pejabat SBM</label>
+                        <input type="text" id="kontrakNamaPejabatSbm" class="form-input" placeholder="Nama pejabat yang berwenang dari SBM">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jabatan Pejabat SBM</label>
+                        <input type="text" id="kontrakJabatanPejabatSbm" class="form-input" placeholder="Jabatan pejabat SBM">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Dasar Jabatan SBM</label>
+                        <input type="text" id="kontrakDasarJabatanSbm" class="form-input" placeholder="Contoh: Surat Keputusan No. ...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Sektor / Industri SBM</label>
+                        <input type="text" id="kontrakIndustriSbm" class="form-input" value="Pendidikan" placeholder="Pendidikan">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Dasar Pendirian SBM</label>
+                        <input type="text" id="kontrakDasarPendirianSbm" class="form-input" placeholder="Peraturan / SK yang mendasari berdirinya SBM ITB">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Alamat SBM</label>
+                        <input type="text" id="kontrakAlamatSbm" class="form-input" placeholder="Alamat SBM-ITB">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kota</label>
+                        <input type="text" id="kontrakKotaSbm" class="form-input" value="Bandung">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Provinsi</label>
+                        <input type="text" id="kontrakProvinsiSbm" class="form-input" value="Jawa Barat">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Negara</label>
+                        <input type="text" id="kontrakNegaraSbm" class="form-input" value="Indonesia">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kode Pos</label>
+                        <input type="text" id="kontrakKodeposSbm" class="form-input" placeholder="Kode pos">
+                    </div>
+                </div>
+
+                <!-- Korespondensi SBM -->
+                <div class="form-section-label">Korespondensi — Pihak SBM</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">PIC Korespondensi SBM <small>(Untuk Perhatian)</small></label>
+                        <input type="text" id="kontrakNamaPicKorSbm" class="form-input" placeholder="Nama penerima surat SBM">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jabatan PIC Korespondensi SBM</label>
+                        <input type="text" id="kontrakJabatanPicKorSbm" class="form-input" placeholder="Jabatan penerima surat">
+                    </div>
+                    <div class="form-group">
+                        <div style="display:flex;gap:8px;align-items:flex-end;">
+                            <div style="flex:0 0 80px;">
+                                <label class="form-label">Kode Tlp.</label>
+                                <input type="text" id="kontrakKodeTlpSbm" class="form-input" placeholder="+62">
+                            </div>
+                            <div style="flex:1;">
+                                <label class="form-label">No. Telepon SBM</label>
+                                <input type="text" id="kontrakNoTlpSbm" class="form-input" placeholder="No. telepon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email SBM</label>
+                        <input type="email" id="kontrakEmailSbm" class="form-input" placeholder="email@sbm.itb.ac.id">
+                    </div>
+                </div>
+
+                <!-- Waktu Pelaksanaan -->
+                <div class="form-section-label">Waktu Pelaksanaan Program</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Jangka Waktu (bulan)</label>
+                        <input type="number" id="kontrakJangkaAngka" class="form-input" min="1" placeholder="Contoh: 24">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jangka Waktu (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakJangkaKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tgl. Awal Program</label>
+                        <input type="date" id="kontrakTglAwal" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tgl. Akhir Program</label>
+                        <input type="date" id="kontrakTglAkhir" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lama Perpanjangan (semester)</label>
+                        <input type="number" id="kontrakPerpanjSemesterAngka" class="form-input" min="0" placeholder="Contoh: 2">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Perpanjangan (kata semester) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakPerpanjSemesterKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lama Perpanjangan (bulan)</label>
+                        <input type="number" id="kontrakPerpanjBulanAngka" class="form-input" min="0" placeholder="Contoh: 6">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Perpanjangan (kata bulan) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakPerpanjBulanKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                </div>
+
+                <!-- Jangka Waktu Perjanjian -->
+                <div class="form-section-label">Jangka Waktu Perjanjian</div>
+                <div class="form-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                    <div class="form-group">
+                        <label class="form-label">Jangka Waktu Perjanjian (bulan)</label>
+                        <input type="number" id="kontrakJwKontrakAngka" class="form-input" min="1" placeholder="Contoh: 30">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Jangka Waktu Perjanjian (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakJwKontrakKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tgl. Berakhir Kontrak (angka)</label>
+                        <input type="number" id="kontrakTglBerakhirAngka" class="form-input" min="1" max="31" placeholder="1–31">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bulan Berakhir Kontrak (angka)</label>
+                        <input type="number" id="kontrakBulanBerakhirAngka" class="form-input" min="1" max="12" placeholder="1–12">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tahun Berakhir Kontrak (angka)</label>
+                        <input type="number" id="kontrakTahunBerakhirAngka" class="form-input" min="2000" max="2100" placeholder="2028">
+                    </div>
+                </div>
+
+                <!-- Pembiayaan -->
+                <div class="form-section-label">Pembiayaan</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">PIC Pembiayaan</label>
+                        <select id="kontrakPicPembiayaan" class="form-input">
+                            <option value="">-- Pilih --</option>
+                            <option value="Peserta Didik">Peserta Didik</option>
+                            <option value="Mitra">Mitra</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Peserta Didik</label>
+                        <input type="number" id="kontrakJmlPesertaAngka" class="form-input" min="1" placeholder="Jumlah mahasiswa">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Peserta (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakJmlPesertaKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nilai Kontrak (Rp)</label>
+                        <input type="number" id="kontrakNilaiKontrakAngka" class="form-input" min="0" placeholder="Total nilai kontrak">
+                    </div>
+                    <div class="form-group" style="grid-column:span 2;">
+                        <label class="form-label">Nilai Kontrak (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakNilaiKontrakKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP per Peserta (Rp)</label>
+                        <input type="number" id="kontrakBppPerPesertaAngka" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP per Peserta (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakBppPerPesertaKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Semester Panjang (Rp)</label>
+                        <input type="number" id="kontrakBppSemPanjangAngka" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Sem. Panjang (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakBppSemPanjangKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Semester Pendek (Rp)</label>
+                        <input type="number" id="kontrakBppSemPendekAngka" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Sem. Pendek (kata) <small>— otomatis</small></label>
+                        <input type="text" id="kontrakBppSemPendekKata" class="form-input" readonly style="background:#f7f8fa;color:#555;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Ulang Sem. Panjang (Rp)</label>
+                        <input type="number" id="kontrakBppUlangPanjangAngka" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Ulang Sem. Pendek (Rp)</label>
+                        <input type="number" id="kontrakBppUlangPendekAngka" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">BPP Tugas Akhir (Rp)</label>
+                        <input type="number" id="kontrakBppTugasAkhirAngka" class="form-input" min="0">
+                    </div>
+                </div>
+
+                <!-- Rincian BPP -->
+                <div class="form-section-label">Rincian Pembiayaan per Semester</div>
+                <div style="overflow-x:auto;margin-bottom:16px;">
+                    <table id="tabelRincianBpp" style="width:100%;border-collapse:collapse;font-size:11px;">
+                        <thead>
+                            <tr style="background:#eef4fc;color:#004B87;">
+                                <th style="padding:8px 6px;text-align:left;border:1px solid #d0dff0;width:26%;">Tahap Pembayaran</th>
+                                <th style="padding:8px 6px;text-align:left;border:1px solid #d0dff0;width:18%;">BPP/Mahasiswa (Rp)</th>
+                                <th style="padding:8px 6px;text-align:left;border:1px solid #d0dff0;width:14%;">Jml. Peserta Didik</th>
+                                <th style="padding:8px 6px;text-align:left;border:1px solid #d0dff0;width:20%;">Total Pembayaran BPP (Rp) <small>— otomatis</small></th>
+                                <th style="padding:8px 6px;text-align:left;border:1px solid #d0dff0;width:22%;">Batas Akhir Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyRincianBpp">
+                            <!-- diisi oleh JS: 5 baris -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-actions" style="margin-top:8px;">
+                    <button type="button" id="btnBatalKontrak" class="btn-secondary">Batal</button>
+                    <button type="submit" id="btnSimpanKontrak" class="btn-primary">Simpan sebagai Draft</button>
+                    <span id="kontrakDraftHint" class="form-alert contract-draft-hint"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Reject Kontrak -->
+    <div id="modalRejectKontrak" class="modal-overlay" style="display:none;">
+        <div class="modal-card" style="width:480px;">
+            <div class="modal-header">
+                <h2>Tolak Kontrak</h2>
+                <button id="btnTutupModalReject" class="modal-close" type="button">✕</button>
+            </div>
+            <p style="margin-bottom:12px;font-size:12px;color:#718096;">Kontrak akan dikembalikan ke admin untuk direvisi.</p>
+            <div class="form-group">
+                <label class="form-label">Catatan Penolakan <span class="form-required">*</span></label>
+                <textarea id="kontrakCatatanReject" class="form-input" rows="4" placeholder="Tuliskan alasan penolakan atau poin revisi yang diperlukan..." style="resize:vertical;"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="button" id="btnBatalReject" class="btn-secondary">Batal</button>
+                <button type="button" id="btnKonfirmasiReject" class="btn-danger">Tolak Kontrak</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Addendum -->
+    <div id="modalAddendum" class="modal-overlay" style="display:none;">
+        <div class="modal-card" style="width:560px;">
+            <div class="modal-header">
+                <div>
+                    <h2>Addendum Kontrak</h2>
+                    <p id="addendumIdLabel" style="font-size:13px;color:#718096;margin-top:2px;"></p>
+                </div>
+                <button id="btnTutupModalAddendum" class="modal-close" type="button">✕</button>
+            </div>
+            <div id="daftarAddendum" class="daftar-addendum-list"></div>
+            <div style="margin-top:20px;border-top:1px solid #e2e8f0;padding-top:18px;">
+                <label class="form-label" style="margin-bottom:8px;display:block;">Upload Addendum Baru</label>
+                <input type="file" id="fileInputAddendum" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" class="form-input-file">
+                <div class="form-actions" style="margin-top:12px;">
+                    <button id="btnUploadAddendum" class="btn-primary">Upload Addendum</button>
+                    <span id="addendumAlert" class="form-alert" style="display:none;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Kerma -->
+    <div id="modalEditKerma" class="modal-overlay" style="display:none;">
+        <div class="modal-card" style="width:740px;">
+            <div class="modal-header">
+                <h2>Edit Data Kerma</h2>
+                <button id="btnTutupModalKerma" class="modal-close" type="button">✕</button>
+            </div>
+            <form id="formEditKerma" novalidate>
+                <input type="hidden" name="id_program" id="editKermaId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">ID Program <span class="form-required">*</span></label>
+                        <input type="text" name="new_id_program" id="editKermaIdDisplay" class="form-input" required>
+                        <small class="field-hint">Format: <code>KERMA_[ID Mitra]_[Semester]_[Tahun Ajaran]</code></small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Mitra <span class="form-required">*</span></label>
+                        <select name="nama_mitra" id="editKermaNamaMitra" class="form-input" required>
+                            <option value="">-- Pilih Mitra --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">No. Kontrak Institusi</label>
+                        <input type="text" name="no_kontrak_institusi" id="editKermaNoKontrakInstitusi" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">No. Kontrak Mitra</label>
+                        <input type="text" name="no_kontrak_mitra" id="editKermaNoKontrakMitra" class="form-input">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Judul PKS <span class="form-required">*</span></label>
+                        <textarea name="judul_pks" id="editKermaJudulPks" class="form-input form-textarea" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Strata</label>
+                        <div class="strata-group">
+                            <label class="strata-opt"><input type="radio" id="editStrata_s1" name="strata" value="S1"> S1</label>
+                            <label class="strata-opt"><input type="radio" id="editStrata_s2" name="strata" value="S2"> S2</label>
+                            <label class="strata-opt"><input type="radio" id="editStrata_s3" name="strata" value="S3"> S3</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Mahasiswa</label>
+                        <input type="number" name="jumlah_mahasiswa" id="editKermaJmlMhs" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tgl. Kontrak</label>
+                        <input type="date" name="tgl_kontrak" id="editKermaTglKontrak" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tgl. Akhir Kontrak</label>
+                        <input type="date" name="tgl_akhir_kontrak" id="editKermaTglAkhir" class="form-input">
+                    </div>
+                </div>
+
+                <!-- Container Pembiayaan Kontrak -->
+                <div class="container-pembayaran">
+                    <div class="pembayaran-header" style="margin-bottom:16px;">Pembiayaan Kontrak</div>
+                    <div class="form-group" style="max-width:280px;margin-bottom:16px;">
+                        <label class="form-label">Cara Pembayaran</label>
+                        <select name="cara_pembayaran" id="editCaraPembayaran" class="form-input">
+                            <option value="">-- Pilih --</option>
+                            <option value="Lump Sum">Lump Sum</option>
+                            <option value="Termin">Termin</option>
+                            <option value="Unit Price">Unit Price</option>
+                        </select>
+                    </div>
+
+                    <!-- Lump Sum -->
+                    <div id="editSeksiPenuh" style="display:none;margin-bottom:16px;">
+                        <p class="pembayaran-desc">Nilai kontrak ditetapkan secara fix sesuai yang tercantum dalam kontrak.</p>
+                        <div class="form-group" style="max-width:280px;">
+                            <label class="form-label">Batas Akhir Pembayaran</label>
+                            <input type="date" name="batas_akhir_pembayaran" id="editBatasAkhirPenuh" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- Termin -->
+                    <div id="editSeksiTermin" style="display:none;margin-bottom:16px;">
+                        <p class="pembayaran-desc">Nilai kontrak merupakan penjumlahan seluruh termin yang diisi secara manual. Nilai Kontrak terisi otomatis.</p>
+                        <div id="editDaftarCicilanTermin" class="daftar-cicilan"></div>
+                        <button type="button" id="editBtnTambahCicilanTermin" class="btn-secondary" style="margin-top:10px;">＋ Tambah Termin</button>
+                    </div>
+
+                    <!-- Unit Price -->
+                    <div id="editSeksiBertahap" style="display:none;margin-bottom:16px;">
+                        <p class="pembayaran-desc">Nilai kontrak = Harga per Mahasiswa × Jumlah Mahasiswa. Nilai Kontrak terisi otomatis.</p>
+                        <div class="form-group" style="max-width:280px;margin-bottom:16px;">
+                            <label class="form-label">Harga per Mahasiswa (Rp)</label>
+                            <input type="number" name="harga_per_mahasiswa" id="editHargaPerMhs" class="form-input" placeholder="0" min="0">
+                        </div>
+                        <div id="editDaftarCicilan" class="daftar-cicilan"></div>
+                        <button type="button" id="editBtnTambahCicilan" class="btn-secondary" style="margin-top:10px;">＋ Tambah Semester</button>
+                    </div>
+
+                    <!-- Nilai Kontrak & Kode File di bagian bawah container -->
+                    <div class="form-grid" style="margin-top:16px;">
+                        <div class="form-group">
+                            <label class="form-label">Nilai Kontrak (Rp)</label>
+                            <input type="number" name="nilai_kontrak" id="editKermaNilai" class="form-input" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kode File</label>
+                            <input type="text" name="kode_file" id="editKermaKodeFile" class="form-input">
+                            <small class="field-hint">Awalan kode menentukan jenis Kerma: <code>SBM.PD</code>, <code>SBM.PN</code>, atau <code>SBM.PM</code>.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top:8px;">
+                    <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                    <button type="button" id="btnBatalEditKerma" class="btn-secondary">Batal</button>
+                    <span id="formAlertEditKerma" class="form-alert" style="display:none;"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Edit Mitra -->
+    <div id="modalEditMitra" class="modal-overlay" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Edit Data Mitra</h2>
+                <button id="btnTutupModalMitra" class="modal-close" type="button">✕</button>
+            </div>
+            <form id="formEditMitra" novalidate>
+                <input type="hidden" name="id_mitra" id="editIdMitra">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">ID Mitra</label>
+                        <input type="text" id="editIdMitraDisplay" class="form-input" disabled>
+                        <small class="field-hint">ID tidak dapat diubah.</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nama Mitra <span class="form-required">*</span></label>
+                        <input type="text" name="nama_mitra" id="editNamaMitra" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Industri</label>
+                        <select name="industri" id="editIndustri" class="form-input">
+                            <option value="">-- Pilih Industri --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kota</label>
+                        <input type="text" name="kota" id="editKota" class="form-input">
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Alamat</label>
+                        <textarea name="alamat" id="editAlamat" class="form-input form-textarea"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Provinsi</label>
+                        <input type="text" name="provinsi" id="editProvinsi" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Negara</label>
+                        <input type="text" name="negara" id="editNegara" class="form-input">
+                    </div>
+                </div>
+                <div class="form-actions" style="margin-top:24px;">
+                    <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                    <button type="button" id="btnBatalEditMitra" class="btn-secondary">Batal</button>
+                    <span id="formAlertEditMitra" class="form-alert" style="display:none;"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="modalEditMahasiswa" class="modal-overlay" style="display:none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Edit Data Mahasiswa</h2>
+                <button id="btnTutupModalMahasiswa" class="modal-close" type="button">✕</button>
+            </div>
+            <form id="formEditMahasiswa" novalidate>
+                <input type="hidden" id="editMhsIdProgramLama">
+                <input type="hidden" id="editMhsNimLama">
+                <div class="form-grid">
+                    <div class="form-group form-group--full">
+                        <label class="form-label">ID Program / Kerma <span class="form-required">*</span></label>
+                        <select name="id_program" id="editMhsIdProgram" class="form-input" required>
+                            <option value="">-- Pilih Program --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">NIM <span class="form-required">*</span></label>
+                        <input type="text" name="nim" id="editMhsNim" class="form-input" required>
+                    </div>
+                    <div class="form-group form-group--full">
+                        <label class="form-label">Nama <span class="form-required">*</span></label>
+                        <input type="text" name="nama" id="editMhsNama" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fakultas</label>
+                        <select name="fakultas" id="editMhsFakultas" class="form-input">
+                            <option value="">-- Pilih Fakultas --</option>
+                            <option value="Sekolah Bisnis dan Manajemen (SBM)">Sekolah Bisnis dan Manajemen (SBM)</option>
+                            <option value="Sekolah Farmasi (SF)">Sekolah Farmasi (SF)</option>
+                            <option value="Sekolah Ilmu dan Teknologi Hayati (SITH)">Sekolah Ilmu dan Teknologi Hayati (SITH)</option>
+                            <option value="Sekolah Teknik Elektro dan Informatika (STEI)">Sekolah Teknik Elektro dan Informatika (STEI)</option>
+                            <option value="Sekolah Pascasarjana Ilmu dan Teknologi Multidisiplin (SPITM)">Sekolah Pascasarjana Ilmu dan Teknologi Multidisiplin (SPITM)</option>
+                            <option value="Sekolah Arsitektur, Perencanaan dan Pengembangan Kebijakan (SAPPK)">Sekolah Arsitektur, Perencanaan dan Pengembangan Kebijakan (SAPPK)</option>
+                            <option value="Fakultas Teknik Sipil dan Lingkungan (FTSL)">Fakultas Teknik Sipil dan Lingkungan (FTSL)</option>
+                            <option value="Fakultas Teknik Pertambangan dan Perminyakan (FTTM)">Fakultas Teknik Pertambangan dan Perminyakan (FTTM)</option>
+                            <option value="Fakultas Teknik Mesin dan Dirgantara (FTMD)">Fakultas Teknik Mesin dan Dirgantara (FTMD)</option>
+                            <option value="Fakultas Teknologi Industri (FTI)">Fakultas Teknologi Industri (FTI)</option>
+                            <option value="Fakultas Seni Rupa dan Desain (FSRD)">Fakultas Seni Rupa dan Desain (FSRD)</option>
+                            <option value="Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)">Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)</option>
+                            <option value="Fakultas Ilmu dan Teknologi Kebumian (FITB)">Fakultas Ilmu dan Teknologi Kebumian (FITB)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Program Studi</label>
+                        <select name="prodi" id="editMhsProdi" class="form-input">
+                            <option value="">-- Pilih Program Studi --</option>
+                            <option value="Sarjana Manajemen (SM)">Sarjana Manajemen (SM)</option>
+                            <option value="Sarjana Kewirausahaan (SW)">Sarjana Kewirausahaan (SW)</option>
+                            <option value="Administrasi Bisnis">Administrasi Bisnis</option>
+                            <option value="Administrasi Bisnis (Kampus Jakarta)">Administrasi Bisnis (Kampus Jakarta)</option>
+                            <option value="Magister Sains Manajemen (MSM)">Magister Sains Manajemen (MSM)</option>
+                            <option value="Doktor Sains Manajemen (DSM)">Doktor Sains Manajemen (DSM)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tahun Masuk</label>
+                        <input type="number" name="tahun_masuk" id="editMhsTahunMasuk" class="form-input" min="2000" max="2100">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Semester Masuk</label>
+                        <select name="semester_masuk" id="editMhsSemesterMasuk" class="form-input">
+                            <option value="">-- Pilih --</option>
+                            <option value="Sem. 1">Sem. 1</option>
+                            <option value="Sem. 2">Sem. 2</option>
+                            <option value="Sem. Pendek">Sem. Pendek</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Dosen Wali</label>
+                        <input type="text" name="dosen_wali" id="editMhsDosenWali" class="form-input" placeholder="Nama dosen wali">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select name="status" id="editMhsStatus" class="form-input">
+                            <option value="Aktif">Aktif</option>
+                            <option value="Undri">Undri</option>
+                            <option value="DO">DO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">SKS Lulus</label>
+                        <input type="number" name="sks_lulus" id="editMhsSksLulus" class="form-input" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">IPK</label>
+                        <input type="number" name="ipk" id="editMhsIpk" class="form-input" min="0" max="4" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pembimbing 1</label>
+                        <input type="text" name="pembimbing_1" id="editMhsPembimbing1" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pembimbing 2</label>
+                        <input type="text" name="pembimbing_2" id="editMhsPembimbing2" class="form-input">
+                    </div>
+                </div>
+                <div class="form-actions" style="margin-top:24px;">
+                    <button type="submit" class="btn-primary">Simpan Perubahan</button>
+                    <button type="button" id="btnBatalEditMahasiswa" class="btn-secondary">Batal</button>
+                    <span id="formAlertEditMahasiswa" class="form-alert" style="display:none;"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

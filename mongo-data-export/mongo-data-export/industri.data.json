@@ -1,0 +1,233 @@
+[
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4ae"
+    },
+    "kode_kategori": "A",
+    "nama_sektor": "Pertanian, Kehutanan dan Perikanan",
+    "contoh_ruang_lingkup": "Perkebunan, peternakan, perikanan tangkap, kehutanan.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4af"
+    },
+    "kode_kategori": "B",
+    "nama_sektor": "Pertambangan dan Penggalian",
+    "contoh_ruang_lingkup": "PT Bukit Asam Tbk, Freeport, tambang minyak bumi, gas alam.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b0"
+    },
+    "kode_kategori": "C",
+    "nama_sektor": "Industri Pengolahan",
+    "contoh_ruang_lingkup": "Pabrik manufaktur, tekstil, makanan, perakitan mesin, fashion, kriya.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b1"
+    },
+    "kode_kategori": "D",
+    "nama_sektor": "Pengadaan Listrik, Gas, Uap/Air Panas Dan Udara Dingin",
+    "contoh_ruang_lingkup": "PT PLN (Persero), perusahaan pembangkit listrik, transmisi gas.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b2"
+    },
+    "kode_kategori": "E",
+    "nama_sektor": "Treatment Air, Limbah, Pemulihan Material Sampah & Remediasi",
+    "contoh_ruang_lingkup": "Perusahaan pengolahan limbah B3, PDAM, jasa daur ulang sampah.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b3"
+    },
+    "kode_kategori": "F",
+    "nama_sektor": "Konstruksi",
+    "contoh_ruang_lingkup": "Kontraktor bangunan gedung, jalan tol, jembatan, instalasi listrik.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b4"
+    },
+    "kode_kategori": "G",
+    "nama_sektor": "Perdagangan Besar & Eceran; Reparasi Mobil & Sepeda Motor",
+    "contoh_ruang_lingkup": "Distributor utama, swalayan, diler kendaraan, bengkel.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b5"
+    },
+    "kode_kategori": "H",
+    "nama_sektor": "Pengangkutan dan Pergudangan",
+    "contoh_ruang_lingkup": "PT KAI, maskapai penerbangan, ekspedisi kurir, jasa logistik gudang.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b6"
+    },
+    "kode_kategori": "I",
+    "nama_sektor": "Penyediaan Akomodasi Dan Penyediaan Makan Minum",
+    "contoh_ruang_lingkup": "Hotel, restoran, kafe, katering, coffee shop (Sektor Kuliner).",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b7"
+    },
+    "kode_kategori": "J",
+    "nama_sektor": "Informasi Dan Komunikasi",
+    "contoh_ruang_lingkup": "Software house, operator seluler, studio film, penyiaran TV/Radio.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b8"
+    },
+    "kode_kategori": "K",
+    "nama_sektor": "Aktivitas Keuangan dan Asuransi",
+    "contoh_ruang_lingkup": "Bank (Mandiri, BCA, dll), modal ventura, perusahaan asuransi.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4b9"
+    },
+    "kode_kategori": "L",
+    "nama_sektor": "Real Estat",
+    "contoh_ruang_lingkup": "Developer perumahan, agen properti, penyewaan gedung apartemen.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4ba"
+    },
+    "kode_kategori": "M",
+    "nama_sektor": "Aktivitas Profesional, Ilmiah Dan Teknis",
+    "contoh_ruang_lingkup": "Konsultan hukum/pajak, arsitek, riset komersial, agensi periklanan.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4bb"
+    },
+    "kode_kategori": "N",
+    "nama_sektor": "Aktivitas Penyewaan, Ketenagakerjaan, Agen Perjalanan & Penunjang",
+    "contoh_ruang_lingkup": "Agensi outsourcing (satpam/CS), rental mobil, biro travel umroh.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4bc"
+    },
+    "kode_kategori": "O",
+    "nama_sektor": "Administrasi Pemerintahan, Pertahanan & Jaminan Sosial",
+    "contoh_ruang_lingkup": "Kementerian, dinas daerah, TNI/Polri, BPJS Kesehatan/Ketenagakerjaan.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4bd"
+    },
+    "kode_kategori": "P",
+    "nama_sektor": "Pendidikan",
+    "contoh_ruang_lingkup": "Universitas, Institut, Sekolah, Lembaga Kursus/Bimbel.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4be"
+    },
+    "kode_kategori": "Q",
+    "nama_sektor": "Aktivitas Kesehatan Manusia Dan Aktivitas Sosial",
+    "contoh_ruang_lingkup": "Rumah sakit, klinik dokter, panti asuhan, laboratorium klinis.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4bf"
+    },
+    "kode_kategori": "R",
+    "nama_sektor": "Kesenian, Hiburan Dan Rekreasi",
+    "contoh_ruang_lingkup": "Gedung bioskop, taman hiburan, museum, klub olahraga, promotor musik.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4c0"
+    },
+    "kode_kategori": "S",
+    "nama_sektor": "Aktivitas Jasa Lainnya",
+    "contoh_ruang_lingkup": "Organisasi masyarakat (Ormas), LSM, jasa reparasi komputer, salon.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4c1"
+    },
+    "kode_kategori": "T",
+    "nama_sektor": "Aktivitas Rumah Tangga Sebagai Pemberi Kerja",
+    "contoh_ruang_lingkup": "Jasa penyedia ART/Asisten Rumah Tangga mandiri.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4c2"
+    },
+    "kode_kategori": "U",
+    "nama_sektor": "Aktivitas Badan Internasional & Badan Ekstra Internasional",
+    "contoh_ruang_lingkup": "PBB, UNESCO, WHO, Kedutaan Besar negara asing.",
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

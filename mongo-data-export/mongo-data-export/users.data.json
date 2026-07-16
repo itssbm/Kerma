@@ -1,0 +1,28 @@
+[
+  {
+    "_id": {
+      "$oid": "6a360012f833832f334f08eb"
+    },
+    "username": "admin",
+    "password": "$2b$10$FuKAEaSctyNyNEpPhcql4upls2hlu4YlgB6XkNTBQ.mLP4/El2OdS",
+    "nama": "Admin KERMA",
+    "role": "admin",
+    "aktif": true,
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a360012f833832f334f08ec"
+    },
+    "username": "atasan",
+    "password": "$2b$10$9vXcRNOtYfu8JiE4PyHV4euV4XmHICvJr4OjT.KLUKnoRcgYgEKBC",
+    "nama": "Kepala Divisi KERMA",
+    "role": "atasan",
+    "aktif": true,
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

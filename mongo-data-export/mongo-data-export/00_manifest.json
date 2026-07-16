@@ -1,0 +1,133 @@
+{
+  "exportedAt": "2026-07-15T11:47:53.840Z",
+  "sourceDatabase": "kerma",
+  "format": "MongoDB Extended JSON v2, canonical mode",
+  "purpose": "Actual collection data export untuk migrasi ke akun MongoDB lain.",
+  "schemaFolder": "../mongo-schema",
+  "importOrder": [
+    "users",
+    "industri",
+    "mitra",
+    "programs",
+    "cicilan",
+    "addendum",
+    "mahasiswa",
+    "calon_peserta",
+    "kontrak",
+    "rab_anggaran",
+    "rencana_anggaran",
+    "realisasi_pembayaran",
+    "realisasi_anggaran",
+    "plotting_kerma"
+  ],
+  "totalCollections": 14,
+  "totalDocuments": 1186,
+  "collections": [
+    {
+      "collection": "users",
+      "model": "User",
+      "file": "users.data.json",
+      "count": 2,
+      "order": 1
+    },
+    {
+      "collection": "industri",
+      "model": "Industri",
+      "file": "industri.data.json",
+      "count": 21,
+      "order": 2
+    },
+    {
+      "collection": "mitra",
+      "model": "Mitra",
+      "file": "mitra.data.json",
+      "count": 28,
+      "order": 3
+    },
+    {
+      "collection": "programs",
+      "model": "Program",
+      "file": "programs.data.json",
+      "count": 44,
+      "order": 4
+    },
+    {
+      "collection": "cicilan",
+      "model": "Cicilan",
+      "file": "cicilan.data.json",
+      "count": 174,
+      "order": 5
+    },
+    {
+      "collection": "addendum",
+      "model": "Addendum",
+      "file": "addendum.data.json",
+      "count": 3,
+      "order": 6
+    },
+    {
+      "collection": "mahasiswa",
+      "model": "Mahasiswa",
+      "file": "mahasiswa.data.json",
+      "count": 409,
+      "order": 7
+    },
+    {
+      "collection": "calon_peserta",
+      "model": "CalonPeserta",
+      "file": "calon_peserta.data.json",
+      "count": 0,
+      "order": 8
+    },
+    {
+      "collection": "kontrak",
+      "model": "Kontrak",
+      "file": "kontrak.data.json",
+      "count": 2,
+      "order": 9
+    },
+    {
+      "collection": "rab_anggaran",
+      "model": "RabAnggaran",
+      "file": "rab_anggaran.data.json",
+      "count": 92,
+      "order": 10
+    },
+    {
+      "collection": "rencana_anggaran",
+      "model": "RencanaAnggaran",
+      "file": "rencana_anggaran.data.json",
+      "count": 184,
+      "order": 11
+    },
+    {
+      "collection": "realisasi_pembayaran",
+      "model": "RealisasiPembayaran",
+      "file": "realisasi_pembayaran.data.json",
+      "count": 133,
+      "order": 12
+    },
+    {
+      "collection": "realisasi_anggaran",
+      "model": "RealisasiAnggaran",
+      "file": "realisasi_anggaran.data.json",
+      "count": 92,
+      "order": 13
+    },
+    {
+      "collection": "plotting_kerma",
+      "model": "PlottingKerma",
+      "file": "plotting_kerma.data.json",
+      "count": 2,
+      "order": 14
+    }
+  ],
+  "importExample": {
+    "note": "Jalankan per collection ke database target. Gunakan URI akun MongoDB baru.",
+    "command": "mongoimport --uri \"$TARGET_MONGODB_URI\" --collection <collection> --jsonArray --file mongo-data-export/<collection>.data.json"
+  },
+  "fileUploadReminder": [
+    "Salin juga public/uploads/kontrak karena database hanya menyimpan nama file di programs.file_kontrak.",
+    "Salin juga public/uploads/addendum karena database hanya menyimpan nama file di addendum.nama_file."
+  ]
+}

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — KERMA SBM ITB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            background:
+                linear-gradient(135deg, rgba(14,165,233,0.12), transparent 32%),
+                linear-gradient(315deg, rgba(249,115,22,0.10), transparent 28%),
+                #001433;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        button, input { font: inherit; }
+        button:focus-visible, input:focus-visible {
+            outline: 3px solid rgba(14,165,233,0.25);
+            outline-offset: 2px;
+        }
+
+        /* Left panel */
+        .panel-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 60px 48px;
+            position: relative;
+            background:
+                linear-gradient(150deg, rgba(0,41,102,0.96) 0%, rgba(0,20,51,0.98) 60%, rgba(0,32,77,0.98) 100%),
+                repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0 1px, transparent 1px 18px);
+            overflow: hidden;
+        }
+        .panel-left::before {
+            content: '';
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 4px;
+            background: linear-gradient(90deg, #C9A84C, #0EA5E9, #10B981);
+            pointer-events: none;
+        }
+        .panel-left::after {
+            content: '';
+            position: absolute;
+            inset: auto -18% -24% 24%;
+            height: 44%;
+            background: linear-gradient(135deg, rgba(14,165,233,0.18), rgba(201,168,76,0.05));
+            transform: skewY(-8deg);
+            pointer-events: none;
+        }
+        .panel-left-content { position: relative; z-index: 1; text-align: center; max-width: 380px; }
+        .left-logo {
+            width: 80px; height: auto;
+            display: block; margin: 0 auto 24px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+        .left-brand {
+            font-size: 42px; font-weight: 800;
+            color: #FFFFFF; letter-spacing: 0;
+            line-height: 1;
+        }
+        .left-subtitle {
+            font-size: 11px; font-weight: 600;
+            color: #C9A84C; letter-spacing: 0;
+            text-transform: uppercase; margin-top: 6px;
+            opacity: 0.9;
+        }
+        .left-desc {
+            margin-top: 32px;
+            font-size: 13.5px; color: rgba(255,255,255,0.5);
+            line-height: 1.7; font-weight: 400;
+        }
+        .left-divider {
+            width: 40px; height: 2px;
+            background: linear-gradient(90deg, #C9A84C, transparent);
+            margin: 24px auto;
+        }
+        .left-features { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+        .left-feature {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 12px; color: rgba(255,255,255,0.55);
+            padding: 8px 10px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+        }
+        .left-feature-dot {
+            width: 8px; height: 8px; border-radius: 3px;
+            background: linear-gradient(135deg, #0EA5E9, #C9A84C); flex-shrink: 0; opacity: 0.9;
+        }
+
+        /* Right panel */
+        .panel-right {
+            width: 440px;
+            flex-shrink: 0;
+            background: #F8FAFD;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 44px;
+        }
+        .login-box { width: 100%; }
+        .login-heading {
+            font-size: 22px; font-weight: 800;
+            color: #0F1B2D; letter-spacing: 0;
+            margin-bottom: 4px;
+        }
+        .login-sub {
+            font-size: 12.5px; color: #64748B;
+            margin-bottom: 32px;
+        }
+
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 10.5px; font-weight: 700;
+            color: #4A5568; margin-bottom: 7px;
+            text-transform: uppercase; letter-spacing: 0;
+        }
+        .form-input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid #E4EAF2;
+            border-radius: 8px;
+            font-size: 13px; color: #0F1B2D;
+            outline: none;
+            background: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .form-input:focus {
+            border-color: #0EA5E9;
+            box-shadow: 0 0 0 3px rgba(14,165,233,0.16), 0 1px 2px rgba(0,0,0,0.04);
+        }
+
+        .btn-login {
+            width: 100%; padding: 12px;
+            background: linear-gradient(135deg, #004B87, #0B6DAE);
+            color: #fff; border: none;
+            border-radius: 8px;
+            font-size: 13.5px; font-weight: 700;
+            cursor: pointer; margin-top: 4px;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0;
+            box-shadow: 0 4px 14px rgba(0,75,135,0.32), 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+        }
+        .btn-login:hover {
+            background: linear-gradient(135deg, #003D72, #095F99);
+            box-shadow: 0 6px 20px rgba(0,75,135,0.40);
+            transform: translateY(-1px);
+        }
+        .btn-login:active { transform: translateY(0); }
+        .btn-login:disabled { background: #94A3B8; cursor: not-allowed; box-shadow: none; transform: none; }
+
+        .error-msg {
+            display: none;
+            background: #FEE2E2; border: 1px solid #FECACA;
+            color: #DC2626; border-radius: 8px;
+            padding: 10px 14px; font-size: 12.5px;
+            margin-bottom: 18px; font-weight: 500;
+        }
+
+        .login-footer {
+            margin-top: 28px; padding-top: 20px;
+            border-top: 1px solid #E4EAF2;
+            text-align: center;
+            font-size: 11px; color: #94A3B8;
+        }
+
+        @media (max-width: 768px) {
+            body { overflow: auto; }
+            .panel-left { display: none; }
+            .panel-right { width: 100%; min-height: 100vh; padding: 32px 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="panel-left">
+        <div class="panel-left-content">
+            <img src="/images/logo-itb.png" alt="Logo ITB" class="left-logo">
+            <div class="left-brand">KERMA</div>
+            <div class="left-subtitle">SBM ITB</div>
+            <div class="left-divider"></div>
+            <div class="left-features">
+                <div class="left-feature"><div class="left-feature-dot"></div>Manajemen kontrak & PKS</div>
+                <div class="left-feature"><div class="left-feature-dot"></div>Monitoring kerjasama aktif</div>
+                <div class="left-feature"><div class="left-feature-dot"></div>Pengelolaan mitra & mahasiswa</div>
+                <div class="left-feature"><div class="left-feature-dot"></div>Alur persetujuan dokumen</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-right">
+        <div class="login-box">
+            <div class="login-heading">Selamat datang</div>
+            <div class="login-sub">Masuk untuk mengakses sistem KERMA SBM ITB</div>
+            <div class="error-msg" id="errorMsg"></div>
+            <form id="formLogin">
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="text" id="username" class="form-input" autocomplete="username" placeholder="Masukkan username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input type="password" id="password" class="form-input" autocomplete="current-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-login" id="btnLogin">Masuk ke Sistem</button>
+            </form>
+            <div class="login-footer">Sistem Manajemen Kerjasama · SBM ITB<br>Hubungi administrator jika lupa password</div>
+        </div>
+    </div>
+
+    <script>
+        const formLogin = document.getElementById('formLogin');
+        const btnLogin  = document.getElementById('btnLogin');
+        const errorMsg  = document.getElementById('errorMsg');
+
+        formLogin.addEventListener('submit', async e => {
+            e.preventDefault();
+            errorMsg.style.display = 'none';
+            btnLogin.disabled = true;
+            btnLogin.textContent = 'Memproses...';
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: document.getElementById('username').value.trim(),
+                        password: document.getElementById('password').value
+                    })
+                });
+                const data = await res.json();
+                if (res.ok) { window.location.href = '/'; }
+                else {
+                    errorMsg.textContent = data.pesan || 'Login gagal.';
+                    errorMsg.style.display = 'block';
+                }
+            } catch {
+                errorMsg.textContent = 'Tidak dapat terhubung ke server.';
+                errorMsg.style.display = 'block';
+            } finally {
+                btnLogin.disabled = false;
+                btnLogin.textContent = 'Masuk ke Sistem';
+            }
+        });
+    </script>
+</body>
+</html>

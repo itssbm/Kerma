@@ -1,0 +1,422 @@
+[
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa49e"
+    },
+    "id_mitra": "PKT",
+    "nama_mitra": "PT Pupuk Kalimantan Timur",
+    "industri": "Industri Pengolahan",
+    "alamat": "Jl. James Simandjuntak No. 1",
+    "provinsi": "Kalimantan Timur",
+    "kota": "Bontang",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa49f"
+    },
+    "id_mitra": "JM",
+    "nama_mitra": "PT Jasa Marga (Persero) Tbk",
+    "industri": "Pengangkutan dan Pergudangan",
+    "alamat": "Plaza Tol Taman Mini Indonesia Indah, Jl. Tol Jagorawi No. 1",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Timur",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a0"
+    },
+    "id_mitra": "HK",
+    "nama_mitra": "PT Hutama Karya (Persero)",
+    "industri": "Konstruksi",
+    "alamat": "HK Tower, Jl. Letjen H.T. Haryono Kav. 8",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Timur",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a1"
+    },
+    "id_mitra": "FI",
+    "nama_mitra": "PT Freeport Indonesia",
+    "industri": "Pertambangan dan Penggalian",
+    "alamat": "Plaza 89, Lt. 5, Jl. H.R. Rasuna Said Kav. X-7 No. 6",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a2"
+    },
+    "id_mitra": "KPI",
+    "nama_mitra": "PT Kilang Pertamina Internasional",
+    "industri": "Industri Pengolahan",
+    "alamat": "Grha Pertamina, Jl. Medan Merdeka Timur No. 6",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Pusat",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a3"
+    },
+    "id_mitra": "BA",
+    "nama_mitra": "PT Bukit Asam Tbk",
+    "industri": "Pertambangan dan Penggalian",
+    "alamat": "Jl. Pariwisata No. 1, Tanjung Enim",
+    "provinsi": "Sumatera Selatan",
+    "kota": "Muara Enim",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a4"
+    },
+    "id_mitra": "IAITB",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "industri": "Aktivitas Jasa Lainnya",
+    "alamat": "Balai Pertemuan Ilmiah (BPI) ITB, Jl. Surapati No. 1",
+    "provinsi": "Jawa Barat",
+    "kota": "Bandung",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a5"
+    },
+    "id_mitra": "KPC",
+    "nama_mitra": "PT Kaltim Prima Coal",
+    "industri": "Pertambangan dan Penggalian",
+    "alamat": "M1 Building, Mine Site, Sangatta",
+    "provinsi": "Kalimantan Timur",
+    "kota": "Kutai Timur",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a6"
+    },
+    "id_mitra": "BRI",
+    "nama_mitra": "PT Bank Rakyat Indonesia (Persero) Tbk",
+    "industri": "Aktivitas Keuangan dan Asuransi",
+    "alamat": "Gedung BRI I, Jl. Jenderal Sudirman Kav. 44-46",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Pusat",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a7"
+    },
+    "id_mitra": "PLN",
+    "nama_mitra": "PT Perusahaan Listrik Negara (PERSERO)",
+    "industri": "Pengadaan Listrik, Gas, Uap/Air Panas Dan Udara Dingin",
+    "alamat": "Jl. Trunojoyo Blok M - I No. 135, Kebayoran Baru",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a8"
+    },
+    "id_mitra": "PSMBC",
+    "nama_mitra": "Politeknik Sinar Mas Berau Coal",
+    "industri": "Pendidikan",
+    "alamat": "Jl. Raja Alam II, Sei Bedungun, Tanjung Redeb",
+    "provinsi": "Kalimantan Timur",
+    "kota": "Berau",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4a9"
+    },
+    "id_mitra": "PTC",
+    "nama_mitra": "PT Pertamina Training and Consulting",
+    "industri": "Aktivitas Profesional, Ilmiah Dan Teknis",
+    "alamat": "Jl. Abdul Muis No. 56-58, Petojo Selatan",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Pusat",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4aa"
+    },
+    "id_mitra": "JT II",
+    "nama_mitra": "Perum Jasa Tirta II",
+    "industri": "Treatment Air, Limbah, Pemulihan Material Sampah & Remediasi",
+    "alamat": "Jl. Lurah Kanjayan No. 1, Jatiluhur",
+    "provinsi": "Jawa Barat",
+    "kota": "Purwakarta",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4ab"
+    },
+    "id_mitra": "TA",
+    "nama_mitra": "PT Telkom Akses",
+    "industri": "Konstruksi",
+    "alamat": "Telkom Landmark Tower, Jl. Jend. Gatot Subroto Kav. 52",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4ac"
+    },
+    "id_mitra": "PPNHI",
+    "nama_mitra": "Politeknik Pariwisata NHI",
+    "industri": "Pendidikan",
+    "alamat": "Jl. Dr. Setiabudhi No. 186",
+    "provinsi": "Jawa Barat",
+    "kota": "Bandung",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa4ad"
+    },
+    "id_mitra": "PPAPT",
+    "nama_mitra": "Pusat Pembiayaan dan Asesmen Pendidikan Tinggi",
+    "industri": "Administrasi Pemerintahan, Pertahanan & Jaminan Sosial",
+    "alamat": "Gedung D Lantai 15 Jalan Jenderal Sudirman",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Pusat",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38a496758c60f38db6dd73"
+    },
+    "id_mitra": "MI",
+    "nama_mitra": "PT Markplus Indonesia",
+    "industri": "Aktivitas Profesional, Ilmiah Dan Teknis",
+    "alamat": "EightyEight@Kasablanka Lantai 8, Jalan Casablanca Raya Kav. 88",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38a991758c60f38db6dd7d"
+    },
+    "id_mitra": "BAI",
+    "nama_mitra": "PT Bentang Alam Indonesia",
+    "industri": "Pertanian, Kehutanan dan Perikanan",
+    "alamat": "Gran Rubina Business Park (Generali Tower) lantai 16, Kawasan Rasuna Episentrum",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ae1a758c60f38db6dd88"
+    },
+    "id_mitra": "BI",
+    "nama_mitra": "PT Borneo Indobara",
+    "industri": "Pertambangan dan Penggalian",
+    "alamat": "Sinar Mas Land Plaza, Tower 2, Lantai 7, JI. M.H. Thamrin No. 51, RT.11/RW.2, Gondangdia, Menteng",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Pusat",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cc2e758c60f38db6dd93"
+    },
+    "id_mitra": "PEPR2",
+    "nama_mitra": "РT Pertamina EP Regional 2",
+    "industri": "Pertambangan dan Penggalian",
+    "alamat": "Gedung Menara Standard Chartered JI. Prof. Dr. Satrio No. 164",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f0bd26b7d7f3229d52e4"
+    },
+    "id_mitra": "BTPN",
+    "nama_mitra": "PT BANK BTPN TBK",
+    "industri": "Aktivitas Keuangan dan Asuransi",
+    "alamat": "Menara BTPN It. 12, Jalan Dr. Ide Anak Agung Gde Agung Kav. 5.5 5.6. Kuningan Timur",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f33626b7d7f3229d52ea"
+    },
+    "id_mitra": "BTPNS",
+    "nama_mitra": "PT Bank BTPN Syariah Tbk",
+    "industri": "Aktivitas Keuangan dan Asuransi",
+    "alamat": "Menara BTPN It. 12, Jalan Dr. Ide Anak Agung Gde Agung Kav. 5.5- 5.6. Kuningan Timur",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f88326b7d7f3229d52fa"
+    },
+    "id_mitra": "PNB",
+    "nama_mitra": "Politeknik Negeri Batam",
+    "industri": "Pendidikan",
+    "alamat": "Jalan Ahmad Yani Batam Kota",
+    "provinsi": "Kepulauan Riau",
+    "kota": "Batam",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b505f06b413622c7602d0"
+    },
+    "id_mitra": "BTN",
+    "nama_mitra": "PT Bank Tabungan Negara (Persero) Tbk.",
+    "industri": "Aktivitas Keuangan dan Asuransi",
+    "alamat": "Jalan Gajah Mada No. 1",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Pusat",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b54e906b413622c7602d2"
+    },
+    "id_mitra": "PERTA",
+    "nama_mitra": "PT Pertamina (Persero)",
+    "industri": "Pertambangan dan Penggalian",
+    "alamat": "Gedung Sopo Del Tower Lantai 38, JI Mega Kuningan Barat III",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b5bc906b413622c7602d9"
+    },
+    "id_mitra": "PELINDO",
+    "nama_mitra": "PT Pelabuhan Indonesia (Persero)",
+    "industri": "Pengangkutan dan Pergudangan",
+    "alamat": "Pelindo Tower Jl. Yos Sudarso No. 9, Kec. Koja",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Utara",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbd8506b413622c76047d"
+    },
+    "id_mitra": "DI",
+    "nama_mitra": "PT Bank Danamon Indonesia Tbk",
+    "industri": "Aktivitas Keuangan dan Asuransi",
+    "alamat": "Jl. HR. Rasuna Said, Blok C No. 10, Kelurahan Karet, Kecamatan Setiabudi",
+    "provinsi": "DKI Jakarta",
+    "kota": "Jakarta Selatan",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cc06906b413622c760483"
+    },
+    "id_mitra": "IAS",
+    "nama_mitra": "PT Integrasi Aviasi Solusi",
+    "industri": "Pengangkutan dan Pergudangan",
+    "alamat": "Komplek Gedung 528, Terminal Kargo, Bandara Internasional Soekarno Hatta, Kelurahan Pajang, Kecamatan Benda",
+    "provinsi": "Banten",
+    "kota": "Tangerang",
+    "negara": "Indonesia",
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]

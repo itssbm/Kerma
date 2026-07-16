@@ -1,0 +1,1268 @@
+[
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2ef"
+    },
+    "id_program": "KERMA_BA_Sem.I_23/24",
+    "nama_mitra": "PT Bukit Asam Tbk",
+    "no_kontrak_institusi": "560A/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "T/066/0400/HK.03/VII/2023",
+    "judul_pks": "Kerja Sama Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Bukit Asam Batch-1",
+    "tgl_kontrak": "2023-07-31",
+    "tgl_akhir_kontrak": "2026-07-31",
+    "nilai_kontrak": {
+      "$numberLong": "5940000000"
+    },
+    "kode_file": "SBM.PD-1-105-2023",
+    "file_kontrak": "PTBA-1-23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "44"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f0"
+    },
+    "id_program": "KERMA_PPNHI_Sem.I_24/25",
+    "nama_mitra": "Politeknik Pariwisata NHI",
+    "no_kontrak_institusi": "15A/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "SD/825/DIR/PTP.1/2024",
+    "judul_pks": "Penyelenggara Pendidikan Program Studi Doktor Sains Manajemen Tahun Akademik 2024/2025",
+    "tgl_kontrak": "2024-07-01",
+    "tgl_akhir_kontrak": "2025-02-03",
+    "nilai_kontrak": {
+      "$numberInt": "900000000"
+    },
+    "kode_file": "SBM.PD-1-39-2024",
+    "file_kontrak": "KERMA_2.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "4"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S3",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f1"
+    },
+    "id_program": "KERMA_PKT_Sem.I_25/26",
+    "nama_mitra": "PT Pupuk Kalimantan Timur",
+    "no_kontrak_institusi": "27/IT.1C09/SPK/2025",
+    "no_kontrak_mitra": "00266/D/HK/D61200/SP/2025",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis PT Pupuk Kalimantan Timur Batch 1 Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2025-08-13",
+    "tgl_akhir_kontrak": "2029-08-13",
+    "nilai_kontrak": {
+      "$numberInt": "1120000000"
+    },
+    "kode_file": "SBM.PD-1-53-2025",
+    "file_kontrak": "KERMA_3.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "8"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "140000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f2"
+    },
+    "id_program": "KERMA_JM_Sem.II_25/26",
+    "nama_mitra": "PT Jasa Marga (Persero) Tbk",
+    "no_kontrak_institusi": "40/IT.1C09/SPK/2025",
+    "no_kontrak_mitra": "51/Perjanjian-DIR/2025",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Jasa Marga (Persero) Tbk Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2025-12-17",
+    "tgl_akhir_kontrak": "2030-02-09",
+    "nilai_kontrak": {
+      "$numberInt": "1242950000"
+    },
+    "kode_file": "SBM.PD-1-55-2025",
+    "file_kontrak": "KERMA_4.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "9"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f3"
+    },
+    "id_program": "KERMA_HK_Sem.I_24/25",
+    "nama_mitra": "PT Hutama Karya (Persero)",
+    "no_kontrak_institusi": "23/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "DHCL/HC.3852/S.Perj/17.1.1/VIII/2024",
+    "judul_pks": "Penyelenggara Pendidikan Program Studi Magister Administrasi Bisnis Tahun Akademik 2024/2025",
+    "tgl_kontrak": "2024-08-27",
+    "tgl_akhir_kontrak": "2026-09-08",
+    "nilai_kontrak": {
+      "$numberInt": "1620000000"
+    },
+    "kode_file": "SBM.PD-1-78-2024",
+    "file_kontrak": "KERMA_5.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "12"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f4"
+    },
+    "id_program": "KERMA_FI_Sem.II_24/25",
+    "nama_mitra": "PT Freeport Indonesia",
+    "no_kontrak_institusi": "34/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "JK2400086-001-000-000",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Freeport Indonesia Tahun Akademik 2024/2025",
+    "tgl_kontrak": "2024-11-25",
+    "tgl_akhir_kontrak": "2029-01-25",
+    "nilai_kontrak": {
+      "$numberLong": "4751250000"
+    },
+    "kode_file": "SBM.PD-1-73-2024",
+    "file_kontrak": "KERMA_6.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "35"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f5"
+    },
+    "id_program": "KERMA_KPI_Sem.I_24/25",
+    "nama_mitra": "PT Kilang Pertamina Internasional",
+    "no_kontrak_institusi": "26/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "SP-43/KPI46000/2024-SO",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Administrasi Bisnis PT Kilang Pertamina Internasional Refinery Unit III Tahun Akademik 2024/2025",
+    "tgl_kontrak": "2024-09-23",
+    "tgl_akhir_kontrak": "2027-09-06",
+    "nilai_kontrak": {
+      "$numberLong": "2970000000"
+    },
+    "kode_file": "SBM.PD-1-49-2024",
+    "file_kontrak": "KERMA_7.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "22"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f6"
+    },
+    "id_program": "KERMA_BA_Sem.II_23/24",
+    "nama_mitra": "PT Bukit Asam Tbk",
+    "no_kontrak_institusi": "18/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "T/495/14100/HK.03/VII/2024",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Bukit Asam Tbk Batch II Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2024-07-12",
+    "tgl_akhir_kontrak": "2027-01-31",
+    "nilai_kontrak": {
+      "$numberLong": "4860000000"
+    },
+    "kode_file": "SBM.PD-1-34-2024",
+    "file_kontrak": "KERMA_8.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "36"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f7"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_23/24",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "no_kontrak_institusi": "03A/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "084/PKS/PP/IA-ITB/VIII/2024",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis IA ITB Batch 5 Kelas Weekend Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2024-02-01",
+    "tgl_akhir_kontrak": "2026-02-01",
+    "nilai_kontrak": {
+      "$numberLong": "2970000000"
+    },
+    "kode_file": "SBM.PD-1-23-2024",
+    "file_kontrak": "KERMA_9.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "22"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f8"
+    },
+    "id_program": "KERMA_KPC_Sem.I_24/25",
+    "nama_mitra": "PT Kaltim Prima Coal",
+    "no_kontrak_institusi": "37/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "PKS-591/BOD-HR6.8/XI/2024",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis PT Kaltim Prima Coal Batch 4 Tahun Akademik 2024/2025",
+    "tgl_kontrak": "2024-12-17",
+    "tgl_akhir_kontrak": "2027-09-09",
+    "nilai_kontrak": {
+      "$numberInt": "810000000"
+    },
+    "kode_file": "SBM.PD-1-81-2024",
+    "file_kontrak": "KERMA_10.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "6"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2f9"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_25/26",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "no_kontrak_institusi": "23/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "003/PKS/PP/IA-ITB/VIII/2025",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis IA ITB Batch 6 Kelas Weekend Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2025-08-20",
+    "tgl_akhir_kontrak": "2029-08-13",
+    "nilai_kontrak": {
+      "$numberLong": "5880000000"
+    },
+    "kode_file": "SBM.PD-1-54-2025",
+    "file_kontrak": "KERMA_11.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "42"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2fa"
+    },
+    "id_program": "KERMA_BRI_Sem.I_25/26",
+    "nama_mitra": "PT Bank Rakyat Indonesia (Persero) Tbk",
+    "no_kontrak_institusi": "38/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "B.05-KW-IX/RFD/10/2025",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis Bank Rakyat Indonesia Batch 1 Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2025-10-16",
+    "tgl_akhir_kontrak": "2029-09-11",
+    "nilai_kontrak": {
+      "$numberLong": "6580000000"
+    },
+    "kode_file": "SBM.PD-1-50-2025",
+    "file_kontrak": "KERMA_12.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "47"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2fb"
+    },
+    "id_program": "KERMA_PLN_Sem.II_24/25",
+    "nama_mitra": "PT Perusahaan Listrik Negara (PERSERO)",
+    "no_kontrak_institusi": "03/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "0044.Pj/SDM.07.02/F01080200/2025",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis Tahun Akademik 2024/2025",
+    "tgl_kontrak": "2025-02-09",
+    "tgl_akhir_kontrak": "2029-02-16",
+    "nilai_kontrak": {
+      "$numberLong": "4200000000"
+    },
+    "kode_file": "SBM.PD-1-1-2025",
+    "file_kontrak": "KERMA_13.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "30"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2fc"
+    },
+    "id_program": "KERMA_PPAPT_Sem.II_24/25",
+    "nama_mitra": "Pusat Pembiayaan dan Asesmen Pendidikan Tinggi",
+    "no_kontrak_institusi": "1911/IT1.C13/KS/2025",
+    "no_kontrak_mitra": "10130/PPAPT.1.2/PKS/VII/2025",
+    "judul_pks": "Perjanjian Penyaluran Beasiswa Presiden Untuk Kepemimpinan Bidang Ekonomi Dan Bisnis",
+    "tgl_kontrak": "2025-07-05",
+    "tgl_akhir_kontrak": "2026-07-05",
+    "nilai_kontrak": {
+      "$numberLong": "3012837018"
+    },
+    "kode_file": "SBM.PD-1-34-2025",
+    "file_kontrak": "KERMA_14.pdf",
+    "jumlah_mahasiswa": null,
+    "cara_pembayaran": "",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "2025-02-16",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2fd"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_23/24",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "no_kontrak_institusi": "598A/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "083/PKS/PP/IA-ITB/VIII/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis IA ITB Batch 4 Kelas Weekdays Dan Weekend Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2023-08-14",
+    "tgl_akhir_kontrak": "2026-08-14",
+    "nilai_kontrak": {
+      "$numberLong": "7965000000"
+    },
+    "kode_file": "SBM.PD-1-109-2023",
+    "file_kontrak": "KERMA_15.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "59"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2fe"
+    },
+    "id_program": "KERMA_HK_Sem.I_23/24",
+    "nama_mitra": "PT Hutama Karya (Persero)",
+    "no_kontrak_institusi": "576A/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "DHCL/HC.3602/S.Perj/10.2/VIII/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Hutama Karya (Persero) Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2023-08-04",
+    "tgl_akhir_kontrak": "2025-08-03",
+    "nilai_kontrak": {
+      "$numberInt": "1620000000"
+    },
+    "kode_file": "SBM.PD-1-107-2023",
+    "file_kontrak": "KERMA_16.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "12"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa2ff"
+    },
+    "id_program": "KERMA_PSMBC_Sem.I_25/26",
+    "nama_mitra": "Politeknik Sinar Mas Berau Coal",
+    "no_kontrak_institusi": "20B/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "016/PKS/PSB/WDI/X/2025",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Doktor Sains Manajemen Angkatan Tahun 2025",
+    "tgl_kontrak": "2025-08-18",
+    "tgl_akhir_kontrak": "2031-08-18",
+    "nilai_kontrak": {
+      "$numberInt": "900000000"
+    },
+    "kode_file": "SBM.PD-1-51-2025",
+    "file_kontrak": "KERMA_17.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "4"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S3",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa300"
+    },
+    "id_program": "KERMA_PTC_Sem.I_25/26",
+    "nama_mitra": "PT Pertamina Training and Consulting",
+    "no_kontrak_institusi": "20C/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "807/PTC-12000/2025-B1",
+    "judul_pks": "Penunjang Pendidikan Program Studi Doktor Sains Manajemen Angkatan Tahun 2025",
+    "tgl_kontrak": "2025-08-04",
+    "tgl_akhir_kontrak": "2029-08-04",
+    "nilai_kontrak": {
+      "$numberLong": "2412000000"
+    },
+    "kode_file": "SBM.PD-1-46-2025",
+    "file_kontrak": "KERMA_18.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "6"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S3",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa301"
+    },
+    "id_program": "KERMA_PJT II_Sem.I_25/26",
+    "nama_mitra": "Perum Jasa Tirta II",
+    "no_kontrak_institusi": "25/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "PKS-16/SDM.DKSMR/SM/08/2025",
+    "judul_pks": "Penyelenggara Pendidikan Program Studi Magister Administrasi Bisnis PJT II Batch 1 Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2025-08-28",
+    "tgl_akhir_kontrak": "2027-09-19",
+    "nilai_kontrak": {
+      "$numberInt": "280000000"
+    },
+    "kode_file": "SBM.PD-1-40-2025",
+    "file_kontrak": "KERMA_19.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "2"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa302"
+    },
+    "id_program": "KERMA_KPC_Sem.I_25/26",
+    "nama_mitra": "PT Kaltim Prima Coal",
+    "no_kontrak_institusi": "26/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "MOU-583/BOD-MOU1.12/XI/25",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis PT Kaltim Prima Coal Batch 5 Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2025-08-20",
+    "tgl_akhir_kontrak": "2029-08-13",
+    "nilai_kontrak": {
+      "$numberInt": "560000000"
+    },
+    "kode_file": "SBM.PD-1-58-2025",
+    "file_kontrak": "KERMA_20.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "4"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a2f63a98cbcf559b6faa303"
+    },
+    "id_program": "KERMA_TA_Sem.II_25/26",
+    "nama_mitra": "PT Telkom Akses",
+    "no_kontrak_institusi": "02/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "03955/HK.000/TA-730000/01-2026",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis PT Telkom Akses Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2026-01-26",
+    "tgl_akhir_kontrak": "2030-01-07",
+    "nilai_kontrak": {
+      "$numberInt": "630750000"
+    },
+    "kode_file": "SBM.PD-1-6-2026",
+    "file_kontrak": "KERMA_21.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "5"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38a61f758c60f38db6dd74"
+    },
+    "id_program": "KERMA_MI_Sem.II_22/23",
+    "nama_mitra": "PT Markplus Indonesia",
+    "no_kontrak_institusi": "14B/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "060/MI/III/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis SMEMBA Batch 7 Kelas Weekend Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2023-01-09",
+    "tgl_akhir_kontrak": "2025-01-09",
+    "nilai_kontrak": {
+      "$numberLong": "6560000000"
+    },
+    "kode_file": "SBM.PD-1-01-2023",
+    "file_kontrak": "KERMA_MI_Sem_II_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "41"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "160000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ac04758c60f38db6dd7e"
+    },
+    "id_program": "KERMA_BAI_Sem.II_22/23",
+    "nama_mitra": "PT Bentang Alam Indonesia",
+    "no_kontrak_institusi": "14A/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "001/LTR/AGPR-LI/III/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Adminsitrasi Bisnis STEMBA Batch 2 Kelas Weekend Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2023-01-09",
+    "tgl_akhir_kontrak": "2025-01-09",
+    "nilai_kontrak": {
+      "$numberLong": "4000000000"
+    },
+    "kode_file": "SBM.PD-1-02-2023",
+    "file_kontrak": "KERMA_BAI_Sem_II_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "32"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "125000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ad91758c60f38db6dd83"
+    },
+    "id_program": "KERMA_MI_Sem.I_23/24",
+    "nama_mitra": "PT Markplus Indonesia",
+    "no_kontrak_institusi": "01A/IT1.09/KS/2023",
+    "no_kontrak_mitra": "0222/MI/XI/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Adminsitrasi Bisnis ENMARK Batch 2 Non Reguler Tahun Ajaran 2023/2024",
+    "tgl_kontrak": "2023-09-04",
+    "tgl_akhir_kontrak": "2025-03-04",
+    "nilai_kontrak": {
+      "$numberLong": "3360000000"
+    },
+    "kode_file": "SBM.PD-1-03-2023",
+    "file_kontrak": "KERMA_MI_Sem_I_23_24.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "28"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "120000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38b40c758c60f38db6dd89"
+    },
+    "id_program": "KERMA_BI_Sem.I_23/24",
+    "nama_mitra": "PT Borneo Indobara",
+    "no_kontrak_institusi": "591A/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "021/PKS/BIB-ITB/VIII/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis EMBA Non Reguler",
+    "tgl_kontrak": "2023-08-01",
+    "tgl_akhir_kontrak": "2025-08-01",
+    "nilai_kontrak": {
+      "$numberLong": "4072500000"
+    },
+    "kode_file": "SBM.PD-1-04-2023",
+    "file_kontrak": "KERMA_BI_Sem_I_23_24.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "30"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135750000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38b631758c60f38db6dd8e"
+    },
+    "id_program": "KERMA_JM_Sem.II_23/24",
+    "nama_mitra": "PT Jasa Marga (Persero) Tbk",
+    "no_kontrak_institusi": "04/IT1.C09/KS/2023",
+    "no_kontrak_mitra": "59/Perjanjian-DIR/2023",
+    "judul_pks": "Penyelenggaraan Program Pendidikan Magister Administrasi Bisnis Non Reguler Tahun Ajaran 2023/2024",
+    "tgl_kontrak": "2023-12-27",
+    "tgl_akhir_kontrak": "2025-12-27",
+    "nilai_kontrak": {
+      "$numberInt": "1015000000"
+    },
+    "kode_file": "SBM.PD-1-104-2023",
+    "file_kontrak": "KERMA_JM_Sem_II_23_24.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "7"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cd6a758c60f38db6dd94"
+    },
+    "id_program": "KERMA_PEPR2_Sem.I_23/24",
+    "nama_mitra": "РT Pertamina EP Regional 2",
+    "no_kontrak_institusi": "538A/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "001/PEP51000/2024-S0",
+    "judul_pks": "Kerjasama Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Pertamina EP Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2023-07-25",
+    "tgl_akhir_kontrak": "2025-07-25",
+    "nilai_kontrak": {
+      "$numberLong": "5265000000"
+    },
+    "kode_file": "SBM.PD-1-106-2023",
+    "file_kontrak": "KERMA_PEPR2_Sem_I_23_24.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "39"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38cf00758c60f38db6dd9a"
+    },
+    "id_program": "KERMA_IAITB_Sem.II_22/23",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "no_kontrak_institusi": "076/PKS/PP/IA-ITB/VI/2023",
+    "no_kontrak_mitra": "465A/IT1.B04/KS.00/2023",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis IA ITB Batch 3 Kelas Weekdays dan Weekend Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2023-06-27",
+    "tgl_akhir_kontrak": "2025-06-27",
+    "nilai_kontrak": {
+      "$numberLong": "8910000000"
+    },
+    "kode_file": "SBM.PD-1-108-2023",
+    "file_kontrak": "KERMA_IAITB_Sem_II_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "66"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38e84a26b7d7f3229d52ca"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "no_kontrak_institusi": "603A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "057/PKS/PP/IA-ITB/XII/2022",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis IA ITB Batch 2 Kelas Weekdays Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2022-07-29",
+    "tgl_akhir_kontrak": "2024-07-29",
+    "nilai_kontrak": {
+      "$numberLong": "4725000000"
+    },
+    "kode_file": "SBM.PD-1-06-2022",
+    "file_kontrak": "KERMA_IAITB_Sem_I_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "35"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38ea1e26b7d7f3229d52d1"
+    },
+    "id_program": "KERMA_IAITB_Sem.I_22/23_A",
+    "nama_mitra": "Ikatan Alumni Institut Teknologi Bandung",
+    "no_kontrak_institusi": "604A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "056/PKS/PP/IA-ITB/XII/2022",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis IA ITB Batch 2 Kelas Weekend Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2022-07-29",
+    "tgl_akhir_kontrak": "2024-07-29",
+    "nilai_kontrak": {
+      "$numberLong": "6750000000"
+    },
+    "kode_file": "SBM.PD-1-07-2022",
+    "file_kontrak": "KERMA_IAITB_Sem_I_22_23_A.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "50"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38eca026b7d7f3229d52d7"
+    },
+    "id_program": "KERMA_MI_Sem.II_21/22",
+    "nama_mitra": "PT Markplus Indonesia",
+    "no_kontrak_institusi": "03/IT1.C09/SPK/2022",
+    "no_kontrak_mitra": "024/MI/II/2022",
+    "judul_pks": "Pembiayaan Penyelenggaraan Pendidikan Executive MBA in Strategic Marketing",
+    "tgl_kontrak": "2022-02-09",
+    "tgl_akhir_kontrak": "2023-08-09",
+    "nilai_kontrak": {
+      "$numberLong": "6860000000"
+    },
+    "kode_file": "SBM.PD-1-01-2022",
+    "file_kontrak": "KERMA_MI_Sem_II_21_22.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "64"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38efeb26b7d7f3229d52e0"
+    },
+    "id_program": "KERMA_BAI_Sem.II_21/22",
+    "nama_mitra": "PT Bentang Alam Indonesia",
+    "no_kontrak_institusi": "05/IT1.CO9 | SPKI 2022",
+    "no_kontrak_mitra": "002/ PP-SBMITB/ KE-u D I rU 2022",
+    "judul_pks": "Perjanjian Pembiayaan Penyelenggaraan Pendidikan Sustainability Executive MBA",
+    "tgl_kontrak": "2022-02-10",
+    "tgl_akhir_kontrak": "2025-02-10",
+    "nilai_kontrak": {
+      "$numberLong": "2875000000"
+    },
+    "kode_file": "SBM.PD-1-04-2022",
+    "file_kontrak": "KERMA_BAI_Sem_II_21_22.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "25"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f26226b7d7f3229d52e5"
+    },
+    "id_program": "KERMA_BTPN_Sem.",
+    "nama_mitra": "PT BANK BTPN TBK",
+    "no_kontrak_institusi": "2/IT1.B04/KS.00/2023",
+    "no_kontrak_mitra": "006/HRLD/EX/1/2023",
+    "judul_pks": "Penyelenggaraan Program Pendidikan Magister Untuk Program Studi Administrasi Bisnis Bagi Pegawai PT Bank BTPN Tbk",
+    "tgl_kontrak": "2023-01-19",
+    "tgl_akhir_kontrak": "2028-01-19",
+    "nilai_kontrak": {
+      "$numberLong": "3194500000"
+    },
+    "kode_file": "SBM.PD-1-08-2022",
+    "file_kontrak": "KERMA_BTPN_Sem_.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "25"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f4ba26b7d7f3229d52eb"
+    },
+    "id_program": "KERMA_BTPN_Sem.I_22/23",
+    "nama_mitra": "PT Bank BTPN Syariah Tbk",
+    "no_kontrak_institusi": "620A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "064/HCLTM-SPK/XII/2022",
+    "judul_pks": "Pembiayaan Program Pendidikan Magister Untuk Program Studi Administrasi Bisnis Bagi Karyawan PT Bank BTPN Syariah Tbk",
+    "tgl_kontrak": "2022-08-08",
+    "tgl_akhir_kontrak": "2024-08-08",
+    "nilai_kontrak": {
+      "$numberInt": "1149750000"
+    },
+    "kode_file": "SBM.PD-1-09-2022",
+    "file_kontrak": "KERMA_BTPN_Sem_I_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "9"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f66a26b7d7f3229d52f0"
+    },
+    "id_program": "KERMA_FI_Sem.I_22/23",
+    "nama_mitra": "PT Freeport Indonesia",
+    "no_kontrak_institusi": "657A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "JK2200051-001",
+    "judul_pks": "Kerja Sama Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Freeport Indonesia Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2022-08-18",
+    "tgl_akhir_kontrak": "2024-08-18",
+    "nilai_kontrak": {
+      "$numberLong": "4725000000"
+    },
+    "kode_file": "SBM.PD-1-10-2022",
+    "file_kontrak": "KERMA_FI_Sem_I_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "35"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f78526b7d7f3229d52f5"
+    },
+    "id_program": "KERMA_KPC_Sem.I_22/23",
+    "nama_mitra": "PT Kaltim Prima Coal",
+    "no_kontrak_institusi": "668A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "L056/HR-L&D/MBA-ITB/VIII/2022",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Kaltim Prima Coal Batch 3 Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2022-08-22",
+    "tgl_akhir_kontrak": "2024-08-22",
+    "nilai_kontrak": {
+      "$numberLong": "4455000000"
+    },
+    "kode_file": "SBM.PD-1-11-2022",
+    "file_kontrak": "KERMA_KPC_Sem_.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "33"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38f9e926b7d7f3229d52fb"
+    },
+    "id_program": "KERMA_PNB_Sem.I_22/23",
+    "nama_mitra": "Politeknik Negeri Batam",
+    "no_kontrak_institusi": "605A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "1498/PL29/VII/2022",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis Politeknik Negeri Batam (Polibatam) Batch 2 Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2022-07-29",
+    "tgl_akhir_kontrak": "2024-07-29",
+    "nilai_kontrak": {
+      "$numberInt": "945000000"
+    },
+    "kode_file": "SBM.PD-1-12-2022",
+    "file_kontrak": "KERMA_PNB_Sem_I_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "7"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "135000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a38fb2026b7d7f3229d5301"
+    },
+    "id_program": "KERMA_MI_Sem.I_22/23",
+    "nama_mitra": "PT Markplus Indonesia",
+    "no_kontrak_institusi": "621A/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "0460/MI/XII/2022",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis ENMARK Batch 1 Kelas Weekdays Tahun Akademik 2022/2023",
+    "tgl_kontrak": "2022-08-08",
+    "tgl_akhir_kontrak": "2024-08-08",
+    "nilai_kontrak": {
+      "$numberInt": "1440000000"
+    },
+    "kode_file": "SBM.PD-1-13-2022",
+    "file_kontrak": "KERMA_MI_Sem_I_22_23.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "12"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "120000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b540606b413622c7602d1"
+    },
+    "id_program": "KERMA_BTN_Sem.",
+    "nama_mitra": "PT Bank Tabungan Negara (Persero) Tbk.",
+    "no_kontrak_institusi": "682/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "25/PKS/DIR/2022",
+    "judul_pks": "Penyelenggaraan Pelatihan dan Pendidikan di Bidang Properti",
+    "tgl_kontrak": "2022-08-26",
+    "tgl_akhir_kontrak": "2027-08-26",
+    "nilai_kontrak": {
+      "$numberInt": "37957502"
+    },
+    "kode_file": "SBM.PD-1-112-2022",
+    "file_kontrak": "KERMA_BTN_Sem_.pdf",
+    "jumlah_mahasiswa": null,
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3b574906b413622c7602d3"
+    },
+    "id_program": "KERMA_PERTA_Sem.",
+    "nama_mitra": "PT Pertamina (Persero)",
+    "no_kontrak_institusi": "926/IT1.B04/KS.00/2022",
+    "no_kontrak_mitra": "SP-095/K20430/2022-S8",
+    "judul_pks": "Program Credit Earnings Mini MBA",
+    "tgl_kontrak": "2022-11-17",
+    "tgl_akhir_kontrak": "2022-12-31",
+    "nilai_kontrak": {
+      "$numberInt": "1660000000"
+    },
+    "kode_file": "SBM.PD-1-05-2022",
+    "file_kontrak": "KERMA_PERTA_Sem_.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "50"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbabb06b413622c760473"
+    },
+    "id_program": "KERMA_MI_Sem.II_23/24",
+    "nama_mitra": "PT Markplus Indonesia",
+    "no_kontrak_institusi": "07A/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "0228/MI/IV/2024",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis SMEMBA Batch 8 Kelas Weekend Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2024-03-08",
+    "tgl_akhir_kontrak": "2026-03-08",
+    "nilai_kontrak": {
+      "$numberLong": "10080000000"
+    },
+    "kode_file": "SBM.PD-1-20-2024",
+    "file_kontrak": "KERMA_MI_Sem_II_23_24.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "63"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "160000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbbfa06b413622c760478"
+    },
+    "id_program": "KERMA_BAI_Sem.II_23/24",
+    "nama_mitra": "PT Bentang Alam Indonesia",
+    "no_kontrak_institusi": "07B/IT1.C09/SPK/2024",
+    "no_kontrak_mitra": "005/LTR/AGPR-LI/IV/2024",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis STEMBA Batch 3 Kelas Weekend Tahun Akademik 2023/2024",
+    "tgl_kontrak": "2024-03-08",
+    "tgl_akhir_kontrak": "2026-03-08",
+    "nilai_kontrak": {
+      "$numberLong": "4500000000"
+    },
+    "kode_file": "SBM.PD-1-21-2024",
+    "file_kontrak": "KERMA_BAI_Sem_II_23_24.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "36"
+    },
+    "cara_pembayaran": "Unit Price",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": {
+      "$numberInt": "125000000"
+    },
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cbf9106b413622c76047e"
+    },
+    "id_program": "KERMA_DI_Sem.II_25/26",
+    "nama_mitra": "PT Bank Danamon Indonesia Tbk",
+    "no_kontrak_institusi": "05/IT1.C09/SPK/2025",
+    "no_kontrak_mitra": "B.061/PKS-HC/0226",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Studi Magister Administrasi Bisnis PT Bank Danamon Indonesia Tbk Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2026-02-03",
+    "tgl_akhir_kontrak": "2030-02-03",
+    "nilai_kontrak": {
+      "$numberInt": "504600000"
+    },
+    "kode_file": "SBM.PD-1-9-2026",
+    "file_kontrak": "KERMA_DI_Sem_II_25_26.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "4"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a3cc21e06b413622c760484"
+    },
+    "id_program": "KERMA_IAS_Sem.II_25/26",
+    "nama_mitra": "PT Integrasi Aviasi Solusi",
+    "no_kontrak_institusi": "06/ITI.C09/SPK/2026",
+    "no_kontrak_mitra": "IAS.022/SPK.NHI/2026/DH",
+    "judul_pks": "Penyelenggaraan Pendidikan Program Magister Administrasi Bisnis PT Integrasi Aviasi Solusi Tahun Akademik 2025/2026",
+    "tgl_kontrak": "2026-02-05",
+    "tgl_akhir_kontrak": "2030-02-06",
+    "nilai_kontrak": {
+      "$numberInt": "888300000"
+    },
+    "kode_file": "SBM.PD-1-12-2026",
+    "file_kontrak": "KERMA_IAS_Sem_.pdf",
+    "jumlah_mahasiswa": {
+      "$numberInt": "7"
+    },
+    "cara_pembayaran": "Termin",
+    "tipe_cicilan": "",
+    "batas_akhir_pembayaran": "",
+    "harga_per_mahasiswa": null,
+    "strata": "S2",
+    "__v": {
+      "$numberInt": "0"
+    }
+  }
+]
