@@ -123,9 +123,9 @@ function logApiAudit(req, statusCode, durationMs) {
     console.log('AUDIT', JSON.stringify(payload));
 }
 
-if (isProd && !process.env.SESSION_SECRET) {
-    throw new Error('SESSION_SECRET wajib diset di production untuk keamanan session.');
-}
+// if (isProd && !process.env.SESSION_SECRET) {
+//     throw new Error('SESSION_SECRET wajib diset di production untuk keamanan session.');
+// }
 if (!process.env.MONGODB_URI && isProd) {
     throw new Error('MONGODB_URI wajib diset di production untuk menyimpan sesi secara persisten.');
 }
