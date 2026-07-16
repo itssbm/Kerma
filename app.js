@@ -151,6 +151,24 @@ if (!process.env.MONGODB_URI && isProd) {
 const app = express();
 app.use(express.json({ limit: '20mb' }));
 app.set('trust proxy', TRUST_PROXY_COUNT);
+const INDEX_HTML_PATH = path.join(__dirname, 'views', 'index.html');
+const LOGIN_HTML_PATH = path.join(__dirname, 'public', 'login.html');
+let indexHtmlCache = null;
+let loginHtmlCache = null;
+
+function bacaHtmlBundle(filePath, cacheName) {
+    if (cacheName === 'index' && indexHtmlCache !== null) return indexHtmlCache;
+    if (cacheName === 'login' && loginHtmlCache !== null) return loginHtmlCache;
+    const html = fs.readFileSync(filePath, 'utf8');
+    if (cacheName === 'index') indexHtmlCache = html;
+    if (cacheName === 'login') loginHtmlCache = html;
+    return html;
+}
+
+function kirimHtmlBundle(res, filePath, cacheName) {
+    res.setHeader('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+    res.type('html').send(bacaHtmlBundle(filePath, cacheName));
+}
 
 const mongoClientPromise = mongoose.connection.readyState === 1
     ? Promise.resolve(mongoose.connection.getClient())
@@ -299,11 +317,11 @@ app.use('/pimpinan/indikator', requireLogin, requireAtasan, handleIndikatorPimpi
 // ─── Route publik: login page & asset statis ─────────────────────────────────
 app.get('/login', (req, res) => {
     if (req.session.user) return res.redirect('/');
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    return kirimHtmlBundle(res, LOGIN_HTML_PATH, 'login');
 });
 
 app.get(['/','/index.html'], requireLogin, (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+    return kirimHtmlBundle(res, INDEX_HTML_PATH, 'index');
 });
 
 // Semua asset statis lain butuh login (kecuali /login itu sendiri)
