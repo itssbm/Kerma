@@ -151,7 +151,7 @@ if (!process.env.MONGODB_URI && isProd) {
 const app = express();
 app.use(express.json({ limit: '20mb' }));
 app.set('trust proxy', TRUST_PROXY_COUNT);
-const INDEX_HTML_PATH = path.join(__dirname, 'views', 'index.html');
+const INDEX_HTML_PATH = path.join(__dirname, 'public', 'app.html');
 const LOGIN_HTML_PATH = path.join(__dirname, 'public', 'login.html');
 let indexHtmlCache = null;
 let loginHtmlCache = null;

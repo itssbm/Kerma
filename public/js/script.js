@@ -11,6 +11,7 @@ async function initSession() {
         const res = await fetch('/api/me');
         if (!res.ok) { window.location.href = '/login'; return false; }
         currentUser = await res.json();
+        document.documentElement.classList.remove('session-pending');
         const roleLabel = currentUser.role === 'atasan' ? 'Pimpinan KERMA' : 'Admin KERMA';
         document.getElementById('userRoleBadge').textContent  = roleLabel;
         document.getElementById('userNamaSidebar').textContent = currentUser.nama;
