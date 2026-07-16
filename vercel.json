@@ -9,16 +9,5 @@
       "source": "/(.*)",
       "destination": "/api/index.js"
     }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    }
   ]
 }
