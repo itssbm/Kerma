@@ -133,14 +133,32 @@ if (!process.env.MONGODB_URI && isProd) {
 const app = express();
 app.use(express.json({ limit: '20mb' }));
 app.set('trust proxy', TRUST_PROXY_COUNT);
+
+const mongoClientPromise = mongoose.connection.readyState === 1
+    ? Promise.resolve(mongoose.connection.getClient())
+    : new Promise((resolve, reject) => {
+        const onConnected = () => {
+            cleanup();
+            resolve(mongoose.connection.getClient());
+        };
+        const onError = (err) => {
+            cleanup();
+            reject(err);
+        };
+        const cleanup = () => {
+            mongoose.connection.off('connected', onConnected);
+            mongoose.connection.off('error', onError);
+        };
+        mongoose.connection.once('connected', onConnected);
+        mongoose.connection.once('error', onError);
+    });
+
 app.use(session({
     secret: SESSION_SECRET,
     store: MongoStore.create({
         // Gunakan MongoClient yang sama dengan Mongoose agar Vercel tidak
-        // membuka koneksi MongoDB kedua yang dapat menggantung saat cold start.
-        clientPromise: mongoose.connection
-            .asPromise()
-            .then((connection) => connection.getClient()),
+        // membuka koneksi MongoDB kedua saat cold start.
+        clientPromise: mongoClientPromise,
         collectionName: process.env.MONGO_SESSION_COLLECTION || 'kerma_sessions',
         ttl: SESSION_TTL_SECONDS,
         autoRemove: 'native',
