@@ -9,9 +9,6 @@ async function ensureReady() {
     if (initialized) return initialized;
     initialized = (async () => {
         await connectDB();
-        if (typeof app.initDataIndustri === 'function') {
-            await app.initDataIndustri();
-        }
     })();
     return initialized;
 }
