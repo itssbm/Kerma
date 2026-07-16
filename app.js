@@ -259,6 +259,10 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
+app.get(['/','/index.html'], requireLogin, (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
 // Semua asset statis lain butuh login (kecuali /login itu sendiri)
 app.use((req, res, next) => {
     const pub = ['/login', '/login.html'];
@@ -293,6 +297,7 @@ app.get('/uploads/addendum/:file', requireLogin, async (req, res) => {
     }
 });
 app.use(express.static(path.join(__dirname, 'public'), {
+    index: false,
     etag: false,
     lastModified: false,
     setHeaders: (res, filePath) => {
