@@ -8,18 +8,22 @@
       "excludeFiles": "{public/uploads/**,data/backups/**,mongo-data-export/**}"
     }
   },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/app.html",
+      "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "destination": "/app.html",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/login",
       "destination": "/login.html"
-    },
-    {
-      "source": "/",
-      "destination": "/app.html"
-    },
-    {
-      "source": "/index.html",
-      "destination": "/app.html"
     },
     {
       "source": "/api/(.*)",
