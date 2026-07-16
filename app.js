@@ -1142,7 +1142,12 @@ function persenDpiPenerimaan(row = {}) {
 function nominalBrutoPenerimaan(row = {}) {
     const bruto = Number(row.nominal_bruto);
     if (Number.isFinite(bruto) && bruto > 0) return bruto;
-    return Math.max(0, Number(row.nominal) || 0);
+    const nominalTersimpan = Math.max(0, Number(row.nominal) || 0);
+    const persen = persenDpiPenerimaan(row);
+    if (nominalTersimpan > 0 && persen > 0 && persen < 100) {
+        return Math.round(nominalTersimpan / (1 - (persen / 100)));
+    }
+    return nominalTersimpan;
 }
 
 function nominalDpiPenerimaan(row = {}) {
@@ -3494,7 +3499,8 @@ function buatRencanaPendapatanKey(row) {
 
 function buatRencanaPendapatanFallbackKey(row) {
     const tanggal = formatTanggalInput(row.tanggal_input || row.rencana_tanggal || row.tanggal || '');
-    const nominal = Number(row.nominal_bruto) > 0
+    const isRealisasiPembayaran = !!(row.tanggal || row.rencana_tanggal || row.nominal_bruto !== undefined || row.potongan_persen !== undefined);
+    const nominal = isRealisasiPembayaran
         ? nominalBrutoPenerimaan(row)
         : (Number(row.rencana_nominal) || Number(row.nominal) || 0);
     if (!row.id_program || !row.kode_file || !tanggal || nominal <= 0) return '';
@@ -3621,9 +3627,7 @@ function cariRencanaPembayaranUntukRealisasi(row, index) {
     const idProgram = String(row.id_program || '').trim();
     const kodeFile = String(row.kode_file || '').trim();
     const tahap = normalisasiKeyBagian(row.rencana_tahap || '');
-    const nominal = Number(row.nominal_bruto) > 0
-        ? nominalBrutoPenerimaan(row)
-        : (Number(row.rencana_nominal) || Number(row.nominal) || 0);
+    const nominal = nominalBrutoPenerimaan(row);
     return (
         ambilRencanaBelumDipakai(index.byProgramTahapNominal, `${idProgram}|${tahap}|${nominal}`) ||
         ambilRencanaBelumDipakai(index.byKodeTahapNominal, `${kodeFile}|${tahap}|${nominal}`) ||
@@ -3675,26 +3679,17 @@ function urutRencanaUntukAlokasi(a, b) {
 }
 
 function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPembayaran = []) {
-    const targetNetoByRencanaKey = new Map();
-    realisasiPembayaran.forEach(row => {
-        const key = String(row.rencana_key || '').trim();
-        const nominalTarget = Number(row.rencana_nominal) || nominalRealisasiPenerimaan(row);
-        if (!key || nominalTarget <= 0) return;
-        targetNetoByRencanaKey.set(key, nominalTarget);
-    });
-
     const rows = rencanaRows.map((row, index) => {
         const nominalRencana = Number(row.nominal) || 0;
-        const nominalTargetRealisasi = targetNetoByRencanaKey.get(String(row.rencana_key || '').trim()) || nominalRencana;
         return {
             ...row,
             __index: index,
             __kontrak_key: keyKontrakRencanaPendapatan(row),
             nominal: nominalRencana,
-            nominal_rencana: nominalTargetRealisasi,
-            nominal_rencana_display: `Rp ${formatRupiahAngka(nominalTargetRealisasi)}`,
+            nominal_rencana: nominalRencana,
+            nominal_rencana_display: `Rp ${formatRupiahAngka(nominalRencana)}`,
             nominal_terealisasi: 0,
-            nominal_sisa: nominalTargetRealisasi
+            nominal_sisa: nominalRencana
         };
     });
     const byRencanaKey = new Map();
@@ -3735,7 +3730,7 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
     };
 
     realisasiPembayaran.forEach(row => {
-        let nominalRealisasi = nominalRealisasiPenerimaan(row);
+        let nominalRealisasi = nominalBrutoPenerimaan(row);
         if (nominalRealisasi <= 0) return;
 
         const rencanaKey = String(row.rencana_key || '').trim();
@@ -3963,7 +3958,7 @@ app.post('/api/tambah-realisasi-pembayaran', async (req, res) => {
             rencana_key: rencanaKey,
             rencana_tahap: rencana_tahap?.trim() || '',
             rencana_tanggal: rencana_tanggal?.trim() || '',
-            rencana_nominal: Number(rencana_nominal) || 0
+            rencana_nominal: Number(rencana_nominal) || nominalBrutoFinal
         });
         res.json({ pesan: 'Realisasi pembayaran berhasil ditambahkan.' });
     } catch (err) {

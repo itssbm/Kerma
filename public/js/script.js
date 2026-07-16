@@ -6673,7 +6673,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (Number.isFinite(nominalBruto) && nominalBruto > 0) return nominalBruto;
         const nominalBrutoDisplay = parseNominalRupiah(item.nominal_bruto_display);
         if (nominalBrutoDisplay > 0) return nominalBrutoDisplay;
-        return Math.max(0, Number(item.nominal) || parseNominalRupiah(item.nominal_display) || 0);
+        const nominalTersimpan = Math.max(0, Number(item.nominal) || parseNominalRupiah(item.nominal_display) || 0);
+        const persenRaw = Number(item.potongan_persen);
+        const persen = Number.isFinite(persenRaw)
+            ? Math.min(100, Math.max(0, persenRaw))
+            : persenPotonganDefaultPenerimaan();
+        if (nominalTersimpan > 0 && persen > 0 && persen < 100) {
+            return Math.round(nominalTersimpan / (1 - (persen / 100)));
+        }
+        return nominalTersimpan;
     }
 
     function persenDpiPembayaranTercatat(item = {}) {
@@ -7496,34 +7504,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         return (tahapSama && tanggalSama) || (tanggalSama && nominalSama) || (tahapSama && nominalSama);
     }
 
-    function targetNetoRencanaDariPembayaran(row = {}, pembayaranList = []) {
-        const rowKey = String(row.rencana_key || '').trim();
-        if (!rowKey) return 0;
-        const pembayaran = pembayaranList.find(item =>
-            String(item.rencana_key || '').trim() === rowKey &&
-            (Number(item.rencana_nominal) || 0) > 0
-        );
-        return Number(pembayaran?.rencana_nominal) || 0;
-    }
-
     function tandaiRencanaTerminTerealisasi(data = [], pembayaranList = []) {
         return data.map(row => {
             const nominalBruto = Number(row.nominal) || 0;
-            const nominalNetoTarget = targetNetoRencanaDariPembayaran(row, pembayaranList);
-            const nominalTarget = nominalNetoTarget || nominalBruto;
+            const nominalTarget = nominalBruto;
             const punyaStatusAlokasi = Number.isFinite(Number(row.nominal_sisa))
                 || Number.isFinite(Number(row.nominal_terealisasi));
 
             if (punyaStatusAlokasi) {
                 const nominalTerealisasi = Math.max(0, Number(row.nominal_terealisasi) || 0);
-                const nominalSisa = Math.max(0, nominalNetoTarget
-                    ? nominalTarget - nominalTerealisasi
-                    : Number(row.nominal_sisa) || Math.max(0, nominalTarget - nominalTerealisasi));
+                const nominalSisa = Math.max(0, Number(row.nominal_sisa) || Math.max(0, nominalTarget - nominalTerealisasi));
                 const terealisasi = nominalTarget > 0 && nominalSisa <= 0;
                 return {
                     ...row,
-                    nominal_rencana: Number(row.nominal_rencana) || nominalTarget,
-                    nominal_rencana_display: row.nominal_rencana_display || formatRupiahPenuh(nominalTarget),
+                    nominal_rencana: nominalTarget,
+                    nominal_rencana_display: formatRupiahPenuh(nominalTarget),
                     nominal_terealisasi: nominalTerealisasi,
                     nominal_terealisasi_display: row.nominal_terealisasi_display || formatRupiahPenuh(nominalTerealisasi),
                     nominal_sisa: nominalSisa,
@@ -7537,7 +7532,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const nominalTerealisasi = pembayaranList
                 .filter(pembayaran => pembayaranTerminMatches(row, pembayaran))
-                .reduce((sum, pembayaran) => sum + nominalNettoPembayaranTercatat(pembayaran), 0);
+                .reduce((sum, pembayaran) => sum + nominalBrutoPembayaranTercatat(pembayaran), 0);
             const nominalSisa = Math.max(0, nominalTarget - nominalTerealisasi);
             const terealisasi = nominalTarget > 0 && nominalSisa <= 0;
             return {
@@ -7591,7 +7586,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         pembayaranList.forEach(item => {
             const kode = String(item.kode_file || '').trim();
             if (!kode) return;
-            pembayaranByKode.set(kode, (pembayaranByKode.get(kode) || 0) + nominalNettoPembayaranTercatat(item));
+            pembayaranByKode.set(kode, (pembayaranByKode.get(kode) || 0) + nominalBrutoPembayaranTercatat(item));
         });
 
         const tambahan = kontrakList
@@ -9034,7 +9029,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             data.rencana_key = rencanaPendapatanDipilih.rencana_key || '';
             data.rencana_tahap = rencanaPendapatanDipilih.tahap || '';
             data.rencana_tanggal = rencanaPendapatanDipilih.tanggal_input || '';
-            data.rencana_nominal = Number(data.nominal) || nominalNetoRealisasiPenerimaan(rencanaPendapatanDipilih);
+            data.rencana_nominal = Number(rencanaPendapatanDipilih.nominal_rencana)
+                || Number(rencanaPendapatanDipilih.nominal)
+                || Number(data.nominal_bruto)
+                || 0;
         }
         formAlertPembayaran.style.display = 'none';
         const btnSubmit = formRealisasiPembayaran.querySelector('button[type="submit"]');
