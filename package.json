@@ -7,13 +7,17 @@
     "start": "node server.js",
     "import:mongo-export": "node scripts/import-mongo-data-export.js",
     "import:plotting-backup": "node scripts/import-plotting-backup.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --check app.js && node --check api/index.js && node --check public/js/script.js && node --check models/UploadChunk.js && node --check scripts/render-pdf-pages.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
+    "@napi-rs/canvas": "^1.0.2",
     "adm-zip": "^0.5.17",
     "bcryptjs": "^3.0.3",
     "connect-mongo": "^5.1.0",
@@ -25,7 +29,7 @@
     "ioredis": "^5.7.0",
     "mongodb": "^6.21.0",
     "mongoose": "^9.7.0",
-    "pizzip": "^3.2.0",
-    "serverless-http": "^3.2.0"
+    "pdfjs-dist": "^6.1.200",
+    "pizzip": "^3.2.0"
   }
 }

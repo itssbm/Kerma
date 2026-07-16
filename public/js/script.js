@@ -5704,13 +5704,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             rawData.cicilan = JSON.stringify(kumpulkanCicilan('daftarCicilanTermin'));
         }
 
-        const fileInputForm = document.getElementById('fileKontrakForm');
-        const fileTerpilih = fileInputForm?.files[0];
-        if (fileTerpilih) {
-            rawData.file_base64 = await bacaFileBase64(fileTerpilih);
-            rawData.file_nama = fileTerpilih.name;
-        }
-
         const data = rawData;
         formAlert.style.display = 'none';
         const btnSubmit = formTambah.querySelector('button[type="submit"]');
@@ -5718,6 +5711,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnSubmit.textContent = 'Menyimpan...';
 
         try {
+            const fileInputForm = document.getElementById('fileKontrakForm');
+            const fileTerpilih = fileInputForm?.files[0];
+            if (fileTerpilih) {
+                Object.assign(
+                    data,
+                    await siapkanPayloadUpload(fileTerpilih, 'kontrak', data.id_program)
+                );
+            }
+
             const res = await fetch('/api/tambah-kerma', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -5736,9 +5738,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 formAlert.textContent = hasil.pesan;
                 formAlert.style.display = 'inline-block';
             }
-        } catch {
+        } catch (err) {
             formAlert.className = 'form-alert form-alert--error';
-            formAlert.textContent = 'Gagal terhubung ke server.';
+            formAlert.textContent = err?.message || 'Gagal terhubung ke server.';
             formAlert.style.display = 'inline-block';
         } finally {
             btnSubmit.disabled = false;
@@ -5845,11 +5847,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const btn = document.getElementById('btnUploadAddendum');
         btn.disabled = true; btn.textContent = 'Mengupload...';
         try {
-            const fileBase64 = await bacaFileBase64(file);
+            const filePayload = await siapkanPayloadUpload(file, 'addendum', addendumTargetId);
             const res = await fetch('/api/upload-addendum', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id_program: addendumTargetId, file_base64: fileBase64, file_nama: file.name })
+                body: JSON.stringify({ id_program: addendumTargetId, ...filePayload })
             });
             const hasil = await res.json();
             if (res.ok) {
@@ -5866,9 +5868,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 addendumAlert.textContent = hasil.pesan;
                 addendumAlert.style.display = 'inline-block';
             }
-        } catch {
+        } catch (err) {
             addendumAlert.className = 'form-alert form-alert--error';
-            addendumAlert.textContent = 'Gagal terhubung ke server.';
+            addendumAlert.textContent = err?.message || 'Gagal terhubung ke server.';
             addendumAlert.style.display = 'inline-block';
         } finally {
             btn.disabled = false; btn.textContent = 'Upload Addendum';
@@ -6035,14 +6037,72 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ---- UPLOAD FILE KONTRAK ----
     const fileInputKontrak = document.getElementById('fileInputKontrak');
     let uploadTargetId = null;
+    const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
+    const DIRECT_UPLOAD_BYTES = 2 * 1024 * 1024;
+    const UPLOAD_CHUNK_BYTES = 2 * 1024 * 1024;
 
-    function bacaFileBase64(file) {
+    function bacaFileBase64(fileOrBlob) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = e => resolve(e.target.result.split(',')[1]);
             reader.onerror = reject;
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(fileOrBlob);
         });
+    }
+
+    function buatUploadId() {
+        if (window.crypto?.randomUUID) return window.crypto.randomUUID();
+        const bytes = new Uint8Array(24);
+        window.crypto.getRandomValues(bytes);
+        return Array.from(bytes, value => value.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function siapkanPayloadUpload(file, kind, idProgram) {
+        if (!file) throw new Error('File tidak ditemukan.');
+        if (!idProgram) throw new Error('ID program belum diisi.');
+        if (file.size <= 0) throw new Error('File kosong tidak dapat diupload.');
+        if (file.size > MAX_UPLOAD_BYTES) throw new Error('Ukuran file maksimal 15 MB.');
+
+        if (file.size <= DIRECT_UPLOAD_BYTES) {
+            return {
+                file_base64: await bacaFileBase64(file),
+                file_nama: file.name
+            };
+        }
+
+        const uploadId = buatUploadId();
+        const totalChunks = Math.ceil(file.size / UPLOAD_CHUNK_BYTES);
+
+        for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex += 1) {
+            const start = chunkIndex * UPLOAD_CHUNK_BYTES;
+            const end = Math.min(file.size, start + UPLOAD_CHUNK_BYTES);
+            const chunkBase64 = await bacaFileBase64(file.slice(start, end));
+            const response = await fetch('/api/upload-chunk', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    upload_id: uploadId,
+                    kind,
+                    id_program: idProgram,
+                    file_nama: file.name,
+                    file_size: file.size,
+                    chunk_index: chunkIndex,
+                    total_chunks: totalChunks,
+                    chunk_base64: chunkBase64
+                })
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok) {
+                throw new Error(result.pesan || `Gagal mengupload bagian ${chunkIndex + 1}/${totalChunks}.`);
+            }
+        }
+
+        return {
+            file_upload_id: uploadId,
+            file_nama: file.name,
+            file_size: file.size,
+            total_chunks: totalChunks
+        };
     }
 
     fileInputKontrak.addEventListener('change', async () => {
@@ -6053,11 +6113,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
 
         try {
-            const fileBase64 = await bacaFileBase64(file);
+            const filePayload = await siapkanPayloadUpload(file, 'kontrak', uploadTargetId);
             const res = await fetch('/api/upload-kontrak', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id_program: uploadTargetId, file_base64: fileBase64, file_nama: file.name })
+                body: JSON.stringify({ id_program: uploadTargetId, ...filePayload })
             });
             const hasil = await res.json();
             if (res.ok) {
@@ -6066,8 +6126,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert('Gagal upload: ' + hasil.pesan);
                 if (btn) { btn.disabled = false; btn.textContent = btn.classList.contains('btn-ganti-file') ? '↺ Ganti' : '📎 Upload'; }
             }
-        } catch {
-            alert('Gagal terhubung ke server.');
+        } catch (err) {
+            alert(err?.message || 'Gagal terhubung ke server.');
             if (btn) { btn.disabled = false; }
         } finally {
             fileInputKontrak.value = '';
@@ -10284,25 +10344,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         btnProseImport.disabled = true; btnProseImport.textContent = 'Memproses...';
         try {
-            const fileBase64 = await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result.split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
+            const idProgramOverride = importSelectKerma.value || '';
+            const filePayload = await siapkanPayloadUpload(
+                file,
+                'import_mahasiswa',
+                idProgramOverride || '__from_file__'
+            );
             const res = await fetch('/api/import-mahasiswa', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ fileBase64, id_program_override: importSelectKerma.value || '' })
+                body: JSON.stringify({
+                    ...filePayload,
+                    id_program_override: idProgramOverride
+                })
             });
             const hasil = await res.json();
             importAlert.className = res.ok ? 'form-alert form-alert--success' : 'form-alert form-alert--error';
             importAlert.textContent = hasil.pesan;
             importAlert.style.display = 'block';
             if (res.ok) { fileImportMahasiswa.value = ''; await AmbilDataMahasiswaDanRender(); }
-        } catch {
+        } catch (err) {
             importAlert.className = 'form-alert form-alert--error';
-            importAlert.textContent = 'Gagal terhubung ke server.';
+            importAlert.textContent = err?.message || 'Gagal terhubung ke server.';
             importAlert.style.display = 'block';
         } finally {
             btnProseImport.disabled = false; btnProseImport.textContent = 'Proses Import';

@@ -10,6 +10,7 @@ const fs         = require('fs');
 const path       = require('path');
 const os         = require('os');
 const { execFileSync } = require('child_process');
+const { pipeline } = require('stream/promises');
 const crypto     = require('crypto');
 const mongoose   = require('mongoose');
 const { GridFSBucket } = require('mongodb');
@@ -30,6 +31,7 @@ const RabAnggaran = require('./models/RabAnggaran');
 const RealisasiAnggaran = require('./models/RealisasiAnggaran');
 const RealisasiPembayaran = require('./models/RealisasiPembayaran');
 const PlottingKerma = require('./models/PlottingKerma');
+const UploadChunk = require('./models/UploadChunk');
 const isProd = process.env.NODE_ENV === 'production';
 const SESSION_SECRET = process.env.SESSION_SECRET || (isProd ? '' : 'kerma-sbm-itb-secret-2024');
 const TRUST_PROXY_COUNT = Number(process.env.TRUST_PROXY_COUNT || 1);
@@ -48,26 +50,41 @@ const ALLOWED_ORIGINS = new Set(
 );
 const apiRateMap = new Map();
 let rateLimitRedis = null;
-const apiRateCleaner = setInterval(() => {
-    const now = Date.now();
+let nextApiRateCleanupAt = 0;
+
+function cleanupApiRateMap(now = Date.now()) {
+    if (now < nextApiRateCleanupAt) return;
     for (const [key, item] of apiRateMap.entries()) {
         if (!item || now > item.reset) apiRateMap.delete(key);
     }
-}, Math.max(10_000, API_RATE_LIMIT_WINDOW_MS)).unref();
+    nextApiRateCleanupAt = now + Math.max(10_000, API_RATE_LIMIT_WINDOW_MS);
+}
 
 if (API_RATE_USE_REDIS && API_RATE_REDIS_URL) {
     try {
-        rateLimitRedis = new Redis(API_RATE_REDIS_URL);
+        if (!/^rediss?:\/\//i.test(API_RATE_REDIS_URL)) {
+            throw new Error('API_RATE_REDIS_URL harus memakai protokol redis:// atau rediss://.');
+        }
+        rateLimitRedis = new Redis(API_RATE_REDIS_URL, {
+            connectTimeout: 5000,
+            maxRetriesPerRequest: 1,
+            enableOfflineQueue: false,
+            retryStrategy: times => times <= 3 ? Math.min(times * 200, 1000) : null
+        });
         rateLimitRedis.on('error', (err) => {
             console.error('Redis rate limit error:', err?.message || err);
-            rateLimitRedis = null;
         });
+        rateLimitRedis.on('end', () => { rateLimitRedis = null; });
         rateLimitRedis.on('ready', () => console.log('Rate limit Redis siap.'));
     } catch (e) {
         console.error('Gagal inisialisasi Redis limiter:', e?.message || e);
         rateLimitRedis = null;
     }
 }
+
+process.once('SIGTERM', () => {
+    try { rateLimitRedis?.disconnect(); } catch {}
+});
 
 async function checkRateLimitWithRedis(req, limitKey, limit) {
     const bucket = Math.floor(Date.now() / API_RATE_LIMIT_WINDOW_MS);
@@ -83,6 +100,7 @@ async function checkRateLimitWithRedis(req, limitKey, limit) {
 
 function checkRateLimitInMemory(req, limitKey, limit) {
     const now = Date.now();
+    cleanupApiRateMap(now);
     const entry = apiRateMap.get(limitKey) || { reset: now + API_RATE_LIMIT_WINDOW_MS, hits: 0 };
     if (now > entry.reset) {
         entry.reset = now + API_RATE_LIMIT_WINDOW_MS;
@@ -538,8 +556,23 @@ app.put('/api/plotting-kerma', requireLogin, async (req, res) => {
 
 const MONGO_FILE_BUCKET = process.env.MONGO_FILE_BUCKET || 'kerma_uploads';
 const MAX_UPLOAD_BYTES = Number(process.env.FILE_UPLOAD_MAX_BYTES || 15 * 1024 * 1024);
+const configuredUploadChunkBytes = Number(process.env.FILE_UPLOAD_CHUNK_BYTES || 2 * 1024 * 1024);
+const UPLOAD_CHUNK_BYTES = Number.isFinite(configuredUploadChunkBytes)
+    && configuredUploadChunkBytes >= 256 * 1024
+    && configuredUploadChunkBytes <= 2.5 * 1024 * 1024
+    ? Math.floor(configuredUploadChunkBytes)
+    : 2 * 1024 * 1024;
+const UPLOAD_CHUNK_TTL_MS = Number(process.env.FILE_UPLOAD_CHUNK_TTL_MS || 60 * 60 * 1000);
 const UPLOAD_KIND_KONTRAK = 'kontrak';
 const UPLOAD_KIND_ADDENDUM = 'addendum';
+const UPLOAD_KIND_IMPORT_MAHASISWA = 'import_mahasiswa';
+const UPLOAD_KIND_IMPORT_CALON_PESERTA = 'import_calon_peserta';
+const UPLOAD_KINDS = new Set([
+    UPLOAD_KIND_KONTRAK,
+    UPLOAD_KIND_ADDENDUM,
+    UPLOAD_KIND_IMPORT_MAHASISWA,
+    UPLOAD_KIND_IMPORT_CALON_PESERTA
+]);
 const MAX_FILENAME_BYTES = 120;
 const ALLOWED_EXT = new Set(['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.jpg', '.jpeg', '.png']);
 const KATEGORI_REALISASI_ANGGARAN = [
@@ -688,12 +721,15 @@ async function unggahBufferKeGridFS(filename, buffer, metadata = {}) {
     return safeName;
 }
 
-async function simpanFileKontrak(idProgram, fileBase64, fileNama, uploadedBy) {
+async function simpanBufferKontrak(idProgram, buffer, fileNama, uploadedBy) {
     const fileNameSafe = normalisasiNamaFileUpload(fileNama);
     const ext = path.extname(fileNameSafe).toLowerCase();
     if (!ALLOWED_EXT.has(ext)) throw new Error(`Ekstensi file tidak diizinkan: ${ext}`);
     const safeName = safeNamaFileDasar(idProgram, ext);
-    const buffer = parseUploadBase64(fileBase64);
+    if (!Buffer.isBuffer(buffer) || !buffer.length) throw new Error('File tidak dapat diproses.');
+    if (buffer.length > MAX_UPLOAD_BYTES) {
+        throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+    }
     const mimeType = validateUploadBuffer(ext, buffer, fileNameSafe);
     await hapusUploadSebelumnya(safeName, UPLOAD_KIND_KONTRAK);
     return unggahBufferKeGridFS(safeName, buffer, {
@@ -704,12 +740,19 @@ async function simpanFileKontrak(idProgram, fileBase64, fileNama, uploadedBy) {
     });
 }
 
-async function simpanFileAddendum(idProgram, fileBase64, fileNama, noUrut, uploadedBy) {
+async function simpanFileKontrak(idProgram, fileBase64, fileNama, uploadedBy) {
+    return simpanBufferKontrak(idProgram, parseUploadBase64(fileBase64), fileNama, uploadedBy);
+}
+
+async function simpanBufferAddendum(idProgram, buffer, fileNama, noUrut, uploadedBy) {
     const fileNameSafe = normalisasiNamaFileUpload(fileNama);
     const ext = path.extname(fileNameSafe).toLowerCase();
     if (!ALLOWED_EXT.has(ext)) throw new Error(`Ekstensi file tidak diizinkan: ${ext}`);
     const safeName = safeNamaFileDasar(idProgram, ext, `_add_${Number(noUrut) || 1}`);
-    const buffer = parseUploadBase64(fileBase64);
+    if (!Buffer.isBuffer(buffer) || !buffer.length) throw new Error('File tidak dapat diproses.');
+    if (buffer.length > MAX_UPLOAD_BYTES) {
+        throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+    }
     const mimeType = validateUploadBuffer(ext, buffer, fileNameSafe);
     await hapusUploadSebelumnya(safeName, UPLOAD_KIND_ADDENDUM);
     return unggahBufferKeGridFS(safeName, buffer, {
@@ -720,6 +763,127 @@ async function simpanFileAddendum(idProgram, fileBase64, fileNama, noUrut, uploa
         program: idProgram,
         sequence: Number(noUrut) || 1
     });
+}
+
+async function simpanFileAddendum(idProgram, fileBase64, fileNama, noUrut, uploadedBy) {
+    return simpanBufferAddendum(idProgram, parseUploadBase64(fileBase64), fileNama, noUrut, uploadedBy);
+}
+
+function normalisasiUploadId(uploadId = '') {
+    const normalized = String(uploadId).trim();
+    if (!/^[a-zA-Z0-9_-]{16,100}$/.test(normalized)) {
+        throw new Error('ID upload tidak valid.');
+    }
+    return normalized;
+}
+
+function parseUploadChunkBase64(chunkBase64) {
+    if (typeof chunkBase64 !== 'string' || !chunkBase64.trim()) {
+        throw new Error('Chunk upload kosong.');
+    }
+    const clean = chunkBase64.trim().replace(/\s+/g, '');
+    if (clean.length > Math.ceil((UPLOAD_CHUNK_BYTES * 4) / 3) + 64) {
+        throw new Error('Ukuran chunk upload melebihi batas.');
+    }
+    if (!/^[A-Za-z0-9+/=]+$/.test(clean) || clean.length % 4 === 1) {
+        throw new Error('Format chunk upload tidak valid.');
+    }
+    const buffer = Buffer.from(clean, 'base64');
+    if (!buffer.length || buffer.length > UPLOAD_CHUNK_BYTES) {
+        throw new Error('Ukuran chunk upload tidak valid.');
+    }
+    return buffer;
+}
+
+async function ambilBufferUploadChunked({
+    uploadId,
+    userId,
+    kind,
+    idProgram,
+    fileName,
+    fileSize,
+    totalChunks
+}) {
+    const normalizedUploadId = normalisasiUploadId(uploadId);
+    const normalizedUserId = String(userId || '').trim();
+    const normalizedKind = String(kind || '').trim();
+    const normalizedProgram = String(idProgram || '').trim();
+    const normalizedName = normalisasiNamaFileUpload(fileName);
+    const normalizedSize = Number(fileSize);
+    const normalizedTotal = Number(totalChunks);
+
+    if (!normalizedUserId) throw new Error('Sesi upload tidak valid.');
+    if (!UPLOAD_KINDS.has(normalizedKind)) {
+        throw new Error('Jenis upload tidak valid.');
+    }
+    if (!normalizedProgram) throw new Error('ID program upload tidak valid.');
+    if (!Number.isInteger(normalizedSize) || normalizedSize <= 0 || normalizedSize > MAX_UPLOAD_BYTES) {
+        throw new Error(`Ukuran file tidak valid (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+    }
+    if (!Number.isInteger(normalizedTotal) || normalizedTotal <= 0
+        || normalizedTotal > Math.ceil(MAX_UPLOAD_BYTES / UPLOAD_CHUNK_BYTES) + 1) {
+        throw new Error('Jumlah chunk upload tidak valid.');
+    }
+
+    const chunks = await UploadChunk.find({
+        uploadId: normalizedUploadId,
+        userId: normalizedUserId
+    }).sort({ chunkIndex: 1 }).lean();
+
+    if (chunks.length !== normalizedTotal) {
+        throw new Error(`Upload belum lengkap (${chunks.length}/${normalizedTotal} chunk).`);
+    }
+
+    for (let index = 0; index < chunks.length; index += 1) {
+        const chunk = chunks[index];
+        if (chunk.chunkIndex !== index
+            || chunk.totalChunks !== normalizedTotal
+            || chunk.fileSize !== normalizedSize
+            || chunk.kind !== normalizedKind
+            || chunk.idProgram !== normalizedProgram
+            || chunk.fileName !== normalizedName
+        ) {
+            throw new Error('Metadata chunk upload tidak konsisten.');
+        }
+    }
+
+    const buffer = Buffer.concat(chunks.map(chunk => Buffer.from(chunk.data)));
+    if (buffer.length !== normalizedSize) {
+        throw new Error('Ukuran file hasil upload tidak sesuai.');
+    }
+    return buffer;
+}
+
+async function hapusUploadChunked(uploadId, userId) {
+    if (!uploadId || !userId) return;
+    await UploadChunk.deleteMany({
+        uploadId: normalisasiUploadId(uploadId),
+        userId: String(userId)
+    });
+}
+
+async function resolveUploadBuffer({
+    fileBase64,
+    uploadId,
+    userId,
+    kind,
+    idProgram,
+    fileName,
+    fileSize,
+    totalChunks
+}) {
+    if (uploadId) {
+        return ambilBufferUploadChunked({
+            uploadId,
+            userId,
+            kind,
+            idProgram,
+            fileName,
+            fileSize,
+            totalChunks
+        });
+    }
+    return parseUploadBase64(fileBase64);
 }
 
 function getUploadLocalFallback(jenis, file) {
@@ -767,6 +931,119 @@ async function streamGridFSFileToResponse(res, filename, kind, fallbackPath = nu
     });
     return { found: true };
 }
+
+async function siapkanFileKontrakLokal(data = {}) {
+    const file = path.basename(data.file_kontrak || '');
+    if (!file || path.extname(file).toLowerCase() !== '.pdf') {
+        return { data, cleanup: () => {} };
+    }
+
+    const localFallback = getUploadLocalFallback(UPLOAD_KIND_KONTRAK, file);
+    if (localFallback) {
+        return {
+            data: { ...data, file_kontrak_local_path: localFallback },
+            cleanup: () => {}
+        };
+    }
+
+    const bucket = getUploadBucket();
+    const files = await bucket.find({
+        filename: file,
+        'metadata.kind': UPLOAD_KIND_KONTRAK
+    }).sort({ uploadDate: -1 }).limit(1).toArray();
+
+    if (!files.length) return { data, cleanup: () => {} };
+
+    const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kerma-kontrak-source-'));
+    const outputPath = path.join(outputDir, file);
+    try {
+        await pipeline(
+            bucket.openDownloadStream(files[0]._id),
+            fs.createWriteStream(outputPath)
+        );
+        return {
+            data: { ...data, file_kontrak_local_path: outputPath },
+            cleanup: () => fs.rmSync(outputDir, { recursive: true, force: true })
+        };
+    } catch (err) {
+        fs.rmSync(outputDir, { recursive: true, force: true });
+        throw err;
+    }
+}
+
+app.post('/api/upload-chunk', async (req, res) => {
+    try {
+        const {
+            upload_id,
+            kind,
+            id_program,
+            file_nama,
+            file_size,
+            chunk_index,
+            total_chunks,
+            chunk_base64
+        } = req.body || {};
+        const uploadId = normalisasiUploadId(upload_id);
+        const userId = String(req.session?.user?.id || '').trim();
+        const uploadKind = String(kind || '').trim();
+        const idProgram = String(id_program || '').trim();
+        const fileName = normalisasiNamaFileUpload(file_nama);
+        const fileSize = Number(file_size);
+        const chunkIndex = Number(chunk_index);
+        const totalChunks = Number(total_chunks);
+        const ext = path.extname(fileName).toLowerCase();
+
+        if (!userId) throw new Error('Sesi upload tidak valid.');
+        if (!UPLOAD_KINDS.has(uploadKind)) {
+            throw new Error('Jenis upload tidak valid.');
+        }
+        if (!idProgram) throw new Error('ID program wajib diisi.');
+        const allowedForKind = uploadKind.startsWith('import_')
+            ? new Set(['.xls', '.xlsx'])
+            : ALLOWED_EXT;
+        if (!allowedForKind.has(ext)) throw new Error(`Ekstensi file tidak diizinkan: ${ext}`);
+        if (!Number.isInteger(fileSize) || fileSize <= 0 || fileSize > MAX_UPLOAD_BYTES) {
+            throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+        }
+        if (!Number.isInteger(totalChunks) || totalChunks <= 0
+            || totalChunks > Math.ceil(MAX_UPLOAD_BYTES / UPLOAD_CHUNK_BYTES) + 1) {
+            throw new Error('Jumlah chunk upload tidak valid.');
+        }
+        if (!Number.isInteger(chunkIndex) || chunkIndex < 0 || chunkIndex >= totalChunks) {
+            throw new Error('Index chunk upload tidak valid.');
+        }
+
+        const data = parseUploadChunkBase64(chunk_base64);
+        const ttlMs = Number.isFinite(UPLOAD_CHUNK_TTL_MS) && UPLOAD_CHUNK_TTL_MS > 0
+            ? UPLOAD_CHUNK_TTL_MS
+            : 60 * 60 * 1000;
+
+        await UploadChunk.updateOne(
+            { uploadId, userId, chunkIndex },
+            {
+                $set: {
+                    kind: uploadKind,
+                    idProgram,
+                    fileName,
+                    fileSize,
+                    totalChunks,
+                    data,
+                    expiresAt: new Date(Date.now() + ttlMs)
+                }
+            },
+            { upsert: true }
+        );
+
+        return res.json({
+            ok: true,
+            chunk_index: chunkIndex,
+            total_chunks: totalChunks
+        });
+    } catch (err) {
+        console.error('Gagal menyimpan chunk upload:', err?.message || err);
+        return res.status(400).json({ pesan: err?.message || 'Gagal menyimpan bagian file.' });
+    }
+});
 
 // tidak digunakan lagi: fallback local dipakai langsung saat kebutuhan kompatibilitas route lama
 
@@ -2082,13 +2359,13 @@ function pastikanContentTypeJpegWord(zip) {
 }
 
 function renderPdfKontrakKeGambar(filePath) {
-    const scriptPath = path.resolve(__dirname, 'scripts', 'render-pdf-pages.swift');
+    const scriptPath = path.resolve(__dirname, 'scripts', 'render-pdf-pages.mjs');
     if (!fs.existsSync(scriptPath)) return [];
     const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kerma-kontrak-pdf-'));
     try {
-        const stdout = execFileSync('swift', [scriptPath, filePath, outputDir, '1000', '0'], {
+        const stdout = execFileSync(process.execPath, [scriptPath, filePath, outputDir, '1000', '0'], {
             encoding: 'utf8',
-            timeout: 180000,
+            timeout: 240000,
             maxBuffer: 1024 * 1024 * 4
         });
         return stdout.split(/\r?\n/)
@@ -2108,7 +2385,12 @@ function renderPdfKontrakKeGambar(filePath) {
 function sisipkanGambarPdfKontrakWord(zip, data = {}) {
     const file = path.basename(data.file_kontrak || '');
     if (!file || path.extname(file).toLowerCase() !== '.pdf') return '';
-    const filePath = getUploadLocalFallback('kontrak', file);
+    const preparedPath = data.file_kontrak_local_path
+        ? path.resolve(String(data.file_kontrak_local_path))
+        : '';
+    const filePath = preparedPath && fs.existsSync(preparedPath)
+        ? preparedPath
+        : getUploadLocalFallback('kontrak', file);
     if (!filePath) return buatParagrafWord('File PDF kontrak tidak ditemukan pada folder unggahan.', { size: 22, after: 80 });
 
     const pageImages = renderPdfKontrakKeGambar(filePath);
@@ -2580,9 +2862,18 @@ app.get('/api/generate-laporan', async (req, res) => {
             };
         };
 
+        const renderLaporan = async data => {
+            const prepared = await siapkanFileKontrakLokal(data);
+            try {
+                return prosesTemplatWord(prepared.data);
+            } finally {
+                prepared.cleanup();
+            }
+        };
+
         if (idList.length === 1) {
             const data = await buildData(idList[0]);
-            const wordBuffer = prosesTemplatWord(data);
+            const wordBuffer = await renderLaporan(data);
             res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             res.setHeader('Content-Disposition', `attachment; filename=Laporan_${data.nama_mitra.replace(/ /g, '_')}.docx`);
             return res.send(wordBuffer);
@@ -2590,7 +2881,7 @@ app.get('/api/generate-laporan', async (req, res) => {
 
         const hasilLaporan = await Promise.all(idList.map(async id => {
             const data = await buildData(id);
-            return { nama: data.nama_mitra.replace(/ /g, '_'), buffer: prosesTemplatWord(data) };
+            return { nama: data.nama_mitra.replace(/ /g, '_'), buffer: await renderLaporan(data) };
         }));
 
         const zipArsip = new AdmZip();
@@ -2686,11 +2977,39 @@ app.get('/api/template-mahasiswa', async (req, res) => {
 
 app.post('/api/import-mahasiswa', async (req, res) => {
     try {
-        const { fileBase64, id_program_override } = req.body;
-        if (!fileBase64) return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        const {
+            fileBase64,
+            file_base64,
+            file_upload_id,
+            file_size,
+            total_chunks,
+            file_nama,
+            id_program_override
+        } = req.body;
+        const base64Value = fileBase64 || file_base64;
+        if (!base64Value && !file_upload_id) {
+            return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        }
+
+        const userId = req.session?.user?.id;
+        const uploadProgramKey = id_program_override || '__from_file__';
+        const importBuffer = await resolveUploadBuffer({
+            fileBase64: base64Value,
+            uploadId: file_upload_id,
+            userId,
+            kind: UPLOAD_KIND_IMPORT_MAHASISWA,
+            idProgram: uploadProgramKey,
+            fileName: file_nama || 'import-mahasiswa.xlsx',
+            fileSize: file_size,
+            totalChunks: total_chunks
+        });
 
         const tempWb = new ExcelJS.Workbook();
-        await tempWb.xlsx.load(Buffer.from(fileBase64, 'base64'));
+        await tempWb.xlsx.load(importBuffer);
+        if (file_upload_id) {
+            await hapusUploadChunked(file_upload_id, userId)
+                .catch(err => console.warn('Gagal membersihkan chunk import:', err?.message || err));
+        }
         const srcSheet = tempWb.worksheets[0];
         if (!srcSheet) return res.status(400).json({ pesan: 'Sheet tidak ditemukan dalam file.' });
 
@@ -2956,7 +3275,7 @@ app.post('/api/tambah-kerma', async (req, res) => {
     try {
         const { id_program, nama_mitra, no_kontrak_institusi, no_kontrak_mitra,
                 judul_pks, strata, tgl_kontrak, tgl_akhir_kontrak, nilai_kontrak,
-                kode_file, file_base64, file_nama,
+                kode_file, file_base64, file_upload_id, file_size, total_chunks, file_nama,
                 jumlah_mahasiswa, cara_pembayaran, tipe_cicilan,
                 batas_akhir_pembayaran, harga_per_mahasiswa, cicilan } = req.body;
 
@@ -2964,9 +3283,27 @@ app.post('/api/tambah-kerma', async (req, res) => {
             return res.status(400).json({ pesan: 'ID Program, Nama Mitra, dan Judul PKS wajib diisi.' });
 
         let namaFileTersimpan = '';
-        if (file_base64 && file_nama) {
-            try { namaFileTersimpan = await simpanFileKontrak(id_program, file_base64, file_nama, req.session?.user?.id); }
-            catch (e) { return res.status(400).json({ pesan: e.message }); }
+        if ((file_base64 || file_upload_id) && file_nama) {
+            try {
+                const userId = req.session?.user?.id;
+                const buffer = await resolveUploadBuffer({
+                    fileBase64: file_base64,
+                    uploadId: file_upload_id,
+                    userId,
+                    kind: UPLOAD_KIND_KONTRAK,
+                    idProgram: id_program,
+                    fileName: file_nama,
+                    fileSize: file_size,
+                    totalChunks: total_chunks
+                });
+                namaFileTersimpan = await simpanBufferKontrak(id_program, buffer, file_nama, userId);
+                if (file_upload_id) {
+                    await hapusUploadChunked(file_upload_id, userId)
+                        .catch(err => console.warn('Gagal membersihkan chunk upload:', err?.message || err));
+                }
+            } catch (e) {
+                return res.status(400).json({ pesan: e.message });
+            }
         }
 
         await Program.create({
@@ -3005,13 +3342,31 @@ app.post('/api/tambah-kerma', async (req, res) => {
 
 app.post('/api/upload-kontrak', async (req, res) => {
     try {
-        const { id_program, file_base64, file_nama } = req.body;
-        if (!id_program || !file_base64 || !file_nama)
-            return res.status(400).json({ pesan: 'id_program, file_base64, dan file_nama wajib diisi.' });
+        const { id_program, file_base64, file_upload_id, file_size, total_chunks, file_nama } = req.body;
+        if (!id_program || (!file_base64 && !file_upload_id) || !file_nama)
+            return res.status(400).json({ pesan: 'id_program, file, dan file_nama wajib diisi.' });
 
         let namaFileTersimpan;
-        try { namaFileTersimpan = await simpanFileKontrak(id_program, file_base64, file_nama, req.session?.user?.id); }
-        catch (e) { return res.status(400).json({ pesan: e.message }); }
+        try {
+            const userId = req.session?.user?.id;
+            const buffer = await resolveUploadBuffer({
+                fileBase64: file_base64,
+                uploadId: file_upload_id,
+                userId,
+                kind: UPLOAD_KIND_KONTRAK,
+                idProgram: id_program,
+                fileName: file_nama,
+                fileSize: file_size,
+                totalChunks: total_chunks
+            });
+            namaFileTersimpan = await simpanBufferKontrak(id_program, buffer, file_nama, userId);
+            if (file_upload_id) {
+                await hapusUploadChunked(file_upload_id, userId)
+                    .catch(err => console.warn('Gagal membersihkan chunk upload:', err?.message || err));
+            }
+        } catch (e) {
+            return res.status(400).json({ pesan: e.message });
+        }
 
         const result = await Program.findOneAndUpdate(
             { id_program: id_program.trim() },
@@ -4451,8 +4806,8 @@ app.get('/api/addendum/:id_program', async (req, res) => {
 
 app.post('/api/upload-addendum', async (req, res) => {
     try {
-        const { id_program, file_base64, file_nama } = req.body;
-        if (!id_program || !file_base64 || !file_nama)
+        const { id_program, file_base64, file_upload_id, file_size, total_chunks, file_nama } = req.body;
+        if (!id_program || (!file_base64 && !file_upload_id) || !file_nama)
             return res.status(400).json({ pesan: 'id_program, file, dan nama file wajib diisi.' });
 
         const ext = path.extname(file_nama).toLowerCase();
@@ -4462,7 +4817,22 @@ app.post('/api/upload-addendum', async (req, res) => {
         const namaFile = safeNamaFileDasar(id_program, ext, `_add_${noBerikut}`);
 
         try {
-            await simpanFileAddendum(id_program, file_base64, file_nama, noBerikut, req.session?.user?.id);
+            const userId = req.session?.user?.id;
+            const buffer = await resolveUploadBuffer({
+                fileBase64: file_base64,
+                uploadId: file_upload_id,
+                userId,
+                kind: UPLOAD_KIND_ADDENDUM,
+                idProgram: id_program,
+                fileName: file_nama,
+                fileSize: file_size,
+                totalChunks: total_chunks
+            });
+            await simpanBufferAddendum(id_program, buffer, file_nama, noBerikut, userId);
+            if (file_upload_id) {
+                await hapusUploadChunked(file_upload_id, userId)
+                    .catch(err => console.warn('Gagal membersihkan chunk upload:', err?.message || err));
+            }
         } catch (errUpload) {
             return res.status(400).json({ pesan: errUpload.message || 'Gagal menyimpan file addendum.' });
         }
@@ -4502,11 +4872,39 @@ app.get('/api/template-calon-peserta', async (req, res) => {
 
 app.post('/api/import-calon-peserta', async (req, res) => {
     try {
-        const { fileBase64, id_program_override } = req.body;
-        if (!fileBase64) return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        const {
+            fileBase64,
+            file_base64,
+            file_upload_id,
+            file_size,
+            total_chunks,
+            file_nama,
+            id_program_override
+        } = req.body;
+        const base64Value = fileBase64 || file_base64;
+        if (!base64Value && !file_upload_id) {
+            return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        }
+
+        const userId = req.session?.user?.id;
+        const uploadProgramKey = id_program_override || '__from_file__';
+        const importBuffer = await resolveUploadBuffer({
+            fileBase64: base64Value,
+            uploadId: file_upload_id,
+            userId,
+            kind: UPLOAD_KIND_IMPORT_CALON_PESERTA,
+            idProgram: uploadProgramKey,
+            fileName: file_nama || 'import-calon-peserta.xlsx',
+            fileSize: file_size,
+            totalChunks: total_chunks
+        });
 
         const tempWb = new ExcelJS.Workbook();
-        await tempWb.xlsx.load(Buffer.from(fileBase64, 'base64'));
+        await tempWb.xlsx.load(importBuffer);
+        if (file_upload_id) {
+            await hapusUploadChunked(file_upload_id, userId)
+                .catch(err => console.warn('Gagal membersihkan chunk import:', err?.message || err));
+        }
         const srcSheet = tempWb.worksheets[0];
         if (!srcSheet) return res.status(400).json({ pesan: 'Sheet tidak ditemukan dalam file.' });
 

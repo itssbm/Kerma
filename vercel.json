@@ -1,7 +1,11 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "fluid": true,
   "functions": {
     "api/index.js": {
-      "maxDuration": 30
+      "maxDuration": 300,
+      "includeFiles": "{template*.docx,views/index.html,data/*.xlsx,scripts/render-pdf-pages.mjs,node_modules/pdfjs-dist/**,node_modules/@napi-rs/canvas*/**}",
+      "excludeFiles": "{public/uploads/**,data/backups/**,mongo-data-export/**}"
     }
   },
   "rewrites": [
@@ -19,6 +23,22 @@
     },
     {
       "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/uploads/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/pimpinan/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/healthz",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/readyz",
       "destination": "/api/index.js"
     }
   ]

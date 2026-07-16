@@ -31,7 +31,9 @@ async function connectDB() {
         serverSelectionTimeoutMS: 10000,
         connectTimeoutMS: 10000,
         socketTimeoutMS: 15000,
-        maxPoolSize: Number(process.env.MONGODB_MAX_POOL_SIZE || 10),
+        maxPoolSize: Number(process.env.MONGODB_MAX_POOL_SIZE || (process.env.VERCEL ? 5 : 10)),
+        minPoolSize: 0,
+        maxIdleTimeMS: Number(process.env.MONGODB_MAX_IDLE_TIME_MS || 30000),
         retryWrites: true
     };
 

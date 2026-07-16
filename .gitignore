@@ -1,15 +1,15 @@
-# # Dependency directories
-# node_modules/
+# Dependency directories
+node_modules/
 
 # Environment and local config
 .env
 .env.*
 
-# # Logs
-# *.log
-# tmp-server-err.log
-# tmp-server-out.log
-# logs/
+# Logs
+*.log
+tmp-server-err.log
+tmp-server-out.log
+logs/
 
 # # OS generated files
 # .DS_Store
@@ -44,6 +44,6 @@
 # # Vercel / deployment
 # .vercel/
 
-# # Data/backup generated locally (uncomment if needed)
-# # data/
-# # mongo-data-export/
+# Data/backup generated locally
+data/backups/
+mongo-data-export/
