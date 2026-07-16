@@ -192,7 +192,10 @@ async function checkRateLimit(req, res, next) {
 }
 
 function requireApiSession(req, res, next) {
-    const publicApiEndpoints = new Set(['/api/login', '/api/logout', '/api/health', '/api/ready']);
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} (IP: ${req.ip || 'unknown'}, User: ${req.session?.user ? req.session.user.username || req.session.user.id : 'guest'})`);
+    // Karena middleware dipasang pada prefix /api, req.path di sini
+    // hanya berisi /login, /logout, /health, atau /ready.
+    const publicApiEndpoints = new Set(['/login', '/logout', '/health', '/ready']);
     if (publicApiEndpoints.has(req.path)) return next();
     if (!req.session.user) return res.status(401).json({ pesan: 'Sesi berakhir. Silakan login kembali.' });
     next();
@@ -360,17 +363,21 @@ app.get('/api/ready', async (req, res) => {
     }
 });
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', async (req, res, next) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username: username?.trim(), aktif: true });
         if (!user || !user.cocokkanPassword(password))
             return res.status(401).json({ pesan: 'Username atau password salah.' });
-        req.session.user = { id: user._id, username: user.username, nama: user.nama, role: user.role };
-        res.json({ pesan: 'Login berhasil.', role: user.role, nama: user.nama });
+        // Simpan ID sebagai string agar tidak mencampur BSON dari Mongoose
+        // dengan BSON yang digunakan oleh connect-mongo.
+        req.session.user = { id: String(user._id), username: user.username, nama: user.nama, role: user.role };
+        req.session.save((err) => {
+            if (err) return next(err);
+            return res.json({ pesan: 'Login berhasil.', role: user.role, nama: user.nama });
+        });
     } catch (e) {
-        console.error('Login error:', e);
-        res.status(500).json({ pesan: 'Terjadi kesalahan server.' });
+        return next(e);
     }
 });
 
