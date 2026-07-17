@@ -3707,18 +3707,23 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
         add(byKontrakKey, row.__kontrak_key, row);
     });
 
-    const alokasiKeRow = (row, amount) => {
+    const alokasiKeRow = (row, amount, { allowOverflow = false } = {}) => {
         if (!row || amount <= 0 || row.nominal_sisa <= 0) return amount;
+        if (allowOverflow) {
+            row.nominal_sisa = Math.max(0, row.nominal_sisa - amount);
+            row.nominal_terealisasi += amount;
+            return 0;
+        }
         const dipakai = Math.min(row.nominal_sisa, amount);
         row.nominal_sisa -= dipakai;
         row.nominal_terealisasi += dipakai;
         return amount - dipakai;
     };
-    const alokasiKeCandidates = (candidates = [], amount = 0) => {
+    const alokasiKeCandidates = (candidates = [], amount = 0, options = {}) => {
         let sisa = amount;
         candidates.sort(urutRencanaUntukAlokasi).forEach(row => {
             if (sisa <= 0) return;
-            sisa = alokasiKeRow(row, sisa);
+            sisa = alokasiKeRow(row, sisa, options);
         });
         return sisa;
     };
@@ -3735,12 +3740,12 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
 
         const rencanaKey = String(row.rencana_key || '').trim();
         if (rencanaKey) {
-            nominalRealisasi = alokasiKeCandidates(byRencanaKey.get(rencanaKey) || [], nominalRealisasi);
+            nominalRealisasi = alokasiKeCandidates(byRencanaKey.get(rencanaKey) || [], nominalRealisasi, { allowOverflow: true });
         }
 
         const fallbackKey = buatRencanaPendapatanFallbackKey(row);
         if (nominalRealisasi > 0 && fallbackKey) {
-            nominalRealisasi = alokasiKeCandidates(byFallbackKey.get(fallbackKey) || [], nominalRealisasi);
+            nominalRealisasi = alokasiKeCandidates(byFallbackKey.get(fallbackKey) || [], nominalRealisasi, { allowOverflow: true });
         }
 
         if (nominalRealisasi > 0) {
@@ -3749,7 +3754,7 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
     });
 
     realisasiTanpaKey.forEach((nominalRealisasi, kontrakKey) => {
-        alokasiKeCandidates(byKontrakKey.get(kontrakKey) || [], nominalRealisasi);
+        alokasiKeCandidates(byKontrakKey.get(kontrakKey) || [], nominalRealisasi, { allowOverflow: true });
     });
 
     return rows
