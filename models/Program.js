@@ -16,7 +16,8 @@ const programSchema = new mongoose.Schema({
     tipe_cicilan:          { type: String, default: '' },
     batas_akhir_pembayaran:{ type: String, default: '' },
     harga_per_mahasiswa:   { type: Number, default: null },
-    strata:                { type: String, default: '' }
+    strata:                { type: String, default: '' },
+    status_alokasi:        { type: String, enum: ['Aktif', 'Tidak Aktif'], default: 'Tidak Aktif' }
 }, { timestamps: false });
 
 module.exports = mongoose.model('Program', programSchema, 'programs');

@@ -7,7 +7,7 @@
     "start": "node server.js",
     "import:mongo-export": "node scripts/import-mongo-data-export.js",
     "import:plotting-backup": "node scripts/import-plotting-backup.js",
-    "test": "node --check app.js && node --check api/index.js && node --check public/js/script.js && node --check models/UploadChunk.js && node --check scripts/render-pdf-pages.mjs"
+    "test": "node --check app.js && node --check api/index.js && node --check public/js/script.js && node --check models/InvoicePembayaran.js && node --check models/UploadChunk.js && node --check scripts/render-pdf-pages.mjs"
   },
   "keywords": [],
   "author": "",
