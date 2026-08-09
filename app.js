@@ -4209,20 +4209,56 @@ function keyPlotSkBidangSk(role, bidangIndex, noPks) {
     return `${role}|${Number(bidangIndex) || 0}|${Number(noPks) || 0}`;
 }
 
-function daftarTimPengelolaSk(snapshot = {}, noPks = 1) {
+function normalisasiNamaPersonilSk(value = '') {
+    return String(value || '').normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function indeksProfilPersonilSk(snapshot = {}, rowsPegawai = []) {
+    const profiles = new Map();
+    const sumber = [
+        ...(Array.isArray(rowsPegawai) ? rowsPegawai : []),
+        ...(Array.isArray(snapshot?.rows) ? snapshot.rows : [])
+    ];
+    sumber.forEach(row => {
+        const nama = String(row?.nama || '').trim();
+        const key = normalisasiNamaPersonilSk(nama);
+        if (!key) return;
+        const existing = profiles.get(key) || { nama };
+        profiles.set(key, {
+            ...existing,
+            nama: existing.nama || nama,
+            gelar_depan: existing.gelar_depan || String(row?.gelar_depan || row?.gelarDepan || '').trim(),
+            gelar_belakang: existing.gelar_belakang || String(row?.gelar_belakang || row?.gelarBelakang || '').trim()
+        });
+    });
+    return profiles;
+}
+
+function formatNamaPersonilSk(nama = '', profiles = new Map(), item = {}) {
+    const namaDasar = String(nama || '').trim();
+    if (!namaDasar) return '-';
+    const profile = profiles.get(normalisasiNamaPersonilSk(namaDasar)) || {};
+    const gelarDepan = String(item.gelar_depan || item.gelarDepan || profile.gelar_depan || '').trim();
+    const gelarBelakang = String(item.gelar_belakang || item.gelarBelakang || profile.gelar_belakang || '').trim();
+    return [gelarDepan, namaDasar, gelarBelakang].filter(Boolean).join(' ');
+}
+
+function daftarTimPengelolaSk(snapshot = {}, noPks = 1, rowsPegawai = []) {
     const manual = snapshot?.plotSkBidangManual && typeof snapshot.plotSkBidangManual === 'object'
         ? snapshot.plotSkBidangManual
         : {};
+    const profiles = indeksProfilPersonilSk(snapshot, rowsPegawai);
     const rows = [];
     ROLE_SK_TIM_PENGELOLA.forEach(role => {
         const jumlah = jumlahBarisSk(snapshot, role);
         for (let index = 0; index < jumlah; index += 1) {
             const item = manual[keyPlotSkBidangSk(role, index, noPks)] || {};
+            const nama = String(item.nama || '').trim();
             rows.push({
                 no: rows.length + 1,
                 role,
                 jabatan: labelJabatanBidangSk(role, index),
-                nama: String(item.nama || '').trim()
+                nama: formatNamaPersonilSk(nama, profiles, item)
             });
         }
     });
@@ -4472,7 +4508,7 @@ function dataPlaceholderSk(program = {}, input = {}, noPks = 1) {
     };
 }
 
-function renderSkTimPengelolaDocx({ snapshot, program, input, noPks }) {
+function renderSkTimPengelolaDocx({ snapshot, program, input, noPks, rowsPegawai = [] }) {
     if (!fs.existsSync(TEMPLATE_SK_TIM_PENGELOLA_PATH)) {
         throw new Error('Template SK Tim Pengelola Kerma belum tersedia.');
     }
@@ -4480,7 +4516,7 @@ function renderSkTimPengelolaDocx({ snapshot, program, input, noPks }) {
     const docFile = zip.file('word/document.xml');
     if (!docFile) throw new Error('Template SK tidak memiliki dokumen utama.');
     const placeholder = dataPlaceholderSk(program, input, noPks);
-    const tim = daftarTimPengelolaSk(snapshot, noPks);
+    const tim = daftarTimPengelolaSk(snapshot, noPks, rowsPegawai);
     let xml = docFile.asText();
     xml = gantiTabelTimPengelolaSk(xml, tim);
     const { Judul_PKS: judulPks, ...placeholderLainnya } = placeholder;
@@ -4558,6 +4594,10 @@ app.post('/api/plotting-kerma/sk-tim-pengelola', requireLogin, async (req, res) 
             });
         }
 
+        const userId = String(req.session.user?.username || req.session.user?.id || 'admin');
+        const resolvedPlotting = await resolvePlottingKermaDoc(userId);
+        const currentPayload = resolvedPlotting.doc ? extractPayloadPlotting(resolvedPlotting.doc) : {};
+        const rowsPegawai = Array.isArray(currentPayload?.rows) ? currentPayload.rows : [];
         const programMap = await ambilProgramUntukSk(daftarPks.map(item => item.id));
         const docs = daftarPks.map(item => {
             const program = programMap.get(item.id) || { id_program: item.id, kode_file: item.id };
@@ -4568,7 +4608,7 @@ app.post('/api/plotting-kerma/sk-tim-pengelola', requireLogin, async (req, res) 
                 tahun_akademik: tahunAkademik,
                 nama_kerma: req.body?.nama_kerma || ''
             };
-            const bufferDocx = renderSkTimPengelolaDocx({ snapshot, program, input, noPks: item.noPks });
+            const bufferDocx = renderSkTimPengelolaDocx({ snapshot, program, input, noPks: item.noPks, rowsPegawai });
             const filenameDocx = formatNamaFileSk(program, item.noPks, 'docx');
             if (format === 'pdf') {
                 return {
