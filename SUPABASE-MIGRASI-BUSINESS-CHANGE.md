@@ -129,12 +129,31 @@ Fokus perubahan:
 **Done criteria Fase 9:** runtime tidak lagi membutuhkan driver Mongo untuk request biasa.
 
 ### Fase 10 — Uji akhir dan cutover
-1. Jalankan smoke test penuh pada semua endpoint prioritas.
-2. Bandingkan jumlah record kritis (sebelum/sesudah) untuk mencegah kehilangan data.
-3. Setelah stabil, deploy dan hapus route fallback lama.
+1. Jalankan smoke test otomatis dengan command:
+   - `npm run smoke:supabase-cutover -- --base-url=http://localhost:3000 --strict`
+2. Pastikan skenario prioritas hidup:
+   - `/healthz`, `/readyz`, `/api/health`, `/api/ready` (tanpa login)
+   - `POST /api/login` (akun uji dari `CUTOVER_USERNAME` dan `CUTOVER_PASSWORD`)
+   - `GET /api/me`, `/api/daftar-kerma`, `/api/daftar-mahasiswa`, `/api/daftar-mitra`
+   - `POST /api/tambah-kerma` (opsional smoke CRUD minimal, jika data uji tersedia)
+   - `POST /api/upload-kontrak` dan download file kontrak
+3. Bandingkan jumlah record kritis dengan backup:
+   - ambil report import terbaru `supabase-manual-import-report-*.json`
+   - hitung current count dari Supabase
+   - pastikan tidak ada selisih untuk tabel bisnis inti:
+     `users`, `programs`, `mahasiswa`, `mitra`, `industri`, `kontrak`, `cicilan`, `rencana_anggaran`, `rab_anggaran`, `pagu_anggaran`, `realisasi_anggaran`, `realisasi_pembayaran`, `invoice_pembayaran`, `plotting_kerma`, `addendum`, `calon_peserta`
+4. Verifikasi tidak ada route fallback lama di jalur request:
+   - dihapusnya fallback `safeMongoRead` yang sebelumnya mengembalikan array kosong saat Mongo tidak aktif.
+   - tidak ada pemanggilan `initDataIndustri` hard-fail yang menghentikan startup.
+5. Pre-deploy checklist:
+   - pastikan env production tidak memuat `MONGODB_URI`, `MONGO_URI`, `MONGO_URL`, `MONGO_HOST`.
+   - aktifkan logika monitoring (`/ready`, `health`) yang sudah berfungsi ke Supabase.
+   - pastikan semua user test di Supabase ada di tabel `users` (bukan `mongo_users`).
+6. Cutover:
+   - deploy ke target.
+   - setelah 1 siklus verifikasi, nonaktifkan fallback lama secara permanen dan dokumentasikan rollback.
 
-**Done criteria Fase 10:** siap produksi (tanpa dependency Mongo aktif).
-
+**Done criteria Fase 10:** siap produksi dan smoke test `--strict` menghasilkan `SMOKE TEST: SUKSES` dengan perbedaan jumlah record = `0`.
 ## Urutan file yang harus dikerjakan
 
 ### Paling awal (harus selesai dulu)

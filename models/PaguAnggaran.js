@@ -1,15 +1,17 @@
-const mongoose = require('mongoose');
+const createModelAdapter = require('../services/repo/modelAdapter');
 
-const paguAnggaranSchema = new mongoose.Schema({
-    id_program:   { type: String, required: true, trim: true },
-    kode_file:    { type: String, required: true, unique: true, trim: true },
-    pagu_pegawai: { type: Number, default: 0 },
-    pagu_barang:  { type: Number, default: 0 },
-    pagu_jasa:    { type: Number, default: 0 },
-    pagu_modal:   { type: Number, default: 0 },
-    sisa_pagu_total: { type: Number, default: null }
-}, { timestamps: true });
-
-paguAnggaranSchema.index({ id_program: 1 });
-
-module.exports = mongoose.model('PaguAnggaran', paguAnggaranSchema, 'pagu_anggaran');
+module.exports = createModelAdapter({
+    tableName: 'pagu_anggaran',
+    fields: [
+        'id_program',
+        'kode_file',
+        'pagu_pegawai',
+        'pagu_barang',
+        'pagu_jasa',
+        'pagu_modal',
+        'sisa_pagu_total',
+        'createdAt',
+        'updatedAt'
+    ],
+    uniqueKeys: [['kode_file']]
+});
