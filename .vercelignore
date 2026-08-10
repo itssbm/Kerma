@@ -1,0 +1,7 @@
+node_modules/
+.git/
+.agents/
+data/backups/
+mongo-data-export/
+plotting-backup.json
+*.log

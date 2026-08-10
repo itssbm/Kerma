@@ -9,6 +9,8 @@
 - `TRUST_PROXY_COUNT=1`
 - `MONGO_FILE_BUCKET=kerma_uploads`
 - `FILE_UPLOAD_MAX_BYTES=15728640` (15 MB)
+- `FILE_UPLOAD_CHUNK_BYTES=2097152` (2 MB, aman di bawah limit request Vercel)
+- `FILE_UPLOAD_CHUNK_TTL_MS=3600000` (chunk sementara dibersihkan otomatis setelah 1 jam)
 - `API_RATE_LIMIT_WINDOW_MS=60000`
 - `API_RATE_LIMIT_MAX=120`
 - `API_RATE_LIMIT_LOGIN_MAX=20`
@@ -22,7 +24,8 @@ Opsional:
 - `MONGODB_TLS_CA_FILE`
 - `MONGODB_DNS_FAMILY`
 - `MONGODB_TLS_ALLOW_INVALID_CERTIFICATES` *(harus `false` di production)*
-- `MONGODB_MAX_POOL_SIZE=10`
+- `MONGODB_MAX_POOL_SIZE=5`
+- `MONGODB_MAX_IDLE_TIME_MS=30000`
 - `VERCEL_URL` (otomatis dari platform, biasanya tidak perlu set manual)
 
 ## 2) Konfigurasi Atlas MongoDB
@@ -36,12 +39,15 @@ Opsional:
 
 ## 3) Verifikasi endpoint sebelum traffic real
 
+- Pastikan Project Settings memakai Node.js `22.x`.
+- Pastikan Fluid Compute aktif; `vercel.json` menetapkan durasi maksimum function 300 detik.
 - `GET /healthz`
 - `GET /readyz`
 - `GET /api/health`
 - `GET /api/ready`
 - `POST /api/login` (uji login normal)
 - `POST /api/upload-kontrak` (uji upload kecil yang valid)
+- `POST /api/upload-chunk` (otomatis dipakai browser untuk file di atas 2 MB)
 - `GET /uploads/kontrak/<filename>` (uji akses via session login)
 
 Harus ada header:
@@ -76,5 +82,9 @@ Harus ada header:
 ## 7) Catatan penting Vercel + file
 
 - Upload sudah pindah ke MongoDB GridFS (`simpanFileKontrak`, `simpanFileAddendum`) agar tidak bergantung ke disk lokal.
-- `app.js` tidak lagi serve folder upload sebagai static publik.
-- Endpoint lama `/uploads/...` tetap dipakai tapi di-guard oleh session login.
+- File hingga 15 MB dikirim bertahap per 2 MB agar tidak melampaui batas request function.
+- Chunk sementara tersimpan di collection `upload_chunks` dan memiliki TTL otomatis.
+- Rendering PDF laporan memakai PDF.js + `@napi-rs/canvas`, tidak lagi membutuhkan Swift/AppKit.
+- File baru tidak ditulis ke disk deployment; penyimpanan persisten memakai GridFS.
+- Endpoint lama `/uploads/...` tetap dipakai dan diarahkan ke Express untuk file GridFS.
+- `public/uploads/` hanya dipertahankan sebagai fallback file historis. Migrasikan isinya ke GridFS sebelum folder legacy tersebut dihapus dari deployment.

@@ -13,11 +13,13 @@ const rencanaAnggaranSchema = new mongoose.Schema({
     pemasukan:       { type: Number, required: true, default: 0 },
     pengeluaran_ri:  { type: Number, required: true, default: 0 },
     sumber:          { type: String, default: 'manual', trim: true },
+    id_rab:          { type: String, default: '', trim: true },
     id_realisasi_anggaran_lama: { type: String, default: '', trim: true }
 }, { timestamps: true });
 
 rencanaAnggaranSchema.index({ kode_file: 1, tanggal_ri: 1, createdAt: 1 });
 rencanaAnggaranSchema.index({ id_program: 1, tanggal_ri: 1, createdAt: 1 });
 rencanaAnggaranSchema.index({ sumber: 1, id_realisasi_anggaran_lama: 1, pengeluaran_ri: 1 });
+rencanaAnggaranSchema.index({ sumber: 1, id_rab: 1 });
 
 module.exports = mongoose.model('RencanaAnggaran', rencanaAnggaranSchema, 'rencana_anggaran');

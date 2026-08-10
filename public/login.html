@@ -243,7 +243,7 @@
                     })
                 });
                 const data = await res.json();
-                if (res.ok) { window.location.href = '/'; }
+                if (res.ok) { window.location.href = '/app.html'; }
                 else {
                     errorMsg.textContent = data.pesan || 'Login gagal.';
                     errorMsg.style.display = 'block';

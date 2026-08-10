@@ -1791,7 +1791,8 @@ table th {
   background: linear-gradient(180deg, var(--primary), #073B73);
   color: rgba(255,255,255,0.95);
   padding: 11px 10px;
-  text-align: left;
+  text-align: center;
+  vertical-align: middle;
   position: sticky;
   top: 0;
   z-index: 2;
@@ -1803,6 +1804,87 @@ table th {
 table th:first-child { border-radius: 0; }
 table th:last-child { border-radius: 0; }
 table th[data-col] { padding-right: 28px; }
+
+.plotting-rekap-table {
+  width: max-content;
+  min-width: 1186px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.plotting-rekap-table col.rekap-col-no { width: 58px; }
+.plotting-rekap-table col.rekap-col-nama { width: 180px; }
+.plotting-rekap-table col.rekap-col-role { width: 62px; }
+.plotting-rekap-table col.rekap-col-money { width: 124px; }
+.plotting-rekap-table col.rekap-col-money-wide { width: 142px; }
+.plotting-rekap-table th,
+.plotting-rekap-table td {
+  box-sizing: border-box;
+}
+.plotting-rekap-table thead tr:first-child th {
+  top: 0;
+  z-index: 5;
+  height: 48px;
+  white-space: normal;
+  line-height: 1.2;
+  padding: 5px;
+}
+.plotting-rekap-table thead tr:nth-child(2) th {
+  top: 48px;
+  z-index: 4;
+  height: 40px;
+  padding: 5px;
+}
+.plotting-rekap-table thead th[rowspan="2"] {
+  height: 88px;
+}
+.plotting-rekap-table th[data-col] {
+  padding-right: 5px;
+}
+.plotting-rekap-table .plotting-rekap-group-head {
+  background: linear-gradient(180deg, #0B5D99, #073B73) !important;
+}
+.plotting-rekap-table .plotting-rekap-role-head,
+.plotting-rekap-table .rekap-role-diff {
+  width: 62px;
+  min-width: 62px;
+  max-width: 62px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.plotting-rekap-table .plotting-rekap-role-head {
+  background: linear-gradient(180deg, #07508E, #073B73);
+}
+.plotting-rekap-table .rekap-role-diff {
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.plotting-rekap-table tbody td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.plotting-rekap-table tbody td:first-child {
+  text-align: center;
+}
+.plotting-rekap-table thead th .th-filter-btn {
+  right: 3px;
+}
+#panelEksporPlottingRekapitulasi {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+#panelEksporPlottingRekapitulasi .plotting-section-title,
+#panelEksporPlottingRekapitulasi .plotting-export-summary {
+  flex-shrink: 0;
+}
+#panelEksporPlottingRekapitulasi .plotting-table-container {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
 table td {
   padding: 9px 10px;
   border-bottom: 1px solid #F1F5FB;
@@ -1873,6 +1955,8 @@ table tbody tr:hover { background-color: #EEF4FD !important; }
 .badge-warn-1thn { background: #FEF9C3;            color: #A16207;        }
 .badge-penuh     { background: var(--success-bg); color: var(--success); }
 .badge-bertahap  { background: var(--info-bg);    color: #1D4ED8;        }
+.badge-alokasi-aktif       { background: #DCFCE7; color: #15803D;        }
+.badge-alokasi-tidak-aktif { background: #F1F5F9; color: #64748B;        }
 .badge-undri     { background: var(--warn-bg);    color: var(--warn);    }
 .badge-jenis-pd  { background: #E0F2FE;            color: #0369A1;        }
 .badge-jenis-pn  { background: #EDE9FE;            color: #6D28D9;        }
@@ -2036,6 +2120,22 @@ tr.warn-1thn:hover > td { background-color: #FEF9C3 !important; }
 }
 .btn-mini-action--danger:hover:not(:disabled) {
   background: #FEE2E2;
+}
+.btn-mini-action--invoice {
+  background: #EFF6FF;
+  border-color: #93C5FD;
+  color: #1D4ED8;
+}
+.btn-mini-action--invoice:hover:not(:disabled) {
+  background: #DBEAFE;
+}
+.btn-mini-action--invoice-ready {
+  background: #DBEAFE;
+  border-color: #60A5FA;
+  color: #1E40AF;
+}
+.btn-mini-action--invoice-ready:hover:not(:disabled) {
+  background: #BFDBFE;
 }
 
 .btn-hapus-kerma {
@@ -2421,6 +2521,61 @@ tr.warn-1thn:hover > td { background-color: #FEF9C3 !important; }
 }
 .modal-header h2 { font-size: 15px; font-weight: 700; color: var(--text-1); }
 .modal-header p  { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.modal-card--plotting-confirm {
+  width: 480px;
+  padding: 24px;
+}
+.modal-card--plotting-confirm .modal-header {
+  margin-bottom: 16px;
+}
+.plotting-confirm-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.plotting-confirm-message {
+  color: var(--text-1);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.plotting-confirm-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.plotting-confirm-summary article {
+  min-height: 58px;
+  padding: 9px 10px;
+  border: 1px solid rgba(36, 91, 140, 0.14);
+  border-radius: 8px;
+  background: #F8FBFF;
+}
+.plotting-confirm-summary span {
+  display: block;
+  color: var(--text-3);
+  font-size: 9px;
+  font-weight: 850;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.plotting-confirm-summary strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.2;
+}
+.plotting-confirm-warning {
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.plotting-confirm-actions {
+  justify-content: flex-end;
+  margin-top: 2px;
+}
 .modal-close {
   background: var(--surface-2);
   border: 1.5px solid var(--border);
@@ -2442,15 +2597,204 @@ tr.warn-1thn:hover > td { background-color: #FEF9C3 !important; }
   padding: 20px;
 }
 .modal-card--simulation-result {
-  width: min(720px, 94vw);
+  width: min(1120px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
   padding: 22px;
 }
 .modal-card--simulation-result .modal-header {
   margin-bottom: 16px;
   padding-bottom: 14px;
 }
+.modal-card--payment-realization {
+  width: min(840px, calc(100vw - 32px));
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: 24px;
+}
+.modal-card--payment-realization .modal-header {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+}
+.payment-realization-modal-body .payment-compact-form {
+  padding: 0;
+}
+.payment-realization-modal-body .payment-compact-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 16px;
+  row-gap: 14px;
+  align-items: end;
+}
+.payment-realization-modal-body .payment-field--kode {
+  grid-column: span 7;
+}
+.payment-realization-modal-body .payment-field--tanggal {
+  grid-column: span 5;
+}
+.payment-realization-modal-body .payment-field--nominal-calc,
+.payment-realization-modal-body .payment-field--keterangan {
+  grid-column: 1 / -1;
+}
+.payment-realization-modal-body .payment-compact-form .form-group {
+  gap: 6px;
+}
+.payment-realization-modal-body .payment-compact-form .form-label {
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+.payment-realization-modal-body .payment-compact-form .form-input {
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.payment-realization-modal-body .payment-field--kode .form-input[readonly] {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  color: var(--text-1);
+  cursor: default;
+  font-weight: 700;
+}
+.payment-realization-modal-body .penerimaan-calc-row {
+  grid-template-columns: minmax(180px, 1.25fr) 24px minmax(86px, 0.55fr) 22px 24px minmax(180px, 1.25fr);
+  gap: 8px;
+}
+.payment-realization-modal-body .penerimaan-calc-title {
+  font-size: 10.5px;
+}
+.payment-realization-modal-body .payment-compact-actions {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.payment-realization-modal-body .payment-compact-actions .btn-primary,
+.payment-realization-modal-body .payment-compact-actions .btn-secondary {
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 15px;
+  font-size: 12px;
+}
+.modal-card--pagu-allocation {
+  width: min(760px, calc(100vw - 32px));
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  padding: 24px;
+}
+.modal-card--pagu-allocation .modal-header {
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+}
+.pagu-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px 16px;
+  align-items: end;
+}
+.pagu-modal-grid .form-group {
+  grid-column: span 4;
+  gap: 6px;
+}
+.pagu-modal-grid .pagu-modal-field--kode {
+  grid-column: 1 / -1;
+}
+.pagu-modal-grid .form-label {
+  font-size: 10.5px;
+  line-height: 1.25;
+}
+.pagu-modal-grid .form-input {
+  min-height: 36px;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.pagu-modal-grid .form-input[readonly] {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  color: var(--text-1);
+  cursor: default;
+  font-weight: 800;
+}
+.pagu-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.pagu-modal-actions .btn-primary,
+.pagu-modal-actions .btn-secondary {
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 15px;
+  font-size: 12px;
+}
+@media (max-width: 900px) {
+  .payment-realization-modal-body .payment-compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .payment-realization-modal-body .payment-field--kode,
+  .payment-realization-modal-body .payment-field--tanggal {
+    grid-column: span 1;
+  }
+  .pagu-modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pagu-modal-grid .form-group {
+    grid-column: span 1;
+  }
+  .pagu-modal-grid .pagu-modal-field--kode {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 620px) {
+  .modal-card--payment-realization {
+    width: min(520px, calc(100vw - 20px));
+    max-height: calc(100vh - 20px);
+    padding: 18px;
+  }
+  .payment-realization-modal-body .payment-compact-grid {
+    grid-template-columns: 1fr;
+  }
+  .payment-realization-modal-body .payment-field--kode,
+  .payment-realization-modal-body .payment-field--tanggal,
+  .payment-realization-modal-body .payment-field--nominal-calc,
+  .payment-realization-modal-body .payment-field--keterangan {
+    grid-column: 1 / -1;
+  }
+  .payment-realization-modal-body .penerimaan-calc-row {
+    grid-template-columns: minmax(0, 1fr) 18px minmax(58px, 0.5fr) 18px 18px minmax(0, 1fr);
+    gap: 5px;
+  }
+  .payment-realization-modal-body .payment-compact-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .modal-card--pagu-allocation {
+    width: min(520px, calc(100vw - 20px));
+    max-height: calc(100vh - 20px);
+    padding: 18px;
+  }
+  .pagu-modal-grid {
+    grid-template-columns: 1fr;
+  }
+  .pagu-modal-grid .form-group,
+  .pagu-modal-grid .pagu-modal-field--kode {
+    grid-column: 1 / -1;
+  }
+  .pagu-modal-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
 .simulation-result-modal-body {
   min-width: 0;
+  max-height: calc(100vh - 170px);
+  overflow: auto;
 }
 .modal-footer {
   display: flex;
@@ -2620,7 +2964,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .kode-file-tag { font-size: 10px; font-weight: 600; color: var(--primary); background: #EFF6FF; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; border: 1px solid #BFDBFE; }
 
 /* ─── Plotting Kerma ──────────────────────────────────────────────────────── */
-.plotting-panel {
+.plotting-panel,
+.plotting-export-panel {
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -2630,6 +2975,9 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
+}
+.plotting-panel--advanced[hidden] {
+  display: none !important;
 }
 .plotting-tab-bar {
   flex-shrink: 0;
@@ -2648,6 +2996,39 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   min-height: 0;
   overflow: auto;
   padding: 14px;
+}
+#panelPlotKerma {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#panelPlotKerma .plot-sk-indicator-grid {
+  flex-shrink: 0;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  margin-bottom: 8px;
+}
+#panelPlotKerma .plot-sk-indicator-grid article {
+  min-height: 54px;
+}
+.plot-sk-indicator-detail {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#panelPlotKerma .plotting-table-container {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  max-height: none;
+  overflow: auto;
+  padding-right: 18px;
+  padding-bottom: 12px;
 }
 #panelTargetDistribusi {
   display: flex;
@@ -2728,6 +3109,9 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   justify-content: space-between;
   gap: 12px;
 }
+.plotting-start-section-title {
+  margin-bottom: 8px;
+}
 .plotting-title-actions {
   display: inline-flex;
   align-items: center;
@@ -2776,6 +3160,97 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .plotting-basic-table {
   min-width: 880px;
 }
+.plotting-jabatan-table {
+  width: 100%;
+  min-width: 720px;
+  table-layout: fixed;
+}
+.plotting-jabatan-table th,
+.plotting-jabatan-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+.plotting-jabatan-table th:nth-child(1),
+.plotting-jabatan-table td:nth-child(1) {
+  width: 58px;
+  text-align: center;
+}
+.plotting-jabatan-table th:nth-child(2),
+.plotting-jabatan-table td:nth-child(2) {
+  width: 220px;
+}
+.plotting-jabatan-table th:nth-child(3),
+.plotting-jabatan-table td:nth-child(3) {
+  width: auto;
+}
+.plotting-jabatan-table th:nth-child(4),
+.plotting-jabatan-table td:nth-child(4) {
+  width: 150px;
+  text-align: right;
+  white-space: nowrap;
+}
+.plotting-jabatan-table th:nth-child(5),
+.plotting-jabatan-table td:nth-child(5) {
+  width: 105px;
+  text-align: center;
+}
+.plotting-jabatan-table th:nth-child(6),
+.plotting-jabatan-table td:nth-child(6) {
+  width: 280px;
+}
+.plotting-jabatan-role-label {
+  color: var(--primary);
+}
+.plotting-jabatan-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.plotting-jabatan-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.plotting-jabatan-status.is-active {
+  background: #DCFCE7;
+  color: #166534;
+}
+.plotting-jabatan-status.is-inactive {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+.plotting-jabatan-system-note {
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 700;
+}
+.btn-row-secondary,
+.btn-row-delete {
+  border: 1px solid rgba(36, 91, 140, 0.18);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 800;
+  min-height: 28px;
+  padding: 5px 7px;
+}
+.btn-row-secondary:hover {
+  border-color: rgba(0, 75, 135, 0.35);
+  color: var(--primary);
+}
+.btn-row-delete {
+  border-color: rgba(185, 28, 28, 0.18);
+  color: #B91C1C;
+}
 #panelPlottingDasar .plotting-basic-table th,
 #panelPlottingDasar .plotting-pks-table th {
   height: 34px;
@@ -2786,7 +3261,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   vertical-align: middle;
 }
 .plotting-rule-table {
-  min-width: 1160px;
+  min-width: 1240px;
   table-layout: fixed;
 }
 .plotting-rule-table th,
@@ -2800,18 +3275,23 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .plotting-rule-table th:nth-child(2),
 .plotting-rule-table td:nth-child(2) {
-  width: 220px;
+  width: 210px;
 }
 .plotting-rule-table th:nth-child(3),
 .plotting-rule-table td:nth-child(3) {
-  width: 360px;
+  width: 330px;
 }
 .plotting-rule-table th:nth-child(4),
 .plotting-rule-table td:nth-child(4) {
-  width: 420px;
+  width: 142px;
+  text-align: center;
 }
 .plotting-rule-table th:nth-child(5),
 .plotting-rule-table td:nth-child(5) {
+  width: 398px;
+}
+.plotting-rule-table th:nth-child(6),
+.plotting-rule-table td:nth-child(6) {
   width: 112px;
   text-align: center;
 }
@@ -2822,16 +3302,38 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   overflow-wrap: anywhere;
   word-break: normal;
 }
-.plotting-rule-table td:nth-child(4) {
+.plotting-rule-table td:nth-child(5) {
   color: var(--text-2);
   font-size: 12px;
   line-height: 1.4;
   padding-right: 16px;
 }
-.plotting-rule-table td:nth-child(5) {
+.plotting-rule-table td:nth-child(6) {
   padding-left: 8px;
   padding-right: 8px;
   white-space: nowrap;
+}
+.plotting-rule-master-row td {
+  background: rgba(14, 165, 233, 0.05);
+}
+.plotting-rule-master-row.is-active td {
+  background: rgba(16, 185, 129, 0.06);
+}
+.plotting-rule-table tr.is-rule-disabled td,
+.plotting-level-rule-table tr.is-rule-disabled td {
+  background: rgba(100, 116, 139, 0.04);
+}
+.plotting-rule-table tr.is-rule-disabled td:nth-child(2) strong,
+.plotting-level-rule-table tr.is-rule-disabled td:first-child strong {
+  color: var(--text-3);
+}
+.plotting-rule-category-cell {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.plotting-rule-category {
+  min-height: 32px;
+  width: 118px;
 }
 .plotting-rule-input {
   max-width: 180px;
@@ -2892,6 +3394,118 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   background: rgba(100, 116, 139, 0.1);
   color: var(--text-3);
 }
+.plotting-rule-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 26px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(100, 116, 139, 0.16);
+  background: rgba(100, 116, 139, 0.08);
+  color: var(--text-2);
+  font-size: 10.5px;
+  font-weight: 850;
+  line-height: 1.2;
+}
+.plotting-rule-badge--success {
+  border-color: rgba(16, 185, 129, 0.22);
+  background: rgba(16, 185, 129, 0.1);
+  color: #047857;
+}
+.plotting-rule-badge--danger {
+  border-color: rgba(185, 28, 28, 0.18);
+  background: rgba(254, 242, 242, 0.92);
+  color: #991b1b;
+}
+.plotting-rule-badge--info {
+  border-color: rgba(14, 165, 233, 0.2);
+  background: rgba(14, 165, 233, 0.09);
+  color: var(--primary-dark);
+}
+.plotting-rule-badge--locked {
+  border-color: rgba(36, 91, 140, 0.16);
+  background: rgba(36, 91, 140, 0.07);
+  color: var(--primary-dark);
+}
+.plotting-rule-validation {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+.plotting-rule-validation-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid rgba(36, 91, 140, 0.14);
+  border-radius: 8px;
+  background: #fff;
+}
+.plotting-rule-validation-summary span {
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+.plotting-rule-validation-summary strong {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: right;
+}
+.plotting-rule-validation-summary.is-success strong {
+  color: var(--success);
+}
+.plotting-rule-validation-summary.is-error strong {
+  color: var(--danger);
+}
+.plotting-rule-validation-summary.is-info strong {
+  color: var(--primary-dark);
+}
+.plotting-rule-validation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 7px;
+}
+.plotting-rule-validation-item {
+  min-height: 62px;
+  padding: 8px 9px;
+  border: 1px solid rgba(36, 91, 140, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.84);
+}
+.plotting-rule-validation-item strong {
+  display: block;
+  color: var(--text-1);
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+.plotting-rule-validation-item span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-2);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.plotting-rule-validation-item.is-ok {
+  border-color: rgba(16, 185, 129, 0.18);
+  background: rgba(16, 185, 129, 0.07);
+}
+.plotting-rule-validation-item.is-error {
+  border-color: rgba(185, 28, 28, 0.18);
+  background: rgba(254, 242, 242, 0.92);
+}
+.plotting-rule-validation-item.is-info {
+  border-color: rgba(14, 165, 233, 0.18);
+  background: rgba(14, 165, 233, 0.07);
+}
 .plotting-level-rule {
   display: grid;
   grid-template-columns: minmax(210px, 1fr) minmax(260px, 1fr);
@@ -2922,6 +3536,33 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   margin: 0;
   accent-color: var(--primary);
 }
+.plotting-rule-switch--master {
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(36, 91, 140, 0.16);
+  border-radius: 8px;
+  background: #fff;
+}
+.plotting-rule-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.plotting-rule-switch--status {
+  min-height: 30px;
+  padding: 5px 8px;
+  border: 1px solid rgba(36, 91, 140, 0.16);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--primary-dark);
+}
+.plotting-rule-switch--status.is-off {
+  border-color: rgba(100, 116, 139, 0.18);
+  background: rgba(100, 116, 139, 0.07);
+  color: var(--text-3);
+}
 .plotting-role-checks {
   display: flex;
   align-items: center;
@@ -2935,7 +3576,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   background: rgba(36, 91, 140, 0.05);
 }
 .plotting-level-rule-table {
-  min-width: 812px;
+  min-width: 940px;
   table-layout: fixed;
 }
 .plotting-level-rule-table th,
@@ -2955,6 +3596,11 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .plotting-level-rule-table th:last-child,
 .plotting-level-rule-table td:last-child {
   width: 92px;
+  text-align: center;
+}
+.plotting-level-rule-table th:nth-last-child(2),
+.plotting-level-rule-table td:nth-last-child(2) {
+  width: 128px;
   text-align: center;
 }
 .plotting-level-rule-table td:first-child strong {
@@ -3052,6 +3698,74 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   padding: 5px 10px;
   font-size: 10.5px;
 }
+.plotting-save-alert {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0 0 10px;
+}
+.plotting-start-checklist {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 10px 0 8px;
+}
+.plotting-start-checklist--global {
+  margin: 0 0 12px;
+}
+.plotting-start-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-2);
+}
+.plotting-start-check strong {
+  display: block;
+  color: var(--text-1);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+.plotting-start-check small {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-3);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.plotting-start-dot {
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  margin-top: 3px;
+  border-radius: 999px;
+  background: #CBD5E1;
+  box-shadow: 0 0 0 4px rgba(203, 213, 225, 0.2);
+}
+.plotting-start-check.is-ready {
+  border-color: rgba(22, 101, 52, 0.22);
+  background: rgba(22, 101, 52, 0.04);
+}
+.plotting-start-check.is-ready .plotting-start-dot {
+  background: #16A34A;
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+}
+.plotting-start-check.is-ready small {
+  color: #166534;
+}
+.plotting-start-check.is-pending {
+  border-color: rgba(180, 83, 9, 0.18);
+  background: rgba(180, 83, 9, 0.04);
+}
+.plotting-start-check.is-pending .plotting-start-dot {
+  background: #F59E0B;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.14);
+}
 .plotting-guidance-status {
   display: block;
   width: 100%;
@@ -3077,6 +3791,192 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   border-color: rgba(22, 101, 52, 0.16);
   background: rgba(22, 101, 52, 0.06);
   color: #166534;
+}
+.plotting-global-status {
+  margin: 8px 0 12px;
+}
+.plotting-process-panel {
+  margin: 12px 0 14px;
+  padding: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), rgba(255, 255, 255, 0.98));
+}
+.plotting-process-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+.plotting-process-header h3 {
+  margin: 0;
+  color: var(--text-1);
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.25;
+}
+.plotting-process-header p {
+  max-width: 780px;
+  margin: 4px 0 0;
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+.plotting-process-progress-text {
+  flex: 0 0 auto;
+  min-height: 24px;
+  padding: 5px 9px;
+  border: 1px solid rgba(36, 91, 140, 0.18);
+  border-radius: 999px;
+  background: rgba(36, 91, 140, 0.08);
+  color: var(--primary);
+  font-size: 10.5px;
+  font-weight: 850;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.plotting-process-panel.is-complete .plotting-process-progress-text {
+  border-color: rgba(22, 101, 52, 0.18);
+  background: rgba(22, 101, 52, 0.08);
+  color: #166534;
+}
+.plotting-process-panel.is-error .plotting-process-progress-text {
+  border-color: rgba(214, 69, 80, 0.2);
+  background: rgba(214, 69, 80, 0.08);
+  color: var(--danger);
+}
+.plotting-process-progress {
+  width: 100%;
+  height: 6px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+}
+.plotting-process-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 0.24s ease;
+}
+.plotting-process-panel.is-complete .plotting-process-progress span {
+  background: #16A34A;
+}
+.plotting-process-panel.is-error .plotting-process-progress span {
+  background: var(--danger);
+}
+.plotting-process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 10px;
+}
+.plotting-process-step {
+  min-width: 0;
+  padding: 10px 11px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-2);
+}
+.plotting-process-step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.plotting-process-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  color: var(--text-2);
+  font-size: 11px;
+  font-weight: 900;
+}
+.plotting-process-badge {
+  min-height: 22px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.14);
+  color: var(--text-3);
+  font-size: 9.5px;
+  font-weight: 850;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.plotting-process-step strong {
+  display: block;
+  color: var(--text-1);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1.3;
+}
+.plotting-process-step small {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+.plotting-process-step p {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid rgba(226, 232, 240, 0.9);
+  color: var(--text-2);
+  font-size: 10.5px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+.plotting-process-step.is-running {
+  border-color: rgba(36, 91, 140, 0.28);
+  background: rgba(36, 91, 140, 0.04);
+}
+.plotting-process-step.is-running .plotting-process-number,
+.plotting-process-step.is-running .plotting-process-badge {
+  background: rgba(36, 91, 140, 0.12);
+  color: var(--primary);
+}
+.plotting-process-step.is-done {
+  border-color: rgba(22, 101, 52, 0.2);
+  background: rgba(22, 101, 52, 0.04);
+}
+.plotting-process-step.is-done .plotting-process-number,
+.plotting-process-step.is-done .plotting-process-badge {
+  background: rgba(22, 163, 74, 0.12);
+  color: #166534;
+}
+.plotting-process-step.is-error {
+  border-color: rgba(214, 69, 80, 0.22);
+  background: rgba(214, 69, 80, 0.04);
+}
+.plotting-process-step.is-error .plotting-process-number,
+.plotting-process-step.is-error .plotting-process-badge {
+  background: rgba(214, 69, 80, 0.12);
+  color: var(--danger);
+}
+@media (max-width: 900px) {
+  .plotting-start-checklist {
+    grid-template-columns: 1fr;
+  }
+  .plotting-process-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .plotting-process-progress-text {
+    width: fit-content;
+  }
+  .plotting-process-steps {
+    grid-template-columns: 1fr;
+  }
 }
 .simulation-tooltip-badge {
   position: relative;
@@ -3220,10 +4120,39 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-weight: 900;
   line-height: 1.25;
 }
+.simulation-result-note small {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-2);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.simulation-result-note-list {
+  display: grid;
+  gap: 4px;
+  margin: 7px 0 0;
+  padding: 0;
+  list-style: none;
+  max-height: 260px;
+  overflow: auto;
+}
+.simulation-result-note-list li {
+  padding: 5px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--text-2);
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.35;
+}
 .simulation-result-notes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 8px;
+}
+.simulation-result-note--category {
+  grid-column: 1 / -1;
 }
 .simulation-result-note--warning {
   border-color: rgba(217, 119, 6, 0.22);
@@ -3249,6 +4178,165 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-size: 11px;
   font-weight: 850;
   text-align: center;
+}
+.plotting-optimization-guidance {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 14px;
+  padding: 14px;
+  border: 1px solid rgba(214, 69, 80, 0.2);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 251, 251, 0.98), rgba(255, 247, 247, 0.9));
+}
+.plotting-optimization-guidance__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.plotting-optimization-guidance__header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.plotting-optimization-guidance__header h3 {
+  margin: 2px 0 0;
+  color: var(--text-1);
+  font-size: 16px;
+  font-weight: 900;
+}
+.plotting-optimization-guidance__count,
+.plotting-optimization-guidance__category {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 8px;
+  border: 1px solid rgba(214, 69, 80, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--danger);
+  font-size: 10px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+.plotting-optimization-guidance__intro {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+.plotting-optimization-guidance__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 2px;
+}
+.plotting-optimization-guidance__item,
+.plotting-optimization-guidance__empty {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid rgba(36, 91, 140, 0.14);
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+}
+.plotting-optimization-guidance__item.is-danger {
+  border-left-color: var(--danger);
+}
+.plotting-optimization-guidance__item.is-warning {
+  border-left-color: #b45309;
+}
+.plotting-optimization-guidance__item.is-info {
+  border-left-color: var(--primary);
+}
+.plotting-optimization-guidance__item-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.plotting-optimization-guidance__item-heading div {
+  min-width: 0;
+}
+.plotting-optimization-guidance__item-heading strong {
+  display: block;
+  color: var(--text-1);
+  font-size: 11.5px;
+  font-weight: 900;
+}
+.plotting-optimization-guidance__item-heading div > span {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-2);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+.plotting-optimization-guidance__category {
+  border-color: rgba(36, 91, 140, 0.16);
+  color: var(--primary);
+  text-transform: capitalize;
+}
+.plotting-optimization-guidance__item p,
+.plotting-optimization-guidance__item ul,
+.plotting-optimization-guidance__action {
+  margin: 0;
+  color: var(--text-2);
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+.plotting-optimization-guidance__item ul {
+  display: grid;
+  gap: 4px;
+  max-height: 190px;
+  overflow: auto;
+  padding-left: 18px;
+}
+.plotting-optimization-guidance__item li::marker {
+  color: var(--danger);
+}
+.plotting-optimization-guidance__action {
+  padding-top: 7px;
+  border-top: 1px solid rgba(36, 91, 140, 0.1);
+}
+.plotting-optimization-guidance__action strong {
+  color: var(--text-1);
+}
+.plotting-optimization-guidance__empty {
+  grid-column: 1 / -1;
+  border-left-color: #166534;
+  color: #166534;
+}
+.plotting-optimization-guidance__empty strong {
+  font-size: 11.5px;
+}
+.plotting-optimization-guidance__empty span {
+  color: var(--text-2);
+  font-size: 10.5px;
+}
+.plotting-optimization-guidance.is-collapsed {
+  gap: 0;
+  padding-block: 10px;
+}
+.plotting-optimization-guidance.is-collapsed .plotting-optimization-guidance__intro,
+.plotting-optimization-guidance.is-collapsed .plotting-optimization-guidance__list {
+  display: none;
+}
+@media (max-width: 760px) {
+  .plotting-optimization-guidance__header {
+    display: grid;
+  }
+  .plotting-optimization-guidance__header-actions {
+    justify-content: flex-start;
+  }
+  .plotting-optimization-guidance__list {
+    grid-template-columns: 1fr;
+  }
 }
 .plotting-guidance-card p {
   max-width: 960px;
@@ -3304,6 +4392,29 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .plotting-summary-input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.12);
+}
+.plotting-summary-caption {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-3);
+  font-size: 9px;
+  font-weight: 750;
+  line-height: 1.15;
+}
+.plotting-summary-caption.is-match,
+.plotting-basic-total strong.is-match,
+.plotting-pks-summary strong.is-match {
+  color: var(--success);
+}
+.plotting-summary-caption.is-warning,
+.plotting-basic-total strong.is-warning,
+.plotting-pks-summary strong.is-warning {
+  color: var(--danger);
+}
+.plotting-summary-caption.is-info,
+.plotting-basic-total strong.is-info,
+.plotting-pks-summary strong.is-info {
+  color: var(--primary);
 }
 .plotting-distribution-summary {
   display: grid;
@@ -3474,32 +4585,40 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   background: rgba(14, 165, 233, 0.06);
 }
 .pegawai-table {
-  width: 1700px;
-  min-width: 1700px;
+  width: 2550px;
+  min-width: 2550px;
   table-layout: fixed;
 }
 .pegawai-table th:nth-child(1),
 .pegawai-table td:nth-child(1) { width: 52px; text-align: center; }
 .pegawai-table th:nth-child(2),
-.pegawai-table td:nth-child(2) { width: 220px; }
+.pegawai-table td:nth-child(2) { width: 140px; }
 .pegawai-table th:nth-child(3),
-.pegawai-table td:nth-child(3) { width: 96px; }
+.pegawai-table td:nth-child(3) { width: 220px; }
 .pegawai-table th:nth-child(4),
-.pegawai-table td:nth-child(4) { width: 124px; }
+.pegawai-table td:nth-child(4) { width: 240px; }
 .pegawai-table th:nth-child(5),
-.pegawai-table td:nth-child(5),
+.pegawai-table td:nth-child(5) { width: 96px; }
 .pegawai-table th:nth-child(6),
-.pegawai-table td:nth-child(6) { width: 230px; }
+.pegawai-table td:nth-child(6) { width: 190px; }
 .pegawai-table th:nth-child(7),
-.pegawai-table td:nth-child(7),
+.pegawai-table td:nth-child(7) { width: 260px; }
 .pegawai-table th:nth-child(8),
-.pegawai-table td:nth-child(8) { width: 132px; }
+.pegawai-table td:nth-child(8) { width: 124px; }
 .pegawai-table th:nth-child(9),
-.pegawai-table td:nth-child(9) { width: 150px; }
+.pegawai-table td:nth-child(9),
 .pegawai-table th:nth-child(10),
-.pegawai-table td:nth-child(10) { width: 220px; }
+.pegawai-table td:nth-child(10) { width: 230px; }
 .pegawai-table th:nth-child(11),
-.pegawai-table td:nth-child(11) { width: 134px; }
+.pegawai-table td:nth-child(11) { width: 132px; }
+.pegawai-table th:nth-child(12),
+.pegawai-table td:nth-child(12) { width: 132px; }
+.pegawai-table th:nth-child(13),
+.pegawai-table td:nth-child(13) { width: 150px; }
+.pegawai-table th:nth-child(14),
+.pegawai-table td:nth-child(14) { width: 220px; }
+.pegawai-table th:nth-child(15),
+.pegawai-table td:nth-child(15) { width: 134px; }
 .pegawai-readonly-cell,
 .pegawai-level-auto {
   color: var(--text-1);
@@ -3529,7 +4648,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .btn-row-edit,
 .btn-row-save,
-.btn-row-cancel {
+.btn-row-cancel,
+.btn-row-delete {
   border: 1px solid rgba(36, 91, 140, 0.18);
   border-radius: 6px;
   background: #ffffff;
@@ -3546,6 +4666,14 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .btn-row-cancel {
   color: var(--text-2);
+}
+.btn-row-delete {
+  border-color: rgba(185, 28, 28, 0.18);
+  color: #B91C1C;
+}
+.btn-row-edit:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 .jabatan-table {
   min-width: 760px;
@@ -3574,6 +4702,16 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-size: 12px;
   color: var(--text-1);
 }
+.plotting-role-field-list {
+  display: block;
+  max-width: 420px;
+  margin-top: 3px;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.35;
+  white-space: normal;
+}
 .plotting-money-cell {
   color: var(--primary);
   font-weight: 700;
@@ -3584,6 +4722,14 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-weight: 700;
   text-align: center;
 }
+.plotting-saved-simulation-period {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.25;
+}
 .plotting-basic-summary {
   align-self: flex-end;
   display: grid;
@@ -3591,9 +4737,16 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   gap: 8px;
   width: min(760px, 100%);
 }
+.plotting-export-summary {
+  align-self: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
+  justify-content: start;
+  width: 100%;
+  margin-bottom: 10px;
+}
 #panelPlottingDasar .plotting-basic-summary {
   align-self: stretch;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 7px;
   width: 100%;
 }
@@ -3614,6 +4767,18 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   gap: 8px;
   min-height: 38px;
   padding: 6px 9px;
+}
+#panelPlottingDasar .plotting-basic-total--control {
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+.plotting-basic-control {
+  width: 100%;
+}
+#panelPlottingDasar .plotting-basic-control .plotting-summary-input {
+  height: 26px;
+  margin-top: 0;
 }
 .plotting-basic-total span {
   color: var(--text-2);
@@ -3664,7 +4829,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   max-width: 100%;
 }
 #panelPlottingDasar .plotting-pks-summary {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 7px;
   width: 100%;
 }
@@ -3708,7 +4873,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   white-space: nowrap;
 }
 .plotting-pks-table {
-  min-width: 1510px;
+  min-width: 1020px;
   table-layout: fixed;
 }
 .plotting-pks-table th {
@@ -3719,7 +4884,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .plotting-pks-table th:nth-child(1),
 .plotting-pks-table td:nth-child(1) { width: 56px; text-align: center; }
 .plotting-pks-table th:nth-child(2),
-.plotting-pks-table td:nth-child(2) { width: 60px; text-align: center; }
+.plotting-pks-table td:nth-child(2) { width: 72px; text-align: center; }
 .plotting-pks-table th:nth-child(3),
 .plotting-pks-table td:nth-child(3) { width: 74px; text-align: center; }
 .plotting-pks-table th:nth-child(4),
@@ -3727,20 +4892,34 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .plotting-pks-table th:nth-child(5),
 .plotting-pks-table td:nth-child(5) { width: 200px; }
 .plotting-pks-table th:nth-child(6),
-.plotting-pks-table td:nth-child(6) { width: 250px; }
+.plotting-pks-table td:nth-child(6) { width: 300px; }
 .plotting-pks-table th:nth-child(7),
-.plotting-pks-table td:nth-child(7),
-.plotting-pks-table th:nth-child(8),
-.plotting-pks-table td:nth-child(8),
-.plotting-pks-table th:nth-child(9),
-.plotting-pks-table td:nth-child(9),
-.plotting-pks-table th:nth-child(10),
-.plotting-pks-table td:nth-child(10) { width: 150px; }
+.plotting-pks-table td:nth-child(7) { width: 180px; }
 .plotting-pks-check {
   width: 15px;
   height: 15px;
   accent-color: var(--primary);
   cursor: pointer;
+}
+.plotting-pks-check-head {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 8px;
+  line-height: 1;
+  cursor: pointer;
+}
+.plotting-pks-check-head input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+.plotting-pks-check-head input:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 .plotting-pks-check:disabled {
   cursor: not-allowed;
@@ -3777,6 +4956,90 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   overflow: auto;
   box-shadow: none;
 }
+#panelEksporPlottingTargetDistribusi {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.plotting-export-target-table-container {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.plotting-export-target-table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: 10.5px;
+}
+.plotting-export-target-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+}
+.plotting-export-target-table th,
+.plotting-export-target-table td {
+  padding: 7px 6px;
+  vertical-align: middle;
+}
+.plotting-target-role-head {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  line-height: 1.15;
+}
+.plotting-target-role-head small {
+  display: block;
+  color: rgba(226, 232, 240, 0.88);
+  font-size: 9px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.plotting-target-role-head small.is-empty {
+  color: #FCA5A5;
+}
+.plotting-target-role-head small.is-over-capacity,
+.plotting-role-head small.is-over-capacity {
+  color: #FCA5A5;
+  font-weight: 900;
+}
+.plotting-export-target-table th:nth-child(1),
+.plotting-export-target-table td:nth-child(1) {
+  width: 38px;
+}
+.plotting-export-target-table th:nth-child(2),
+.plotting-export-target-table td:nth-child(2) {
+  width: 15%;
+  white-space: normal;
+}
+.plotting-export-target-table th:nth-child(3),
+.plotting-export-target-table td:nth-child(3) {
+  width: 58px;
+}
+.plotting-export-target-table th:nth-child(4),
+.plotting-export-target-table td:nth-child(4) {
+  width: 13%;
+}
+.plotting-export-target-table th:nth-child(5),
+.plotting-export-target-table td:nth-child(5),
+.plotting-export-target-table th:nth-child(11),
+.plotting-export-target-table td:nth-child(11),
+.plotting-export-target-table th:nth-child(12),
+.plotting-export-target-table td:nth-child(12) {
+  width: 10%;
+}
+.plotting-export-target-table th:nth-child(6),
+.plotting-export-target-table td:nth-child(6),
+.plotting-export-target-table th:nth-child(7),
+.plotting-export-target-table td:nth-child(7),
+.plotting-export-target-table th:nth-child(8),
+.plotting-export-target-table td:nth-child(8),
+.plotting-export-target-table th:nth-child(9),
+.plotting-export-target-table td:nth-child(9),
+.plotting-export-target-table th:nth-child(10),
+.plotting-export-target-table td:nth-child(10) {
+  width: 58px;
+}
 #panelPlottingDasar .plotting-pks-section .plotting-table-container {
   flex: 0 0 auto;
   max-height: 430px;
@@ -3789,6 +5052,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .plotting-pks-actions {
   display: flex;
+  align-items: center;
+  gap: 8px;
   justify-content: flex-end;
   margin-top: 8px;
 }
@@ -3797,11 +5062,62 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   padding: 7px 14px;
   font-size: 12px;
 }
+.plotting-pks-actions .btn-primary.is-saved,
+.plotting-pks-actions .btn-primary.is-saved:disabled {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+  cursor: default;
+  opacity: 0.88;
+}
+.plotting-save-alert {
+  max-width: min(560px, 100%);
+  padding: 7px 10px;
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: left;
+}
 .plotting-table {
   min-width: 1040px;
   table-layout: fixed;
 }
+#tabelPlottingKerma {
+  --plot-sk-col-no: 54px;
+  --plot-sk-col-nama: 210px;
+  --plot-sk-col-peran: 104px;
+  --plot-sk-col-target: 112px;
+  --plot-sk-col-role: 62px;
+  --plot-sk-col-total: 92px;
+  --plot-sk-col-total-sk: 86px;
+  --plot-sk-col-summary: 48px;
+  --plot-sk-head-main: 62px;
+  --plot-sk-head-role: 48px;
+  --plot-sk-left-nama: var(--plot-sk-col-no);
+  --plot-sk-left-peran: calc(var(--plot-sk-col-no) + var(--plot-sk-col-nama));
+  --plot-sk-left-target: calc(var(--plot-sk-col-no) + var(--plot-sk-col-nama) + var(--plot-sk-col-peran));
+  width: max-content;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+#tabelPlottingKerma th,
+#tabelPlottingKerma td {
+  box-sizing: border-box;
+}
+#tabelPlottingKerma thead tr:first-child th {
+  top: 0;
+  height: var(--plot-sk-head-main);
+  z-index: 12;
+}
+#tabelPlottingKerma thead tr:first-child th[rowspan="2"] {
+  height: calc(var(--plot-sk-head-main) + var(--plot-sk-head-role));
+}
+#tabelPlottingKerma thead tr:nth-child(2) th {
+  top: var(--plot-sk-head-main);
+  height: var(--plot-sk-head-role);
+  z-index: 11;
+}
 .plotting-table th {
+  position: sticky;
   text-align: center;
   vertical-align: middle;
   padding: 5px 5px;
@@ -3840,12 +5156,277 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-weight: 700;
   line-height: 1.05;
 }
+.plotting-pks-head small.is-negative {
+  color: #FFB4B4;
+}
 .plotting-role-head { width: 40px; }
 .plotting-col-no { width: 54px; text-align: center !important; }
 .plotting-col-nama { width: 210px; }
 .plotting-col-peran { width: 104px; }
 .plotting-col-target { width: 112px; }
 .plotting-col-total { width: 90px; }
+#tabelPlottingKerma .plotting-col-no,
+#tabelPlottingKerma tbody td:not([colspan]):nth-child(1) {
+  left: 0;
+  width: var(--plot-sk-col-no);
+  min-width: var(--plot-sk-col-no);
+  max-width: var(--plot-sk-col-no);
+}
+#tabelPlottingKerma .plotting-col-nama,
+#tabelPlottingKerma tbody td:not([colspan]):nth-child(2) {
+  left: var(--plot-sk-left-nama);
+  width: var(--plot-sk-col-nama);
+  min-width: var(--plot-sk-col-nama);
+  max-width: var(--plot-sk-col-nama);
+}
+#tabelPlottingKerma .plotting-col-peran,
+#tabelPlottingKerma tbody td:not([colspan]):nth-child(3) {
+  left: var(--plot-sk-left-peran);
+  width: var(--plot-sk-col-peran);
+  min-width: var(--plot-sk-col-peran);
+  max-width: var(--plot-sk-col-peran);
+}
+#tabelPlottingKerma .plotting-col-target,
+#tabelPlottingKerma tbody td:not([colspan]):nth-child(4) {
+  left: var(--plot-sk-left-target);
+  width: var(--plot-sk-col-target);
+  min-width: var(--plot-sk-col-target);
+  max-width: var(--plot-sk-col-target);
+}
+#tabelPlottingKerma thead tr:first-child th.plotting-col-no,
+#tabelPlottingKerma thead tr:first-child th.plotting-col-nama,
+#tabelPlottingKerma thead tr:first-child th.plotting-col-peran,
+#tabelPlottingKerma thead tr:first-child th.plotting-col-target {
+  z-index: 70;
+  background: linear-gradient(180deg, var(--primary), #073B73);
+}
+#tabelPlottingKerma thead .plotting-pks-head {
+  z-index: 12;
+}
+#tabelPlottingKerma thead .plotting-role-head {
+  z-index: 11;
+}
+#tabelPlottingKerma .plotting-role-head,
+#tabelPlottingKerma tbody .plotting-role-cell {
+  width: var(--plot-sk-col-role);
+  min-width: var(--plot-sk-col-role);
+  max-width: var(--plot-sk-col-role);
+}
+#tabelPlottingKerma tbody .plotting-role-cell.is-sk-marker {
+  background: #FFF7ED;
+  box-shadow: inset 0 0 0 1px #FDBA74;
+}
+#tabelPlottingKerma .plotting-role-head {
+  padding-inline: 3px;
+  white-space: normal;
+}
+#tabelPlottingKerma .plotting-role-label,
+#tabelPlottingKerma .plotting-role-count {
+  display: block;
+  line-height: 1.08;
+}
+#tabelPlottingKerma .plotting-role-count {
+  margin-top: 3px;
+  color: rgba(255,255,255,0.74);
+  font-size: 8px;
+  font-weight: 800;
+}
+#tabelPlottingKerma .plotting-role-count.is-partial {
+  color: rgba(255,255,255,0.78);
+}
+#tabelPlottingKerma .plotting-role-count.is-partial .plotting-role-count-filled {
+  color: #FF8A8A;
+}
+#tabelPlottingKerma .plotting-role-count.is-full {
+  color: #B7F7D0;
+}
+#tabelPlottingKerma .plotting-col-total,
+#tabelPlottingKerma tbody .plotting-total {
+  width: var(--plot-sk-col-total);
+  min-width: var(--plot-sk-col-total);
+  max-width: var(--plot-sk-col-total);
+}
+#tabelPlottingKerma .plotting-col-total-sk,
+#tabelPlottingKerma tbody .plotting-total-sk {
+  width: var(--plot-sk-col-total-sk);
+  min-width: var(--plot-sk-col-total-sk);
+  max-width: var(--plot-sk-col-total-sk);
+  padding-right: 14px;
+}
+#tabelPlottingKerma .plotting-col-total {
+  white-space: normal;
+  line-height: 1.1;
+}
+#tabelPlottingKerma tbody td:not([colspan]):nth-child(-n+4) {
+  position: sticky;
+  z-index: 8;
+  background: #fff;
+}
+#tabelPlottingKerma tbody tr:nth-child(even) td:not([colspan]):nth-child(-n+4) {
+  background: #FAFCFF;
+}
+#tabelPlottingKerma tbody tr:hover td:not([colspan]):nth-child(-n+4) {
+  background: #EEF4FD !important;
+}
+#tabelPlottingKerma .plotting-col-target,
+#tabelPlottingKerma tbody td:not([colspan]):nth-child(4) {
+  box-shadow: 8px 0 10px -10px rgba(7,59,115,0.42);
+}
+#tabelPlottingKerma .plotting-summary-group-head {
+  background: linear-gradient(180deg, #0B5D99, #073B73) !important;
+}
+#tabelPlottingKerma .plotting-summary-role-head,
+#tabelPlottingKerma tbody .plotting-summary-cell {
+  width: var(--plot-sk-col-summary);
+  min-width: var(--plot-sk-col-summary);
+  max-width: var(--plot-sk-col-summary);
+}
+#tabelPlottingKerma .plotting-summary-role-head {
+  padding-inline: 3px;
+  background: linear-gradient(180deg, #07508E, #073B73);
+}
+#tabelPlottingKerma tbody .plotting-summary-cell {
+  padding: 6px 5px;
+  text-align: center;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  background: #FBFDFF;
+}
+#tabelPlottingKerma tbody .plotting-summary-cell--sk {
+  color: #0369A1;
+  background: #F0F9FF;
+}
+#tabelPlottingKerma tbody .plotting-summary-cell--selisih.is-zero {
+  color: var(--success);
+}
+#tabelPlottingKerma tbody .plotting-summary-cell--selisih.is-warning,
+#tabelPlottingKerma tbody .plotting-summary-cell--selisih.is-negative {
+  color: var(--danger);
+  background: #FEF2F2;
+}
+#tabelEksporPlotSkBidang {
+  --plot-sk-col-no: 54px;
+  --plot-sk-col-nama: 300px;
+  --plot-sk-col-peran: 104px;
+  --plot-sk-col-target: 118px;
+  --plot-sk-col-pks-nama: 128px;
+  --plot-sk-col-pks-bulan: 60px;
+  --plot-sk-head-main: 62px;
+  --plot-sk-head-role: 48px;
+  --plot-sk-left-nama: var(--plot-sk-col-no);
+  --plot-sk-left-peran: calc(var(--plot-sk-col-no) + var(--plot-sk-col-nama));
+  --plot-sk-left-target: calc(var(--plot-sk-col-no) + var(--plot-sk-col-nama) + var(--plot-sk-col-peran));
+}
+#tabelEksporPlotSkBidang thead tr:first-child th {
+  top: 0;
+  z-index: 12;
+  height: var(--plot-sk-head-main);
+}
+#tabelEksporPlotSkBidang thead tr:first-child th[rowspan="2"] {
+  height: calc(var(--plot-sk-head-main) + var(--plot-sk-head-role));
+}
+#tabelEksporPlotSkBidang thead tr:nth-child(2) th {
+  top: var(--plot-sk-head-main);
+  height: var(--plot-sk-head-role);
+  z-index: 11;
+}
+#tabelEksporPlotSkBidang .plotting-col-no,
+#tabelEksporPlotSkBidang tbody td:not([colspan]):nth-child(1) {
+  left: 0;
+  width: var(--plot-sk-col-no);
+  min-width: var(--plot-sk-col-no);
+  max-width: var(--plot-sk-col-no);
+}
+#tabelEksporPlotSkBidang .plotting-col-nama,
+#tabelEksporPlotSkBidang tbody td:not([colspan]):nth-child(2) {
+  left: var(--plot-sk-left-nama);
+  width: var(--plot-sk-col-nama);
+  min-width: var(--plot-sk-col-nama);
+  max-width: var(--plot-sk-col-nama);
+}
+#tabelEksporPlotSkBidang .plotting-col-peran,
+#tabelEksporPlotSkBidang tbody td:not([colspan]):nth-child(3) {
+  left: var(--plot-sk-left-peran);
+  width: var(--plot-sk-col-peran);
+  min-width: var(--plot-sk-col-peran);
+  max-width: var(--plot-sk-col-peran);
+}
+#tabelEksporPlotSkBidang .plotting-col-target,
+#tabelEksporPlotSkBidang tbody td:not([colspan]):nth-child(4) {
+  left: var(--plot-sk-left-target);
+  width: var(--plot-sk-col-target);
+  min-width: var(--plot-sk-col-target);
+  max-width: var(--plot-sk-col-target);
+}
+#tabelEksporPlotSkBidang thead tr:first-child th.plotting-col-no,
+#tabelEksporPlotSkBidang thead tr:first-child th.plotting-col-nama,
+#tabelEksporPlotSkBidang thead tr:first-child th.plotting-col-peran,
+#tabelEksporPlotSkBidang thead tr:first-child th.plotting-col-target {
+  z-index: 70;
+  background: linear-gradient(180deg, var(--primary), #073B73);
+}
+#tabelEksporPlotSkBidang tbody td:not([colspan]):nth-child(-n+4) {
+  position: sticky;
+  z-index: 8;
+  background: #fff;
+}
+#tabelEksporPlotSkBidang tbody tr:nth-child(even) td:not([colspan]):nth-child(-n+4) {
+  background: #FAFCFF;
+}
+#tabelEksporPlotSkBidang tbody tr:hover td:not([colspan]):nth-child(-n+4) {
+  background: #EEF4FD !important;
+}
+#tabelEksporPlotSkBidang .plotting-bidang-name-head,
+#tabelEksporPlotSkBidang tbody .plotting-bidang-name-cell {
+  width: var(--plot-sk-col-pks-nama);
+  min-width: var(--plot-sk-col-pks-nama);
+  max-width: var(--plot-sk-col-pks-nama);
+}
+#tabelEksporPlotSkBidang .plotting-bidang-month-head,
+#tabelEksporPlotSkBidang tbody .plotting-bidang-month-cell {
+  width: var(--plot-sk-col-pks-bulan);
+  min-width: var(--plot-sk-col-pks-bulan);
+  max-width: var(--plot-sk-col-pks-bulan);
+}
+#tabelEksporPlotSkBidang .plotting-col-target,
+#tabelEksporPlotSkBidang tbody td:not([colspan]):nth-child(4) {
+  box-shadow: 8px 0 10px -10px rgba(7,59,115,0.42);
+}
+.plotting-jabatan-bidang-cell {
+  white-space: normal;
+  line-height: 1.35;
+}
+.plotting-bidang-name-cell {
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.plotting-bidang-month-cell {
+  text-align: center;
+  color: var(--text-3);
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+.plotting-bidang-select,
+.plotting-bidang-month-input {
+  min-height: 28px;
+  width: 100%;
+  padding: 5px 7px;
+  font-size: 10.5px;
+}
+.plotting-bidang-month-input {
+  text-align: center;
+  font-weight: 800;
+}
+.plotting-bidang-name-cell.is-filled,
+.plotting-bidang-month-cell.is-filled {
+  color: var(--primary);
+  background: #F0F9FF;
+}
+.plotting-bidang-month-cell.is-sk-marker {
+  color: #9A3412;
+  background: #FFF7ED;
+  box-shadow: inset 0 0 0 1px #FDBA74;
+}
 .plotting-input {
   min-height: 30px;
   padding: 6px 8px;
@@ -3855,6 +5436,47 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .plotting-input--number,
 .plotting-total { text-align: right; }
 .plotting-role-cell { text-align: center; }
+.plotting-plot-sk-input {
+  width: 42px;
+  min-width: 42px;
+  height: 26px;
+  padding: 4px 5px;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 750;
+}
+.plotting-plot-sk-input.is-sk-marker {
+  border-color: #FDBA74;
+  background: #FFF7ED;
+  color: #9A3412;
+  font-weight: 850;
+}
+.plotting-bidang-month-input.is-sk-marker {
+  border-color: #FDBA74;
+  background: #FFF7ED;
+  color: #9A3412;
+  font-weight: 850;
+}
+.plotting-target-beban-input {
+  width: 100%;
+  min-width: 0;
+  max-width: 54px;
+  height: 28px;
+  padding: 4px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+}
+.plotting-target-role-na {
+  display: inline-flex;
+  min-width: 54px;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-3);
+  font-weight: 800;
+}
 .plotting-check {
   display: inline-grid;
   place-items: center;
@@ -3942,7 +5564,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .realisasi-tabs-container [role="tabpanel"] {
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden;
   overflow-x: hidden;
   padding-right: 4px;
   scrollbar-gutter: stable;
@@ -3969,21 +5591,25 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 #panelRencanaPendapatan .table-container--compact,
 #panelUangMasuk .table-container--compact,
+#panelPaguAnggaran .table-container--compact,
 #panelRabAnggaran .table-container--compact,
+#panelAlokasiKerma .table-container--compact,
 #panelRencanaAnggaran .table-container--compact,
 #panelRealisasiAnggaran .table-container--compact {
   flex: 1;
-  min-height: 240px;
+  min-height: 0;
   overflow: auto;
 }
 #panelRencanaAnggaran .table-container--compact {
-  flex: 0 1 auto;
+  flex: 1;
   min-height: 0;
-  max-height: min(52vh, 560px);
+  max-height: none;
 }
 #panelRencanaPendapatan .table-container--compact th,
 #panelUangMasuk .table-container--compact th,
+#panelPaguAnggaran .table-container--compact th,
 #panelRabAnggaran .table-container--compact th,
+#panelAlokasiKerma .table-container--compact th,
 #panelRencanaAnggaran .table-container--compact th,
 #panelRealisasiAnggaran .table-container--compact th {
   position: sticky;
@@ -4146,6 +5772,126 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-size: 9px;
   line-height: 1.15;
 }
+.rencana-termin-cell-main {
+  min-height: 30px;
+}
+.rencana-termin-cell-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 6px;
+}
+.rencana-termin-cell-actions .btn-mini-action {
+  min-height: 24px;
+  padding: 3px 7px;
+  font-size: 9px;
+  line-height: 1;
+}
+.modal-card--invoice-payment {
+  width: min(760px, calc(100vw - 28px));
+}
+.invoice-modal-body {
+  padding: 0 22px 22px;
+}
+.invoice-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.invoice-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+.invoice-modal-field--wide {
+  grid-column: 1 / -1;
+}
+.invoice-modal-textarea {
+  min-height: 72px;
+  resize: vertical;
+  line-height: 1.4;
+}
+.invoice-modal-actions {
+  justify-content: flex-end;
+  margin-top: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.modal-card--sk-team {
+  width: min(1040px, calc(100vw - 28px));
+}
+.sk-team-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 22px 22px;
+}
+.sk-team-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  padding: 12px 14px;
+}
+.sk-team-summary span {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+.sk-team-summary strong {
+  color: var(--primary);
+  font-size: 18px;
+}
+.sk-team-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.sk-team-table-container {
+  max-height: min(46vh, 440px);
+}
+.sk-team-table {
+  min-width: 920px;
+}
+.sk-team-table th {
+  text-align: center;
+  vertical-align: middle;
+}
+.sk-team-table td {
+  vertical-align: middle;
+}
+.sk-team-table .sk-team-no-input {
+  min-width: 220px;
+}
+.sk-team-actions {
+  justify-content: flex-end;
+  margin-top: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 720px) {
+  .invoice-modal-grid {
+    grid-template-columns: 1fr;
+  }
+  .sk-team-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .invoice-modal-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .invoice-modal-actions .btn-primary,
+  .invoice-modal-actions .btn-secondary,
+  .sk-team-actions .btn-primary,
+  .sk-team-actions .btn-secondary {
+    width: 100%;
+  }
+  .sk-team-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
 .rencana-termin-cell--realized {
   border-left-color: rgba(5,150,105,0.45);
   background: #DCFCE7;
@@ -4205,28 +5951,45 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   background: #F8FAFC;
 }
 #panelUangMasuk,
+#panelPaguAnggaran,
 #panelRabAnggaran,
+#panelAlokasiKerma,
 #panelRealisasiRiInvoice,
 #panelRencanaAnggaran,
 #panelRealisasiAnggaran {
   min-height: 0;
   overflow: hidden;
 }
-#panelRabAnggaran {
+#panelUangMasuk,
+#panelPaguAnggaran,
+#panelRabAnggaran,
+#panelAlokasiKerma,
+#panelRealisasiRiInvoice,
+#panelRencanaAnggaran,
+#panelRealisasiAnggaran {
   display: flex;
   flex-direction: column;
 }
-#panelRabAnggaran .uang-masuk-table-pane {
+#panelUangMasuk > .uang-masuk-layout,
+#panelRealisasiAnggaran > .uang-masuk-layout,
+#panelRencanaAnggaran > .rencana-anggaran-layout,
+#panelRealisasiRiInvoice > .uang-masuk-table-pane,
+#panelPaguAnggaran .uang-masuk-table-pane,
+#panelRabAnggaran .uang-masuk-table-pane,
+#panelAlokasiKerma .uang-masuk-table-pane {
   flex: 1;
   min-height: 0;
 }
-#panelRabAnggaran .payment-list-header {
+#panelPaguAnggaran .payment-list-header,
+#panelRabAnggaran .payment-list-header,
+#panelAlokasiKerma .payment-list-header {
   flex-shrink: 0;
 }
+#panelPaguAnggaran .pagu-table-wrap,
 #panelRabAnggaran .rab-table-wrap {
   flex: 1;
-  min-height: 260px;
-  max-height: calc(100vh - 360px);
+  min-height: 0;
+  max-height: none;
   overflow: auto;
   scrollbar-gutter: stable;
 }
@@ -4259,6 +6022,120 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-weight: 900;
   white-space: nowrap;
 }
+.alokasi-threshold-summary {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(76px, 1fr));
+  gap: 4px;
+  margin: 0 0 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  flex-shrink: 0;
+  scrollbar-gutter: stable;
+}
+.alokasi-threshold-summary article {
+  min-height: 42px;
+  padding: 5px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #F8FAFC;
+  box-shadow: var(--shadow-xs);
+}
+.alokasi-threshold-summary span {
+  display: block;
+  color: var(--text-3);
+  font-size: 7.5px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.alokasi-threshold-summary strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+}
+.alokasi-threshold-summary small {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-3);
+  font-size: 7px;
+  line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#panelAlokasiKerma .table-container--compact {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.alokasi-kerma-table {
+  min-width: 1540px;
+}
+.alokasi-kerma-table th {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.2;
+}
+.alokasi-kerma-table th[data-col] {
+  padding-left: 28px;
+  padding-right: 28px;
+}
+.alokasi-kerma-table th:nth-child(1),
+.alokasi-kerma-table td:not([colspan]):nth-child(1) {
+  width: 52px;
+  min-width: 52px;
+  text-align: center;
+}
+.alokasi-kerma-table th:nth-child(2),
+.alokasi-kerma-table td:not([colspan]):nth-child(2) {
+  width: 150px;
+  min-width: 150px;
+}
+.alokasi-kerma-table th:nth-child(3),
+.alokasi-kerma-table td:not([colspan]):nth-child(3) {
+  width: 240px;
+  min-width: 240px;
+}
+#panelAlokasiKerma .alokasi-kerma-table th:nth-child(1),
+#panelAlokasiKerma .alokasi-kerma-table td:not([colspan]):nth-child(1) { left: 0; }
+#panelAlokasiKerma .alokasi-kerma-table th:nth-child(2),
+#panelAlokasiKerma .alokasi-kerma-table td:not([colspan]):nth-child(2) { left: 52px; }
+#panelAlokasiKerma .alokasi-kerma-table th:nth-child(3),
+#panelAlokasiKerma .alokasi-kerma-table td:not([colspan]):nth-child(3) { left: 202px; }
+#panelAlokasiKerma .alokasi-kerma-table th:nth-child(-n+3),
+#panelAlokasiKerma .alokasi-kerma-table td:not([colspan]):nth-child(-n+3) {
+  position: sticky;
+}
+#panelAlokasiKerma .alokasi-kerma-table thead th:nth-child(-n+3) {
+  z-index: 14;
+}
+#panelAlokasiKerma .alokasi-kerma-table tbody td:not([colspan]):nth-child(-n+3) {
+  z-index: 5;
+  background: #fff;
+}
+#panelAlokasiKerma .alokasi-kerma-table tbody tr:nth-child(even) td:not([colspan]):nth-child(-n+3) {
+  background: #FAFCFF;
+}
+#panelAlokasiKerma .alokasi-kerma-table tbody tr:hover td:not([colspan]):nth-child(-n+3) {
+  background: #EEF4FD !important;
+}
+#panelAlokasiKerma .alokasi-kerma-table th:nth-child(3),
+#panelAlokasiKerma .alokasi-kerma-table td:not([colspan]):nth-child(3) {
+  border-right: 2px solid rgba(0, 75, 135, 0.24);
+  box-shadow: 8px 0 12px -12px rgba(15, 27, 45, 0.65);
+}
+#panelAlokasiKerma .alokasi-kerma-table thead th:nth-child(3) {
+  border-right-color: rgba(255, 255, 255, 0.46);
+}
 .btn-rab-add-main {
   min-height: 32px;
   padding: 7px 12px;
@@ -4272,10 +6149,18 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   gap: 8px;
   margin-left: auto;
 }
+.pagu-mode-toggle {
+  flex-shrink: 0;
+}
+.pagu-mode-toggle .rencana-view-btn {
+  min-height: 26px;
+  padding: 0 10px;
+}
 .rencana-anggaran-layout {
   display: flex;
   flex-direction: column;
-  height: auto;
+  flex: 1;
+  height: 100%;
   min-height: 0;
 }
 .rencana-anggaran-toolbar {
@@ -4361,6 +6246,14 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-weight: 700;
   line-height: 1.35;
   overflow-wrap: anywhere;
+}
+.alokasi-kerma-filter-toolbar {
+  margin-bottom: 10px;
+}
+.alokasi-kerma-filter-info {
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 600;
 }
 .rencana-anggaran-toolbar .filter-input {
   flex: 0 0 220px;
@@ -5093,12 +6986,12 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 #panelUangMasuk .uang-masuk-layout {
   grid-template-columns: 1fr;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 12px;
 }
 #panelRealisasiAnggaran .uang-masuk-layout {
   grid-template-columns: 1fr;
-  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   gap: 12px;
 }
 .uang-masuk-form-pane {
@@ -5257,8 +7150,21 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .penerimaan-calc-row {
   display: grid;
   grid-template-columns: minmax(118px, 1fr) 16px minmax(64px, 0.5fr) 18px 16px minmax(118px, 1fr);
-  align-items: center;
+  align-items: end;
   gap: 5px;
+}
+.penerimaan-calc-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+.penerimaan-calc-title {
+  color: var(--text-2);
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 .penerimaan-calc-input {
   width: 100%;
@@ -5276,6 +7182,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   color: var(--text-2);
   font-size: 11px;
   font-weight: 850;
+  min-height: 34px;
   line-height: 1;
 }
 .penerimaan-calc-suffix {
@@ -5347,6 +7254,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .payment-history-table,
 .realisasi-anggaran-table,
+.pagu-anggaran-table,
 .rab-anggaran-table,
 .realisasi-ri-progress-table,
 .rencana-anggaran-table {
@@ -5358,6 +7266,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   border-collapse: separate;
   border-spacing: 0;
 }
+.pagu-anggaran-table,
 .rab-anggaran-table,
 .realisasi-ri-progress-table,
 .rencana-anggaran-table {
@@ -5365,8 +7274,37 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   min-width: 980px;
 }
 .rab-anggaran-table {
+  min-width: 1588px;
+}
+.pagu-anggaran-table {
   min-width: 1460px;
 }
+.pagu-anggaran-table th:nth-child(1),
+.pagu-anggaran-table td:nth-child(1) { width: 54px; text-align: center; }
+.pagu-anggaran-table th:nth-child(2),
+.pagu-anggaran-table td:nth-child(2) { width: 136px; }
+.pagu-anggaran-table th:nth-child(3),
+.pagu-anggaran-table td:nth-child(3) { width: 220px; }
+.pagu-anggaran-table th:nth-child(4),
+.pagu-anggaran-table td:nth-child(4),
+.pagu-anggaran-table th:nth-child(5),
+.pagu-anggaran-table td:nth-child(5),
+.pagu-anggaran-table th:nth-child(6),
+.pagu-anggaran-table td:nth-child(6),
+.pagu-anggaran-table th:nth-child(7),
+.pagu-anggaran-table td:nth-child(7),
+.pagu-anggaran-table th:nth-child(8),
+.pagu-anggaran-table td:nth-child(8),
+.pagu-anggaran-table th:nth-child(9),
+.pagu-anggaran-table td:nth-child(9),
+.pagu-anggaran-table th:nth-child(10),
+.pagu-anggaran-table td:nth-child(10) {
+  width: 136px;
+  text-align: right;
+  white-space: nowrap;
+}
+.pagu-anggaran-table th:nth-child(11),
+.pagu-anggaran-table td:nth-child(11) { width: 112px; text-align: center; }
 .realisasi-ri-progress-table {
   min-width: 1210px;
 }
@@ -5395,6 +7333,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .rab-anggaran-table td:nth-child(10) { width: 210px; }
 .rab-anggaran-table th:nth-child(11),
 .rab-anggaran-table td:nth-child(11) { width: 128px; text-align: center; }
+.rab-anggaran-table th:nth-child(12),
+.rab-anggaran-table td:nth-child(12) { width: 128px; text-align: center; }
 .realisasi-ri-progress-table th:nth-child(1),
 .realisasi-ri-progress-table td:nth-child(1) {
   width: 132px;
@@ -5476,6 +7416,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .realisasi-anggaran-table td:not([colspan]):nth-child(11) { width: 145px; }
 .payment-history-table th,
 .realisasi-anggaran-table th,
+.pagu-anggaran-table th,
 .rab-anggaran-table th,
 .realisasi-ri-progress-table th,
 .rencana-anggaran-table th {
@@ -5545,6 +7486,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .payment-history-table td,
 .realisasi-anggaran-table td,
+.pagu-anggaran-table td,
 .rab-anggaran-table td,
 .realisasi-ri-progress-table td,
 .rencana-anggaran-table td {
@@ -5596,6 +7538,7 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .payment-history-table .table-actions-inline,
 .realisasi-anggaran-table .table-actions-inline,
+.pagu-anggaran-table .table-actions-inline,
 .rab-anggaran-table .table-actions-inline,
 .realisasi-ri-progress-table .table-actions-inline {
   gap: 4px;
@@ -5681,6 +7624,9 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   background: #F8FBFF;
 }
 .rab-draft-row td {
+  background: #F8FBFF;
+}
+.pagu-draft-row td {
   background: #F8FBFF;
 }
 .ri-empty-row td {
@@ -5948,6 +7894,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   }
   .uang-masuk-form-pane { align-self: stretch; }
   .uang-masuk-table-pane { overflow: visible; }
+  #panelAlokasiKerma .uang-masuk-table-pane { overflow: hidden; }
+  #panelAlokasiKerma .table-container--compact { overflow: auto; }
   #panelUangMasuk .payment-compact-grid,
   #panelRealisasiAnggaran .payment-compact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .form-container, .table-container, .laporan-container { overflow: auto; }

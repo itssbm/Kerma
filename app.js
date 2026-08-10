@@ -10,6 +10,7 @@ const fs         = require('fs');
 const path       = require('path');
 const os         = require('os');
 const { execFileSync } = require('child_process');
+const { pipeline } = require('stream/promises');
 const crypto     = require('crypto');
 const mongoose   = require('mongoose');
 const { GridFSBucket } = require('mongodb');
@@ -27,9 +28,12 @@ const Kontrak      = require('./models/Kontrak');
 const User         = require('./models/User');
 const RencanaAnggaran = require('./models/RencanaAnggaran');
 const RabAnggaran = require('./models/RabAnggaran');
+const PaguAnggaran = require('./models/PaguAnggaran');
 const RealisasiAnggaran = require('./models/RealisasiAnggaran');
 const RealisasiPembayaran = require('./models/RealisasiPembayaran');
+const InvoicePembayaran = require('./models/InvoicePembayaran');
 const PlottingKerma = require('./models/PlottingKerma');
+const UploadChunk = require('./models/UploadChunk');
 const isProd = process.env.NODE_ENV === 'production';
 const SESSION_SECRET = process.env.SESSION_SECRET || (isProd ? '' : 'kerma-sbm-itb-secret-2024');
 const TRUST_PROXY_COUNT = Number(process.env.TRUST_PROXY_COUNT || 1);
@@ -48,26 +52,41 @@ const ALLOWED_ORIGINS = new Set(
 );
 const apiRateMap = new Map();
 let rateLimitRedis = null;
-const apiRateCleaner = setInterval(() => {
-    const now = Date.now();
+let nextApiRateCleanupAt = 0;
+
+function cleanupApiRateMap(now = Date.now()) {
+    if (now < nextApiRateCleanupAt) return;
     for (const [key, item] of apiRateMap.entries()) {
         if (!item || now > item.reset) apiRateMap.delete(key);
     }
-}, Math.max(10_000, API_RATE_LIMIT_WINDOW_MS)).unref();
+    nextApiRateCleanupAt = now + Math.max(10_000, API_RATE_LIMIT_WINDOW_MS);
+}
 
 if (API_RATE_USE_REDIS && API_RATE_REDIS_URL) {
     try {
-        rateLimitRedis = new Redis(API_RATE_REDIS_URL);
+        if (!/^rediss?:\/\//i.test(API_RATE_REDIS_URL)) {
+            throw new Error('API_RATE_REDIS_URL harus memakai protokol redis:// atau rediss://.');
+        }
+        rateLimitRedis = new Redis(API_RATE_REDIS_URL, {
+            connectTimeout: 5000,
+            maxRetriesPerRequest: 1,
+            enableOfflineQueue: false,
+            retryStrategy: times => times <= 3 ? Math.min(times * 200, 1000) : null
+        });
         rateLimitRedis.on('error', (err) => {
             console.error('Redis rate limit error:', err?.message || err);
-            rateLimitRedis = null;
         });
+        rateLimitRedis.on('end', () => { rateLimitRedis = null; });
         rateLimitRedis.on('ready', () => console.log('Rate limit Redis siap.'));
     } catch (e) {
         console.error('Gagal inisialisasi Redis limiter:', e?.message || e);
         rateLimitRedis = null;
     }
 }
+
+process.once('SIGTERM', () => {
+    try { rateLimitRedis?.disconnect(); } catch {}
+});
 
 async function checkRateLimitWithRedis(req, limitKey, limit) {
     const bucket = Math.floor(Date.now() / API_RATE_LIMIT_WINDOW_MS);
@@ -83,6 +102,7 @@ async function checkRateLimitWithRedis(req, limitKey, limit) {
 
 function checkRateLimitInMemory(req, limitKey, limit) {
     const now = Date.now();
+    cleanupApiRateMap(now);
     const entry = apiRateMap.get(limitKey) || { reset: now + API_RATE_LIMIT_WINDOW_MS, hits: 0 };
     if (now > entry.reset) {
         entry.reset = now + API_RATE_LIMIT_WINDOW_MS;
@@ -133,10 +153,51 @@ if (!process.env.MONGODB_URI && isProd) {
 const app = express();
 app.use(express.json({ limit: '20mb' }));
 app.set('trust proxy', TRUST_PROXY_COUNT);
+const INDEX_HTML_PATH = path.join(__dirname, 'public', 'app.html');
+const LOGIN_HTML_PATH = path.join(__dirname, 'public', 'login.html');
+let indexHtmlCache = null;
+let loginHtmlCache = null;
+
+function bacaHtmlBundle(filePath, cacheName) {
+    const mtimeMs = fs.statSync(filePath).mtimeMs;
+    if (cacheName === 'index' && indexHtmlCache?.mtimeMs === mtimeMs) return indexHtmlCache.html;
+    if (cacheName === 'login' && loginHtmlCache?.mtimeMs === mtimeMs) return loginHtmlCache.html;
+    const html = fs.readFileSync(filePath, 'utf8');
+    if (cacheName === 'index') indexHtmlCache = { mtimeMs, html };
+    if (cacheName === 'login') loginHtmlCache = { mtimeMs, html };
+    return html;
+}
+
+function kirimHtmlBundle(res, filePath, cacheName) {
+    res.setHeader('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+    res.type('html').send(bacaHtmlBundle(filePath, cacheName));
+}
+
+const mongoClientPromise = mongoose.connection.readyState === 1
+    ? Promise.resolve(mongoose.connection.getClient())
+    : new Promise((resolve, reject) => {
+        const onConnected = () => {
+            cleanup();
+            resolve(mongoose.connection.getClient());
+        };
+        const onError = (err) => {
+            cleanup();
+            reject(err);
+        };
+        const cleanup = () => {
+            mongoose.connection.off('connected', onConnected);
+            mongoose.connection.off('error', onError);
+        };
+        mongoose.connection.once('connected', onConnected);
+        mongoose.connection.once('error', onError);
+    });
+
 app.use(session({
     secret: SESSION_SECRET,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGODB_URI,
+        // Gunakan MongoClient yang sama dengan Mongoose agar Vercel tidak
+        // membuka koneksi MongoDB kedua saat cold start.
+        clientPromise: mongoClientPromise,
         collectionName: process.env.MONGO_SESSION_COLLECTION || 'kerma_sessions',
         ttl: SESSION_TTL_SECONDS,
         autoRemove: 'native',
@@ -192,7 +253,10 @@ async function checkRateLimit(req, res, next) {
 }
 
 function requireApiSession(req, res, next) {
-    const publicApiEndpoints = new Set(['/api/login', '/api/logout', '/api/health', '/api/ready']);
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} (IP: ${req.ip || 'unknown'}, User: ${req.session?.user ? req.session.user.username || req.session.user.id : 'guest'})`);
+    // Karena middleware dipasang pada prefix /api, req.path di sini
+    // hanya berisi /login, /logout, /health, atau /ready.
+    const publicApiEndpoints = new Set(['/login', '/logout', '/health', '/ready']);
     if (publicApiEndpoints.has(req.path)) return next();
     if (!req.session.user) return res.status(401).json({ pesan: 'Sesi berakhir. Silakan login kembali.' });
     next();
@@ -256,7 +320,12 @@ app.use('/pimpinan/indikator', requireLogin, requireAtasan, handleIndikatorPimpi
 // ─── Route publik: login page & asset statis ─────────────────────────────────
 app.get('/login', (req, res) => {
     if (req.session.user) return res.redirect('/');
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    return kirimHtmlBundle(res, LOGIN_HTML_PATH, 'login');
+});
+
+app.get(['/','/index.html'], (req, res) => {
+    if (!req.session.user) return res.redirect('/login');
+    return kirimHtmlBundle(res, INDEX_HTML_PATH, 'index');
 });
 
 // Semua asset statis lain butuh login (kecuali /login itu sendiri)
@@ -293,6 +362,7 @@ app.get('/uploads/addendum/:file', requireLogin, async (req, res) => {
     }
 });
 app.use(express.static(path.join(__dirname, 'public'), {
+    index: false,
     etag: false,
     lastModified: false,
     setHeaders: (res, filePath) => {
@@ -355,17 +425,21 @@ app.get('/api/ready', async (req, res) => {
     }
 });
 
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', async (req, res, next) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username: username?.trim(), aktif: true });
         if (!user || !user.cocokkanPassword(password))
             return res.status(401).json({ pesan: 'Username atau password salah.' });
-        req.session.user = { id: user._id, username: user.username, nama: user.nama, role: user.role };
-        res.json({ pesan: 'Login berhasil.', role: user.role, nama: user.nama });
+        // Simpan ID sebagai string agar tidak mencampur BSON dari Mongoose
+        // dengan BSON yang digunakan oleh connect-mongo.
+        req.session.user = { id: String(user._id), username: user.username, nama: user.nama, role: user.role };
+        req.session.save((err) => {
+            if (err) return next(err);
+            return res.json({ pesan: 'Login berhasil.', role: user.role, nama: user.nama });
+        });
     } catch (e) {
-        console.error('Login error:', e);
-        res.status(500).json({ pesan: 'Terjadi kesalahan server.' });
+        return next(e);
     }
 });
 
@@ -380,7 +454,20 @@ app.get('/api/me', (req, res) => {
 
 function payloadPlottingAman(payload = {}) {
     const sumber = payload && typeof payload === 'object' ? payload : {};
+    const schemaVersion = Number(sumber.plottingSchemaVersion) || 0;
+    const konfigurasiBidang = schemaVersion < PLOTTING_SCHEMA_VERSION
+        ? konfigurasiBidangPlottingCanonical()
+        : (sumber.jabatanBidangPlottingKerma && typeof sumber.jabatanBidangPlottingKerma === 'object'
+            ? sumber.jabatanBidangPlottingKerma
+            : {});
+    const daftarHasilSimulasi = sanitasiRiwayatJabatanPlotting(
+        sumber.daftarHasilSimulasiPlotting,
+        konfigurasiBidang
+    );
     return {
+        plottingSchemaVersion: Math.max(schemaVersion, PLOTTING_SCHEMA_VERSION),
+        presetPerhitunganDasarIdeal2026S2: sumber.presetPerhitunganDasarIdeal2026S2 ?? 0,
+        plotSkIdealDibuat2026S2: sumber.plotSkIdealDibuat2026S2 ?? 0,
         jumlahPksPlotting: sumber.jumlahPksPlotting ?? 2,
         jumlahPksDitetapkanPlotting: sumber.jumlahPksDitetapkanPlotting ?? 0,
         hargaJabatanCollapsed: Boolean(sumber.hargaJabatanCollapsed),
@@ -390,15 +477,29 @@ function payloadPlottingAman(payload = {}) {
         tarifMasterJabatanPlotting: sumber.tarifMasterJabatanPlotting && typeof sumber.tarifMasterJabatanPlotting === 'object'
             ? sumber.tarifMasterJabatanPlotting
             : {},
+        jabatanBidangPlottingKerma: konfigurasiBidang,
         perhitunganDasarPlotting: sumber.perhitunganDasarPlotting && typeof sumber.perhitunganDasarPlotting === 'object'
             ? sumber.perhitunganDasarPlotting
             : {},
         daftarPksTerpilihPlotting: Array.isArray(sumber.daftarPksTerpilihPlotting) ? sumber.daftarPksTerpilihPlotting : [],
+        plotSkBidangManual: sumber.plotSkBidangManual && typeof sumber.plotSkBidangManual === 'object'
+            ? sumber.plotSkBidangManual
+            : {},
+        targetDistribusiBebanManual: sumber.targetDistribusiBebanManual && typeof sumber.targetDistribusiBebanManual === 'object'
+            ? sumber.targetDistribusiBebanManual
+            : {},
         masterLevelJabatanPlotting: sumber.masterLevelJabatanPlotting && typeof sumber.masterLevelJabatanPlotting === 'object'
             ? sumber.masterLevelJabatanPlotting
             : {},
         batasanSimulasiPlotting: sumber.batasanSimulasiPlotting && typeof sumber.batasanSimulasiPlotting === 'object'
             ? sumber.batasanSimulasiPlotting
+            : {},
+        statusMulaiPlottingKerma: sumber.statusMulaiPlottingKerma && typeof sumber.statusMulaiPlottingKerma === 'object'
+            ? sumber.statusMulaiPlottingKerma
+            : {},
+        daftarHasilSimulasiPlotting: daftarHasilSimulasi,
+        nomorSkByPksTersimpan: sumber.nomorSkByPksTersimpan && typeof sumber.nomorSkByPksTersimpan === 'object'
+            ? sumber.nomorSkByPksTersimpan
             : {},
         rows: Array.isArray(sumber.rows) ? sumber.rows : []
     };
@@ -456,10 +557,25 @@ app.get('/api/plotting_kerma', requireLogin, async (req, res) => {
 app.put('/api/plotting-kerma', requireLogin, async (req, res) => {
     try {
         const userId = String(req.session.user?.username || req.session.user?.id || 'admin');
-        const payload = payloadPlottingAman(req.body);
         const exactExisting = await PlottingKerma.findOne({ userId }).sort({ updatedAt: -1, importedAt: -1, createdAt: -1, _id: -1 });
         const resolved = exactExisting ? { doc: exactExisting, resolvedBy: 'current-user' } : await resolvePlottingKermaDoc(userId);
         const existing = resolved.doc ? await PlottingKerma.findById(resolved.doc._id) : null;
+        const requestSchemaVersion = Number(req.body?.plottingSchemaVersion) || 0;
+        const payload = payloadPlottingAman(req.body);
+
+        // Tab lama dapat tetap terbuka setelah migrasi. Pertahankan isian
+        // workbook yang sudah ada agar payload lama tidak menghapusnya.
+        if (requestSchemaVersion < PLOTTING_SCHEMA_VERSION && existing) {
+            const existingPayload = extractPayloadPlotting(existing);
+            payload.plotSkBidangManual = {
+                ...(existingPayload.plotSkBidangManual && typeof existingPayload.plotSkBidangManual === 'object'
+                    ? existingPayload.plotSkBidangManual
+                    : {}),
+                ...(payload.plotSkBidangManual && typeof payload.plotSkBidangManual === 'object'
+                    ? payload.plotSkBidangManual
+                    : {})
+            };
+        }
 
         if (existing) {
             existing.payload = payload;
@@ -504,8 +620,23 @@ app.put('/api/plotting-kerma', requireLogin, async (req, res) => {
 
 const MONGO_FILE_BUCKET = process.env.MONGO_FILE_BUCKET || 'kerma_uploads';
 const MAX_UPLOAD_BYTES = Number(process.env.FILE_UPLOAD_MAX_BYTES || 15 * 1024 * 1024);
+const configuredUploadChunkBytes = Number(process.env.FILE_UPLOAD_CHUNK_BYTES || 2 * 1024 * 1024);
+const UPLOAD_CHUNK_BYTES = Number.isFinite(configuredUploadChunkBytes)
+    && configuredUploadChunkBytes >= 256 * 1024
+    && configuredUploadChunkBytes <= 2.5 * 1024 * 1024
+    ? Math.floor(configuredUploadChunkBytes)
+    : 2 * 1024 * 1024;
+const UPLOAD_CHUNK_TTL_MS = Number(process.env.FILE_UPLOAD_CHUNK_TTL_MS || 60 * 60 * 1000);
 const UPLOAD_KIND_KONTRAK = 'kontrak';
 const UPLOAD_KIND_ADDENDUM = 'addendum';
+const UPLOAD_KIND_IMPORT_MAHASISWA = 'import_mahasiswa';
+const UPLOAD_KIND_IMPORT_CALON_PESERTA = 'import_calon_peserta';
+const UPLOAD_KINDS = new Set([
+    UPLOAD_KIND_KONTRAK,
+    UPLOAD_KIND_ADDENDUM,
+    UPLOAD_KIND_IMPORT_MAHASISWA,
+    UPLOAD_KIND_IMPORT_CALON_PESERTA
+]);
 const MAX_FILENAME_BYTES = 120;
 const ALLOWED_EXT = new Set(['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.jpg', '.jpeg', '.png']);
 const KATEGORI_REALISASI_ANGGARAN = [
@@ -514,6 +645,18 @@ const KATEGORI_REALISASI_ANGGARAN = [
     'Belanja Jasa',
     'Belanja Modal'
 ];
+const FIELD_PAGU_BY_KATEGORI = Object.freeze({
+    'Belanja Pegawai': 'pagu_pegawai',
+    'Belanja Barang': 'pagu_barang',
+    'Belanja Jasa': 'pagu_jasa',
+    'Belanja Modal': 'pagu_modal'
+});
+const LABEL_PAGU_BY_FIELD = Object.freeze({
+    pagu_pegawai: 'PAGU Pegawai',
+    pagu_barang: 'PAGU Barang',
+    pagu_jasa: 'PAGU Jasa',
+    pagu_modal: 'PAGU Modal'
+});
 let gridFsBucket;
 
 function getUploadBucket() {
@@ -654,12 +797,15 @@ async function unggahBufferKeGridFS(filename, buffer, metadata = {}) {
     return safeName;
 }
 
-async function simpanFileKontrak(idProgram, fileBase64, fileNama, uploadedBy) {
+async function simpanBufferKontrak(idProgram, buffer, fileNama, uploadedBy) {
     const fileNameSafe = normalisasiNamaFileUpload(fileNama);
     const ext = path.extname(fileNameSafe).toLowerCase();
     if (!ALLOWED_EXT.has(ext)) throw new Error(`Ekstensi file tidak diizinkan: ${ext}`);
     const safeName = safeNamaFileDasar(idProgram, ext);
-    const buffer = parseUploadBase64(fileBase64);
+    if (!Buffer.isBuffer(buffer) || !buffer.length) throw new Error('File tidak dapat diproses.');
+    if (buffer.length > MAX_UPLOAD_BYTES) {
+        throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+    }
     const mimeType = validateUploadBuffer(ext, buffer, fileNameSafe);
     await hapusUploadSebelumnya(safeName, UPLOAD_KIND_KONTRAK);
     return unggahBufferKeGridFS(safeName, buffer, {
@@ -670,12 +816,19 @@ async function simpanFileKontrak(idProgram, fileBase64, fileNama, uploadedBy) {
     });
 }
 
-async function simpanFileAddendum(idProgram, fileBase64, fileNama, noUrut, uploadedBy) {
+async function simpanFileKontrak(idProgram, fileBase64, fileNama, uploadedBy) {
+    return simpanBufferKontrak(idProgram, parseUploadBase64(fileBase64), fileNama, uploadedBy);
+}
+
+async function simpanBufferAddendum(idProgram, buffer, fileNama, noUrut, uploadedBy) {
     const fileNameSafe = normalisasiNamaFileUpload(fileNama);
     const ext = path.extname(fileNameSafe).toLowerCase();
     if (!ALLOWED_EXT.has(ext)) throw new Error(`Ekstensi file tidak diizinkan: ${ext}`);
     const safeName = safeNamaFileDasar(idProgram, ext, `_add_${Number(noUrut) || 1}`);
-    const buffer = parseUploadBase64(fileBase64);
+    if (!Buffer.isBuffer(buffer) || !buffer.length) throw new Error('File tidak dapat diproses.');
+    if (buffer.length > MAX_UPLOAD_BYTES) {
+        throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+    }
     const mimeType = validateUploadBuffer(ext, buffer, fileNameSafe);
     await hapusUploadSebelumnya(safeName, UPLOAD_KIND_ADDENDUM);
     return unggahBufferKeGridFS(safeName, buffer, {
@@ -686,6 +839,127 @@ async function simpanFileAddendum(idProgram, fileBase64, fileNama, noUrut, uploa
         program: idProgram,
         sequence: Number(noUrut) || 1
     });
+}
+
+async function simpanFileAddendum(idProgram, fileBase64, fileNama, noUrut, uploadedBy) {
+    return simpanBufferAddendum(idProgram, parseUploadBase64(fileBase64), fileNama, noUrut, uploadedBy);
+}
+
+function normalisasiUploadId(uploadId = '') {
+    const normalized = String(uploadId).trim();
+    if (!/^[a-zA-Z0-9_-]{16,100}$/.test(normalized)) {
+        throw new Error('ID upload tidak valid.');
+    }
+    return normalized;
+}
+
+function parseUploadChunkBase64(chunkBase64) {
+    if (typeof chunkBase64 !== 'string' || !chunkBase64.trim()) {
+        throw new Error('Chunk upload kosong.');
+    }
+    const clean = chunkBase64.trim().replace(/\s+/g, '');
+    if (clean.length > Math.ceil((UPLOAD_CHUNK_BYTES * 4) / 3) + 64) {
+        throw new Error('Ukuran chunk upload melebihi batas.');
+    }
+    if (!/^[A-Za-z0-9+/=]+$/.test(clean) || clean.length % 4 === 1) {
+        throw new Error('Format chunk upload tidak valid.');
+    }
+    const buffer = Buffer.from(clean, 'base64');
+    if (!buffer.length || buffer.length > UPLOAD_CHUNK_BYTES) {
+        throw new Error('Ukuran chunk upload tidak valid.');
+    }
+    return buffer;
+}
+
+async function ambilBufferUploadChunked({
+    uploadId,
+    userId,
+    kind,
+    idProgram,
+    fileName,
+    fileSize,
+    totalChunks
+}) {
+    const normalizedUploadId = normalisasiUploadId(uploadId);
+    const normalizedUserId = String(userId || '').trim();
+    const normalizedKind = String(kind || '').trim();
+    const normalizedProgram = String(idProgram || '').trim();
+    const normalizedName = normalisasiNamaFileUpload(fileName);
+    const normalizedSize = Number(fileSize);
+    const normalizedTotal = Number(totalChunks);
+
+    if (!normalizedUserId) throw new Error('Sesi upload tidak valid.');
+    if (!UPLOAD_KINDS.has(normalizedKind)) {
+        throw new Error('Jenis upload tidak valid.');
+    }
+    if (!normalizedProgram) throw new Error('ID program upload tidak valid.');
+    if (!Number.isInteger(normalizedSize) || normalizedSize <= 0 || normalizedSize > MAX_UPLOAD_BYTES) {
+        throw new Error(`Ukuran file tidak valid (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+    }
+    if (!Number.isInteger(normalizedTotal) || normalizedTotal <= 0
+        || normalizedTotal > Math.ceil(MAX_UPLOAD_BYTES / UPLOAD_CHUNK_BYTES) + 1) {
+        throw new Error('Jumlah chunk upload tidak valid.');
+    }
+
+    const chunks = await UploadChunk.find({
+        uploadId: normalizedUploadId,
+        userId: normalizedUserId
+    }).sort({ chunkIndex: 1 }).lean();
+
+    if (chunks.length !== normalizedTotal) {
+        throw new Error(`Upload belum lengkap (${chunks.length}/${normalizedTotal} chunk).`);
+    }
+
+    for (let index = 0; index < chunks.length; index += 1) {
+        const chunk = chunks[index];
+        if (chunk.chunkIndex !== index
+            || chunk.totalChunks !== normalizedTotal
+            || chunk.fileSize !== normalizedSize
+            || chunk.kind !== normalizedKind
+            || chunk.idProgram !== normalizedProgram
+            || chunk.fileName !== normalizedName
+        ) {
+            throw new Error('Metadata chunk upload tidak konsisten.');
+        }
+    }
+
+    const buffer = Buffer.concat(chunks.map(chunk => Buffer.from(chunk.data)));
+    if (buffer.length !== normalizedSize) {
+        throw new Error('Ukuran file hasil upload tidak sesuai.');
+    }
+    return buffer;
+}
+
+async function hapusUploadChunked(uploadId, userId) {
+    if (!uploadId || !userId) return;
+    await UploadChunk.deleteMany({
+        uploadId: normalisasiUploadId(uploadId),
+        userId: String(userId)
+    });
+}
+
+async function resolveUploadBuffer({
+    fileBase64,
+    uploadId,
+    userId,
+    kind,
+    idProgram,
+    fileName,
+    fileSize,
+    totalChunks
+}) {
+    if (uploadId) {
+        return ambilBufferUploadChunked({
+            uploadId,
+            userId,
+            kind,
+            idProgram,
+            fileName,
+            fileSize,
+            totalChunks
+        });
+    }
+    return parseUploadBase64(fileBase64);
 }
 
 function getUploadLocalFallback(jenis, file) {
@@ -733,6 +1007,119 @@ async function streamGridFSFileToResponse(res, filename, kind, fallbackPath = nu
     });
     return { found: true };
 }
+
+async function siapkanFileKontrakLokal(data = {}) {
+    const file = path.basename(data.file_kontrak || '');
+    if (!file || path.extname(file).toLowerCase() !== '.pdf') {
+        return { data, cleanup: () => {} };
+    }
+
+    const localFallback = getUploadLocalFallback(UPLOAD_KIND_KONTRAK, file);
+    if (localFallback) {
+        return {
+            data: { ...data, file_kontrak_local_path: localFallback },
+            cleanup: () => {}
+        };
+    }
+
+    const bucket = getUploadBucket();
+    const files = await bucket.find({
+        filename: file,
+        'metadata.kind': UPLOAD_KIND_KONTRAK
+    }).sort({ uploadDate: -1 }).limit(1).toArray();
+
+    if (!files.length) return { data, cleanup: () => {} };
+
+    const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kerma-kontrak-source-'));
+    const outputPath = path.join(outputDir, file);
+    try {
+        await pipeline(
+            bucket.openDownloadStream(files[0]._id),
+            fs.createWriteStream(outputPath)
+        );
+        return {
+            data: { ...data, file_kontrak_local_path: outputPath },
+            cleanup: () => fs.rmSync(outputDir, { recursive: true, force: true })
+        };
+    } catch (err) {
+        fs.rmSync(outputDir, { recursive: true, force: true });
+        throw err;
+    }
+}
+
+app.post('/api/upload-chunk', async (req, res) => {
+    try {
+        const {
+            upload_id,
+            kind,
+            id_program,
+            file_nama,
+            file_size,
+            chunk_index,
+            total_chunks,
+            chunk_base64
+        } = req.body || {};
+        const uploadId = normalisasiUploadId(upload_id);
+        const userId = String(req.session?.user?.id || '').trim();
+        const uploadKind = String(kind || '').trim();
+        const idProgram = String(id_program || '').trim();
+        const fileName = normalisasiNamaFileUpload(file_nama);
+        const fileSize = Number(file_size);
+        const chunkIndex = Number(chunk_index);
+        const totalChunks = Number(total_chunks);
+        const ext = path.extname(fileName).toLowerCase();
+
+        if (!userId) throw new Error('Sesi upload tidak valid.');
+        if (!UPLOAD_KINDS.has(uploadKind)) {
+            throw new Error('Jenis upload tidak valid.');
+        }
+        if (!idProgram) throw new Error('ID program wajib diisi.');
+        const allowedForKind = uploadKind.startsWith('import_')
+            ? new Set(['.xls', '.xlsx'])
+            : ALLOWED_EXT;
+        if (!allowedForKind.has(ext)) throw new Error(`Ekstensi file tidak diizinkan: ${ext}`);
+        if (!Number.isInteger(fileSize) || fileSize <= 0 || fileSize > MAX_UPLOAD_BYTES) {
+            throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
+        }
+        if (!Number.isInteger(totalChunks) || totalChunks <= 0
+            || totalChunks > Math.ceil(MAX_UPLOAD_BYTES / UPLOAD_CHUNK_BYTES) + 1) {
+            throw new Error('Jumlah chunk upload tidak valid.');
+        }
+        if (!Number.isInteger(chunkIndex) || chunkIndex < 0 || chunkIndex >= totalChunks) {
+            throw new Error('Index chunk upload tidak valid.');
+        }
+
+        const data = parseUploadChunkBase64(chunk_base64);
+        const ttlMs = Number.isFinite(UPLOAD_CHUNK_TTL_MS) && UPLOAD_CHUNK_TTL_MS > 0
+            ? UPLOAD_CHUNK_TTL_MS
+            : 60 * 60 * 1000;
+
+        await UploadChunk.updateOne(
+            { uploadId, userId, chunkIndex },
+            {
+                $set: {
+                    kind: uploadKind,
+                    idProgram,
+                    fileName,
+                    fileSize,
+                    totalChunks,
+                    data,
+                    expiresAt: new Date(Date.now() + ttlMs)
+                }
+            },
+            { upsert: true }
+        );
+
+        return res.json({
+            ok: true,
+            chunk_index: chunkIndex,
+            total_chunks: totalChunks
+        });
+    } catch (err) {
+        console.error('Gagal menyimpan chunk upload:', err?.message || err);
+        return res.status(400).json({ pesan: err?.message || 'Gagal menyimpan bagian file.' });
+    }
+});
 
 // tidak digunakan lagi: fallback local dipakai langsung saat kebutuhan kompatibilitas route lama
 
@@ -784,6 +1171,34 @@ function klasifikasiJenisKerma(kodeFile) {
     };
 }
 
+const KODE_FILE_ALOKASI_AKTIF = new Set([
+    'SBM.PD-1-78-2024',
+    'SBM.PD-1-73-2024',
+    'SBM.PD-1-49-2024',
+    'SBM.PD-1-39-2024',
+    'SBM.PD-1-34-2024',
+    'SBM.PD-1-81-2024',
+    'SBM.PD-1-54-2025',
+    'SBM.PD-1-53-2025',
+    'SBM.PD-1-51-2025',
+    'SBM.PD-1-50-2025',
+    'SBM.PD-1-40-2025',
+    'SBM.PD-1-1-2025',
+    'SBM.PD-1-58-2025',
+    'SBM.PD-1-55-2025',
+    'SBM.PD-1-6-2026',
+    'SBM.PD-1-9-2026',
+    'SBM.PD-1-12-2026'
+]);
+
+function kodeFileAlokasiAktif(kodeFile) {
+    return KODE_FILE_ALOKASI_AKTIF.has(String(kodeFile || '').trim().toUpperCase());
+}
+
+function statusAlokasiKerma(kodeFile) {
+    return kodeFileAlokasiAktif(kodeFile) ? 'Aktif' : 'Tidak Aktif';
+}
+
 async function cariProgramDariKodeFile(kodeFileRaw) {
     const kodeFile = kodeFileRaw?.trim();
     if (!kodeFile) return { error: 'Kode File wajib diisi.' };
@@ -810,10 +1225,38 @@ function persenDpiPenerimaan(row = {}) {
     return 20;
 }
 
+function nominalHampirSama(a, b, tolerance = 1) {
+    return Math.abs((Number(a) || 0) - (Number(b) || 0)) <= tolerance;
+}
+
 function nominalBrutoPenerimaan(row = {}) {
     const bruto = Number(row.nominal_bruto);
-    if (Number.isFinite(bruto) && bruto > 0) return bruto;
-    return Math.max(0, Number(row.nominal) || 0);
+    const nominalTersimpan = Math.max(0, Number(row.nominal) || 0);
+    const nominalRencana = Math.max(0, Number(row.rencana_nominal) || 0);
+    const persen = persenDpiPenerimaan(row);
+    const faktorNetto = 1 - (persen / 100);
+    const punyaBruto = Number.isFinite(bruto) && bruto > 0;
+    const brutoDariNetto = nominalTersimpan > 0 && faktorNetto > 0 && faktorNetto < 1
+        ? Math.round(nominalTersimpan / faktorNetto)
+        : nominalTersimpan;
+
+    if (nominalRencana > 0 && nominalTersimpan > 0) {
+        if (nominalHampirSama(nominalTersimpan, nominalRencana) && (!punyaBruto || nominalHampirSama(bruto, brutoDariNetto))) {
+            return nominalTersimpan;
+        }
+        if (!punyaBruto && nominalHampirSama(brutoDariNetto, nominalRencana)) {
+            return nominalRencana;
+        }
+        if (punyaBruto && nominalHampirSama(bruto, nominalRencana)) {
+            return bruto;
+        }
+        if (!punyaBruto) {
+            return brutoDariNetto <= nominalRencana + 1 ? brutoDariNetto : nominalTersimpan;
+        }
+    }
+    if (punyaBruto) return bruto;
+    if (nominalTersimpan > 0 && persen > 0 && persen < 100) return brutoDariNetto;
+    return nominalTersimpan;
 }
 
 function nominalDpiPenerimaan(row = {}) {
@@ -838,6 +1281,14 @@ function nominalRealisasiPenerimaan(row = {}) {
         return Math.max(0, nominalBrutoPenerimaan(row) - nominalDpiPenerimaan(row));
     }
     return Math.max(0, nominalBrutoPenerimaan(row) - nominalDpiPenerimaan(row));
+}
+
+function keteranganRealisasiPembayaranTampil(value = '') {
+    const text = String(value || '').trim();
+    if (!text) return '';
+    if (/^Realisasi\s+.+\s+dari\s+rencana\s+(penerimaan|pendapatan)\.?$/i.test(text)) return '';
+    if (text.toLowerCase() === 'realisasi penerimaan yang sudah dibukukan.') return '';
+    return text;
 }
 
 async function hitungSaldoRiProgram(idProgram, sampaiTanggal = null) {
@@ -1496,6 +1947,7 @@ async function bangunJadwalPembiayaan() {
     const pushJadwal = ({ tanggal, nominal, id_program, kode_file, nama_mitra, judul, label, sumber, status_kontrak, termin_order }) => {
         const dueDate = parseTanggalDashboard(tanggal);
         const nilai = Number(nominal) || 0;
+        const kodeFile = kode_file || '';
         if (!dueDate || nilai <= 0) return false;
         jadwal.push({
             tanggal: formatTanggalISO(dueDate),
@@ -1504,12 +1956,13 @@ async function bangunJadwalPembiayaan() {
             nominal: nilai,
             nominal_display: `Rp ${formatRupiahAngka(nilai)}`,
             id_program: id_program || '',
-            kode_file: kode_file || '',
+            kode_file: kodeFile,
             nama_mitra: nama_mitra || '',
             judul: judul || '',
             label: label || 'Pembayaran',
             sumber: sumber || 'Program',
             status_kontrak: status_kontrak || '',
+            status_alokasi: statusAlokasiKerma(kodeFile),
             termin_order: Number(termin_order) || null
         });
         if (id_program) programDenganJadwal.add(id_program);
@@ -1535,6 +1988,7 @@ async function bangunJadwalPembiayaan() {
                 nominal: nilai,
                 nominal_display: `Rp ${formatRupiahAngka(nilai)}`,
                 status_kontrak: statusKontrak,
+                status_alokasi: statusAlokasiKerma(p.kode_file),
                 termin_order: Number(termin_order) || null
             });
         };
@@ -1735,7 +2189,7 @@ async function bangunJadwalRealisasiPembayaran(options = {}) {
                 basis_tanggal: gunakanTanggalRencana ? 'Rencana Pembayaran Kontrak' : 'Realisasi Pembayaran',
                 tanggal_realisasi: formatTanggalInput(row.tanggal),
                 tanggal_rencana: rencana?.tanggal_input || '',
-                keterangan: row.keterangan || '',
+                keterangan: keteranganRealisasiPembayaranTampil(row.keterangan),
                 status_kontrak: hitungStatusKontrak(program.tgl_akhir_kontrak)
             };
         })
@@ -2048,13 +2502,13 @@ function pastikanContentTypeJpegWord(zip) {
 }
 
 function renderPdfKontrakKeGambar(filePath) {
-    const scriptPath = path.resolve(__dirname, 'scripts', 'render-pdf-pages.swift');
+    const scriptPath = path.resolve(__dirname, 'scripts', 'render-pdf-pages.mjs');
     if (!fs.existsSync(scriptPath)) return [];
     const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kerma-kontrak-pdf-'));
     try {
-        const stdout = execFileSync('swift', [scriptPath, filePath, outputDir, '1000', '0'], {
+        const stdout = execFileSync(process.execPath, [scriptPath, filePath, outputDir, '1000', '0'], {
             encoding: 'utf8',
-            timeout: 180000,
+            timeout: 240000,
             maxBuffer: 1024 * 1024 * 4
         });
         return stdout.split(/\r?\n/)
@@ -2074,7 +2528,12 @@ function renderPdfKontrakKeGambar(filePath) {
 function sisipkanGambarPdfKontrakWord(zip, data = {}) {
     const file = path.basename(data.file_kontrak || '');
     if (!file || path.extname(file).toLowerCase() !== '.pdf') return '';
-    const filePath = getUploadLocalFallback('kontrak', file);
+    const preparedPath = data.file_kontrak_local_path
+        ? path.resolve(String(data.file_kontrak_local_path))
+        : '';
+    const filePath = preparedPath && fs.existsSync(preparedPath)
+        ? preparedPath
+        : getUploadLocalFallback('kontrak', file);
     if (!filePath) return buatParagrafWord('File PDF kontrak tidak ditemukan pada folder unggahan.', { size: 22, after: 80 });
 
     const pageImages = renderPdfKontrakKeGambar(filePath);
@@ -2355,7 +2814,7 @@ async function handleIndikatorPimpinan(req, res) {
         res.json({
             tanggal: formatTanggalISO(tanggalDipilih),
             tanggal_display: formatTanggalDisplay(formatTanggalISO(tanggalDipilih)),
-            catatan: 'Indikator saldo menunjukkan penerimaan yang sudah diterima SBM dan belum direalisasikan sebagai belanja. Detail perencanaan biaya dapat dicatat melalui RAB dan proses implementasi tetap dicatat melalui RI/Realisasi RI.',
+            catatan: 'Indikator saldo menunjukkan penerimaan yang sudah diterima SBM dan belum direalisasikan sebagai belanja. Detail perencanaan biaya dapat dicatat melalui RKA Kerma dan proses implementasi tetap dicatat melalui RI/Realisasi RI.',
             filter: {
                 periode_kontrak: {
                     label: periodeKontrak.label,
@@ -2466,6 +2925,7 @@ app.get('/api/daftar-kerma', async (req, res) => {
                 kode_jenis_kerma:        jenisKerma.kode,
                 jenis_kerma:             jenisKerma.label,
                 status_kontrak:          hitungStatusKontrak(p.tgl_akhir_kontrak),
+                status_alokasi:          statusAlokasiKerma(p.kode_file),
                 file_kontrak:            p.file_kontrak,
                 nilai_kontrak_raw:       p.nilai_kontrak || 0,
                 tgl_kontrak_input:       formatTanggalInput(p.tgl_kontrak),
@@ -2546,9 +3006,18 @@ app.get('/api/generate-laporan', async (req, res) => {
             };
         };
 
+        const renderLaporan = async data => {
+            const prepared = await siapkanFileKontrakLokal(data);
+            try {
+                return prosesTemplatWord(prepared.data);
+            } finally {
+                prepared.cleanup();
+            }
+        };
+
         if (idList.length === 1) {
             const data = await buildData(idList[0]);
-            const wordBuffer = prosesTemplatWord(data);
+            const wordBuffer = await renderLaporan(data);
             res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             res.setHeader('Content-Disposition', `attachment; filename=Laporan_${data.nama_mitra.replace(/ /g, '_')}.docx`);
             return res.send(wordBuffer);
@@ -2556,7 +3025,7 @@ app.get('/api/generate-laporan', async (req, res) => {
 
         const hasilLaporan = await Promise.all(idList.map(async id => {
             const data = await buildData(id);
-            return { nama: data.nama_mitra.replace(/ /g, '_'), buffer: prosesTemplatWord(data) };
+            return { nama: data.nama_mitra.replace(/ /g, '_'), buffer: await renderLaporan(data) };
         }));
 
         const zipArsip = new AdmZip();
@@ -2652,11 +3121,39 @@ app.get('/api/template-mahasiswa', async (req, res) => {
 
 app.post('/api/import-mahasiswa', async (req, res) => {
     try {
-        const { fileBase64, id_program_override } = req.body;
-        if (!fileBase64) return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        const {
+            fileBase64,
+            file_base64,
+            file_upload_id,
+            file_size,
+            total_chunks,
+            file_nama,
+            id_program_override
+        } = req.body;
+        const base64Value = fileBase64 || file_base64;
+        if (!base64Value && !file_upload_id) {
+            return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        }
+
+        const userId = req.session?.user?.id;
+        const uploadProgramKey = id_program_override || '__from_file__';
+        const importBuffer = await resolveUploadBuffer({
+            fileBase64: base64Value,
+            uploadId: file_upload_id,
+            userId,
+            kind: UPLOAD_KIND_IMPORT_MAHASISWA,
+            idProgram: uploadProgramKey,
+            fileName: file_nama || 'import-mahasiswa.xlsx',
+            fileSize: file_size,
+            totalChunks: total_chunks
+        });
 
         const tempWb = new ExcelJS.Workbook();
-        await tempWb.xlsx.load(Buffer.from(fileBase64, 'base64'));
+        await tempWb.xlsx.load(importBuffer);
+        if (file_upload_id) {
+            await hapusUploadChunked(file_upload_id, userId)
+                .catch(err => console.warn('Gagal membersihkan chunk import:', err?.message || err));
+        }
         const srcSheet = tempWb.worksheets[0];
         if (!srcSheet) return res.status(400).json({ pesan: 'Sheet tidak ditemukan dalam file.' });
 
@@ -2922,7 +3419,7 @@ app.post('/api/tambah-kerma', async (req, res) => {
     try {
         const { id_program, nama_mitra, no_kontrak_institusi, no_kontrak_mitra,
                 judul_pks, strata, tgl_kontrak, tgl_akhir_kontrak, nilai_kontrak,
-                kode_file, file_base64, file_nama,
+                kode_file, file_base64, file_upload_id, file_size, total_chunks, file_nama,
                 jumlah_mahasiswa, cara_pembayaran, tipe_cicilan,
                 batas_akhir_pembayaran, harga_per_mahasiswa, cicilan } = req.body;
 
@@ -2930,9 +3427,27 @@ app.post('/api/tambah-kerma', async (req, res) => {
             return res.status(400).json({ pesan: 'ID Program, Nama Mitra, dan Judul PKS wajib diisi.' });
 
         let namaFileTersimpan = '';
-        if (file_base64 && file_nama) {
-            try { namaFileTersimpan = await simpanFileKontrak(id_program, file_base64, file_nama, req.session?.user?.id); }
-            catch (e) { return res.status(400).json({ pesan: e.message }); }
+        if ((file_base64 || file_upload_id) && file_nama) {
+            try {
+                const userId = req.session?.user?.id;
+                const buffer = await resolveUploadBuffer({
+                    fileBase64: file_base64,
+                    uploadId: file_upload_id,
+                    userId,
+                    kind: UPLOAD_KIND_KONTRAK,
+                    idProgram: id_program,
+                    fileName: file_nama,
+                    fileSize: file_size,
+                    totalChunks: total_chunks
+                });
+                namaFileTersimpan = await simpanBufferKontrak(id_program, buffer, file_nama, userId);
+                if (file_upload_id) {
+                    await hapusUploadChunked(file_upload_id, userId)
+                        .catch(err => console.warn('Gagal membersihkan chunk upload:', err?.message || err));
+                }
+            } catch (e) {
+                return res.status(400).json({ pesan: e.message });
+            }
         }
 
         await Program.create({
@@ -2943,6 +3458,7 @@ app.post('/api/tambah-kerma', async (req, res) => {
             tgl_kontrak: tgl_kontrak || '', tgl_akhir_kontrak: tgl_akhir_kontrak || '',
             nilai_kontrak: nilai_kontrak ? Number(nilai_kontrak) : 0,
             kode_file: kode_file?.trim() || '', file_kontrak: namaFileTersimpan,
+            status_alokasi: statusAlokasiKerma(kode_file),
             jumlah_mahasiswa: jumlah_mahasiswa ? Number(jumlah_mahasiswa) : null,
             cara_pembayaran: cara_pembayaran?.trim() || '',
             tipe_cicilan: tipe_cicilan?.trim() || '',
@@ -2971,13 +3487,31 @@ app.post('/api/tambah-kerma', async (req, res) => {
 
 app.post('/api/upload-kontrak', async (req, res) => {
     try {
-        const { id_program, file_base64, file_nama } = req.body;
-        if (!id_program || !file_base64 || !file_nama)
-            return res.status(400).json({ pesan: 'id_program, file_base64, dan file_nama wajib diisi.' });
+        const { id_program, file_base64, file_upload_id, file_size, total_chunks, file_nama } = req.body;
+        if (!id_program || (!file_base64 && !file_upload_id) || !file_nama)
+            return res.status(400).json({ pesan: 'id_program, file, dan file_nama wajib diisi.' });
 
         let namaFileTersimpan;
-        try { namaFileTersimpan = await simpanFileKontrak(id_program, file_base64, file_nama, req.session?.user?.id); }
-        catch (e) { return res.status(400).json({ pesan: e.message }); }
+        try {
+            const userId = req.session?.user?.id;
+            const buffer = await resolveUploadBuffer({
+                fileBase64: file_base64,
+                uploadId: file_upload_id,
+                userId,
+                kind: UPLOAD_KIND_KONTRAK,
+                idProgram: id_program,
+                fileName: file_nama,
+                fileSize: file_size,
+                totalChunks: total_chunks
+            });
+            namaFileTersimpan = await simpanBufferKontrak(id_program, buffer, file_nama, userId);
+            if (file_upload_id) {
+                await hapusUploadChunked(file_upload_id, userId)
+                    .catch(err => console.warn('Gagal membersihkan chunk upload:', err?.message || err));
+            }
+        } catch (e) {
+            return res.status(400).json({ pesan: e.message });
+        }
 
         const result = await Program.findOneAndUpdate(
             { id_program: id_program.trim() },
@@ -3014,6 +3548,7 @@ app.put('/api/edit-kerma', async (req, res) => {
                 tgl_kontrak: tgl_kontrak || '', tgl_akhir_kontrak: tgl_akhir_kontrak || '',
                 nilai_kontrak: nilai_kontrak ? Number(nilai_kontrak) : 0,
                 kode_file: kode_file?.trim() || '',
+                status_alokasi: statusAlokasiKerma(kode_file),
                 jumlah_mahasiswa: jumlah_mahasiswa ? Number(jumlah_mahasiswa) : null,
                 cara_pembayaran: cara_pembayaran?.trim() || '',
                 tipe_cicilan: tipe_cicilan?.trim() || '',
@@ -3087,7 +3622,8 @@ function buatRencanaPendapatanKey(row) {
 
 function buatRencanaPendapatanFallbackKey(row) {
     const tanggal = formatTanggalInput(row.tanggal_input || row.rencana_tanggal || row.tanggal || '');
-    const nominal = Number(row.nominal_bruto) > 0
+    const isRealisasiPembayaran = !!(row.tanggal || row.rencana_tanggal || row.nominal_bruto !== undefined || row.potongan_persen !== undefined);
+    const nominal = isRealisasiPembayaran
         ? nominalBrutoPenerimaan(row)
         : (Number(row.rencana_nominal) || Number(row.nominal) || 0);
     if (!row.id_program || !row.kode_file || !tanggal || nominal <= 0) return '';
@@ -3132,6 +3668,7 @@ function buatRencanaPendapatanRowDariJadwal(item) {
         nominal: Number(item.nominal) || 0,
         nominal_display: item.nominal_display || `Rp ${formatRupiahAngka(item.nominal)}`,
         status_jadwal: 'Terjadwal',
+        status_alokasi: item.status_alokasi || statusAlokasiKerma(item.kode_file),
         keterangan: 'Tanggal pembayaran sudah tersedia pada data kontrak.',
         termin_order: Number(item.termin_order) || null
     };
@@ -3148,6 +3685,8 @@ function normalisasiKeyBagian(value) {
 
 function buatIndexRencanaPembayaran(jadwal = []) {
     const byKey = new Map();
+    const byProgramTahap = new Map();
+    const byKodeTahap = new Map();
     const byProgramTahapNominal = new Map();
     const byKodeTahapNominal = new Map();
     const byProgramNominal = new Map();
@@ -3177,6 +3716,8 @@ function buatIndexRencanaPembayaran(jadwal = []) {
         const tahap = normalisasiKeyBagian(row.tahap);
         const nominal = Number(row.nominal) || 0;
         add(byKey, row.rencana_key, row);
+        add(byProgramTahap, `${idProgram}|${tahap}`, row);
+        add(byKodeTahap, `${kodeFile}|${tahap}`, row);
         add(byProgramTahapNominal, `${idProgram}|${tahap}|${nominal}`, row);
         add(byKodeTahapNominal, `${kodeFile}|${tahap}|${nominal}`, row);
         add(byProgramNominal, `${idProgram}|${nominal}`, row);
@@ -3185,7 +3726,7 @@ function buatIndexRencanaPembayaran(jadwal = []) {
         add(byKode, kodeFile, row);
     });
 
-    return { byKey, byProgramTahapNominal, byKodeTahapNominal, byProgramNominal, byKodeNominal, byProgram, byKode };
+    return { byKey, byProgramTahap, byKodeTahap, byProgramTahapNominal, byKodeTahapNominal, byProgramNominal, byKodeNominal, byProgram, byKode };
 }
 
 function ambilRencanaBelumDipakai(map, key) {
@@ -3203,6 +3744,21 @@ function cariRencanaPembayaranUntukRealisasi(row, index) {
     const exact = ambilRencanaBelumDipakai(index.byKey, rencanaKey);
     if (exact) return exact;
 
+    const idProgram = String(row.id_program || '').trim();
+    const kodeFile = String(row.kode_file || '').trim();
+    const tahap = normalisasiKeyBagian(row.rencana_tahap || '');
+    const nominal = nominalBrutoPenerimaan(row);
+    const rencana =
+        ambilRencanaBelumDipakai(index.byProgramTahapNominal, `${idProgram}|${tahap}|${nominal}`) ||
+        ambilRencanaBelumDipakai(index.byKodeTahapNominal, `${kodeFile}|${tahap}|${nominal}`) ||
+        ambilRencanaBelumDipakai(index.byProgramTahap, `${idProgram}|${tahap}`) ||
+        ambilRencanaBelumDipakai(index.byKodeTahap, `${kodeFile}|${tahap}`) ||
+        ambilRencanaBelumDipakai(index.byProgramNominal, `${idProgram}|${nominal}`) ||
+        ambilRencanaBelumDipakai(index.byKodeNominal, `${kodeFile}|${nominal}`) ||
+        ambilRencanaBelumDipakai(index.byProgram, idProgram) ||
+        ambilRencanaBelumDipakai(index.byKode, kodeFile);
+    if (rencana) return rencana;
+
     const tanggalTersimpan = formatTanggalInput(row.rencana_tanggal || '');
     if (tanggalTersimpan) {
         return {
@@ -3211,21 +3767,7 @@ function cariRencanaPembayaranUntukRealisasi(row, index) {
         };
     }
 
-    const idProgram = String(row.id_program || '').trim();
-    const kodeFile = String(row.kode_file || '').trim();
-    const tahap = normalisasiKeyBagian(row.rencana_tahap || '');
-    const nominal = Number(row.nominal_bruto) > 0
-        ? nominalBrutoPenerimaan(row)
-        : (Number(row.rencana_nominal) || Number(row.nominal) || 0);
-    return (
-        ambilRencanaBelumDipakai(index.byProgramTahapNominal, `${idProgram}|${tahap}|${nominal}`) ||
-        ambilRencanaBelumDipakai(index.byKodeTahapNominal, `${kodeFile}|${tahap}|${nominal}`) ||
-        ambilRencanaBelumDipakai(index.byProgramNominal, `${idProgram}|${nominal}`) ||
-        ambilRencanaBelumDipakai(index.byKodeNominal, `${kodeFile}|${nominal}`) ||
-        ambilRencanaBelumDipakai(index.byProgram, idProgram) ||
-        ambilRencanaBelumDipakai(index.byKode, kodeFile) ||
-        null
-    );
+    return null;
 }
 
 function buatRencanaPendapatanRowTanpaTanggal(item) {
@@ -3241,6 +3783,7 @@ function buatRencanaPendapatanRowTanpaTanggal(item) {
         nominal: Number(item.nominal) || 0,
         nominal_display: item.nominal_display || `Rp ${formatRupiahAngka(item.nominal)}`,
         status_jadwal: 'Perlu tanggal',
+        status_alokasi: item.status_alokasi || statusAlokasiKerma(item.kode_file),
         keterangan: 'Update informasi kontrak dengan tanggal pembayaran spesifik.',
         termin_order: Number(item.termin_order) || null
     };
@@ -3268,30 +3811,23 @@ function urutRencanaUntukAlokasi(a, b) {
 }
 
 function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPembayaran = []) {
-    const targetNetoByRencanaKey = new Map();
-    realisasiPembayaran.forEach(row => {
-        const key = String(row.rencana_key || '').trim();
-        const nominalTarget = Number(row.rencana_nominal) || nominalRealisasiPenerimaan(row);
-        if (!key || nominalTarget <= 0) return;
-        targetNetoByRencanaKey.set(key, nominalTarget);
-    });
-
     const rows = rencanaRows.map((row, index) => {
         const nominalRencana = Number(row.nominal) || 0;
-        const nominalTargetRealisasi = targetNetoByRencanaKey.get(String(row.rencana_key || '').trim()) || nominalRencana;
         return {
             ...row,
             __index: index,
             __kontrak_key: keyKontrakRencanaPendapatan(row),
             nominal: nominalRencana,
-            nominal_rencana: nominalTargetRealisasi,
-            nominal_rencana_display: `Rp ${formatRupiahAngka(nominalTargetRealisasi)}`,
+            nominal_rencana: nominalRencana,
+            nominal_rencana_display: `Rp ${formatRupiahAngka(nominalRencana)}`,
             nominal_terealisasi: 0,
-            nominal_sisa: nominalTargetRealisasi
+            nominal_sisa: nominalRencana
         };
     });
     const byRencanaKey = new Map();
     const byFallbackKey = new Map();
+    const byProgramTahap = new Map();
+    const byKodeTahap = new Map();
     const byKontrakKey = new Map();
     const add = (map, key, row) => {
         if (!key) return;
@@ -3300,53 +3836,78 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
     };
 
     rows.forEach(row => {
+        const idProgram = String(row.id_program || '').trim();
+        const kodeFile = String(row.kode_file || '').trim();
+        const tahap = normalisasiKeyBagian(row.tahap || '');
         add(byRencanaKey, String(row.rencana_key || '').trim(), row);
         add(byFallbackKey, buatRencanaPendapatanFallbackKey(row), row);
+        add(byProgramTahap, `${idProgram}|${tahap}`, row);
+        add(byKodeTahap, `${kodeFile}|${tahap}`, row);
         add(byKontrakKey, row.__kontrak_key, row);
     });
 
-    const alokasiKeRow = (row, amount) => {
+    const alokasiKeRow = (row, amount, { allowOverflow = false } = {}) => {
         if (!row || amount <= 0 || row.nominal_sisa <= 0) return amount;
+        if (allowOverflow) {
+            row.nominal_sisa = Math.max(0, row.nominal_sisa - amount);
+            row.nominal_terealisasi += amount;
+            return 0;
+        }
         const dipakai = Math.min(row.nominal_sisa, amount);
         row.nominal_sisa -= dipakai;
         row.nominal_terealisasi += dipakai;
         return amount - dipakai;
     };
-    const alokasiKeCandidates = (candidates = [], amount = 0) => {
+    const alokasiKeCandidates = (candidates = [], amount = 0, options = {}) => {
         let sisa = amount;
         candidates.sort(urutRencanaUntukAlokasi).forEach(row => {
             if (sisa <= 0) return;
-            sisa = alokasiKeRow(row, sisa);
+            sisa = alokasiKeRow(row, sisa, options);
         });
         return sisa;
     };
 
     const realisasiTanpaKey = new Map();
-    const tambahRealisasiTanpaKey = (key, amount) => {
+    const realisasiTanpaTahap = new Map();
+    const tambahRealisasiTanpaKey = (map, key, amount) => {
         if (!key || amount <= 0) return;
-        realisasiTanpaKey.set(key, (realisasiTanpaKey.get(key) || 0) + amount);
+        map.set(key, (map.get(key) || 0) + amount);
     };
 
     realisasiPembayaran.forEach(row => {
-        let nominalRealisasi = nominalRealisasiPenerimaan(row);
+        let nominalRealisasi = nominalBrutoPenerimaan(row);
         if (nominalRealisasi <= 0) return;
+        const idProgram = String(row.id_program || '').trim();
+        const kodeFile = String(row.kode_file || '').trim();
+        const tahap = normalisasiKeyBagian(row.rencana_tahap || '');
 
         const rencanaKey = String(row.rencana_key || '').trim();
         if (rencanaKey) {
-            nominalRealisasi = alokasiKeCandidates(byRencanaKey.get(rencanaKey) || [], nominalRealisasi);
+            nominalRealisasi = alokasiKeCandidates(byRencanaKey.get(rencanaKey) || [], nominalRealisasi, { allowOverflow: true });
         }
 
         const fallbackKey = buatRencanaPendapatanFallbackKey(row);
         if (nominalRealisasi > 0 && fallbackKey) {
-            nominalRealisasi = alokasiKeCandidates(byFallbackKey.get(fallbackKey) || [], nominalRealisasi);
+            nominalRealisasi = alokasiKeCandidates(byFallbackKey.get(fallbackKey) || [], nominalRealisasi, { allowOverflow: true });
+        }
+
+        if (nominalRealisasi > 0 && tahap) {
+            nominalRealisasi = alokasiKeCandidates(byProgramTahap.get(`${idProgram}|${tahap}`) || [], nominalRealisasi, { allowOverflow: true });
+        }
+
+        if (nominalRealisasi > 0 && tahap) {
+            nominalRealisasi = alokasiKeCandidates(byKodeTahap.get(`${kodeFile}|${tahap}`) || [], nominalRealisasi, { allowOverflow: true });
         }
 
         if (nominalRealisasi > 0) {
-            tambahRealisasiTanpaKey(keyKontrakRencanaPendapatan(row), nominalRealisasi);
+            tambahRealisasiTanpaKey(tahap ? realisasiTanpaKey : realisasiTanpaTahap, keyKontrakRencanaPendapatan(row), nominalRealisasi);
         }
     });
 
     realisasiTanpaKey.forEach((nominalRealisasi, kontrakKey) => {
+        alokasiKeCandidates(byKontrakKey.get(kontrakKey) || [], nominalRealisasi, { allowOverflow: true });
+    });
+    realisasiTanpaTahap.forEach((nominalRealisasi, kontrakKey) => {
         alokasiKeCandidates(byKontrakKey.get(kontrakKey) || [], nominalRealisasi);
     });
 
@@ -3362,25 +3923,32 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
                 ...clean
             } = row;
             const sisa = Math.max(0, Math.round(nominal_sisa));
-            const terealisasi = sisa <= 0 && nominal_rencana > 0;
+            const statusAlokasi = clean.status_alokasi || statusAlokasiKerma(clean.kode_file);
+            const tutupKeuangan = statusAlokasi !== 'Aktif';
+            const nominalTerealisasiTampil = tutupKeuangan
+                ? Math.max(Math.round(nominal_terealisasi), nominal_rencana)
+                : Math.round(nominal_terealisasi);
+            const nominalSisaTampil = tutupKeuangan ? 0 : sisa;
+            const terealisasi = tutupKeuangan || (sisa <= 0 && nominal_rencana > 0);
             return {
                 ...clean,
+                status_alokasi: statusAlokasi,
                 nominal_rencana,
                 nominal_rencana_display: `Rp ${formatRupiahAngka(nominal_rencana)}`,
-                nominal_terealisasi: Math.round(nominal_terealisasi),
-                nominal_terealisasi_display: `Rp ${formatRupiahAngka(nominal_terealisasi)}`,
-                nominal_sisa: sisa,
-                nominal_sisa_display: `Rp ${formatRupiahAngka(sisa)}`,
+                nominal_terealisasi: nominalTerealisasiTampil,
+                nominal_terealisasi_display: `Rp ${formatRupiahAngka(nominalTerealisasiTampil)}`,
+                nominal_sisa: nominalSisaTampil,
+                nominal_sisa_display: `Rp ${formatRupiahAngka(nominalSisaTampil)}`,
                 terealisasi,
                 status_realisasi: terealisasi
                     ? 'Terealisasi'
-                    : nominal_terealisasi > 0 ? 'Sebagian Terealisasi' : 'Belum Terealisasi'
+                    : nominalTerealisasiTampil > 0 ? 'Sebagian Terealisasi' : 'Belum Terealisasi'
             };
         });
 }
 
 async function bangunRencanaPendapatanBelumDirealisasikan() {
-    const realisasiPembayaran = await RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tanggal rencana_nominal').lean();
+    const realisasiPembayaran = await RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tahap rencana_tanggal rencana_nominal').lean();
     const { jadwal, tanpaJadwal } = await bangunJadwalPembiayaan();
     const rowsTerjadwal = jadwal.map(buatRencanaPendapatanRowDariJadwal);
     const rowsTanpaTanggal = tanpaJadwal.map(buatRencanaPendapatanRowTanpaTanggal);
@@ -3418,7 +3986,7 @@ async function bangunRencanaPendapatanBelumDirealisasikan() {
 }
 
 async function bangunRencanaPendapatanTermin() {
-    const realisasiPembayaran = await RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tanggal rencana_nominal').lean();
+    const realisasiPembayaran = await RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tahap rencana_tanggal rencana_nominal').lean();
 
     const { jadwal, tanpaJadwal } = await bangunJadwalPembiayaan();
     const rowsTerjadwal = jadwal.map(buatRencanaPendapatanRowDariJadwal);
@@ -3436,6 +4004,1062 @@ async function bangunRencanaPendapatanTermin() {
         }
     };
 }
+
+const TEMPLATE_INVOICE_PATH = process.env.INVOICE_TEMPLATE_PATH || path.resolve(__dirname, 'templates', 'template_invoice.xlsx');
+
+function escapeRegExp(value = '') {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function formatJudulTerbilang(value) {
+    const text = terbilangRupiah(value);
+    return text ? text.charAt(0).toUpperCase() + text.slice(1) : '';
+}
+
+function terbilangRupiah(value) {
+    const angka = Math.max(0, Math.round(Number(value) || 0));
+    if (!angka) return 'nol rupiah';
+    return `${terbilangAngka(angka)} rupiah`;
+}
+
+function terbilangAngka(value) {
+    const satuan = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
+    const n = Math.floor(Number(value) || 0);
+    if (n < 12) return satuan[n];
+    if (n < 20) return `${terbilangAngka(n - 10)} belas`;
+    if (n < 100) return `${terbilangAngka(Math.floor(n / 10))} puluh${n % 10 ? ` ${terbilangAngka(n % 10)}` : ''}`;
+    if (n < 200) return `seratus${n - 100 ? ` ${terbilangAngka(n - 100)}` : ''}`;
+    if (n < 1000) return `${terbilangAngka(Math.floor(n / 100))} ratus${n % 100 ? ` ${terbilangAngka(n % 100)}` : ''}`;
+    if (n < 2000) return `seribu${n - 1000 ? ` ${terbilangAngka(n - 1000)}` : ''}`;
+    if (n < 1000000) return `${terbilangAngka(Math.floor(n / 1000))} ribu${n % 1000 ? ` ${terbilangAngka(n % 1000)}` : ''}`;
+    if (n < 1000000000) return `${terbilangAngka(Math.floor(n / 1000000))} juta${n % 1000000 ? ` ${terbilangAngka(n % 1000000)}` : ''}`;
+    if (n < 1000000000000) return `${terbilangAngka(Math.floor(n / 1000000000))} miliar${n % 1000000000 ? ` ${terbilangAngka(n % 1000000000)}` : ''}`;
+    return `${terbilangAngka(Math.floor(n / 1000000000000))} triliun${n % 1000000000000 ? ` ${terbilangAngka(n % 1000000000000)}` : ''}`;
+}
+
+function nilaiSelInvoice(value) {
+    if (value === undefined || value === null) return '';
+    return value;
+}
+
+function setCellInvoice(ws, address, value) {
+    const cell = ws.getCell(address);
+    const target = cell.isMerged && cell.master ? cell.master : cell;
+    target.value = nilaiSelInvoice(value);
+}
+
+function pecahAlamatInvoice(program = {}, mitra = {}) {
+    const alamat = String(mitra.alamat || program.alamat || '').trim();
+    const wilayah = [mitra.kota, mitra.provinsi, mitra.negara]
+        .map(item => String(item || '').trim())
+        .filter(Boolean)
+        .join(', ');
+    if (!alamat && !wilayah) return ['', ''];
+    if (!alamat) return [wilayah, ''];
+    if (!wilayah) {
+        const parts = alamat.split(/\s{2,}|\n/).map(s => s.trim()).filter(Boolean);
+        return [parts[0] || alamat, parts.slice(1).join(' ')];
+    }
+    return [alamat, wilayah];
+}
+
+function sanitizeFilename(value = '') {
+    return String(value || '')
+        .replace(/[\\/:*?"<>|]+/g, '-')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 120) || 'invoice';
+}
+
+const TEMPLATE_SK_TIM_PENGELOLA_PATH = process.env.SK_TIM_PENGELOLA_TEMPLATE_PATH
+    || path.resolve(__dirname, 'templates', 'template_sk_tim_pengelola_kerma.docx');
+const ROLE_SK_TIM_PENGELOLA = ['PJ', 'Pengarah', 'Ketua', 'Kepala Admin', 'Anggota'];
+const LABEL_ROLE_SK_TIM_PENGELOLA = Object.freeze({
+    PJ: 'Penanggung Jawab',
+    Pengarah: 'Pengarah',
+    Ketua: 'Ketua',
+    'Kepala Admin': 'Kepala Administrasi',
+    Anggota: 'Anggota'
+});
+const PERSONIL_SK_TERKUNCI = Object.freeze({
+    PJ: 4,
+    Ketua: 1
+});
+const PERSONIL_SK_DEFAULT = Object.freeze({
+    PJ: 4,
+    Pengarah: 6,
+    Ketua: 1,
+    'Kepala Admin': 6,
+    Anggota: 6
+});
+const BIDANG_SK_TIM_PENGELOLA = Object.freeze({
+    PJ: [
+        'Penanggung Jawab Bidang Akademik',
+        'Penanggung Jawab Bidang Sumber Daya',
+        'Penanggung Jawab Bidang Kerja Sama',
+        'Penanggung Jawab Bidang Administrasi'
+    ],
+    Pengarah: [
+        'Pengarah Bidang Risiko Bisnis dan Keuangan',
+        'Pengarah Bidang Strategi Bisnis dan Pemasaran',
+        'Pengarah Bidang Pengambilan Keputusan dan Negosiasi Strategis',
+        'Pengarah Bidang Kewirausahaan dan Manajemen Teknologi',
+        'Pengarah Bidang Manajemen Operasi dan Kinerja',
+        'Pengarah Bidang Manajemen Manusia dan Pengetahuan',
+        'Pengarah Bidang Penjaminan Mutu',
+        'Pengarah Bidang Sumber Daya Manusia',
+        'Pengarah Bidang Perencanaan dan Keuangan',
+        'Pengarah Bidang Sarana, Prasarana, Teknologi, dan Sistem Informasi'
+    ],
+    'Kepala Admin': [
+        'Kepala Administrasi Bidang Akademik',
+        'Kepala Administrasi Bidang Kemahasiswaan',
+        'Kepala Administrasi Bidang Penjaminan Mutu',
+        'Kepala Administrasi Bidang Sumber Daya Manusia',
+        'Kepala Administrasi Bidang Perencanaan',
+        'Kepala Administrasi Bidang Keuangan',
+        'Kepala Administrasi Bidang Sarana dan Prasarana',
+        'Kepala Administrasi Bidang Teknologi, dan Sistem Informasi',
+        'Kepala Administrasi Bidang Kerja Sama',
+        'Kepala Administrasi Bidang Monitoring dan Evaluasi'
+    ],
+    Anggota: [
+        'Anggota Administrasi Bidang Akademik',
+        'Anggota Administrasi Bidang Kemahasiswaan',
+        'Anggota Administrasi Bidang Penjaminan Mutu',
+        'Anggota Administrasi Bidang Sumber Daya Manusia',
+        'Anggota Administrasi Bidang Perencanaan',
+        'Anggota Administrasi Bidang Keuangan',
+        'Anggota Administrasi Bidang Sarana dan Prasarana',
+        'Anggota Administrasi Bidang Teknologi, dan Sistem Informasi',
+        'Anggota Administrasi Bidang Kerja Sama',
+        'Anggota Administrasi Bidang Monitoring dan Evaluasi'
+    ],
+    Ketua: ['Ketua']
+});
+
+const PLOTTING_SCHEMA_VERSION = 3;
+
+function konfigurasiBidangPlottingCanonical() {
+    return Object.fromEntries(Object.entries(BIDANG_SK_TIM_PENGELOLA).map(([role, names]) => [
+        role,
+        names.map((nama, index) => ({
+            id: `${role}-${index + 1}`,
+            nama,
+            aktif: true
+        }))
+    ]));
+}
+
+function sanitasiRiwayatJabatanPlotting(raw = [], konfigurasi = konfigurasiBidangPlottingCanonical()) {
+    if (!Array.isArray(raw)) return [];
+    return raw.map(item => {
+        if (!item || typeof item !== 'object') return item;
+        if (!item.snapshot || typeof item.snapshot !== 'object') return item;
+        return {
+            ...item,
+            snapshot: {
+                ...item.snapshot,
+                jabatanBidangPlottingKerma: konfigurasi
+            }
+        };
+    });
+}
+
+function angkaDesimalSk(value) {
+    if (value === null || value === undefined || value === '') return 0;
+    const angka = Number(String(value).replace(/\./g, '').replace(',', '.').match(/-?\d+(?:\.\d+)?/)?.[0] ?? value);
+    return Number.isFinite(angka) ? angka : 0;
+}
+
+function rowPerhitunganDasarSk(snapshot = {}, role = '') {
+    const rows = Array.isArray(snapshot?.perhitunganDasarPlotting?.rows)
+        ? snapshot.perhitunganDasarPlotting.rows
+        : [];
+    return rows.find(row => row?.jabatan === role) || {};
+}
+
+function personilPerKermaSk(snapshot = {}, role = '') {
+    if (role === 'Anggota') return personilPerKermaSk(snapshot, 'Kepala Admin');
+    if (Object.prototype.hasOwnProperty.call(PERSONIL_SK_TERKUNCI, role)) return PERSONIL_SK_TERKUNCI[role];
+    const row = rowPerhitunganDasarSk(snapshot, role);
+    const angka = Math.max(0, Math.floor(angkaDesimalSk(row.personil_per_kerma ?? PERSONIL_SK_DEFAULT[role] ?? 0)));
+    return Number.isFinite(angka) ? angka : 0;
+}
+
+function labelJabatanBidangSk(role, index) {
+    const bidang = Array.isArray(BIDANG_SK_TIM_PENGELOLA[role]) ? BIDANG_SK_TIM_PENGELOLA[role] : [];
+    if (bidang[index]) return bidang[index];
+    const defaultRows = Math.max(0, Math.floor(Number(PERSONIL_SK_DEFAULT[role]) || 0));
+    const baseline = Math.max(defaultRows, bidang.length);
+    const label = LABEL_ROLE_SK_TIM_PENGELOLA[role] || role || 'Jabatan';
+    if (index >= baseline) return `${label} - Tambahan ${index - baseline + 1}`;
+    return defaultRows > 1 ? `${label} - Posisi ${index + 1}` : label;
+}
+
+function jumlahBarisSk(snapshot = {}, role = '') {
+    if (role === 'Anggota') return personilPerKermaSk(snapshot, role);
+    return Math.max(
+        Math.max(0, Math.floor(Number(PERSONIL_SK_DEFAULT[role]) || 0)),
+        personilPerKermaSk(snapshot, role)
+    );
+}
+
+function keyPlotSkBidangSk(role, bidangIndex, noPks) {
+    return `${role}|${Number(bidangIndex) || 0}|${Number(noPks) || 0}`;
+}
+
+function normalisasiNamaPersonilSk(value = '') {
+    return String(value || '').normalize('NFKC').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function indeksProfilPersonilSk(snapshot = {}, rowsPegawai = []) {
+    const profiles = new Map();
+    const sumber = [
+        ...(Array.isArray(rowsPegawai) ? rowsPegawai : []),
+        ...(Array.isArray(snapshot?.rows) ? snapshot.rows : [])
+    ];
+    sumber.forEach(row => {
+        const nama = String(row?.nama || '').trim();
+        const key = normalisasiNamaPersonilSk(nama);
+        if (!key) return;
+        const existing = profiles.get(key) || { nama };
+        profiles.set(key, {
+            ...existing,
+            nama: existing.nama || nama,
+            gelar_depan: existing.gelar_depan || String(row?.gelar_depan || row?.gelarDepan || '').trim(),
+            gelar_belakang: existing.gelar_belakang || String(row?.gelar_belakang || row?.gelarBelakang || '').trim()
+        });
+    });
+    return profiles;
+}
+
+function formatNamaPersonilSk(nama = '', profiles = new Map(), item = {}) {
+    const namaDasar = String(nama || '').trim();
+    if (!namaDasar) return '-';
+    const profile = profiles.get(normalisasiNamaPersonilSk(namaDasar)) || {};
+    const gelarDepan = String(item.gelar_depan || item.gelarDepan || profile.gelar_depan || '').trim();
+    const gelarBelakang = String(item.gelar_belakang || item.gelarBelakang || profile.gelar_belakang || '').trim();
+    return [gelarDepan, namaDasar, gelarBelakang].filter(Boolean).join(' ');
+}
+
+function daftarTimPengelolaSk(snapshot = {}, noPks = 1, rowsPegawai = []) {
+    const manual = snapshot?.plotSkBidangManual && typeof snapshot.plotSkBidangManual === 'object'
+        ? snapshot.plotSkBidangManual
+        : {};
+    const profiles = indeksProfilPersonilSk(snapshot, rowsPegawai);
+    const rows = [];
+    ROLE_SK_TIM_PENGELOLA.forEach(role => {
+        const jumlah = jumlahBarisSk(snapshot, role);
+        for (let index = 0; index < jumlah; index += 1) {
+            const item = manual[keyPlotSkBidangSk(role, index, noPks)] || {};
+            const nama = String(item.nama || '').trim();
+            rows.push({
+                no: rows.length + 1,
+                role,
+                jabatan: labelJabatanBidangSk(role, index),
+                nama: formatNamaPersonilSk(nama, profiles, item)
+            });
+        }
+    });
+    return rows;
+}
+
+function buatCellTabelSk(text, width, options = {}) {
+    const align = options.align ? `<w:jc w:val="${options.align}"/>` : '';
+    const bold = options.bold ? '<w:b/><w:bCs/>' : '';
+    const shade = options.shade ? `<w:shd w:fill="${options.shade}"/>` : '';
+    return [
+        '<w:tc>',
+        `<w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${shade}<w:vAlign w:val="center"/></w:tcPr>`,
+        `<w:p><w:pPr>${align}<w:spacing w:before="40" w:after="40"/><w:rPr>${bold}<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:pPr>`,
+        `<w:r><w:rPr>${bold}<w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr><w:t xml:space="preserve">${escapeXmlWord(text)}</w:t></w:r>`,
+        '</w:p>',
+        '</w:tc>'
+    ].join('');
+}
+
+function buatTabelTimPengelolaSk(rows = [], templateTable = '') {
+    const templateRows = templateTable.match(/<w:tr\b[\s\S]*?<\/w:tr>/g) || [];
+    if (templateRows.length >= 2) {
+        const headerRow = templateRows[0];
+        const bodyTemplate = templateRows[1];
+        const tablePrefix = templateTable.slice(0, templateTable.indexOf(templateRows[0]));
+        const rowOpen = bodyTemplate.match(/^<w:tr\b[^>]*>/)?.[0] || '<w:tr>';
+        const rowProperties = bodyTemplate.match(/<w:trPr>[\s\S]*?<\/w:trPr>/)?.[0] || '';
+        const templateCells = bodyTemplate.match(/<w:tc\b[\s\S]*?<\/w:tc>/g) || [];
+        if (templateCells.length >= 3) {
+            const header = buatHeaderTabelTimPengelolaSk(headerRow);
+            const cells = rows.map(row => [
+                buatCellDariTemplateSk(templateCells[0], String(row.no), 'center'),
+                buatCellDariTemplateSk(templateCells[1], row.jabatan || '-', 'left'),
+                buatCellDariTemplateSk(templateCells[2], row.nama || '-', 'left')
+            ].join(''));
+            return `${tablePrefix}${header}${rows.map((row, index) => `${rowOpen}${rowProperties}${cells[index]}</w:tr>`).join('')}</w:tbl>`;
+        }
+    }
+
+    const bodyRows = rows.map(row => [
+        '<w:tr>',
+        buatCellTabelSk(row.no, 720, { align: 'center' }),
+        buatCellTabelSk(row.jabatan || '-', 5600),
+        buatCellTabelSk(row.nama || '-', 3040),
+        '</w:tr>'
+    ].join('')).join('');
+    return [
+        '<w:tbl>',
+        '<w:tblPr><w:tblW w:w="9360" w:type="dxa"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr>',
+        '<w:tblGrid><w:gridCol w:w="720"/><w:gridCol w:w="5600"/><w:gridCol w:w="3040"/></w:tblGrid>',
+        '<w:tr>',
+        buatCellTabelSk('No.', 720, { align: 'center', bold: true, shade: 'D9EAF7' }),
+        buatCellTabelSk('Jabatan', 5600, { align: 'center', bold: true, shade: 'D9EAF7' }),
+        buatCellTabelSk('Nama', 3040, { align: 'center', bold: true, shade: 'D9EAF7' }),
+        '</w:tr>',
+        bodyRows,
+        '</w:tbl>'
+    ].join('');
+}
+
+function buatCellDariTemplateSk(templateCell, text, align = '') {
+    const tcOpen = templateCell.match(/^<w:tc\b[^>]*>/)?.[0] || '<w:tc>';
+    const tcProperties = templateCell.match(/<w:tcPr>[\s\S]*?<\/w:tcPr>/)?.[0] || '';
+    const paragraph = templateCell.match(/<w:p\b[\s\S]*?<\/w:p>/)?.[0] || '<w:p></w:p>';
+    const pOpen = paragraph.match(/^<w:p\b[^>]*>/)?.[0] || '<w:p>';
+    const pProperties = paragraph.match(/<w:pPr>[\s\S]*?<\/w:pPr>/)?.[0] || '';
+    const textRun = (paragraph.match(/<w:r\b[\s\S]*?<w:t[\s\S]*?<\/w:t>[\s\S]*?<\/w:r>/g) || [])[0] || '';
+    const runProperties = textRun.match(/<w:rPr>[\s\S]*?<\/w:rPr>/)?.[0] || '';
+    let paragraphProperties = pProperties;
+    if (align) {
+        paragraphProperties = paragraphProperties.replace(/<w:jc\b[^>]*\/>/g, '');
+        if (align === 'center') paragraphProperties = paragraphProperties.replace(/<w:ind\b[^>]*\/>/g, '');
+        const alignment = `<w:jc w:val="${align}"/>`;
+        const runPropertiesIndex = paragraphProperties.indexOf('<w:rPr>');
+        if (runPropertiesIndex >= 0) {
+            paragraphProperties = `${paragraphProperties.slice(0, runPropertiesIndex)}${alignment}${paragraphProperties.slice(runPropertiesIndex)}`;
+        } else if (paragraphProperties.includes('</w:pPr>')) {
+            paragraphProperties = paragraphProperties.replace('</w:pPr>', `${alignment}</w:pPr>`);
+        } else {
+            paragraphProperties = `<w:pPr>${alignment}</w:pPr>`;
+        }
+    }
+    return [
+        tcOpen,
+        tcProperties,
+        pOpen,
+        paragraphProperties,
+        `<w:r>${runProperties}<w:t xml:space="preserve">${escapeXmlWord(text)}</w:t></w:r>`,
+        '</w:p>',
+        '</w:tc>'
+    ].join('');
+}
+
+function buatHeaderTabelTimPengelolaSk(headerRow = '') {
+    const rowOpen = headerRow.match(/^<w:tr\b[^>]*>/)?.[0] || '<w:tr>';
+    const rowProperties = headerRow.match(/<w:trPr>[\s\S]*?<\/w:trPr>/)?.[0] || '';
+    const cells = headerRow.match(/<w:tc\b[\s\S]*?<\/w:tc>/g) || [];
+    if (cells.length < 3) return headerRow;
+    return [
+        rowOpen,
+        rowProperties,
+        buatCellDariTemplateSk(cells[0], 'No.', 'center'),
+        buatCellDariTemplateSk(cells[1], 'Jabatan', 'center'),
+        buatCellDariTemplateSk(cells[2], 'Nama', 'center'),
+        '</w:tr>'
+    ].join('');
+}
+
+function gantiTabelTimPengelolaSk(xml, rows) {
+    const tables = xml.match(/<w:tbl[\s\S]*?<\/w:tbl>/g) || [];
+    const target = tables.find(tbl => tbl.includes('Penanggung_Jawab_Bidang_Akademik'));
+    if (!target) throw new Error('Tabel Tim Pengelola Kerma pada template SK tidak ditemukan.');
+    return xml.replace(target, buatTabelTimPengelolaSk(rows, target));
+}
+
+function polaTeksTerbagiSk(text) {
+    const encoded = escapeXmlWord(text);
+    return Array.from(encoded).map((char, index) => `${escapeRegExp(char)}${index === encoded.length - 1 ? '' : '(?:<[^>]+>)*'}`).join('');
+}
+
+function gantiTeksTerbagiSk(xml, target, replacement) {
+    if (!target) return xml;
+    const pattern = new RegExp(polaTeksTerbagiSk(target), 'g');
+    return xml.replace(pattern, escapeXmlWord(replacement));
+}
+
+function hapusBoldDariRunSk(paragraph, escapedText) {
+    if (!escapedText) return paragraph;
+    return paragraph.replace(/<w:r\b[\s\S]*?<\/w:r>/g, run => {
+        if (!run.includes(escapedText)) return run;
+        return run.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/, (_, properties) => (
+            '<w:rPr>' + properties.replace(/<w:b(?:Cs)?\b[^>]*\/>/g, '') + '</w:rPr>'
+        ));
+    });
+}
+
+function gantiJudulPksSk(xml, judul = '') {
+    const value = String(judul || '');
+    const valueUpper = value.toUpperCase();
+    let judulKepalaSudahDiganti = false;
+    let output = xml.replace(/<w:p\b[\s\S]*?<\/w:p>/g, paragraph => {
+        const memuatPlaceholder = paragraph.includes('Judul_PKS') || paragraph.includes('«Judul_PKS»');
+        const isJudulKepala = !judulKepalaSudahDiganti && /TIM PELAKSANA/.test(paragraph) && memuatPlaceholder;
+        const replacement = isJudulKepala ? valueUpper : value;
+        let updated = gantiTeksTerbagiSk(paragraph, '<Judul_PKS>', replacement);
+        updated = updated.replace(/«Judul_PKS»/g, escapeXmlWord(replacement));
+        if (isJudulKepala) judulKepalaSudahDiganti = true;
+        return updated;
+    });
+    output = gantiTeksTerbagiSk(output, '<Judul_PKS>', value);
+    output = output.replace(/«Judul_PKS»/g, escapeXmlWord(value));
+
+    const escapedBodyTitle = escapeXmlWord(value);
+    if (!escapedBodyTitle) return output;
+    return output.replace(/<w:p\b[\s\S]*?<\/w:p>/g, paragraph => {
+        if (!paragraph.includes(escapedBodyTitle) || /TIM PELAKSANA/.test(paragraph)) return paragraph;
+        return hapusBoldDariRunSk(paragraph, escapedBodyTitle);
+    });
+}
+
+function gantiPlaceholderSk(xml, data = {}) {
+    let output = xml;
+    Object.entries(data).forEach(([key, value]) => {
+        output = output.split(`«${key}»`).join(escapeXmlWord(value));
+        output = gantiTeksTerbagiSk(output, `<${key}>`, value);
+    });
+    return output;
+}
+
+function gantiTanggalSk(xml, tanggalSkDisplay) {
+    const paragraphs = xml.match(/<w:p\b[\s\S]*?<\/w:p>/g) || [];
+    const target = paragraphs.find(p => p.includes('pada tanggal'));
+    if (!target) return xml;
+    const open = target.match(/^<w:p\b[^>]*>/)?.[0] || '<w:p>';
+    const pPr = target.match(/<w:pPr>[\s\S]*?<\/w:pPr>/)?.[0] || '';
+    const updated = `${open}${pPr}<w:r><w:rPr><w:color w:val="000000"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">${escapeXmlWord(`pada tanggal ${tanggalSkDisplay}`)}</w:t></w:r></w:p>`;
+    return xml.replace(target, updated);
+}
+
+function daftarPksSnapshotSk(snapshot = {}) {
+    const ids = Array.isArray(snapshot.daftarPksTerpilihPlotting)
+        ? snapshot.daftarPksTerpilihPlotting.map(id => String(id || '').trim())
+        : [];
+    const jumlah = Math.max(0, Math.floor(Number(snapshot.jumlahPksPlotting) || ids.length));
+    return Array.from({ length: jumlah }, (_, index) => ({
+        noPks: index + 1,
+        id: ids[index] || ''
+    })).filter(item => item.id);
+}
+
+async function ambilProgramUntukSk(ids = []) {
+    const unik = [...new Set(ids.map(id => String(id || '').trim()).filter(Boolean))];
+    if (!unik.length) return new Map();
+    const programs = await Program.find({
+        $or: [
+            { id_program: { $in: unik } },
+            { kode_file: { $in: unik } }
+        ]
+    }).lean();
+    const map = new Map();
+    programs.forEach(program => {
+        if (program.id_program) map.set(String(program.id_program), program);
+        if (program.kode_file) map.set(String(program.kode_file), program);
+    });
+    return map;
+}
+
+function formatNamaFileSk(program = {}, noPks = 1, ext = 'docx') {
+    const nomorPks = Math.max(1, Math.floor(Number(noPks) || 1));
+    const kodeFile = String(program.kode_file || program.id_program || `PKS ${nomorPks}`).trim();
+    const mitra = String(program.nama_mitra || 'Mitra').trim();
+    const namaFile = `SK Tim Pengelola Kerma_PKS ${nomorPks}_${kodeFile}_${mitra}`;
+    return `${sanitizeFilename(namaFile)}.${ext}`;
+}
+
+function dataPlaceholderSk(program = {}, input = {}, noPks = 1) {
+    const judul = String(program.judul_pks || input.judul_pks || '').trim();
+    const tanggalSk = parseTanggalDashboard(input.tanggal_sk) || new Date();
+    const tanggalBerlaku = parseTanggalDashboard(input.tanggal_berlaku_sampai);
+    const namaKerma = String(input.nama_kerma || '').trim() || `TIM PELAKSANA ${judul || program.nama_mitra || program.kode_file || `PKS ${noPks}`}`;
+    const namaMitra = String(program.nama_mitra || '').trim();
+    const nomorKontrakMitra = String(program.no_kontrak_mitra || '').trim();
+    const nomorKontrakInstitusi = String(program.no_kontrak_institusi || '').trim();
+    const tanggalKontrak = formatTanggalDisplay(program.tgl_kontrak || '');
+    const kodeFile = String(program.kode_file || program.id_program || '').trim();
+    return {
+        NO_SK_TIM_PENGELOLA_KERMA_BARU: input.nomor_sk || '',
+        NAMA_KERMA_BARU: namaKerma.toUpperCase(),
+        MITRALOW_CASE: namaMitra,
+        NOMOR_PKS_MITRA: nomorKontrakMitra,
+        NOMOR_PKS_SBM_ITB: nomorKontrakInstitusi,
+        TGL_PKS: tanggalKontrak,
+        No: judul,
+        TAHUN_AKADEMIK: input.tahun_akademik || '',
+        JUDUL_PERJANJIAN_KERJA_SAMA_PKSLOW_C: judul,
+        KODE_FILE: kodeFile,
+        TANGGAL_SK: formatTanggalDisplay(tanggalSk),
+        TANGGAL_BERLAKU_SAMPAI: tanggalBerlaku ? formatTanggalDisplay(tanggalBerlaku) : '',
+        'No. SK': String(input.nomor_sk || '').trim(),
+        Judul_PKS: judul,
+        Nama_Mitra: namaMitra,
+        'No. Kontrak Mitra': nomorKontrakMitra,
+        'No. Kontrak Institusi': nomorKontrakInstitusi,
+        'Tgl. Kontrak': tanggalKontrak,
+        Kode_File: kodeFile
+    };
+}
+
+function renderSkTimPengelolaDocx({ snapshot, program, input, noPks, rowsPegawai = [] }) {
+    if (!fs.existsSync(TEMPLATE_SK_TIM_PENGELOLA_PATH)) {
+        throw new Error('Template SK Tim Pengelola Kerma belum tersedia.');
+    }
+    const zip = new PizZip(fs.readFileSync(TEMPLATE_SK_TIM_PENGELOLA_PATH, 'binary'));
+    const docFile = zip.file('word/document.xml');
+    if (!docFile) throw new Error('Template SK tidak memiliki dokumen utama.');
+    const placeholder = dataPlaceholderSk(program, input, noPks);
+    const tim = daftarTimPengelolaSk(snapshot, noPks, rowsPegawai);
+    let xml = docFile.asText();
+    xml = gantiTabelTimPengelolaSk(xml, tim);
+    const { Judul_PKS: judulPks, ...placeholderLainnya } = placeholder;
+    xml = gantiJudulPksSk(xml, judulPks);
+    xml = gantiPlaceholderSk(xml, placeholderLainnya);
+    xml = gantiTanggalSk(xml, placeholder.TANGGAL_SK);
+    if (placeholder.TANGGAL_BERLAKU_SAMPAI) {
+        xml = gantiTeksTerbagiSk(xml, '31 Desember 2025', placeholder.TANGGAL_BERLAKU_SAMPAI);
+        xml = gantiTeksTerbagiSk(xml, '31 Desember 2026', placeholder.TANGGAL_BERLAKU_SAMPAI);
+    }
+    zip.file('word/document.xml', xml);
+    return zip.generate({ type: 'nodebuffer', compression: 'DEFLATE' });
+}
+
+function cariLibreOfficeBinary() {
+    const candidates = [
+        process.env.LIBREOFFICE_PATH,
+        'libreoffice',
+        'soffice',
+        '/Applications/LibreOffice.app/Contents/MacOS/soffice'
+    ].filter(Boolean);
+    for (const candidate of candidates) {
+        if (path.isAbsolute(candidate)) {
+            if (fs.existsSync(candidate)) return candidate;
+            continue;
+        }
+        try {
+            const resolved = execFileSync('which', [candidate], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+            if (resolved) return resolved;
+        } catch {
+            // Lanjut ke kandidat berikutnya.
+        }
+    }
+    return '';
+}
+
+function konversiDocxKePdf(buffer, filename = 'SK.docx') {
+    const binary = cariLibreOfficeBinary();
+    if (!binary) throw new Error('Konversi PDF membutuhkan LibreOffice/soffice pada server. Unduh format DOCX terlebih dahulu atau pasang LibreOffice untuk mengaktifkan PDF.');
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kerma-sk-pdf-'));
+    try {
+        const inputPath = path.join(dir, sanitizeFilename(filename));
+        fs.writeFileSync(inputPath, buffer);
+        execFileSync(binary, ['--headless', '--convert-to', 'pdf', '--outdir', dir, inputPath], {
+            stdio: ['ignore', 'pipe', 'pipe'],
+            timeout: 90_000
+        });
+        const pdfPath = inputPath.replace(/\.docx$/i, '.pdf');
+        if (!fs.existsSync(pdfPath)) throw new Error('File PDF hasil konversi tidak ditemukan.');
+        return fs.readFileSync(pdfPath);
+    } finally {
+        fs.rmSync(dir, { recursive: true, force: true });
+    }
+}
+
+app.post('/api/plotting-kerma/sk-tim-pengelola', requireLogin, async (req, res) => {
+    try {
+        const snapshot = req.body?.snapshot && typeof req.body.snapshot === 'object' ? req.body.snapshot : {};
+        const format = String(req.body?.format || 'docx').toLowerCase() === 'pdf' ? 'pdf' : 'docx';
+        const tanggalSkDate = parseTanggalDashboard(req.body?.tanggal_sk);
+        if (!tanggalSkDate) return res.status(400).json({ pesan: 'Tanggal SK wajib diisi dengan format yang valid.' });
+        const tahunAkademik = String(req.body?.tahun_akademik || '').trim();
+        if (!tahunAkademik) return res.status(400).json({ pesan: 'Tahun Akademik wajib diisi.' });
+
+        const daftarPks = daftarPksSnapshotSk(snapshot);
+        if (!daftarPks.length) return res.status(400).json({ pesan: 'Simulasi belum memiliki daftar PKS yang dapat dibuatkan SK.' });
+
+        const nomorSkByPks = req.body?.nomor_sk_by_pks && typeof req.body.nomor_sk_by_pks === 'object'
+            ? req.body.nomor_sk_by_pks
+            : {};
+        const kosong = daftarPks.filter(item => !String(nomorSkByPks[item.noPks] || '').trim());
+        if (kosong.length) {
+            return res.status(400).json({
+                pesan: `Nomor SK wajib diisi untuk ${kosong.length} PKS: ${kosong.slice(0, 5).map(item => `PKS ${item.noPks}`).join(', ')}${kosong.length > 5 ? ', ...' : ''}.`
+            });
+        }
+
+        const userId = String(req.session.user?.username || req.session.user?.id || 'admin');
+        const resolvedPlotting = await resolvePlottingKermaDoc(userId);
+        const currentPayload = resolvedPlotting.doc ? extractPayloadPlotting(resolvedPlotting.doc) : {};
+        const rowsPegawai = Array.isArray(currentPayload?.rows) ? currentPayload.rows : [];
+        const programMap = await ambilProgramUntukSk(daftarPks.map(item => item.id));
+        const docs = daftarPks.map(item => {
+            const program = programMap.get(item.id) || { id_program: item.id, kode_file: item.id };
+            const input = {
+                nomor_sk: String(nomorSkByPks[item.noPks] || '').trim(),
+                tanggal_sk: formatTanggalISO(tanggalSkDate),
+                tanggal_berlaku_sampai: req.body?.tanggal_berlaku_sampai || '',
+                tahun_akademik: tahunAkademik,
+                nama_kerma: req.body?.nama_kerma || ''
+            };
+            const bufferDocx = renderSkTimPengelolaDocx({ snapshot, program, input, noPks: item.noPks, rowsPegawai });
+            const filenameDocx = formatNamaFileSk(program, item.noPks, 'docx');
+            if (format === 'pdf') {
+                return {
+                    filename: filenameDocx.replace(/\.docx$/i, '.pdf'),
+                    buffer: konversiDocxKePdf(bufferDocx, filenameDocx),
+                    mime: 'application/pdf'
+                };
+            }
+            return {
+                filename: filenameDocx,
+                buffer: bufferDocx,
+                mime: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            };
+        });
+
+        if (docs.length === 1) {
+            res.setHeader('Content-Type', docs[0].mime);
+            res.setHeader('Content-Disposition', `attachment; filename="${docs[0].filename}"`);
+            return res.send(docs[0].buffer);
+        }
+
+        const zip = new AdmZip();
+        docs.forEach(doc => zip.addFile(doc.filename, doc.buffer));
+        const extLabel = format === 'pdf' ? 'PDF' : 'DOCX';
+        const filename = sanitizeFilename(`Bundel SK Tim Pengelola Kerma ${extLabel} ${req.body?.nama_simulasi || ''}`) + '.zip';
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(zip.toBuffer());
+    } catch (err) {
+        const pesan = err?.message || 'Gagal membuat SK Tim Pengelola Kerma.';
+        console.error('Gagal membuat SK Tim Pengelola Kerma:', err);
+        const status = /LibreOffice|soffice|PDF/i.test(pesan) ? 503 : 500;
+        res.status(status).json({ pesan });
+    }
+});
+
+function serialisasiInvoicePembayaran(row = {}, program = {}) {
+    const id = String(row._id || row.id_invoice || '');
+    const nominal = Number(row.rencana_nominal) || 0;
+    return {
+        id_invoice: id,
+        id_program: row.id_program || program.id_program || '',
+        kode_file: row.kode_file || program.kode_file || '',
+        nama_mitra: program.nama_mitra || row.nama_mitra || '',
+        judul_pks: program.judul_pks || row.judul_pks || '',
+        rencana_key: row.rencana_key || '',
+        rencana_tahap: row.rencana_tahap || '',
+        rencana_tanggal: formatTanggalDisplay(row.rencana_tanggal),
+        rencana_tanggal_input: formatTanggalInput(row.rencana_tanggal),
+        rencana_nominal: nominal,
+        rencana_nominal_display: `Rp ${formatRupiahAngka(nominal)}`,
+        nomor_invoice: row.nomor_invoice || '',
+        tanggal_invoice: formatTanggalDisplay(row.tanggal_invoice),
+        tanggal_invoice_input: formatTanggalInput(row.tanggal_invoice),
+        status: row.status || 'dibuat',
+        keterangan: row.keterangan || '',
+        download_url: id ? `/api/invoice-pembayaran/${id}/download` : '',
+        print_url: id ? `/api/invoice-pembayaran/${id}/print` : ''
+    };
+}
+
+async function cariMitraUntukInvoice(program = {}) {
+    const nama = String(program.nama_mitra || '').trim();
+    if (!nama) return null;
+    return await Mitra.findOne({ nama_mitra: nama }).lean()
+        || await Mitra.findOne({ nama_mitra: new RegExp(`^${escapeRegExp(nama)}$`, 'i') }).lean();
+}
+
+async function buatNomorInvoicePembayaran(tanggalInvoice) {
+    const tanggal = parseTanggalDashboard(tanggalInvoice) || new Date();
+    const tahun = tanggal.getFullYear();
+    const jumlahTahunIni = await InvoicePembayaran.countDocuments({ tanggal_invoice: new RegExp(`^${tahun}-`) });
+    return `NO. ${String(jumlahTahunIni + 1).padStart(3, '0')}/IT1.C09.2/KU/${tahun}`;
+}
+
+async function cariRencanaTerminInvoice(rencanaKey) {
+    const key = String(rencanaKey || '').trim();
+    if (!key) return null;
+    const payload = await bangunRencanaPendapatanTermin();
+    return (payload.data || []).find(row => String(row.rencana_key || '').trim() === key) || null;
+}
+
+function escapeHtml(value = '') {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function dataPreviewInvoicePembayaran(invoice = {}, program = {}, mitra = {}) {
+    const nominal = Math.max(0, Math.round(Number(invoice.rencana_nominal) || 0));
+    const [alamat1, alamat2] = pecahAlamatInvoice(program, mitra || {});
+    return {
+        id_invoice: String(invoice._id || invoice.id_invoice || ''),
+        rencana_key: invoice.rencana_key || '',
+        kode_file: invoice.kode_file || program.kode_file || '',
+        nama_mitra: program.nama_mitra || invoice.nama_mitra || '',
+        judul_pks: program.judul_pks || invoice.judul_pks || '',
+        no_kontrak_mitra: program.no_kontrak_mitra || '',
+        no_kontrak_institusi: program.no_kontrak_institusi || '',
+        alamat_1: alamat1,
+        alamat_2: alamat2,
+        rencana_tahap: invoice.rencana_tahap || '',
+        rencana_tanggal: formatTanggalDisplay(invoice.rencana_tanggal),
+        rencana_tanggal_input: formatTanggalInput(invoice.rencana_tanggal),
+        rencana_nominal: nominal,
+        rencana_nominal_display: `Rp ${formatRupiahAngka(nominal)},-`,
+        terbilang: `#${formatJudulTerbilang(nominal)}#`,
+        nomor_invoice: invoice.nomor_invoice || '',
+        tanggal_invoice: formatTanggalDisplay(invoice.tanggal_invoice),
+        tanggal_invoice_input: formatTanggalInput(invoice.tanggal_invoice),
+        status: invoice.status || 'draft'
+    };
+}
+
+function renderHtmlPrintInvoice(invoice = {}, program = {}, mitra = {}) {
+    const data = dataPreviewInvoicePembayaran(invoice, program, mitra);
+    return `<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <title>${escapeHtml(data.nomor_invoice || 'Invoice')}</title>
+    <style>
+        @page { size: A4; margin: 18mm; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: #111827; background: #f3f4f6; }
+        .toolbar { position: sticky; top: 0; display: flex; justify-content: flex-end; gap: 8px; padding: 10px 14px; background: #ffffff; border-bottom: 1px solid #e5e7eb; }
+        .toolbar button { border: 0; border-radius: 6px; padding: 8px 12px; font-weight: 700; cursor: pointer; }
+        .toolbar .print { background: #1d4ed8; color: #ffffff; }
+        .toolbar .close { background: #e5e7eb; color: #111827; }
+        .sheet { width: 210mm; min-height: 297mm; margin: 18px auto; padding: 18mm; background: #ffffff; box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16); }
+        .header { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; border-bottom: 2px solid #111827; padding-bottom: 14px; }
+        .brand h1 { margin: 0; font-size: 16px; }
+        .brand h2 { margin: 4px 0 6px; font-size: 15px; }
+        .brand p { margin: 0; font-size: 10px; line-height: 1.4; max-width: 440px; }
+        .title { text-align: right; }
+        .title h1 { margin: 0; font-size: 24px; letter-spacing: 0; }
+        .title p { margin: 8px 0 0; font-size: 12px; font-weight: 700; }
+        .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 22px; }
+        .box h3 { margin: 0 0 9px; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #d1d5db; padding-bottom: 6px; }
+        .row { display: grid; grid-template-columns: 112px 1fr; gap: 8px; margin-bottom: 7px; font-size: 11px; line-height: 1.35; }
+        .row span:first-child { color: #6b7280; }
+        table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 11px; }
+        th, td { border: 1px solid #9ca3af; padding: 8px; vertical-align: top; }
+        th { background: #f3f4f6; text-align: left; }
+        .num { text-align: right; white-space: nowrap; }
+        .terbilang { margin-top: 18px; display: grid; grid-template-columns: 90px 1fr; gap: 10px; font-size: 11px; }
+        .summary { width: 42%; margin-left: auto; margin-top: 14px; font-size: 11px; }
+        .summary .line { display: grid; grid-template-columns: 1fr 130px; border-bottom: 1px solid #d1d5db; padding: 7px 0; }
+        .summary .total { font-weight: 800; border-bottom: 2px solid #111827; }
+        .signature { width: 44%; margin-left: auto; margin-top: 34px; text-align: center; font-size: 11px; }
+        .signature .space { height: 72px; }
+        .signature strong { display: block; }
+        @media print {
+            body { background: #ffffff; }
+            .toolbar { display: none; }
+            .sheet { margin: 0; box-shadow: none; width: auto; min-height: auto; padding: 0; }
+        }
+    </style>
+</head>
+<body onload="setTimeout(() => window.print(), 300)">
+    <div class="toolbar">
+        <button class="print" type="button" onclick="window.print()">Print</button>
+        <button class="close" type="button" onclick="window.close()">Tutup</button>
+    </div>
+    <main class="sheet">
+        <section class="header">
+            <div class="brand">
+                <h1>Institut Teknologi Bandung</h1>
+                <h2>Sekolah Bisnis dan Manajemen</h2>
+                <p>Jl. Ganesa No. 10, Gedung Sekolah Bisnis dan Manajemen Bandung 40132 Telp : +6222 2531923, Fax : +6222 2504249 www.sbm.itb.ac.id</p>
+            </div>
+            <div class="title">
+                <h1>INVOICE</h1>
+                <p>${escapeHtml(data.nomor_invoice)}</p>
+            </div>
+        </section>
+        <section class="meta">
+            <div class="box">
+                <h3>Pelanggan</h3>
+                <div class="row"><span>Nama</span><strong>${escapeHtml(data.nama_mitra)}</strong></div>
+                <div class="row"><span>Alamat</span><div>${escapeHtml(data.alamat_1)}<br>${escapeHtml(data.alamat_2)}</div></div>
+            </div>
+            <div class="box">
+                <h3>Keterangan</h3>
+                <div class="row"><span>Tanggal</span><strong>${escapeHtml(data.tanggal_invoice)}</strong></div>
+                <div class="row"><span>No. DO/Kontrak</span><div>${escapeHtml(data.no_kontrak_mitra)}<br>${escapeHtml(data.no_kontrak_institusi)}</div></div>
+                <div class="row"><span>Mata Uang</span><strong>Rupiah</strong></div>
+            </div>
+        </section>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:42px;">No</th>
+                    <th>Keterangan</th>
+                    <th style="width:72px;">Jumlah</th>
+                    <th style="width:72px;">Satuan</th>
+                    <th style="width:130px;">Harga Satuan</th>
+                    <th style="width:130px;">Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <strong>${escapeHtml(data.rencana_tahap || 'Pembayaran')}</strong><br>
+                        Biaya Penyelenggaraan Pendidikan<br>
+                        ${escapeHtml(data.judul_pks || data.nama_mitra)}<br>
+                        ${data.rencana_tanggal ? `Jatuh tempo ${escapeHtml(data.rencana_tanggal)}` : ''}
+                    </td>
+                    <td class="num">1</td>
+                    <td>paket</td>
+                    <td class="num">${escapeHtml(data.rencana_nominal_display)}</td>
+                    <td class="num">${escapeHtml(data.rencana_nominal_display)}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="terbilang"><strong>Terbilang</strong><span>${escapeHtml(data.terbilang)}</span></div>
+        <div class="summary">
+            <div class="line"><span>Sub-Total</span><strong class="num">${escapeHtml(data.rencana_nominal_display)}</strong></div>
+            <div class="line"><span>Lain-lain</span><strong class="num">Rp 0,-</strong></div>
+            <div class="line total"><span>Total</span><strong class="num">${escapeHtml(data.rencana_nominal_display)}</strong></div>
+        </div>
+        <div class="signature">
+            <p>Wakil Dekan Bidang Sumber Daya</p>
+            <div class="space"></div>
+            <strong>Prof. Donald Crestofel Lantu, S.T., M.B.A., Ph.D.</strong>
+            <span>NIP 19760925 201012 1 001</span>
+        </div>
+    </main>
+</body>
+</html>`;
+}
+
+async function buatWorkbookInvoicePembayaran(invoice, program = {}, mitra = {}) {
+    if (!fs.existsSync(TEMPLATE_INVOICE_PATH)) {
+        throw new Error('Template invoice belum tersedia.');
+    }
+
+    const wb = new ExcelJS.Workbook();
+    await wb.xlsx.readFile(TEMPLATE_INVOICE_PATH);
+    const ws = wb.worksheets[0];
+    if (!ws) throw new Error('Template invoice tidak memiliki worksheet.');
+    wb.worksheets.slice(1).forEach(sheet => wb.removeWorksheet(sheet.id));
+    ws.name = 'Invoice';
+
+    const nominal = Math.max(0, Math.round(Number(invoice.rencana_nominal) || 0));
+    const [alamat1, alamat2] = pecahAlamatInvoice(program, mitra || {});
+    const tahap = invoice.rencana_tahap || 'Pembayaran';
+    const judulPks = program.judul_pks || '';
+    const terbilang = `#${formatJudulTerbilang(nominal)}#`;
+
+    setCellInvoice(ws, 'J2', 'INVOICE');
+    setCellInvoice(ws, 'J3', 'INVOICE');
+    setCellInvoice(ws, 'J5', invoice.nomor_invoice || '');
+    setCellInvoice(ws, 'E10', program.nama_mitra || '');
+    setCellInvoice(ws, 'L10', formatTanggalDisplay(invoice.tanggal_invoice));
+    setCellInvoice(ws, 'E14', alamat1);
+    setCellInvoice(ws, 'E15', alamat2);
+    setCellInvoice(ws, 'L14', program.no_kontrak_mitra || '');
+    setCellInvoice(ws, 'L15', program.no_kontrak_institusi || '');
+    setCellInvoice(ws, 'L19', 'Rupiah');
+    setCellInvoice(ws, 'E21', '');
+    setCellInvoice(ws, 'L21', '');
+    setCellInvoice(ws, 'C25', tahap);
+    setCellInvoice(ws, 'G25', 1);
+    setCellInvoice(ws, 'H25', 'paket');
+    ['I25', 'J25', 'K25', 'L25', 'M25'].forEach(address => setCellInvoice(ws, address, nominal));
+    setCellInvoice(ws, 'C26', 'Biaya Penyelenggaraan Pendidikan');
+    setCellInvoice(ws, 'C27', judulPks || program.nama_mitra || '');
+    setCellInvoice(ws, 'C28', invoice.rencana_tanggal ? `Jatuh tempo ${formatTanggalDisplay(invoice.rencana_tanggal)}` : '');
+    setCellInvoice(ws, 'E31', terbilang);
+    setCellInvoice(ws, 'E32', terbilang);
+    ['L31', 'M31', 'L33', 'M33'].forEach(address => setCellInvoice(ws, address, nominal));
+    ['L32', 'M32'].forEach(address => setCellInvoice(ws, address, 0));
+
+    const buffer = await wb.xlsx.writeBuffer();
+    return Buffer.from(buffer);
+}
+
+app.get('/api/invoice-pembayaran', async (req, res) => {
+    try {
+        const filter = req.query.kodeFile ? { kode_file: req.query.kodeFile } : {};
+        const [list, programs] = await Promise.all([
+            InvoicePembayaran.find(filter).sort({ tanggal_invoice: -1, createdAt: -1 }).lean(),
+            Program.find({}).lean()
+        ]);
+        const programMap = new Map(programs.map(row => [row.id_program, row]));
+        const data = list.map(row => serialisasiInvoicePembayaran(row, programMap.get(row.id_program) || {}));
+        res.json({
+            data,
+            summary: {
+                jumlah_item: data.length,
+                jumlah_item_display: data.length.toLocaleString('id-ID')
+            }
+        });
+    } catch (err) {
+        console.error('Gagal membaca invoice pembayaran:', err);
+        res.status(500).json({ pesan: 'Gagal membaca data invoice pembayaran.' });
+    }
+});
+
+app.get('/api/invoice-pembayaran/preview', async (req, res) => {
+    try {
+        const rencanaKey = String(req.query?.rencana_key || '').trim();
+        if (!rencanaKey) return res.status(400).json({ pesan: 'Rencana pembayaran wajib dipilih.' });
+
+        const existing = await InvoicePembayaran.findOne({ rencana_key: rencanaKey }).lean();
+        if (existing) {
+            const program = await Program.findOne({ id_program: existing.id_program }).lean();
+            const mitra = program ? await cariMitraUntukInvoice(program) : null;
+            return res.json({
+                sudah_dibuat: true,
+                data: {
+                    ...dataPreviewInvoicePembayaran(existing, program || {}, mitra || {}),
+                    ...serialisasiInvoicePembayaran(existing, program || {})
+                }
+            });
+        }
+
+        const rencana = await cariRencanaTerminInvoice(rencanaKey);
+        if (!rencana) return res.status(404).json({ pesan: 'Rencana pembayaran tidak ditemukan.' });
+        if (rencana.terealisasi) return res.status(400).json({ pesan: 'Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.' });
+
+        const lookup = await cariProgramDariKodeFile(rencana.kode_file || '');
+        if (lookup.error) return res.status(400).json({ pesan: lookup.error });
+
+        const tanggalInvoiceRaw = req.query?.tanggal_invoice || formatTanggalISO(new Date());
+        const tanggalInvoiceDate = parseTanggalDashboard(tanggalInvoiceRaw);
+        if (!tanggalInvoiceDate) return res.status(400).json({ pesan: 'Tanggal invoice tidak valid.' });
+        const tanggalInvoice = formatTanggalISO(tanggalInvoiceDate);
+        const mitra = await cariMitraUntukInvoice(lookup.program);
+        const nominal = Math.max(0, Math.round(Number(rencana.nominal_sisa) || Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0));
+        const nomorInvoice = String(req.query?.nomor_invoice || '').trim() || await buatNomorInvoicePembayaran(tanggalInvoice);
+        const invoicePreview = {
+            id_program: lookup.program.id_program,
+            kode_file: lookup.kodeFile,
+            rencana_key: rencanaKey,
+            rencana_tahap: rencana.tahap || '',
+            rencana_tanggal: rencana.tanggal_input || '',
+            rencana_nominal: nominal,
+            nomor_invoice: nomorInvoice,
+            tanggal_invoice: tanggalInvoice,
+            status: 'draft'
+        };
+
+        res.json({
+            sudah_dibuat: false,
+            data: dataPreviewInvoicePembayaran(invoicePreview, lookup.program, mitra || {})
+        });
+    } catch (err) {
+        console.error('Gagal membuat preview invoice pembayaran:', err);
+        res.status(500).json({ pesan: 'Gagal membuat preview invoice pembayaran.' });
+    }
+});
+
+app.post('/api/invoice-pembayaran', async (req, res) => {
+    try {
+        const rencanaKey = String(req.body?.rencana_key || '').trim();
+        if (!rencanaKey) return res.status(400).json({ pesan: 'Rencana pembayaran wajib dipilih.' });
+
+        const rencana = await cariRencanaTerminInvoice(rencanaKey);
+        if (!rencana) return res.status(404).json({ pesan: 'Rencana pembayaran tidak ditemukan.' });
+        if (rencana.terealisasi) return res.status(400).json({ pesan: 'Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.' });
+
+        const lookup = await cariProgramDariKodeFile(rencana.kode_file || req.body?.kode_file || '');
+        if (lookup.error) return res.status(400).json({ pesan: lookup.error });
+
+        const existing = await InvoicePembayaran.findOne({ rencana_key: rencanaKey });
+        if (existing) {
+            return res.json({
+                pesan: 'Invoice untuk termin ini sudah dibuat.',
+                data: serialisasiInvoicePembayaran(existing, lookup.program)
+            });
+        }
+
+        const tanggalInvoiceDate = parseTanggalDashboard(req.body?.tanggal_invoice || new Date());
+        if (!tanggalInvoiceDate) return res.status(400).json({ pesan: 'Tanggal invoice tidak valid.' });
+        const tanggalInvoice = formatTanggalISO(tanggalInvoiceDate);
+        const nominal = Math.max(0, Math.round(Number(rencana.nominal_sisa) || Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0));
+        if (nominal <= 0) return res.status(400).json({ pesan: 'Nominal invoice harus lebih dari 0.' });
+
+        const nomorInvoice = String(req.body?.nomor_invoice || '').trim() || await buatNomorInvoicePembayaran(tanggalInvoice);
+        const created = await InvoicePembayaran.create({
+            id_program: lookup.program.id_program,
+            kode_file: lookup.kodeFile,
+            rencana_key: rencanaKey,
+            rencana_tahap: rencana.tahap || '',
+            rencana_tanggal: rencana.tanggal_input || '',
+            rencana_nominal: nominal,
+            nomor_invoice: nomorInvoice,
+            tanggal_invoice: tanggalInvoice,
+            status: 'dibuat',
+            keterangan: String(req.body?.keterangan || '').trim(),
+            dibuat_oleh: req.session?.user?.username || req.session?.user?.nama || ''
+        });
+
+        res.status(201).json({
+            pesan: 'Invoice berhasil dibuat.',
+            data: serialisasiInvoicePembayaran(created, lookup.program)
+        });
+    } catch (err) {
+        if (err?.code === 11000 && req.body?.rencana_key) {
+            const existing = await InvoicePembayaran.findOne({ rencana_key: String(req.body.rencana_key || '').trim() }).lean();
+            if (existing) {
+                const program = await Program.findOne({ id_program: existing.id_program }).lean();
+                return res.json({
+                    pesan: 'Invoice untuk termin ini sudah dibuat.',
+                    data: serialisasiInvoicePembayaran(existing, program || {})
+                });
+            }
+        }
+        console.error('Gagal membuat invoice pembayaran:', err);
+        res.status(500).json({ pesan: 'Gagal membuat invoice pembayaran.' });
+    }
+});
+
+app.get('/api/invoice-pembayaran/:id/download', async (req, res) => {
+    try {
+        const invoice = await InvoicePembayaran.findById(req.params.id).lean();
+        if (!invoice) return res.status(404).send('Invoice tidak ditemukan.');
+        const program = await Program.findOne({ id_program: invoice.id_program }).lean();
+        if (!program) return res.status(404).send('Data kontrak untuk invoice tidak ditemukan.');
+        const mitra = await cariMitraUntukInvoice(program);
+        const buffer = await buatWorkbookInvoicePembayaran(invoice, program, mitra || {});
+        const filename = sanitizeFilename(`Invoice ${invoice.kode_file} ${invoice.rencana_tahap || ''}.xlsx`);
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.send(buffer);
+    } catch (err) {
+        console.error('Gagal download invoice pembayaran:', err);
+        res.status(500).send(err.message || 'Gagal membuat file invoice.');
+    }
+});
+
+app.get('/api/invoice-pembayaran/:id/print', async (req, res) => {
+    try {
+        const invoice = await InvoicePembayaran.findById(req.params.id).lean();
+        if (!invoice) return res.status(404).send('Invoice tidak ditemukan.');
+        const program = await Program.findOne({ id_program: invoice.id_program }).lean();
+        if (!program) return res.status(404).send('Data kontrak untuk invoice tidak ditemukan.');
+        const mitra = await cariMitraUntukInvoice(program);
+        res.setHeader('Cache-Control', 'private, no-store, no-cache, must-revalidate');
+        res.type('html').send(renderHtmlPrintInvoice(invoice, program, mitra || {}));
+    } catch (err) {
+        console.error('Gagal membuka print invoice pembayaran:', err);
+        res.status(500).send(err.message || 'Gagal membuka halaman print invoice.');
+    }
+});
 
 app.get('/api/rencana-pendapatan', async (req, res) => {
     try {
@@ -3495,7 +5119,7 @@ app.get('/api/daftar-realisasi-pembayaran', async (req, res) => {
                 nominal_dpi_display: `Rp ${formatRupiahAngka(nominalDpi)}`,
                 nominal: nominalRealisasi,
                 nominal_display: `Rp ${formatRupiahAngka(nominalRealisasi)}`,
-                keterangan: row.keterangan || '',
+                keterangan: keteranganRealisasiPembayaranTampil(row.keterangan),
                 rencana_key: row.rencana_key || '',
                 rencana_tahap: row.rencana_tahap || '',
                 rencana_tanggal: row.rencana_tanggal || '',
@@ -3556,7 +5180,7 @@ app.post('/api/tambah-realisasi-pembayaran', async (req, res) => {
             rencana_key: rencanaKey,
             rencana_tahap: rencana_tahap?.trim() || '',
             rencana_tanggal: rencana_tanggal?.trim() || '',
-            rencana_nominal: Number(rencana_nominal) || 0
+            rencana_nominal: Number(rencana_nominal) || nominalBrutoFinal
         });
         res.json({ pesan: 'Realisasi pembayaran berhasil ditambahkan.' });
     } catch (err) {
@@ -3649,7 +5273,385 @@ app.delete('/api/realisasi-pembayaran/:id', async (req, res) => {
     }
 });
 
-// ─── API: RAB ────────────────────────────────────────────────────────────────
+// ─── API: PAGU ───────────────────────────────────────────────────────────────
+
+function angkaPaguAnggaran(value) {
+    const angka = Number(value);
+    if (!Number.isFinite(angka)) return 0;
+    return Math.max(0, Math.round(angka));
+}
+
+function punyaNilaiPaguAnggaran(value) {
+    if (value === null || value === undefined || value === '') return false;
+    return Number.isFinite(Number(value));
+}
+
+function totalPaguAnggaran(row = {}) {
+    return angkaPaguAnggaran(row.pagu_pegawai)
+        + angkaPaguAnggaran(row.pagu_barang)
+        + angkaPaguAnggaran(row.pagu_jasa)
+        + angkaPaguAnggaran(row.pagu_modal);
+}
+
+function dataPaguKosong(idProgram, kodeFile) {
+    return {
+        id_program: idProgram,
+        kode_file: kodeFile,
+        pagu_pegawai: 0,
+        pagu_barang: 0,
+        pagu_jasa: 0,
+        pagu_modal: 0,
+        sisa_pagu_total: null
+    };
+}
+
+function fieldTerkunciPagu(field = '') {
+    return ({
+        pagu_pegawai: 'rka_terkunci_pegawai',
+        pagu_barang: 'rka_terkunci_barang',
+        pagu_jasa: 'rka_terkunci_jasa',
+        pagu_modal: 'rka_terkunci_modal'
+    })[field] || '';
+}
+
+function dataRkaTerkunciKosong() {
+    return {
+        rka_terkunci_pegawai: 0,
+        rka_terkunci_barang: 0,
+        rka_terkunci_jasa: 0,
+        rka_terkunci_modal: 0
+    };
+}
+
+function totalRkaTerkunci(row = {}) {
+    return angkaPaguAnggaran(row.rka_terkunci_pegawai)
+        + angkaPaguAnggaran(row.rka_terkunci_barang)
+        + angkaPaguAnggaran(row.rka_terkunci_jasa)
+        + angkaPaguAnggaran(row.rka_terkunci_modal);
+}
+
+function paguEfektifDariRkaTerkunci(row = {}, rkaTerkunci = {}) {
+    return {
+        ...row,
+        pagu_pegawai: Math.max(angkaPaguAnggaran(row.pagu_pegawai), angkaPaguAnggaran(rkaTerkunci.rka_terkunci_pegawai)),
+        pagu_barang: Math.max(angkaPaguAnggaran(row.pagu_barang), angkaPaguAnggaran(rkaTerkunci.rka_terkunci_barang)),
+        pagu_jasa: Math.max(angkaPaguAnggaran(row.pagu_jasa), angkaPaguAnggaran(rkaTerkunci.rka_terkunci_jasa)),
+        pagu_modal: Math.max(angkaPaguAnggaran(row.pagu_modal), angkaPaguAnggaran(rkaTerkunci.rka_terkunci_modal))
+    };
+}
+
+function tambahRkaTerkunci(data, row = {}) {
+    const fieldPagu = FIELD_PAGU_BY_KATEGORI[row.kategori_belanja];
+    const fieldTerkunci = fieldTerkunciPagu(fieldPagu);
+    if (!fieldTerkunci) return data;
+    data[fieldTerkunci] += angkaPaguAnggaran(totalNominalRab(row));
+    return data;
+}
+
+async function rkaTerkunciUntukPagu(idProgram, kodeFile, excludeRabId = '') {
+    const id = String(idProgram || '').trim();
+    const kode = String(kodeFile || '').trim();
+    const exclude = String(excludeRabId || '').trim();
+    const data = dataRkaTerkunciKosong();
+    if (!id || !kode) return data;
+    const rows = await RabAnggaran.find({ id_program: id, kode_file: kode }).lean();
+    rows
+        .filter(row => !exclude || String(row._id || '') !== exclude)
+        .forEach(row => tambahRkaTerkunci(data, row));
+    return data;
+}
+
+function pesanPaguDiBawahRka(row = {}, rkaTerkunci = {}, kodeFile = '') {
+    for (const field of Object.keys(LABEL_PAGU_BY_FIELD)) {
+        const fieldTerkunci = fieldTerkunciPagu(field);
+        const pagu = angkaPaguAnggaran(row[field]);
+        const terkunci = angkaPaguAnggaran(rkaTerkunci[fieldTerkunci]);
+        if (pagu + 1 < terkunci) {
+            return `${LABEL_PAGU_BY_FIELD[field]} untuk Kode File ${kodeFile} tidak boleh lebih kecil dari RKA Kerma yang sudah mengunci PAGU. Minimal: Rp ${formatRupiahAngka(terkunci)},-.`;
+        }
+    }
+    return '';
+}
+
+function bentukPaguAnggaran(row, program = {}, realisasiPenerimaan = 0, rkaTerkunci = {}) {
+    const rowEfektif = paguEfektifDariRkaTerkunci(row, rkaTerkunci);
+    const statusAlokasi = statusAlokasiKerma(rowEfektif.kode_file || program.kode_file);
+    const tutupKeuangan = statusAlokasi !== 'Aktif';
+    const paguPegawai = angkaPaguAnggaran(rowEfektif.pagu_pegawai);
+    const paguBarang = angkaPaguAnggaran(rowEfektif.pagu_barang);
+    const paguJasa = angkaPaguAnggaran(rowEfektif.pagu_jasa);
+    const paguModal = angkaPaguAnggaran(rowEfektif.pagu_modal);
+    const totalPagu = paguPegawai + paguBarang + paguJasa + paguModal;
+    const terkunciPegawai = angkaPaguAnggaran(rkaTerkunci.rka_terkunci_pegawai);
+    const terkunciBarang = angkaPaguAnggaran(rkaTerkunci.rka_terkunci_barang);
+    const terkunciJasa = angkaPaguAnggaran(rkaTerkunci.rka_terkunci_jasa);
+    const terkunciModal = angkaPaguAnggaran(rkaTerkunci.rka_terkunci_modal);
+    const totalTerkunci = terkunciPegawai + terkunciBarang + terkunciJasa + terkunciModal;
+    const sisaPaguPegawai = tutupKeuangan ? 0 : paguPegawai - terkunciPegawai;
+    const sisaPaguBarang = tutupKeuangan ? 0 : paguBarang - terkunciBarang;
+    const sisaPaguJasa = tutupKeuangan ? 0 : paguJasa - terkunciJasa;
+    const sisaPaguModal = tutupKeuangan ? 0 : paguModal - terkunciModal;
+    const sisaPaguHitung = tutupKeuangan ? 0 : totalPagu - totalTerkunci;
+    const pakaiSisaPaguTotalManual = !tutupKeuangan && punyaNilaiPaguAnggaran(rowEfektif.sisa_pagu_total);
+    const sisaPaguTotal = pakaiSisaPaguTotalManual
+        ? angkaPaguAnggaran(rowEfektif.sisa_pagu_total)
+        : sisaPaguHitung;
+    return {
+        id_pagu: String(row._id || ''),
+        id_program: row.id_program || program.id_program || '',
+        kode_file: row.kode_file || program.kode_file || '',
+        nama_mitra: program.nama_mitra || '',
+        judul_pks: program.judul_pks || '',
+        status_alokasi: statusAlokasi,
+        realisasi_penerimaan: angkaPaguAnggaran(realisasiPenerimaan),
+        realisasi_penerimaan_display: `Rp ${formatRupiahAngka(realisasiPenerimaan)},-`,
+        pagu_pegawai: paguPegawai,
+        pagu_pegawai_display: `Rp ${formatRupiahAngka(paguPegawai)},-`,
+        pagu_barang: paguBarang,
+        pagu_barang_display: `Rp ${formatRupiahAngka(paguBarang)},-`,
+        pagu_jasa: paguJasa,
+        pagu_jasa_display: `Rp ${formatRupiahAngka(paguJasa)},-`,
+        pagu_modal: paguModal,
+        pagu_modal_display: `Rp ${formatRupiahAngka(paguModal)},-`,
+        total_pagu: totalPagu,
+        total_pagu_display: `Rp ${formatRupiahAngka(totalPagu)},-`,
+        rka_terkunci_pegawai: terkunciPegawai,
+        rka_terkunci_barang: terkunciBarang,
+        rka_terkunci_jasa: terkunciJasa,
+        rka_terkunci_modal: terkunciModal,
+        total_rka_terkunci: totalTerkunci,
+        sisa_pagu_pegawai: sisaPaguPegawai,
+        sisa_pagu_barang: sisaPaguBarang,
+        sisa_pagu_jasa: sisaPaguJasa,
+        sisa_pagu_modal: sisaPaguModal,
+        sisa_pagu_total: pakaiSisaPaguTotalManual ? sisaPaguTotal : null,
+        sisa_pagu_total_manual: pakaiSisaPaguTotalManual,
+        sisa_pagu: sisaPaguTotal,
+        sisa_pagu_display: `Rp ${formatRupiahAngka(sisaPaguTotal)},-`
+    };
+}
+
+async function totalRealisasiPenerimaanProgram(idProgram) {
+    const id = String(idProgram || '').trim();
+    if (!id) return 0;
+    const pembayaranRows = await RealisasiPembayaran.find({ id_program: id }).lean();
+    return pembayaranRows.reduce((sum, row) => sum + nominalRealisasiPenerimaan(row), 0);
+}
+
+async function validasiPayloadPagu(body = {}) {
+    const lookup = await cariProgramDariKodeFile(body.kode_file);
+    if (lookup.error) return { error: lookup.error };
+
+    const paguPegawai = angkaPaguAnggaran(body.pagu_pegawai);
+    const paguBarang = angkaPaguAnggaran(body.pagu_barang);
+    const paguJasa = angkaPaguAnggaran(body.pagu_jasa);
+    const paguModal = angkaPaguAnggaran(body.pagu_modal);
+    const totalPagu = paguPegawai + paguBarang + paguJasa + paguModal;
+    const totalPenerimaan = await totalRealisasiPenerimaanProgram(lookup.program.id_program);
+    const rkaTerkunci = await rkaTerkunciUntukPagu(lookup.program.id_program, lookup.kodeFile);
+
+    if (totalPagu > totalPenerimaan + 1) {
+        return {
+            error: `Total PAGU melebihi Realisasi Penerimaan yang tersedia. Realisasi Penerimaan tersedia: Rp ${formatRupiahAngka(totalPenerimaan)},-.`
+        };
+    }
+    const pesanTerkunci = pesanPaguDiBawahRka({
+        pagu_pegawai: paguPegawai,
+        pagu_barang: paguBarang,
+        pagu_jasa: paguJasa,
+        pagu_modal: paguModal
+    }, rkaTerkunci, lookup.kodeFile);
+    if (pesanTerkunci) return { error: pesanTerkunci };
+
+    return {
+        data: {
+            id_program: lookup.program.id_program,
+            kode_file: lookup.kodeFile,
+            pagu_pegawai: paguPegawai,
+            pagu_barang: paguBarang,
+            pagu_jasa: paguJasa,
+            pagu_modal: paguModal
+        },
+        program: lookup.program,
+        totalPenerimaan,
+        rkaTerkunci
+    };
+}
+
+app.get('/api/pagu-anggaran', async (req, res) => {
+    try {
+        const [list, programs, pembayaranRows, rkaRows] = await Promise.all([
+            PaguAnggaran.find({}).sort({ kode_file: 1 }).lean(),
+            Program.find({}).lean(),
+            RealisasiPembayaran.find({}).lean(),
+            RabAnggaran.find({}).lean()
+        ]);
+        const programById = new Map(programs.map(program => [program.id_program, program]));
+        const programByKode = new Map(programs
+            .filter(program => String(program.kode_file || '').trim())
+            .map(program => [String(program.kode_file || '').trim(), program]));
+        const rkaTerkunciByKode = new Map();
+        rkaRows.forEach(row => {
+            const kodeFile = String(row.kode_file || '').trim();
+            if (!kodeFile) return;
+            if (!rkaTerkunciByKode.has(kodeFile)) rkaTerkunciByKode.set(kodeFile, dataRkaTerkunciKosong());
+            tambahRkaTerkunci(rkaTerkunciByKode.get(kodeFile), row);
+        });
+        const penerimaanByProgram = new Map();
+        pembayaranRows.forEach(row => {
+            const id = String(row.id_program || '').trim();
+            if (!id) return;
+            penerimaanByProgram.set(id, (penerimaanByProgram.get(id) || 0) + nominalRealisasiPenerimaan(row));
+        });
+        const savedByKode = new Map(list
+            .map(row => [String(row.kode_file || '').trim(), row])
+            .filter(([kodeFile]) => Boolean(kodeFile)));
+        const kodeFiles = new Set([...savedByKode.keys(), ...rkaTerkunciByKode.keys()]);
+        const data = [...kodeFiles].sort().map(kodeFile => {
+            const saved = savedByKode.get(kodeFile) || dataPaguKosong('', kodeFile);
+            const program = programById.get(saved.id_program)
+                || programByKode.get(kodeFile)
+                || {};
+            const idProgram = saved.id_program || program.id_program || '';
+            return bentukPaguAnggaran({
+                ...saved,
+                _id: saved._id,
+                id_program: idProgram,
+                kode_file: kodeFile
+            }, program, penerimaanByProgram.get(idProgram) || 0, rkaTerkunciByKode.get(kodeFile));
+        });
+        const totalPagu = data.reduce((sum, row) => sum + (Number(row.total_pagu) || 0), 0);
+        res.json({
+            data,
+            summary: {
+                total_pagu: totalPagu,
+                total_pagu_display: `Rp ${formatRupiahAngka(totalPagu)},-`,
+                jumlah_item: data.length,
+                jumlah_item_display: data.length.toLocaleString('id-ID')
+            }
+        });
+    } catch (err) {
+        console.error('Gagal membaca PAGU:', err);
+        res.status(500).json({ pesan: 'Gagal membaca data PAGU.' });
+    }
+});
+
+app.post('/api/pagu-anggaran', async (req, res) => {
+    try {
+        const hasil = await validasiPayloadPagu(req.body);
+        if (hasil.error) return res.status(400).json({ pesan: hasil.error });
+        const updated = await PaguAnggaran.findOneAndUpdate(
+            { kode_file: hasil.data.kode_file },
+            { $set: hasil.data },
+            { new: true, upsert: true, setDefaultsOnInsert: true }
+        );
+        res.json({
+            pesan: 'PAGU berhasil disimpan.',
+            data: bentukPaguAnggaran(updated, hasil.program, hasil.totalPenerimaan, hasil.rkaTerkunci)
+        });
+    } catch (err) {
+        console.error('Gagal menyimpan PAGU:', err);
+        res.status(500).json({ pesan: 'Gagal menyimpan PAGU.' });
+    }
+});
+
+// ─── API: RKA Kerma ──────────────────────────────────────────────────────────
+
+function normalisasiUraianRab(value = '') {
+    const text = String(value || '').replace(/\s+/g, ' ').trim();
+    return text.replace(/^(?:PAGU|RI)(?=$|\s|[-:–—])\s*[-:–—]?\s*/i, '');
+}
+
+function normalisasiKeyRab(value = '') {
+    return normalisasiUraianRab(value).toLowerCase();
+}
+
+function totalNominalRab(row = {}) {
+    const hargaSatuan = Number(row.harga_satuan) || 0;
+    const volume = Number(row.volume) || 0;
+    const total = hargaSatuan * volume;
+    return Number.isFinite(total) ? Math.max(0, total) : 0;
+}
+
+async function paguAnggaranUntukRab(idProgram, kodeFile) {
+    const or = [];
+    const id = String(idProgram || '').trim();
+    const kode = String(kodeFile || '').trim();
+    if (id) or.push({ id_program: id });
+    if (kode) or.push({ kode_file: kode });
+    if (!or.length) return null;
+    return PaguAnggaran.findOne({ $or: or }).lean();
+}
+
+async function validasiKunciPaguRab(data = {}, excludeRabId = '') {
+    const fieldPagu = FIELD_PAGU_BY_KATEGORI[data.kategori_belanja];
+    const fieldTerkunci = fieldTerkunciPagu(fieldPagu);
+    if (!fieldPagu || !fieldTerkunci) return { error: 'Kategori Belanja tidak valid.' };
+
+    const [pagu, rkaTerkunciSaatIni, rkaTerkunciTanpaCurrent] = await Promise.all([
+        paguAnggaranUntukRab(data.id_program, data.kode_file),
+        rkaTerkunciUntukPagu(data.id_program, data.kode_file),
+        rkaTerkunciUntukPagu(data.id_program, data.kode_file, excludeRabId)
+    ]);
+    const nominalPaguKategori = Math.max(
+        angkaPaguAnggaran(pagu?.[fieldPagu]),
+        angkaPaguAnggaran(rkaTerkunciSaatIni[fieldTerkunci])
+    );
+    const totalSetelahSimpan = angkaPaguAnggaran(rkaTerkunciTanpaCurrent[fieldTerkunci]) + angkaPaguAnggaran(totalNominalRab(data));
+
+    if (totalSetelahSimpan > nominalPaguKategori + 1) {
+        const label = LABEL_PAGU_BY_FIELD[fieldPagu] || 'PAGU';
+        return {
+            error: `RKA Kerma kategori ${data.kategori_belanja} melebihi ${label} yang tersedia untuk Kode File ${data.kode_file}. ${label}: Rp ${formatRupiahAngka(nominalPaguKategori)},-. RKA Kerma terkunci setelah simpan: Rp ${formatRupiahAngka(totalSetelahSimpan)},-. Tambah atau pindahkan PAGU Anggaran kategori ini terlebih dahulu.`
+        };
+    }
+
+    return { ok: true };
+}
+
+function rencanaRiCocokDenganRab(row = {}, rab = {}) {
+    const totalRab = totalNominalRab(rab);
+    const totalRi = Number(row.ri) || 0;
+    return String(row.kode_file || '').trim() === String(rab.kode_file || '').trim()
+        && String(row.id_program || '').trim() === String(rab.id_program || '').trim()
+        && String(row.kategori_belanja || '').trim() === String(rab.kategori_belanja || '').trim()
+        && normalisasiKeyRab(row.uraian) === normalisasiKeyRab(rab.uraian)
+        && Math.abs(totalRi - totalRab) < 1;
+}
+
+async function cariRencanaRiDariRab(rab = {}) {
+    const idRab = String(rab._id || rab.id_rab || '').trim();
+    const pencarian = [];
+    if (idRab) {
+        pencarian.push(RencanaAnggaran.find({ sumber: 'rab', id_rab: idRab }).lean());
+    }
+    pencarian.push(RencanaAnggaran.find({
+        sumber: 'rab',
+        id_program: rab.id_program,
+        kode_file: rab.kode_file,
+        kategori_belanja: rab.kategori_belanja
+    }).lean());
+
+    const rows = (await Promise.all(pencarian)).flat();
+    const unik = new Map();
+    rows.forEach(row => {
+        const cocokById = idRab && String(row.id_rab || '').trim() === idRab;
+        if (!cocokById && !rencanaRiCocokDenganRab(row, rab)) return;
+        unik.set(String(row._id), row);
+    });
+    return [...unik.values()];
+}
+
+async function cariRealisasiRiDariRab(rab = {}) {
+    const rows = await RencanaAnggaran.find({
+        id_program: rab.id_program,
+        kode_file: rab.kode_file,
+        kategori_belanja: rab.kategori_belanja,
+        pengeluaran_ri: { $gt: 0 }
+    }).lean();
+    const keyUraian = normalisasiKeyRab(rab.uraian);
+    return rows.filter(row => normalisasiKeyRab(row.uraian) === keyUraian);
+}
 
 function bentukRabAnggaran(row, program = {}) {
     const hargaSatuan = Number(row.harga_satuan) || 0;
@@ -3661,7 +5663,7 @@ function bentukRabAnggaran(row, program = {}) {
         kode_file: row.kode_file || program.kode_file || '',
         nama_mitra: program.nama_mitra || '',
         judul_pks: program.judul_pks || '',
-        uraian: row.uraian || '',
+        uraian: normalisasiUraianRab(row.uraian),
         kategori_belanja: row.kategori_belanja || '',
         satuan: row.satuan || '',
         harga_satuan: hargaSatuan,
@@ -3699,15 +5701,15 @@ app.get('/api/rab-anggaran', async (req, res) => {
             }
         });
     } catch (err) {
-        console.error('Gagal membaca RAB:', err);
-        res.status(500).json({ pesan: 'Gagal membaca data RAB.' });
+        console.error('Gagal membaca RKA Kerma:', err);
+        res.status(500).json({ pesan: 'Gagal membaca data RKA Kerma.' });
     }
 });
 
-async function validasiPayloadRab(body = {}) {
+async function validasiPayloadRab(body = {}, options = {}) {
     const lookup = await cariProgramDariKodeFile(body.kode_file);
     if (lookup.error) return { error: lookup.error };
-    const uraian = String(body.uraian || '').trim();
+    const uraian = normalisasiUraianRab(body.uraian);
     const kategoriBelanja = String(body.kategori_belanja || '').trim();
     const satuan = String(body.satuan || '').trim();
     const hargaSatuan = Number(body.harga_satuan);
@@ -3719,18 +5721,20 @@ async function validasiPayloadRab(body = {}) {
     if (!Number.isFinite(hargaSatuan) || hargaSatuan < 0) return { error: 'Harga Satuan harus berupa angka dan tidak boleh negatif.' };
     if (!Number.isFinite(volume) || volume < 0) return { error: 'Volume harus berupa angka dan tidak boleh negatif.' };
 
-    return {
-        data: {
-            id_program: lookup.program.id_program,
-            kode_file: lookup.kodeFile,
-            uraian,
-            kategori_belanja: kategoriBelanja,
-            satuan,
-            harga_satuan: hargaSatuan,
-            volume,
-            keterangan: ''
-        }
+    const data = {
+        id_program: lookup.program.id_program,
+        kode_file: lookup.kodeFile,
+        uraian,
+        kategori_belanja: kategoriBelanja,
+        satuan,
+        harga_satuan: hargaSatuan,
+        volume,
+        keterangan: ''
     };
+    const validasiPagu = await validasiKunciPaguRab(data, options.excludeRabId);
+    if (validasiPagu.error) return { error: validasiPagu.error };
+
+    return { data };
 }
 
 app.post('/api/rab-anggaran', async (req, res) => {
@@ -3738,34 +5742,61 @@ app.post('/api/rab-anggaran', async (req, res) => {
         const hasil = await validasiPayloadRab(req.body);
         if (hasil.error) return res.status(400).json({ pesan: hasil.error });
         await RabAnggaran.create(hasil.data);
-        res.json({ pesan: 'RAB berhasil ditambahkan.' });
+        res.json({ pesan: 'RKA Kerma berhasil ditambahkan.' });
     } catch (err) {
-        console.error('Gagal menambah RAB:', err);
-        res.status(500).json({ pesan: 'Gagal menyimpan RAB.' });
+        console.error('Gagal menambah RKA Kerma:', err);
+        res.status(500).json({ pesan: 'Gagal menyimpan RKA Kerma.' });
     }
 });
 
 app.put('/api/rab-anggaran/:id', async (req, res) => {
     try {
-        const hasil = await validasiPayloadRab(req.body);
+        const current = await RabAnggaran.findById(req.params.id).lean();
+        if (!current) return res.status(404).json({ pesan: 'Data RKA Kerma tidak ditemukan.' });
+        const riTerkait = await cariRencanaRiDariRab(current);
+        if (riTerkait.length) {
+            return res.status(400).json({
+                pesan: 'RKA Kerma sudah dibuat menjadi RI sehingga tidak dapat diedit. Hapus RKA Kerma untuk membatalkan RI yang belum direalisasikan, lalu buat ulang bila diperlukan.'
+            });
+        }
+        const hasil = await validasiPayloadRab(req.body, { excludeRabId: req.params.id });
         if (hasil.error) return res.status(400).json({ pesan: hasil.error });
         const updated = await RabAnggaran.findByIdAndUpdate(req.params.id, hasil.data, { new: true });
-        if (!updated) return res.status(404).json({ pesan: 'Data RAB tidak ditemukan.' });
-        res.json({ pesan: 'RAB berhasil diperbarui.' });
+        if (!updated) return res.status(404).json({ pesan: 'Data RKA Kerma tidak ditemukan.' });
+        res.json({ pesan: 'RKA Kerma berhasil diperbarui.' });
     } catch (err) {
-        console.error('Gagal update RAB:', err);
-        res.status(500).json({ pesan: 'Gagal memperbarui RAB.' });
+        console.error('Gagal update RKA Kerma:', err);
+        res.status(500).json({ pesan: 'Gagal memperbarui RKA Kerma.' });
     }
 });
 
 app.delete('/api/rab-anggaran/:id', async (req, res) => {
     try {
+        const rab = await RabAnggaran.findById(req.params.id).lean();
+        if (!rab) return res.status(404).json({ pesan: 'Data RKA Kerma tidak ditemukan.' });
+
+        const realisasiRiTerkait = await cariRealisasiRiDariRab(rab);
+        if (realisasiRiTerkait.length) {
+            return res.status(400).json({
+                pesan: 'RKA Kerma tidak dapat dihapus karena RI dari RKA Kerma ini sudah direalisasikan. Batalkan Realisasi RI terlebih dahulu.'
+            });
+        }
+
+        const riTerkait = await cariRencanaRiDariRab(rab);
+        const riBelumRealisasiIds = riTerkait
+            .filter(row => (Number(row.pengeluaran_ri) || 0) <= 0)
+            .map(row => row._id);
+        if (riBelumRealisasiIds.length) {
+            await RencanaAnggaran.deleteMany({ _id: { $in: riBelumRealisasiIds } });
+        }
+
         const deleted = await RabAnggaran.findByIdAndDelete(req.params.id);
-        if (!deleted) return res.status(404).json({ pesan: 'Data RAB tidak ditemukan.' });
-        res.json({ pesan: 'RAB berhasil dihapus.' });
+        if (!deleted) return res.status(404).json({ pesan: 'Data RKA Kerma tidak ditemukan.' });
+        const tambahanPesan = riBelumRealisasiIds.length ? ` ${riBelumRealisasiIds.length} RI terkait ikut dibatalkan.` : '';
+        res.json({ pesan: `RKA Kerma berhasil dihapus.${tambahanPesan}`, ri_dihapus: riBelumRealisasiIds.length });
     } catch (err) {
-        console.error('Gagal hapus RAB:', err);
-        res.status(500).json({ pesan: 'Gagal menghapus RAB.' });
+        console.error('Gagal hapus RKA Kerma:', err);
+        res.status(500).json({ pesan: 'Gagal menghapus RKA Kerma.' });
     }
 });
 
@@ -3809,6 +5840,8 @@ app.get('/api/rencana-anggaran', async (req, res) => {
                 no_invoice: row.no_invoice || '',
                 uraian: row.uraian || '',
                 kategori_belanja: row.kategori_belanja || '',
+                sumber: row.sumber || '',
+                id_rab: row.id_rab || '',
                 ri,
                 ri_display: ri ? `Rp ${formatRupiahAngka(ri)}` : '-',
                 pemasukan,
@@ -3843,7 +5876,7 @@ app.get('/api/rencana-anggaran', async (req, res) => {
 
 app.post('/api/rencana-anggaran', async (req, res) => {
     try {
-        const { kode_file, tanggal_ri, tanggal_realisasi_ri, tgl_invoice, no_invoice, uraian, kategori_belanja, ri, pemasukan, pengeluaran_ri, realisasi_ri, sumber } = req.body;
+        const { kode_file, tanggal_ri, tanggal_realisasi_ri, tgl_invoice, no_invoice, uraian, kategori_belanja, ri, pemasukan, pengeluaran_ri, realisasi_ri, sumber, id_rab } = req.body;
         const lookup = await cariProgramDariKodeFile(kode_file);
         if (lookup.error) return res.status(400).json({ pesan: lookup.error });
         const tanggal = parseTanggalDashboard(tanggal_ri || tgl_invoice || tanggal_realisasi_ri);
@@ -3868,7 +5901,7 @@ app.post('/api/rencana-anggaran', async (req, res) => {
         if (riAngka <= 0 && pemasukanAngka <= 0 && pengeluaranAngka <= 0)
             return res.status(400).json({ pesan: 'Isi minimal salah satu nominal: RI, Realisasi Penerimaan, atau Realisasi RI.' });
         if (riAngka > 0 && sumberInput !== 'rab') {
-            return res.status(400).json({ pesan: 'RI hanya dapat dibuat melalui tombol Buat RI pada tabel RAB.' });
+            return res.status(400).json({ pesan: 'RI hanya dapat dibuat melalui tombol Buat RI pada tabel RKA Kerma.' });
         }
         if (riAngka > 0 && pengeluaranAngka > 0) {
             return res.status(400).json({ pesan: 'RI dan Realisasi RI harus dicatat pada baris terpisah karena tanggal transaksinya berbeda.' });
@@ -3886,12 +5919,12 @@ app.post('/api/rencana-anggaran', async (req, res) => {
             }
             if (pengeluaranAngka > saldo.saldoDefinitif) {
                 return res.status(400).json({
-                    pesan: `Realisasi RI melebihi saldo definitif yang tersedia. Saldo tersedia: Rp ${formatRupiahAngka(saldo.saldoDefinitif)}.`
+                    pesan: `Tidak bisa menyimpan Realisasi RI karena nominal melebihi saldo yang tersedia. Saldo tersedia: Rp ${formatRupiahAngka(saldo.saldoDefinitif)}.`
                 });
             }
             if (pengeluaranAngka > saldo.riTersediaUntukRealisasi) {
                 return res.status(400).json({
-                    pesan: `Realisasi RI melebihi RI yang sudah diregistrasikan. Sisa RI yang dapat direalisasikan: Rp ${formatRupiahAngka(saldo.riTersediaUntukRealisasi)}.`
+                    pesan: `Tidak bisa menyimpan Realisasi RI karena nominal melebihi PAGU yang sudah diregistrasikan. Sisa PAGU yang dapat direalisasikan: Rp ${formatRupiahAngka(saldo.riTersediaUntukRealisasi)}.`
                 });
             }
         }
@@ -3908,7 +5941,8 @@ app.post('/api/rencana-anggaran', async (req, res) => {
             ri: riAngka,
             pemasukan: pemasukanAngka,
             pengeluaran_ri: pengeluaranAngka,
-            sumber: sumberInput || 'manual'
+            sumber: sumberInput || 'manual',
+            id_rab: sumberInput === 'rab' ? String(id_rab || '').trim() : ''
         });
 
         if (pengeluaranAngka > 0) {
@@ -4073,15 +6107,22 @@ app.get('/api/sisa-anggaran', async (req, res) => {
 
         const rows = programs.map(program => {
             const nilaiKontrak = Number(program.nilai_kontrak) || 0;
-            const totalRealisasi = totalRealisasiByProgram.get(program.id_program) || 0;
-            const totalPembayaran = totalPembayaranByProgram.get(program.id_program) || 0;
-            const sisaAnggaran = totalPembayaran - totalRealisasi;
+            const statusAlokasi = statusAlokasiKerma(program.kode_file);
+            const tutupKeuangan = statusAlokasi !== 'Aktif';
+            const totalRealisasiAktual = totalRealisasiByProgram.get(program.id_program) || 0;
+            const totalPembayaranAktual = totalPembayaranByProgram.get(program.id_program) || 0;
+            const nominalPenutup = Math.max(nilaiKontrak, totalPembayaranAktual, totalRealisasiAktual);
+            const totalPembayaran = tutupKeuangan ? nominalPenutup : totalPembayaranAktual;
+            const totalRealisasi = tutupKeuangan ? nominalPenutup : totalRealisasiAktual;
+            const sisaAnggaran = tutupKeuangan ? 0 : totalPembayaran - totalRealisasi;
             const serapan = totalPembayaran > 0 ? (totalRealisasi / totalPembayaran) * 100 : 0;
             const statusKontrak = hitungStatusKontrak(program.tgl_akhir_kontrak);
-            let statusAnggaran = 'Aman';
-            if (sisaAnggaran < 0) statusAnggaran = 'Defisit';
-            else if (totalRealisasi <= 0) statusAnggaran = 'Belum Realisasi';
-            else if (serapan >= 80) statusAnggaran = 'Serapan Tinggi';
+            let statusAnggaran = tutupKeuangan ? 'Terserap' : 'Aman';
+            if (!tutupKeuangan) {
+                if (sisaAnggaran < 0) statusAnggaran = 'Defisit';
+                else if (totalRealisasi <= 0) statusAnggaran = 'Belum Realisasi';
+                else if (serapan >= 80) statusAnggaran = 'Serapan Tinggi';
+            }
 
             return {
                 id_program: program.id_program,
@@ -4093,6 +6134,7 @@ app.get('/api/sisa-anggaran', async (req, res) => {
                 tgl_akhir_kontrak: formatTanggalDisplay(program.tgl_akhir_kontrak),
                 tgl_akhir_kontrak_input: formatTanggalInput(program.tgl_akhir_kontrak),
                 status_kontrak: statusKontrak,
+                status_alokasi: statusAlokasi,
                 nilai_kontrak: nilaiKontrak,
                 nilai_kontrak_display: `Rp ${formatRupiahAngka(nilaiKontrak)}`,
                 total_realisasi_pendapatan: totalPembayaran,
@@ -4417,8 +6459,8 @@ app.get('/api/addendum/:id_program', async (req, res) => {
 
 app.post('/api/upload-addendum', async (req, res) => {
     try {
-        const { id_program, file_base64, file_nama } = req.body;
-        if (!id_program || !file_base64 || !file_nama)
+        const { id_program, file_base64, file_upload_id, file_size, total_chunks, file_nama } = req.body;
+        if (!id_program || (!file_base64 && !file_upload_id) || !file_nama)
             return res.status(400).json({ pesan: 'id_program, file, dan nama file wajib diisi.' });
 
         const ext = path.extname(file_nama).toLowerCase();
@@ -4428,7 +6470,22 @@ app.post('/api/upload-addendum', async (req, res) => {
         const namaFile = safeNamaFileDasar(id_program, ext, `_add_${noBerikut}`);
 
         try {
-            await simpanFileAddendum(id_program, file_base64, file_nama, noBerikut, req.session?.user?.id);
+            const userId = req.session?.user?.id;
+            const buffer = await resolveUploadBuffer({
+                fileBase64: file_base64,
+                uploadId: file_upload_id,
+                userId,
+                kind: UPLOAD_KIND_ADDENDUM,
+                idProgram: id_program,
+                fileName: file_nama,
+                fileSize: file_size,
+                totalChunks: total_chunks
+            });
+            await simpanBufferAddendum(id_program, buffer, file_nama, noBerikut, userId);
+            if (file_upload_id) {
+                await hapusUploadChunked(file_upload_id, userId)
+                    .catch(err => console.warn('Gagal membersihkan chunk upload:', err?.message || err));
+            }
         } catch (errUpload) {
             return res.status(400).json({ pesan: errUpload.message || 'Gagal menyimpan file addendum.' });
         }
@@ -4468,11 +6525,39 @@ app.get('/api/template-calon-peserta', async (req, res) => {
 
 app.post('/api/import-calon-peserta', async (req, res) => {
     try {
-        const { fileBase64, id_program_override } = req.body;
-        if (!fileBase64) return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        const {
+            fileBase64,
+            file_base64,
+            file_upload_id,
+            file_size,
+            total_chunks,
+            file_nama,
+            id_program_override
+        } = req.body;
+        const base64Value = fileBase64 || file_base64;
+        if (!base64Value && !file_upload_id) {
+            return res.status(400).json({ pesan: 'File tidak ditemukan.' });
+        }
+
+        const userId = req.session?.user?.id;
+        const uploadProgramKey = id_program_override || '__from_file__';
+        const importBuffer = await resolveUploadBuffer({
+            fileBase64: base64Value,
+            uploadId: file_upload_id,
+            userId,
+            kind: UPLOAD_KIND_IMPORT_CALON_PESERTA,
+            idProgram: uploadProgramKey,
+            fileName: file_nama || 'import-calon-peserta.xlsx',
+            fileSize: file_size,
+            totalChunks: total_chunks
+        });
 
         const tempWb = new ExcelJS.Workbook();
-        await tempWb.xlsx.load(Buffer.from(fileBase64, 'base64'));
+        await tempWb.xlsx.load(importBuffer);
+        if (file_upload_id) {
+            await hapusUploadChunked(file_upload_id, userId)
+                .catch(err => console.warn('Gagal membersihkan chunk import:', err?.message || err));
+        }
         const srcSheet = tempWb.worksheets[0];
         if (!srcSheet) return res.status(400).json({ pesan: 'Sheet tidak ditemukan dalam file.' });
 
