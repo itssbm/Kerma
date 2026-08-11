@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express    = require('express');
-const session    = require('express-session');
 const bcrypt     = require('bcryptjs');
 const ExcelJS    = require('exceljs');
 const PizZip     = require('pizzip');
@@ -10,11 +9,7 @@ const fs         = require('fs');
 const path       = require('path');
 const os         = require('os');
 const { execFileSync } = require('child_process');
-const { pipeline } = require('stream/promises');
 const crypto     = require('crypto');
-const mongoose   = require('mongoose');
-const { GridFSBucket } = require('mongodb');
-const MongoStore = require('connect-mongo');
 const Redis = require('ioredis');
 
 const Program      = require('./models/Program');
@@ -25,7 +20,7 @@ const Cicilan      = require('./models/Cicilan');
 const Addendum     = require('./models/Addendum');
 const CalonPeserta = require('./models/CalonPeserta');
 const Kontrak      = require('./models/Kontrak');
-const User         = require('./models/User');
+const UserRepo     = require('./services/repo/userRepo');
 const RencanaAnggaran = require('./models/RencanaAnggaran');
 const RabAnggaran = require('./models/RabAnggaran');
 const PaguAnggaran = require('./models/PaguAnggaran');
@@ -34,8 +29,20 @@ const RealisasiPembayaran = require('./models/RealisasiPembayaran');
 const InvoicePembayaran = require('./models/InvoicePembayaran');
 const PlottingKerma = require('./models/PlottingKerma');
 const UploadChunk = require('./models/UploadChunk');
+const {
+    uploadAppFile,
+    streamAppFileToResponse,
+    prepareAppPdfLocal
+} = require('./services/storage/supabaseStorage');
+const {
+    request: supabaseRequest,
+    SUPABASE_URL,
+    SCHEMA: SUPABASE_SCHEMA
+} = require('./services/db/supabaseClient');
+const userRepo = new UserRepo();
 const isProd = process.env.NODE_ENV === 'production';
 const SESSION_SECRET = process.env.SESSION_SECRET || (isProd ? '' : 'kerma-sbm-itb-secret-2024');
+const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME || 'kerma_session';
 const TRUST_PROXY_COUNT = Number(process.env.TRUST_PROXY_COUNT || 1);
 const API_RATE_LIMIT_WINDOW_MS = Number(process.env.API_RATE_LIMIT_WINDOW_MS || 60 * 1000);
 const API_RATE_LIMIT_MAX = Number(process.env.API_RATE_LIMIT_MAX || (isProd ? 120 : 300));
@@ -146,9 +153,6 @@ function logApiAudit(req, statusCode, durationMs) {
 if (isProd && !process.env.SESSION_SECRET) {
     throw new Error('SESSION_SECRET wajib diset di production untuk keamanan session.');
 }
-if (!process.env.MONGODB_URI && isProd) {
-    throw new Error('MONGODB_URI wajib diset di production untuk menyimpan sesi secara persisten.');
-}
 
 const app = express();
 app.use(express.json({ limit: '20mb' }));
@@ -173,45 +177,166 @@ function kirimHtmlBundle(res, filePath, cacheName) {
     res.type('html').send(bacaHtmlBundle(filePath, cacheName));
 }
 
-const mongoClientPromise = mongoose.connection.readyState === 1
-    ? Promise.resolve(mongoose.connection.getClient())
-    : new Promise((resolve, reject) => {
-        const onConnected = () => {
-            cleanup();
-            resolve(mongoose.connection.getClient());
-        };
-        const onError = (err) => {
-            cleanup();
-            reject(err);
-        };
-        const cleanup = () => {
-            mongoose.connection.off('connected', onConnected);
-            mongoose.connection.off('error', onError);
-        };
-        mongoose.connection.once('connected', onConnected);
-        mongoose.connection.once('error', onError);
+async function pingSupabase() {
+    await supabaseRequest('users', {
+        method: 'GET',
+        query: {
+            select: 'legacy_id',
+            limit: 1
+        },
+        headers: {
+            Prefer: 'return=representation'
+        },
+        timeoutMs: 8000
     });
+}
 
-app.use(session({
-    secret: SESSION_SECRET,
-    store: MongoStore.create({
-        // Gunakan MongoClient yang sama dengan Mongoose agar Vercel tidak
-        // membuka koneksi MongoDB kedua saat cold start.
-        clientPromise: mongoClientPromise,
-        collectionName: process.env.MONGO_SESSION_COLLECTION || 'kerma_sessions',
-        ttl: SESSION_TTL_SECONDS,
-        autoRemove: 'native',
-        stringify: false
-    }),
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        secure: isProd,
-        sameSite: 'lax',
-        maxAge: SESSION_TTL_SECONDS * 1000
+function buildSupabaseStatusPayload(extra = {}) {
+    const host = SUPABASE_URL ? new URL(SUPABASE_URL).hostname : '';
+    return {
+        provider: 'supabase',
+        status: 'active',
+        host,
+        schema: SUPABASE_SCHEMA || 'public',
+        ...extra
+    };
+}
+
+async function safeMongoRead(label, reader, fallbackValue = []) {
+    return reader();
+}
+
+function toBase64Url(value) {
+    return Buffer.from(value)
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/g, '');
+}
+
+function fromBase64Url(value) {
+    const normalized = String(value || '')
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+    const padded = normalized + '='.repeat((4 - (normalized.length % 4 || 4)) % 4);
+    return Buffer.from(padded, 'base64').toString('utf8');
+}
+
+function signSessionToken(payload) {
+    const header = toBase64Url(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+    const body = toBase64Url(JSON.stringify(payload));
+    const signature = crypto
+        .createHmac('sha256', SESSION_SECRET)
+        .update(`${header}.${body}`)
+        .digest('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/g, '');
+    return `${header}.${body}.${signature}`;
+}
+
+function verifySessionToken(token) {
+    if (!token || typeof token !== 'string') return null;
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+
+    const [header, body, signature] = parts;
+    const expectedSignature = crypto
+        .createHmac('sha256', SESSION_SECRET)
+        .update(`${header}.${body}`)
+        .digest('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/g, '');
+
+    const actual = Buffer.from(signature);
+    const expected = Buffer.from(expectedSignature);
+    if (actual.length !== expected.length || !crypto.timingSafeEqual(actual, expected)) {
+        return null;
     }
-}));
+
+    try {
+        const payload = JSON.parse(fromBase64Url(body));
+        if (!payload || typeof payload !== 'object') return null;
+        if (payload.exp && Date.now() >= Number(payload.exp) * 1000) return null;
+        return payload;
+    } catch {
+        return null;
+    }
+}
+
+function parseCookies(req) {
+    const rawCookie = req.headers?.cookie;
+    if (!rawCookie) return {};
+
+    return rawCookie.split(';').reduce((acc, entry) => {
+        const separatorIndex = entry.indexOf('=');
+        if (separatorIndex < 0) return acc;
+        const key = entry.slice(0, separatorIndex).trim();
+        const value = entry.slice(separatorIndex + 1).trim();
+        if (!key) return acc;
+        acc[key] = decodeURIComponent(value);
+        return acc;
+    }, {});
+}
+
+function buildCookie(name, value, maxAgeSeconds = SESSION_TTL_SECONDS) {
+    const parts = [
+        `${name}=${encodeURIComponent(value)}`,
+        'Path=/',
+        'HttpOnly',
+        'SameSite=Lax',
+        `Max-Age=${Math.max(0, Math.floor(maxAgeSeconds))}`
+    ];
+
+    if (isProd) parts.push('Secure');
+    return parts.join('; ');
+}
+
+function setAuthCookie(res, user) {
+    const now = Math.floor(Date.now() / 1000);
+    const payload = {
+        sub: String(user.id),
+        username: user.username,
+        nama: user.nama,
+        role: user.role,
+        iat: now,
+        exp: now + SESSION_TTL_SECONDS
+    };
+    const token = signSessionToken(payload);
+    res.setHeader('Set-Cookie', buildCookie(AUTH_COOKIE_NAME, token, SESSION_TTL_SECONDS));
+}
+
+function clearAuthCookie(res) {
+    res.setHeader('Set-Cookie', buildCookie(AUTH_COOKIE_NAME, '', 0));
+}
+
+function attachSession(req, res, next) {
+    const cookies = parseCookies(req);
+    const tokenPayload = verifySessionToken(cookies[AUTH_COOKIE_NAME]);
+    const sessionUser = tokenPayload ? {
+        id: String(tokenPayload.sub || ''),
+        username: tokenPayload.username || '',
+        nama: tokenPayload.nama || '',
+        role: tokenPayload.role || ''
+    } : null;
+
+    req.session = {
+        user: sessionUser,
+        save(callback) {
+            if (typeof callback === 'function') callback(null);
+        },
+        destroy(callback) {
+            clearAuthCookie(res);
+            this.user = null;
+            if (typeof callback === 'function') callback(null);
+        }
+    };
+
+    next();
+}
+
+app.use(attachSession);
 
 function getOrigin(urlString) {
     try {
@@ -381,59 +506,76 @@ app.get('/healthz', (req, res) => {
         service: 'kerma',
         status: 'ok',
         ts: new Date().toISOString(),
-        mongoose: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+        supabase: buildSupabaseStatusPayload()
     });
 });
 
-app.get('/readyz', (req, res) => {
-    const connected = mongoose.connection.readyState === 1;
-    res.status(connected ? 200 : 503).json({
-        service: 'kerma',
-        status: connected ? 'ready' : 'not_ready',
-        ts: new Date().toISOString(),
-        requestId: req.requestId,
-        mongoose: connected ? 'connected' : 'disconnected'
-    });
+app.get('/readyz', async (req, res) => {
+    try {
+        await pingSupabase();
+        return res.status(200).json({
+            service: 'kerma',
+            status: 'ready',
+            ts: new Date().toISOString(),
+            requestId: req.requestId,
+            supabase: buildSupabaseStatusPayload({ check: 'data_api_ping' })
+        });
+    } catch (e) {
+        console.error('Ready check Supabase gagal:', e?.message || e);
+        return res.status(503).json({
+            service: 'kerma',
+            status: 'not_ready',
+            ts: new Date().toISOString(),
+            requestId: req.requestId,
+            supabase: {
+                ...buildSupabaseStatusPayload({ status: 'error', check: 'data_api_ping' }),
+                error: e?.message || 'Supabase ping gagal.'
+            }
+        });
+    }
 });
 
 app.get('/api/health', (req, res) => {
-    const connected = mongoose.connection.readyState === 1;
-    res.status(connected ? 200 : 503).json({
+    res.status(200).json({
         service: 'kerma',
         api: 'ok',
         ts: new Date().toISOString(),
         requestId: req.requestId,
-        mongo: connected ? 'connected' : 'disconnected'
+        supabase: buildSupabaseStatusPayload()
     });
 });
 
 app.get('/api/ready', async (req, res) => {
-    const connected = mongoose.connection.readyState === 1;
-    if (!connected) {
+    try {
+        await pingSupabase();
+        return res.json({
+            service: 'kerma',
+            api: 'ready',
+            requestId: req.requestId,
+            supabase: buildSupabaseStatusPayload({ check: 'data_api_ping' })
+        });
+    } catch (e) {
+        console.error('API ready check Supabase gagal:', e?.message || e);
         return res.status(503).json({
             service: 'kerma',
             api: 'not_ready',
-            requestId: req.requestId
+            requestId: req.requestId,
+            supabase: {
+                ...buildSupabaseStatusPayload({ status: 'error', check: 'data_api_ping' }),
+                error: e?.message || 'Supabase ping gagal.'
+            }
         });
-    }
-    try {
-        await mongoose.connection.db.admin().ping();
-        return res.json({ service: 'kerma', api: 'ready', requestId: req.requestId });
-    } catch (e) {
-        console.error('Ready check failed:', e?.message || e);
-        return res.status(503).json({ service: 'kerma', api: 'not_ready', requestId: req.requestId });
     }
 });
 
 app.post('/api/login', async (req, res, next) => {
     try {
         const { username, password } = req.body;
-        const user = await User.findOne({ username: username?.trim(), aktif: true });
-        if (!user || !user.cocokkanPassword(password))
+        const user = await userRepo.findByUsername(username);
+        if (!user || !userRepo.comparePassword(password, user.password))
             return res.status(401).json({ pesan: 'Username atau password salah.' });
-        // Simpan ID sebagai string agar tidak mencampur BSON dari Mongoose
-        // dengan BSON yang digunakan oleh connect-mongo.
         req.session.user = { id: String(user._id), username: user.username, nama: user.nama, role: user.role };
+        setAuthCookie(res, req.session.user);
         req.session.save((err) => {
             if (err) return next(err);
             return res.json({ pesan: 'Login berhasil.', role: user.role, nama: user.nama });
@@ -618,7 +760,6 @@ app.put('/api/plotting-kerma', requireLogin, async (req, res) => {
     }
 });
 
-const MONGO_FILE_BUCKET = process.env.MONGO_FILE_BUCKET || 'kerma_uploads';
 const MAX_UPLOAD_BYTES = Number(process.env.FILE_UPLOAD_MAX_BYTES || 15 * 1024 * 1024);
 const configuredUploadChunkBytes = Number(process.env.FILE_UPLOAD_CHUNK_BYTES || 2 * 1024 * 1024);
 const UPLOAD_CHUNK_BYTES = Number.isFinite(configuredUploadChunkBytes)
@@ -657,16 +798,6 @@ const LABEL_PAGU_BY_FIELD = Object.freeze({
     pagu_jasa: 'PAGU Jasa',
     pagu_modal: 'PAGU Modal'
 });
-let gridFsBucket;
-
-function getUploadBucket() {
-    if (!gridFsBucket) {
-        if (!mongoose.connection || !mongoose.connection.db) throw new Error('Koneksi database belum siap untuk menyimpan file.');
-        gridFsBucket = new GridFSBucket(mongoose.connection.db, { bucketName: MONGO_FILE_BUCKET });
-    }
-    return gridFsBucket;
-}
-
 function normalisasiNamaFileInput(namaAsli = '') {
     return String(namaAsli).replace(/[\u0000-\u001f\u007f]/g, '').replace(/[\\\/:*?"<>|]/g, '_').trim();
 }
@@ -766,37 +897,6 @@ function setDownloadHeaders(res, filename, mimeType) {
     res.setHeader('X-Content-Type-Options', 'nosniff');
 }
 
-async function hapusUploadSebelumnya(filename, kind) {
-    const bucket = getUploadBucket();
-    const existing = await bucket.find({ filename: path.basename(filename), 'metadata.kind': kind }).toArray();
-    await Promise.all(existing.map(async f => {
-        try { await bucket.delete(f._id); } catch (e) { console.warn('Gagal hapus file lama:', e?.message || e); }
-    }));
-}
-
-async function unggahBufferKeGridFS(filename, buffer, metadata = {}) {
-    const bucket = getUploadBucket();
-    const safeName = path.basename(filename);
-    const upload = bucket.openUploadStream(safeName, {
-        metadata: {
-            kind: metadata.kind,
-            originalName: normalisasiNamaFileInput(metadata.originalName || safeName),
-            uploadedAt: new Date(),
-            uploadedBy: metadata.uploadedBy || null,
-            mimeType: metadata.mimeType || 'application/octet-stream'
-        },
-        contentType: metadata.mimeType || 'application/octet-stream'
-    });
-
-    await new Promise((resolve, reject) => {
-        upload.on('error', reject);
-        upload.on('finish', resolve);
-        upload.end(buffer);
-    });
-
-    return safeName;
-}
-
 async function simpanBufferKontrak(idProgram, buffer, fileNama, uploadedBy) {
     const fileNameSafe = normalisasiNamaFileUpload(fileNama);
     const ext = path.extname(fileNameSafe).toLowerCase();
@@ -807,11 +907,13 @@ async function simpanBufferKontrak(idProgram, buffer, fileNama, uploadedBy) {
         throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
     }
     const mimeType = validateUploadBuffer(ext, buffer, fileNameSafe);
-    await hapusUploadSebelumnya(safeName, UPLOAD_KIND_KONTRAK);
-    return unggahBufferKeGridFS(safeName, buffer, {
+    return uploadAppFile({
         kind: UPLOAD_KIND_KONTRAK,
+        storedName: safeName,
         originalName: fileNameSafe,
+        idProgram,
         uploadedBy,
+        buffer,
         mimeType
     });
 }
@@ -830,14 +932,14 @@ async function simpanBufferAddendum(idProgram, buffer, fileNama, noUrut, uploade
         throw new Error(`File terlalu besar (maks ${Math.floor(MAX_UPLOAD_BYTES / 1024 / 1024)} MB).`);
     }
     const mimeType = validateUploadBuffer(ext, buffer, fileNameSafe);
-    await hapusUploadSebelumnya(safeName, UPLOAD_KIND_ADDENDUM);
-    return unggahBufferKeGridFS(safeName, buffer, {
+    return uploadAppFile({
         kind: UPLOAD_KIND_ADDENDUM,
+        storedName: safeName,
         originalName: fileNameSafe,
+        idProgram,
         uploadedBy,
-        mimeType,
-        program: idProgram,
-        sequence: Number(noUrut) || 1
+        buffer,
+        mimeType
     });
 }
 
@@ -970,42 +1072,12 @@ function getUploadLocalFallback(jenis, file) {
 }
 
 async function streamGridFSFileToResponse(res, filename, kind, fallbackPath = null) {
-    const baseName = path.basename(filename || '');
-    if (!baseName) return { found: false };
-    if (fallbackPath) {
-        return await new Promise((resolve) => {
-            const stream = fs.createReadStream(fallbackPath);
-            const onError = () => resolve({ found: false });
-            stream.on('error', onError);
-            stream.once('open', () => {
-                setDownloadHeaders(
-                    res,
-                    baseName,
-                    mimeDariEkstensi(path.extname(baseName)) || 'application/octet-stream'
-                );
-                stream.pipe(res);
-                resolve({ found: true });
-            });
-            stream.on('close', () => {});
-        });
-    }
-
-    const bucket = getUploadBucket();
-    const files = await bucket.find({ filename: baseName, 'metadata.kind': kind })
-        .sort({ uploadDate: -1 })
-        .limit(1)
-        .toArray();
-    if (!files.length) return { found: false };
-    const f = files[0];
-    const mime = (f.metadata && f.metadata.mimeType) || mimeDariEkstensi(path.extname(baseName));
-    setDownloadHeaders(res, baseName, mime);
-    await new Promise((resolve, reject) => {
-        const stream = bucket.openDownloadStream(f._id);
-        stream.on('error', err => reject(err));
-        stream.on('end', resolve);
-        stream.pipe(res);
+    return streamAppFileToResponse(res, {
+        kind,
+        storedName: filename,
+        fallbackPath,
+        setDownloadHeaders
     });
-    return { found: true };
 }
 
 async function siapkanFileKontrakLokal(data = {}) {
@@ -1022,27 +1094,17 @@ async function siapkanFileKontrakLokal(data = {}) {
         };
     }
 
-    const bucket = getUploadBucket();
-    const files = await bucket.find({
-        filename: file,
-        'metadata.kind': UPLOAD_KIND_KONTRAK
-    }).sort({ uploadDate: -1 }).limit(1).toArray();
-
-    if (!files.length) return { data, cleanup: () => {} };
-
-    const outputDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kerma-kontrak-source-'));
-    const outputPath = path.join(outputDir, file);
     try {
-        await pipeline(
-            bucket.openDownloadStream(files[0]._id),
-            fs.createWriteStream(outputPath)
-        );
+        const prepared = await prepareAppPdfLocal({
+            kind: UPLOAD_KIND_KONTRAK,
+            storedName: file
+        });
+        if (!prepared) return { data, cleanup: () => {} };
         return {
-            data: { ...data, file_kontrak_local_path: outputPath },
-            cleanup: () => fs.rmSync(outputDir, { recursive: true, force: true })
+            data: { ...data, file_kontrak_local_path: prepared.path },
+            cleanup: prepared.cleanup
         };
     } catch (err) {
-        fs.rmSync(outputDir, { recursive: true, force: true });
         throw err;
     }
 }
@@ -1295,9 +1357,9 @@ async function hitungSaldoRiProgram(idProgram, sampaiTanggal = null) {
     const batasTanggal = sampaiTanggal ? new Date(sampaiTanggal) : null;
     if (batasTanggal) batasTanggal.setHours(0, 0, 0, 0);
     const [pembayaranRows, rencanaRows, realisasiRows] = await Promise.all([
-        RealisasiPembayaran.find({ id_program: idProgram }).lean(),
+        safeMongoRead('RealisasiPembayaran.find(id_program)', () => RealisasiPembayaran.find({ id_program: idProgram }).lean(), []),
         RencanaAnggaran.find({ id_program: idProgram }).lean(),
-        RealisasiAnggaran.find({ id_program: idProgram }).lean()
+        safeMongoRead('RealisasiAnggaran.find(id_program)', () => RealisasiAnggaran.find({ id_program: idProgram }).lean(), [])
     ]);
     const totalPenerimaan = pembayaranRows
         .filter(row => tanggalMasukRentangSaldo(row.tanggal, batasTanggal, false))
@@ -2157,7 +2219,7 @@ async function bangunJadwalRealisasiPembayaran(options = {}) {
     const basisTanggal = options.basisTanggal || 'realisasi';
     const gunakanTanggalRencana = basisTanggal === 'rencana';
     const [pembayaranList, programs, rencanaPembiayaan] = await Promise.all([
-        RealisasiPembayaran.find({}).sort({ tanggal: 1 }).lean(),
+        safeMongoRead('RealisasiPembayaran.find(all)', () => RealisasiPembayaran.find({}).sort({ tanggal: 1 }).lean(), []),
         Program.find({}).lean(),
         gunakanTanggalRencana
             ? Promise.resolve(options.jadwalPembiayaan ? { jadwal: options.jadwalPembiayaan } : bangunJadwalPembiayaan())
@@ -2888,15 +2950,17 @@ async function handleIndikatorPimpinan(req, res) {
 
 app.get('/api/daftar-kerma', async (req, res) => {
     try {
-        const [programs, addendumCounts] = await Promise.all([
+        const [programs, addendumList] = await Promise.all([
             Program.find({}).lean(),
-            Addendum.aggregate([
-                { $group: { _id: '$id_program', count: { $sum: 1 } } }
-            ])
+            Addendum.find({}).lean()
         ]);
 
         const addMap = {};
-        addendumCounts.forEach(a => { addMap[a._id] = a.count; });
+        addendumList.forEach((row) => {
+            const key = String(row.id_program || '').trim();
+            if (!key) return;
+            addMap[key] = (addMap[key] || 0) + 1;
+        });
 
         const urutProgram = [...programs].sort((a, b) => {
             const tglA = parseTanggalDashboard(a.tgl_kontrak);
@@ -3948,7 +4012,11 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
 }
 
 async function bangunRencanaPendapatanBelumDirealisasikan() {
-    const realisasiPembayaran = await RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tahap rencana_tanggal rencana_nominal').lean();
+    const realisasiPembayaran = await safeMongoRead(
+        'RealisasiPembayaran.find(rencana-belum-direalisasikan)',
+        () => RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tahap rencana_tanggal rencana_nominal').lean(),
+        []
+    );
     const { jadwal, tanpaJadwal } = await bangunJadwalPembiayaan();
     const rowsTerjadwal = jadwal.map(buatRencanaPendapatanRowDariJadwal);
     const rowsTanpaTanggal = tanpaJadwal.map(buatRencanaPendapatanRowTanpaTanggal);
@@ -3986,7 +4054,11 @@ async function bangunRencanaPendapatanBelumDirealisasikan() {
 }
 
 async function bangunRencanaPendapatanTermin() {
-    const realisasiPembayaran = await RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tahap rencana_tanggal rencana_nominal').lean();
+    const realisasiPembayaran = await safeMongoRead(
+        'RealisasiPembayaran.find(rencana-termin)',
+        () => RealisasiPembayaran.find({}, 'id_program kode_file tanggal nominal nominal_bruto potongan_persen rencana_key rencana_tahap rencana_tanggal rencana_nominal').lean(),
+        []
+    );
 
     const { jadwal, tanpaJadwal } = await bangunJadwalPembiayaan();
     const rowsTerjadwal = jadwal.map(buatRencanaPendapatanRowDariJadwal);
@@ -5083,7 +5155,7 @@ app.get('/api/daftar-realisasi-pembayaran', async (req, res) => {
     try {
         const filter = req.query.kodeFile ? { kode_file: req.query.kodeFile } : {};
         const [list, programs, rencanaPembayaran] = await Promise.all([
-            RealisasiPembayaran.find(filter).sort({ tanggal: -1 }).lean(),
+            safeMongoRead('RealisasiPembayaran.find(daftar)', () => RealisasiPembayaran.find(filter).sort({ tanggal: -1 }).lean(), []),
             Program.find({}).lean(),
             bangunJadwalPembiayaan()
         ]);
@@ -5215,8 +5287,8 @@ app.put('/api/realisasi-pembayaran/:id', async (req, res) => {
 
         const hitungPosisiProgram = async (idProgram, nominalPembayaranBaru = 0) => {
             const [pembayaranRows, anggaranRows] = await Promise.all([
-                RealisasiPembayaran.find({ id_program: idProgram }).lean(),
-                RealisasiAnggaran.find({ id_program: idProgram }).lean()
+                safeMongoRead('RealisasiPembayaran.find(posisi-program)', () => RealisasiPembayaran.find({ id_program: idProgram }).lean(), []),
+                safeMongoRead('RealisasiAnggaran.find(posisi-program)', () => RealisasiAnggaran.find({ id_program: idProgram }).lean(), [])
             ]);
             const totalPembayaran = pembayaranRows
                 .filter(row => String(row._id) !== String(existing._id))
@@ -5434,7 +5506,7 @@ function bentukPaguAnggaran(row, program = {}, realisasiPenerimaan = 0, rkaTerku
 async function totalRealisasiPenerimaanProgram(idProgram) {
     const id = String(idProgram || '').trim();
     if (!id) return 0;
-    const pembayaranRows = await RealisasiPembayaran.find({ id_program: id }).lean();
+    const pembayaranRows = await safeMongoRead('RealisasiPembayaran.find(total-program)', () => RealisasiPembayaran.find({ id_program: id }).lean(), []);
     return pembayaranRows.reduce((sum, row) => sum + nominalRealisasiPenerimaan(row), 0);
 }
 
@@ -6086,8 +6158,8 @@ app.get('/api/sisa-anggaran', async (req, res) => {
     try {
         const [programs, semuaRealisasi, semuaPembayaran, rencanaBelumDiterima] = await Promise.all([
             Program.find({}).lean(),
-            RealisasiAnggaran.find({}).lean(),
-            RealisasiPembayaran.find({}).lean(),
+            safeMongoRead('RealisasiAnggaran.find(sisa-anggaran)', () => RealisasiAnggaran.find({}).lean(), []),
+            safeMongoRead('RealisasiPembayaran.find(sisa-anggaran)', () => RealisasiPembayaran.find({}).lean(), []),
             bangunRencanaPendapatanBelumDirealisasikan()
         ]);
         const totalRealisasiByProgram = new Map();

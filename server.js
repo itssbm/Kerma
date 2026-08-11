@@ -6,7 +6,11 @@ const PORT = process.env.PORT || 3000;
 (async () => {
     await connectDB();
     if (typeof app.initDataIndustri === 'function') {
-        await app.initDataIndustri();
+        try {
+            await app.initDataIndustri();
+        } catch (err) {
+            console.error('Init data industri dilewati (bukan blocker startup):', err?.message || err);
+        }
     }
     app.listen(PORT, () => console.log(`Sistem berjalan di http://localhost:${PORT}`));
 })();

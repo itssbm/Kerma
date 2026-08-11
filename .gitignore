@@ -47,3 +47,9 @@ logs/
 # Data/backup generated locally
 data/backups/
 mongo-data-export/
+public/uploads/
+*.ndjson
+supabase-manual-import/
+supabase-migration/
+/.tmp/
+tmp/
