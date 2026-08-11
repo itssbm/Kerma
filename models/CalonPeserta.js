@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
+const createModelAdapter = require('../services/repo/modelAdapter');
 
-const calonPesertaSchema = new mongoose.Schema({
-    id_program:   { type: String, required: true, trim: true },
-    no_seleksi:   { type: String, required: true, trim: true },
-    nama_lengkap: { type: String, default: '' }
-}, { timestamps: false });
-
-module.exports = mongoose.model('CalonPeserta', calonPesertaSchema, 'calon_peserta');
+module.exports = createModelAdapter({
+    tableName: 'calon_peserta',
+    fields: ['id_program', 'no_seleksi', 'nama_lengkap'],
+    uniqueKeys: [['id_program', 'no_seleksi']]
+});

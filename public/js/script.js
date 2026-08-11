@@ -25303,7 +25303,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!item) return;
         // Pastikan data industri sudah termuat
         if (allIndustriData.length === 0) {
-            try { const r = await fetch('/api/daftar-industri'); allIndustriData = await r.json(); } catch {}
+            try {
+                const r = await fetch('/api/daftar-industri');
+                allIndustriData = urutkanDataIndustri(await r.json());
+            } catch {}
         }
         bukaModalEdit(item);
     });
@@ -25345,7 +25348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (allIndustriData.length === 0) {
             try {
                 const res = await fetch('/api/daftar-industri');
-                allIndustriData = await res.json();
+                allIndustriData = urutkanDataIndustri(await res.json());
             } catch { return; }
         }
         const nilaiSaat = select.value;
@@ -25363,6 +25366,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const formAlertIndustri      = document.getElementById('formAlertIndustri');
 
     let allIndustriData = [];
+
+    function urutkanDataIndustri(data = []) {
+        return [...data].sort((a, b) => {
+            const kode = String(a?.kode_kategori || '').localeCompare(
+                String(b?.kode_kategori || ''),
+                'id',
+                { numeric: true, sensitivity: 'base' }
+            );
+            if (kode !== 0) return kode;
+            return String(a?.nama_sektor || '').localeCompare(
+                String(b?.nama_sektor || ''),
+                'id',
+                { sensitivity: 'base' }
+            );
+        });
+    }
 
     function renderTabelIndustri(data) {
         bodyTabelIndustri.innerHTML = '';
@@ -25396,7 +25415,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             bodyTabelIndustri.innerHTML = tableState(3, 'loading', 'Memuat data industri', 'Mengambil daftar kategori sektor dan ruang lingkup.');
             const respon = await fetch('/api/daftar-industri');
-            allIndustriData = await respon.json();
+            allIndustriData = urutkanDataIndustri(await respon.json());
             renderTabelIndustri(allIndustriData);
         } catch {
             bodyTabelIndustri.innerHTML = tableState(3, 'error', 'Gagal memuat data industri', 'Periksa koneksi server atau coba kembali beberapa saat lagi.');
@@ -25920,7 +25939,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (allIndustriData.length === 0) {
             try {
                 const res = await fetch('/api/daftar-industri');
-                allIndustriData = await res.json();
+                allIndustriData = urutkanDataIndustri(await res.json());
             } catch { allIndustriData = []; }
         }
         kontrakIndustriMitra.innerHTML = '<option value="">-- Pilih Industri Mitra --</option>'

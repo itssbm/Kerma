@@ -58,3 +58,9 @@ public/uploads/
 
 # Excel lock files
 ~$*.xlsx
+
+# Supabase migration artifacts
+*.ndjson
+supabase-manual-import/
+supabase-migration/
+/.tmp/
