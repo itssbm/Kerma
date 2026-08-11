@@ -6494,7 +6494,9 @@ app.get('/api/cicilan/:id_program', async (req, res) => {
 
 app.get('/api/daftar-industri', async (req, res) => {
     try {
-        const list = await Industri.find({}).lean();
+        const list = await Industri.find({})
+            .sort({ kode_kategori: 1, nama_sektor: 1 })
+            .lean();
         res.json(list.map(d => ({
             kode_kategori: d.kode_kategori,
             nama_sektor: d.nama_sektor,
