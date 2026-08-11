@@ -264,6 +264,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const plottingProcessProgressBar = document.getElementById('plottingProcessProgressBar');
     const eksporSisaPaguJumlahPks = document.getElementById('eksporSisaPaguJumlahPks');
     const eksporSisaPaguTotalNominal = document.getElementById('eksporSisaPaguTotalNominal');
+    const eksporSisaPaguTotalRealisasiPlotting = document.getElementById('eksporSisaPaguTotalRealisasiPlotting');
+    const eksporSisaPaguTotalSisaPaguPlotting = document.getElementById('eksporSisaPaguTotalSisaPaguPlotting');
     const indikatorPosisiKosongPlotSk = document.getElementById('indikatorPosisiKosongPlotSk');
     const detailPosisiKosongPlotSk = document.getElementById('detailPosisiKosongPlotSk');
     const indikatorSelisihPosisiPlotSk = document.getElementById('indikatorSelisihPosisiPlotSk');
@@ -15060,6 +15062,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             setText(eksporSisaPaguJumlahPks, rowsValid.length.toLocaleString('id-ID'));
             setText(eksporSisaPaguTotalNominal, formatRupiahKomaDash(
                 rowsValid.reduce((sum, row) => sum + (Number(row.sisa_pagu_alokasi_kerma) || 0), 0)
+            ));
+            setText(eksporSisaPaguTotalRealisasiPlotting, formatRupiahKomaDash(
+                rowsValid.reduce((sum, row) => sum + (Number(row.realisasi_pagu_plotting) || 0), 0)
+            ));
+            setText(eksporSisaPaguTotalSisaPaguPlotting, formatRupiahKomaDash(
+                rowsValid.reduce((sum, row) => sum + (Number(row.sisa_pagu_plotting) || 0), 0)
             ));
         };
         if (loading) {

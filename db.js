@@ -1,4 +1,12 @@
-require('dotenv').config();
+const path = require('path');
+
+const configuredEnvPath = process.env.DOTENV_CONFIG_PATH
+    ? path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH)
+    : path.resolve(__dirname, '.env');
+
+require('dotenv').config({
+    path: [configuredEnvPath, path.resolve(__dirname, '../.env')]
+});
 const mongoose = require('mongoose');
 
 const isProd = process.env.NODE_ENV === 'production';
