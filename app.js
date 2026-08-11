@@ -1,4 +1,12 @@
-require('dotenv').config();
+const path = require('path');
+
+const configuredEnvPath = process.env.DOTENV_CONFIG_PATH
+    ? path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH)
+    : path.resolve(__dirname, '.env');
+
+require('dotenv').config({
+    path: [configuredEnvPath, path.resolve(__dirname, '../.env')]
+});
 const express    = require('express');
 const bcrypt     = require('bcryptjs');
 const ExcelJS    = require('exceljs');
@@ -6,7 +14,6 @@ const PizZip     = require('pizzip');
 const Docxtemplater = require('docxtemplater');
 const AdmZip     = require('adm-zip');
 const fs         = require('fs');
-const path       = require('path');
 const os         = require('os');
 const { execFileSync } = require('child_process');
 const crypto     = require('crypto');
