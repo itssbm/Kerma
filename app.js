@@ -647,6 +647,9 @@ function payloadPlottingAman(payload = {}) {
             ? sumber.statusMulaiPlottingKerma
             : {},
         daftarHasilSimulasiPlotting: daftarHasilSimulasi,
+        daftarNominatifBySimulasi: sumber.daftarNominatifBySimulasi && typeof sumber.daftarNominatifBySimulasi === 'object'
+            ? sumber.daftarNominatifBySimulasi
+            : {},
         nomorSkByPksTersimpan: sumber.nomorSkByPksTersimpan && typeof sumber.nomorSkByPksTersimpan === 'object'
             ? sumber.nomorSkByPksTersimpan
             : {},
@@ -724,6 +727,12 @@ app.put('/api/plotting-kerma', requireLogin, async (req, res) => {
                     ? payload.plotSkBidangManual
                     : {})
             };
+        }
+        if (!Object.prototype.hasOwnProperty.call(req.body || {}, 'daftarNominatifBySimulasi') && existing) {
+            const existingPayload = extractPayloadPlotting(existing);
+            payload.daftarNominatifBySimulasi = existingPayload.daftarNominatifBySimulasi && typeof existingPayload.daftarNominatifBySimulasi === 'object'
+                ? existingPayload.daftarNominatifBySimulasi
+                : {};
         }
 
         if (existing) {
@@ -4721,6 +4730,108 @@ app.post('/api/plotting-kerma/sk-tim-pengelola', requireLogin, async (req, res) 
         console.error('Gagal membuat SK Tim Pengelola Kerma:', err);
         const status = /LibreOffice|soffice|PDF/i.test(pesan) ? 503 : 500;
         res.status(status).json({ pesan });
+    }
+});
+
+const DAFTAR_NOMINATIF_MONTH_KEYS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+const DAFTAR_NOMINATIF_EXPORT_COLUMNS = [
+    ['nip', 'NIP/No. Pegawai'],
+    ['nama', 'Nama Pegawai'],
+    ['no_sk', 'No. SK'],
+    ['jabatan', 'Jabatan dalam SK'],
+    ['kode_file', 'Kode File'],
+    ['judul_kegiatan', 'Judul Kegiatan'],
+    ['periode', 'Periode'],
+    ['satuan_honor', 'Satuan Honor (Orang Bulan)'],
+    ['tarif_maksimal', 'Tarif Maksimal'],
+    ['nilai_satuan', 'Nilai Satuan'],
+    ['volume', 'Volume'],
+    ['total_honor', 'Total Honor'],
+    ...DAFTAR_NOMINATIF_MONTH_KEYS.map(key => [`bulan_${key}`, key]),
+    ['total', 'Total'],
+    ['selisih', 'Selisih'],
+    ['keterangan', 'Keterangan']
+];
+
+function nilaiBarisDaftarNominatifExport(row = {}, key = '') {
+    if (key.startsWith('bulan_')) return Number(row.bulan?.[key.slice(6)]) || 0;
+    if (['tarif_maksimal', 'nilai_satuan', 'volume', 'total_honor', 'total', 'selisih'].includes(key)) {
+        return Number(row[key]) || 0;
+    }
+    return String(row[key] || '');
+}
+
+app.post('/api/daftar-nominatif/export', requireLogin, async (req, res) => {
+    try {
+        const daftarFile = Array.isArray(req.body?.files) ? req.body.files.slice(0, 100) : [];
+        if (!daftarFile.length) return res.status(400).json({ pesan: 'Pilih minimal satu kode file untuk diunduh.' });
+
+        const workbook = new ExcelJS.Workbook();
+        workbook.creator = 'Aplikasi Kerma SBM ITB';
+        workbook.created = new Date();
+        const namaSheetTerpakai = new Set();
+
+        daftarFile.forEach((file, fileIndex) => {
+            const kodeFile = String(file?.kode_file || `Kode File ${fileIndex + 1}`).trim();
+            const basisSheet = sanitizeFilename(kodeFile).replace(/[\[\]*?:/\\]/g, '-').slice(0, 31) || `PKS-${fileIndex + 1}`;
+            let namaSheet = basisSheet;
+            let nomorSheet = 2;
+            while (namaSheetTerpakai.has(namaSheet)) {
+                const suffix = `-${nomorSheet++}`;
+                namaSheet = `${basisSheet.slice(0, 31 - suffix.length)}${suffix}`;
+            }
+            namaSheetTerpakai.add(namaSheet);
+
+            const worksheet = workbook.addWorksheet(namaSheet);
+            worksheet.views = [{ state: 'frozen', ySplit: 1 }];
+            worksheet.autoFilter = {
+                from: 'A1',
+                to: 'AA1'
+            };
+            worksheet.columns = DAFTAR_NOMINATIF_EXPORT_COLUMNS.map(([key, header]) => ({
+                key,
+                header,
+                width: key === 'nama' ? 28 : key === 'jabatan' ? 34 : key === 'judul_kegiatan' ? 34 : key === 'keterangan' ? 24 : 16
+            }));
+            const headerRow = worksheet.getRow(1);
+            headerRow.height = 32;
+            headerRow.eachCell(cell => {
+                cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+                cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+                cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '004B87' } };
+                cell.border = { bottom: { style: 'thin', color: { argb: 'CBD5E0' } } };
+            });
+
+            const rows = Array.isArray(file?.rows) ? file.rows.slice(0, 5000) : [];
+            rows.forEach(row => worksheet.addRow(Object.fromEntries(
+                DAFTAR_NOMINATIF_EXPORT_COLUMNS.map(([key]) => [key, nilaiBarisDaftarNominatifExport(row, key)])
+            )));
+            worksheet.eachRow((row, index) => {
+                if (index === 1) return;
+                row.eachCell((cell, columnNumber) => {
+                    cell.alignment = { vertical: 'middle', wrapText: columnNumber === 4 || columnNumber === 6 || columnNumber === 27 };
+                    cell.border = { bottom: { style: 'hair', color: { argb: 'E4EAF2' } } };
+                    if (index % 2 === 0) cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'F8FAFD' } };
+                });
+            });
+            const numericKeys = new Set(['tarif_maksimal', 'nilai_satuan', 'total_honor', ...DAFTAR_NOMINATIF_MONTH_KEYS.map(key => `bulan_${key}`), 'total', 'selisih']);
+            DAFTAR_NOMINATIF_EXPORT_COLUMNS.forEach(([key], index) => {
+                if (numericKeys.has(key)) {
+                    worksheet.getColumn(index + 1).numFmt = '#,##0';
+                    worksheet.getColumn(index + 1).alignment = { horizontal: 'right', vertical: 'middle' };
+                }
+            });
+        });
+
+        const buffer = await workbook.xlsx.writeBuffer();
+        const namaSimulasi = sanitizeFilename(req.body?.simulation_name || '');
+        const filename = `Daftar Nominatif${namaSimulasi ? ` - ${namaSimulasi}` : ''}.xlsx`;
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(Buffer.from(buffer));
+    } catch (err) {
+        console.error('Gagal mengekspor daftar nominatif:', err);
+        return res.status(500).json({ pesan: err?.message || 'Gagal mengekspor daftar nominatif.' });
     }
 });
 

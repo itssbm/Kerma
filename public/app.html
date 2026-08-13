@@ -55,6 +55,7 @@
 
                 <span class="nav-category">Ekspor</span>
                 <a href="#" class="nav-item" id="menuPlottingKerma"><span class="nav-icon">🧩</span>Plotting Kerma</a>
+                <a href="#" class="nav-item" id="menuDaftarNominatif"><span class="nav-icon">📋</span>Daftar Nominatif</a>
                 <a href="#" class="nav-item" id="menuLaporan"><span class="nav-icon">📊</span>Laporan</a>
                 <a href="#" class="nav-item" id="menuKontrak"><span class="nav-icon">📝</span>Kontrak / PKS</a>
             </nav>
@@ -2355,6 +2356,112 @@
                             <table id="tabelPlottingKerma" class="plotting-table">
                                 <thead id="headTabelPlottingKerma"></thead>
                                 <tbody id="bodyTabelPlottingKerma"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sectionDaftarNominatif" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Export register</span>
+                        <h1>Daftar Nominatif</h1>
+                        <p>Siapkan daftar honor per kode file dari hasil Plot SK Bidang yang sudah disimpan.</p>
+                    </div>
+                </header>
+                <div class="nominatif-workspace">
+                    <section class="nominatif-selection-panel" aria-label="Pilihan daftar nominatif">
+                        <div class="nominatif-selection-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="selectDaftarNominatifSimulasi">Daftar Hasil Simulasi</label>
+                                <select id="selectDaftarNominatifSimulasi" class="form-input">
+                                    <option value="">Pilih hasil simulasi</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="selectDaftarNominatifKodeFile">Kode File</label>
+                                <select id="selectDaftarNominatifKodeFile" class="form-input" disabled>
+                                    <option value="">Pilih kode file</option>
+                                </select>
+                            </div>
+                            <div class="nominatif-selection-actions">
+                                <button type="button" id="btnBukaDaftarNominatif" class="btn-primary" disabled>Buka Tabel</button>
+                                <button type="button" id="btnSimpanDaftarNominatif" class="btn-secondary" disabled>Simpan</button>
+                            </div>
+                        </div>
+                        <div id="infoDaftarNominatif" class="nominatif-selection-info" role="status">Pilih hasil simulasi dan kode file untuk membuka tabel.</div>
+                    </section>
+
+                    <div class="mahasiswa-tab-bar nominatif-tab-bar" role="tablist" aria-label="Daftar nominatif">
+                        <button type="button" class="mahasiswa-tab active" id="tabDaftarNominatifTabel" role="tab" aria-selected="true">Daftar Nominatif</button>
+                        <button type="button" class="mahasiswa-tab" id="tabDaftarNominatifKodeFile" role="tab" aria-selected="false">Daftar Kode File</button>
+                    </div>
+
+                    <div id="panelDaftarNominatifTabel" class="nominatif-tab-panel" role="tabpanel">
+                        <div id="ringkasanDaftarNominatif" class="nominatif-summary" hidden></div>
+                        <div class="table-container nominatif-table-container">
+                            <table id="tabelDaftarNominatif" class="nominatif-table">
+                                <thead>
+                                    <tr>
+                                        <th>NIP/No. Pegawai</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>No. SK</th>
+                                        <th>Jabatan dalam SK</th>
+                                        <th>Kode File</th>
+                                        <th>Judul Kegiatan</th>
+                                        <th>Periode</th>
+                                        <th>Satuan Honor<br>(Orang Bulan)</th>
+                                        <th>Tarif Maksimal</th>
+                                        <th>Nilai Satuan</th>
+                                        <th>Volume</th>
+                                        <th>Total Honor</th>
+                                        <th>Jan</th>
+                                        <th>Feb</th>
+                                        <th>Mar</th>
+                                        <th>Apr</th>
+                                        <th>Mei</th>
+                                        <th>Jun</th>
+                                        <th>Jul</th>
+                                        <th>Agu</th>
+                                        <th>Sep</th>
+                                        <th>Okt</th>
+                                        <th>Nov</th>
+                                        <th>Des</th>
+                                        <th>Total</th>
+                                        <th>Selisih</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bodyTabelDaftarNominatif">
+                                    <tr class="table-state-row"><td colspan="27"><div class="table-state table-state--empty"><strong>Belum ada tabel yang dibuka</strong><small>Pilih hasil simulasi dan kode file di atas.</small></div></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="panelDaftarNominatifKodeFile" class="nominatif-tab-panel" role="tabpanel" hidden>
+                        <div class="nominatif-code-toolbar">
+                            <label class="list-item-selectall"><input type="checkbox" id="checkAllDaftarNominatifKodeFile"><span>Pilih semua</span></label>
+                            <button type="button" id="btnDownloadDaftarNominatif" class="btn-primary" disabled>Download Excel</button>
+                        </div>
+                        <div class="table-container nominatif-code-table-container">
+                            <table class="nominatif-code-table">
+                                <thead>
+                                    <tr>
+                                        <th>Pilih</th>
+                                        <th>No.</th>
+                                        <th>Kode File</th>
+                                        <th>Mitra</th>
+                                        <th>Judul Kegiatan</th>
+                                        <th>Periode</th>
+                                        <th>Jumlah Personil</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bodyTabelDaftarNominatifKodeFile">
+                                    <tr class="table-state-row"><td colspan="8"><div class="table-state table-state--empty"><strong>Belum ada daftar kode file tersimpan</strong><small>Simpan tabel nominatif per kode file terlebih dahulu.</small></div></td></tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

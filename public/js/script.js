@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const menuTambahMahasiswa          = document.getElementById('menuTambahMahasiswa');
     const menuTambahIndustri           = document.getElementById('menuTambahIndustri');
     const menuPlottingKerma            = document.getElementById('menuPlottingKerma');
+    const menuDaftarNominatif           = document.getElementById('menuDaftarNominatif');
     const menuLaporan                  = document.getElementById('menuLaporan');
     const menuKontrak                  = document.getElementById('menuKontrak');
     const menuPimpinan                 = document.getElementById('menuPimpinan');
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sectionTambahMahasiswa       = document.getElementById('sectionTambahMahasiswa');
     const sectionTambahIndustri        = document.getElementById('sectionTambahIndustri');
     const sectionPlottingKerma         = document.getElementById('sectionPlottingKerma');
+    const sectionDaftarNominatif       = document.getElementById('sectionDaftarNominatif');
     const sectionLaporan               = document.getElementById('sectionLaporan');
     const sectionKontrak               = document.getElementById('sectionKontrak');
     const sectionFormKontrak           = document.getElementById('sectionFormKontrak');
@@ -186,6 +188,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const bodyTabelEksporPlotSkBidang = document.getElementById('bodyTabelEksporPlotSkBidang');
     const bodyTabelEksporPlottingRekapitulasi = document.getElementById('bodyTabelEksporPlottingRekapitulasi');
     const bodyTabelDaftarHasilSimulasi = document.getElementById('bodyTabelDaftarHasilSimulasi');
+    const selectDaftarNominatifSimulasi = document.getElementById('selectDaftarNominatifSimulasi');
+    const selectDaftarNominatifKodeFile = document.getElementById('selectDaftarNominatifKodeFile');
+    const btnBukaDaftarNominatif = document.getElementById('btnBukaDaftarNominatif');
+    const btnSimpanDaftarNominatif = document.getElementById('btnSimpanDaftarNominatif');
+    const infoDaftarNominatif = document.getElementById('infoDaftarNominatif');
+    const ringkasanDaftarNominatif = document.getElementById('ringkasanDaftarNominatif');
+    const bodyTabelDaftarNominatif = document.getElementById('bodyTabelDaftarNominatif');
+    const bodyTabelDaftarNominatifKodeFile = document.getElementById('bodyTabelDaftarNominatifKodeFile');
+    const tabDaftarNominatifTabel = document.getElementById('tabDaftarNominatifTabel');
+    const tabDaftarNominatifKodeFile = document.getElementById('tabDaftarNominatifKodeFile');
+    const panelDaftarNominatifTabel = document.getElementById('panelDaftarNominatifTabel');
+    const panelDaftarNominatifKodeFile = document.getElementById('panelDaftarNominatifKodeFile');
+    const checkAllDaftarNominatifKodeFile = document.getElementById('checkAllDaftarNominatifKodeFile');
+    const btnDownloadDaftarNominatif = document.getElementById('btnDownloadDaftarNominatif');
     const modalEditDaftarJabatanPlotting = document.getElementById('modalEditDaftarJabatanPlotting');
     const btnTutupModalEditDaftarJabatanPlotting = document.getElementById('btnTutupModalEditDaftarJabatanPlotting');
     const btnSimpanEditDaftarJabatanPlotting = document.getElementById('btnSimpanEditDaftarJabatanPlotting');
@@ -948,7 +964,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
     targetDistribusiBebanManual = normalisasiTargetDistribusiBebanManual(simpananPlottingKerma?.targetDistribusiBebanManual);
     terapkanBebanManualKeDistribusiRoles(targetDistribusiBebanManual);
+    const bulanDaftarNominatif = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
     let daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi(simpananPlottingKerma?.daftarHasilSimulasiPlotting);
+    let daftarNominatifBySimulasi = normalisasiDaftarNominatifBySimulasi(simpananPlottingKerma?.daftarNominatifBySimulasi);
+    let nominatifSimulasiDipilihId = '';
+    let nominatifKodeFileDipilih = '';
+    let nominatifRowsAktif = [];
     let nomorSkByPksTersimpan = {
         ...normalisasiNomorSkByPks(simpananPlottingKerma?.nomorSkByPksTersimpan),
         ...daftarHasilSimulasiPlotting.reduce((hasil, item) => ({
@@ -979,6 +1000,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             masterLevelJabatanPlotting,
             batasanSimulasiPlotting,
             daftarHasilSimulasiPlotting,
+            daftarNominatifBySimulasi,
             nomorSkByPksTersimpan,
             statusMulaiPlottingKerma: statusMulaiPlottingKermaState,
             rows: rowsPlottingKermaTersimpan()
@@ -992,6 +1014,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const plotManualLokal = plotSkBidangManual;
         const targetManualLokal = targetDistribusiBebanManual;
         const nomorSkLokal = nomorSkByPksTersimpan;
+        const nominatifLokal = daftarNominatifBySimulasi;
         const konfigurasiJabatanLokal = konfigurasiJabatanBidangPlotting;
         const pulihkanPlotManualLokal = !Object.keys(sumber.plotSkBidangManual || {}).length && Object.keys(plotManualLokal || {}).length > 0;
         const pulihkanTargetManualLokal = !Object.keys(sumber.targetDistribusiBebanManual || {}).length && Object.keys(targetManualLokal || {}).length > 0;
@@ -1061,6 +1084,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             Object.prototype.hasOwnProperty.call(sumber, 'daftarHasilSimulasiPlotting')
                 ? sumber.daftarHasilSimulasiPlotting
                 : daftarHasilSimulasiPlotting
+        );
+        daftarNominatifBySimulasi = normalisasiDaftarNominatifBySimulasi(
+            Object.prototype.hasOwnProperty.call(sumber, 'daftarNominatifBySimulasi')
+                ? sumber.daftarNominatifBySimulasi
+                : nominatifLokal
         );
         const nomorSkDariHasilSimulasi = daftarHasilSimulasiPlotting.reduce((hasil, item) => ({
             ...hasil,
@@ -2625,6 +2653,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
         return {
             nama,
+            nip: String(row.nip ?? row.no_pegawai ?? row.nomor_pegawai ?? '').trim(),
             peran: row.peran === 'Staf' ? 'Staf' : 'Dosen',
             jabatan_fungsional: String(row.jabatan_fungsional || '').trim(),
             gelar_depan: String(row.gelar_depan ?? row.gelarDepan ?? '').trim() || profilMaster?.gelar_depan || '',
@@ -2741,6 +2770,56 @@ document.addEventListener('DOMContentLoaded', async () => {
                 snapshot: normalisasiSnapshotHasilSimulasi(item.snapshot)
             }))
             .sort((a, b) => new Date(b.saved_at).getTime() - new Date(a.saved_at).getTime());
+    }
+
+    function normalisasiBarisDaftarNominatif(raw = {}) {
+        const sumber = raw && typeof raw === 'object' ? raw : {};
+        const bulan = bulanDaftarNominatif.reduce((hasil, nama) => {
+            const value = sumber.bulan?.[nama] ?? sumber.months?.[nama] ?? 0;
+            hasil[nama] = Number(value) || 0;
+            return hasil;
+        }, {});
+        return {
+            nip: String(sumber.nip ?? sumber.no_pegawai ?? '').trim(),
+            nama: String(sumber.nama || '').trim(),
+            no_sk: String(sumber.no_sk ?? sumber.nomor_sk ?? '').trim(),
+            jabatan: String(sumber.jabatan || '').trim(),
+            kode_file: String(sumber.kode_file || '').trim(),
+            judul_kegiatan: String(sumber.judul_kegiatan ?? sumber.judul_pks ?? '').trim(),
+            periode: String(sumber.periode || '').trim(),
+            satuan_honor: String(sumber.satuan_honor || 'Orang Bulan').trim(),
+            tarif_maksimal: Number(sumber.tarif_maksimal) || 0,
+            nilai_satuan: Number(sumber.nilai_satuan) || 0,
+            volume: Number(sumber.volume) || 0,
+            total_honor: Number(sumber.total_honor) || 0,
+            bulan,
+            total: Number(sumber.total) || 0,
+            selisih: Number(sumber.selisih) || 0,
+            keterangan: String(sumber.keterangan || '').trim()
+        };
+    }
+
+    function normalisasiDaftarNominatifBySimulasi(raw = {}) {
+        if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
+        return Object.entries(raw).reduce((hasil, [simulationId, files]) => {
+            if (!simulationId || !files || typeof files !== 'object' || Array.isArray(files)) return hasil;
+            hasil[String(simulationId)] = Object.entries(files).reduce((fileHasil, [kodeFile, file]) => {
+                if (!kodeFile || !file || typeof file !== 'object') return fileHasil;
+                fileHasil[String(kodeFile)] = {
+                    simulation_id: String(file.simulation_id || simulationId),
+                    simulation_name: String(file.simulation_name || '').trim(),
+                    kode_file: String(file.kode_file || kodeFile).trim(),
+                    id_program: String(file.id_program || '').trim(),
+                    nama_mitra: String(file.nama_mitra || '').trim(),
+                    judul_kegiatan: String(file.judul_kegiatan || '').trim(),
+                    periode: String(file.periode || '').trim(),
+                    saved_at: String(file.saved_at || ''),
+                    rows: Array.isArray(file.rows) ? file.rows.map(normalisasiBarisDaftarNominatif) : []
+                };
+                return fileHasil;
+            }, {});
+            return hasil;
+        }, {});
     }
 
     function normalisasiNomorSkByPks(raw = {}) {
@@ -14818,6 +14897,321 @@ document.addEventListener('DOMContentLoaded', async () => {
             || '';
     }
 
+    function periodeNominatifDariSnapshot(snapshot = {}) {
+        const awal = parseBulanPeriode(snapshot?.periodePengelolaKerma?.awal);
+        const akhir = parseBulanPeriode(snapshot?.periodePengelolaKerma?.akhir);
+        if (!awal || !akhir) return { awal: null, akhir: null, durasi: 0, label: '-' };
+        const durasi = ((akhir.tahun - awal.tahun) * 12) + akhir.bulan - awal.bulan + 1;
+        const labelAwal = `${labelBulanPanjang(awal.bulan)} ${awal.tahun}`;
+        const labelAkhir = `${labelBulanPanjang(akhir.bulan)} ${akhir.tahun}`;
+        return {
+            awal,
+            akhir,
+            durasi: durasi > 0 ? durasi : 0,
+            label: durasi === 1 ? labelAwal : `${labelAwal} - ${labelAkhir}`
+        };
+    }
+
+    function konfigurasiRoleNominatif(snapshot = {}, role = '') {
+        const daftarRows = Array.isArray(snapshot?.perhitunganDasarPlotting?.rows)
+            ? snapshot.perhitunganDasarPlotting.rows
+            : [];
+        const row = daftarRows.find(item => item?.jabatan === role) || {};
+        const periode = periodeNominatifDariSnapshot(snapshot);
+        return {
+            tarif: tarifPlotting(row.tarif ?? snapshot?.tarifMasterJabatanPlotting?.[role] ?? tarifDefaultJabatanPlotting[role]),
+            durasi: angkaDesimalPlotting(row.durasi) || periode.durasi,
+            personil: Math.max(0, Math.floor(angkaDesimalPlotting(row.personil_per_kerma ?? (personilPerKermaDefault[role] ?? 0))))
+        };
+    }
+
+    function labelJabatanNominatif(snapshot = {}, role = '', index = 0) {
+        const konfigurasi = normalisasiKonfigurasiJabatanBidangPlotting(snapshot?.jabatanBidangPlottingKerma);
+        const aktif = Array.isArray(konfigurasi?.[role])
+            ? konfigurasi[role].filter(item => item?.aktif !== false && item?.nama)
+            : [];
+        if (aktif[index]?.nama) return aktif[index].nama;
+        const defaultLabels = Array.isArray(bidangRolePlottingKerma[role]) ? bidangRolePlottingKerma[role] : [];
+        if (defaultLabels[index]) return defaultLabels[index];
+        const label = namaJabatanPlotting(role);
+        const baseline = Math.max(defaultLabels.length, aktif.length);
+        return `${label} - Tambahan ${Math.max(1, index - baseline + 1)}`;
+    }
+
+    function hitungVolumeNominatif(value, durasi) {
+        const raw = String(value || '').trim();
+        if (!raw || /^sk$/i.test(raw)) return 0;
+        return raw.replace(/＋/g, '+').split('+').map(term => term.trim()).filter(Boolean).reduce((sum, term) => {
+            const fraction = term.replace(/[()]/g, '').match(/^(-?\d+(?:[,.]\d+)?)\s*\/\s*(-?\d+(?:[,.]\d+)?)$/);
+            if (fraction) return sum + Math.max(0, angkaDesimalPlotting(fraction[1]));
+            const angka = Math.max(0, angkaDesimalPlotting(term));
+            return sum + (angka === 1 && durasi > 0 ? durasi : angka);
+        }, 0);
+    }
+
+    function namaLengkapNominatif(row = {}) {
+        return [row.gelar_depan, row.nama, row.gelar_belakang].map(value => String(value || '').trim()).filter(Boolean).join(' ');
+    }
+
+    function buatBarisDaftarNominatif(snapshot = {}, item = {}, pks = {}, role = '', bidangIndex = 0, entry = {}, employeeMap = new Map()) {
+        const konfigurasi = konfigurasiRoleNominatif(snapshot, role);
+        const periode = periodeNominatifDariSnapshot(snapshot);
+        const markerSk = role === 'Anggota' || isPenandaSkTanpaNilaiPlotSk(entry.bulan);
+        const volume = markerSk ? 0 : hitungVolumeNominatif(entry.bulan, konfigurasi.durasi || periode.durasi);
+        const nilaiSatuan = Math.max(0, konfigurasi.tarif);
+        const totalHonor = nilaiSatuan * volume;
+        const employee = employeeMap.get(normalisasiNamaPegawaiPlotting(entry.nama)) || {};
+        const months = Object.fromEntries(bulanDaftarNominatif.map((nama, index) => {
+            const nomorBulan = index + 1;
+            const dalamPeriode = periode.awal && periode.akhir
+                && ((nomorBulan - periode.awal.bulan + 12) % 12) < periode.durasi
+                && (periode.awal.tahun === periode.akhir.tahun || nomorBulan >= periode.awal.bulan || periode.awal.tahun < periode.akhir.tahun);
+            const offset = periode.awal ? ((nomorBulan - periode.awal.bulan + 12) % 12) : -1;
+            const terisi = !markerSk && dalamPeriode && offset >= 0 && offset < volume;
+            return [nama, terisi ? nilaiSatuan : 0];
+        }));
+        const total = Object.values(months).reduce((sum, value) => sum + (Number(value) || 0), 0);
+        const nomorSk = nomorSkTersimpanUntukPks(item, pks);
+        return normalisasiBarisDaftarNominatif({
+            nip: employee.nip || employee.no_pegawai || '',
+            nama: namaLengkapNominatif(employee) || entry.nama,
+            no_sk: nomorSk,
+            jabatan: labelJabatanNominatif(snapshot, role, bidangIndex),
+            kode_file: pks.kode_file || pks.id_program || pks.id || '',
+            judul_kegiatan: pks.judul_pks || '',
+            periode: periode.label,
+            satuan_honor: 'Orang Bulan',
+            tarif_maksimal: nilaiSatuan,
+            nilai_satuan: nilaiSatuan,
+            volume,
+            total_honor: totalHonor,
+            bulan: months,
+            total,
+            selisih: totalHonor - total,
+            keterangan: markerSk ? 'SK' : ''
+        });
+    }
+
+    function buatBarisDaftarNominatifDariSnapshot(item = {}, pks = {}) {
+        const snapshot = item.snapshot || {};
+        const manual = snapshot.plotSkBidangManual && typeof snapshot.plotSkBidangManual === 'object'
+            ? snapshot.plotSkBidangManual
+            : {};
+        const employeeMap = new Map((Array.isArray(snapshot.rows) ? snapshot.rows : []).map(row => [
+            normalisasiNamaPegawaiPlotting(row.nama), row
+        ]));
+        const rows = [];
+        rolePlottingKerma.forEach(role => {
+            const konfigurasi = konfigurasiRoleNominatif(snapshot, role);
+            for (let bidangIndex = 0; bidangIndex < konfigurasi.personil; bidangIndex += 1) {
+                const key = keyPlotSkBidangManual(role, bidangIndex, pks.noPks);
+                const entry = manual[key];
+                if (!entry?.nama) continue;
+                rows.push(buatBarisDaftarNominatif(snapshot, item, pks, role, bidangIndex, entry, employeeMap));
+            }
+        });
+        return rows;
+    }
+
+    function pksNominatifUntukSimulasi(item = {}) {
+        return daftarPksDariHasilSimulasiSkTim(item);
+    }
+
+    function fileNominatifTersimpan(simulationId = '', kodeFile = '') {
+        return daftarNominatifBySimulasi?.[String(simulationId)]?.[String(kodeFile)] || null;
+    }
+
+    function setInfoDaftarNominatif(message = '', isError = false) {
+        if (!infoDaftarNominatif) return;
+        infoDaftarNominatif.textContent = message;
+        infoDaftarNominatif.classList.toggle('is-error', Boolean(isError));
+    }
+
+    function renderPilihanDaftarNominatif() {
+        if (!selectDaftarNominatifSimulasi || !selectDaftarNominatifKodeFile) return;
+        const simulationIdValid = daftarHasilSimulasiPlotting.some(item => item.id === nominatifSimulasiDipilihId);
+        if (!simulationIdValid) nominatifSimulasiDipilihId = daftarHasilSimulasiPlotting[0]?.id || '';
+        selectDaftarNominatifSimulasi.innerHTML = `<option value="">Pilih hasil simulasi</option>${daftarHasilSimulasiPlotting.map(item => `
+            <option value="${esc(item.id)}" ${item.id === nominatifSimulasiDipilihId ? 'selected' : ''}>${esc(item.nama)}</option>
+        `).join('')}`;
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        const pks = item ? pksNominatifUntukSimulasi(item) : [];
+        if (!pks.some(row => row.kode_file === nominatifKodeFileDipilih)) nominatifKodeFileDipilih = '';
+        selectDaftarNominatifKodeFile.innerHTML = `<option value="">Pilih kode file</option>${pks.map(row => {
+            const kode = row.kode_file || row.id_program || row.id;
+            return `<option value="${esc(kode)}" ${kode === nominatifKodeFileDipilih ? 'selected' : ''}>PKS ${esc(row.noPks)} - ${esc(kode)}</option>`;
+        }).join('')}`;
+        selectDaftarNominatifKodeFile.disabled = !item || !pks.length;
+        btnBukaDaftarNominatif.disabled = !item || !nominatifKodeFileDipilih;
+        const tersimpan = item && nominatifKodeFileDipilih ? fileNominatifTersimpan(item.id, nominatifKodeFileDipilih) : null;
+        btnSimpanDaftarNominatif.disabled = !nominatifRowsAktif.length || !item || !nominatifKodeFileDipilih;
+        if (item && pks.length) {
+            setInfoDaftarNominatif(`${pks.length} kode file tersedia pada ${item.nama}. ${Object.keys(daftarNominatifBySimulasi[item.id] || {}).length} kode file sudah disimpan.`);
+        } else if (!daftarHasilSimulasiPlotting.length) {
+            setInfoDaftarNominatif('Belum ada hasil simulasi tersimpan. Simpan hasil simulasi dari tab Kontrol terlebih dahulu.');
+        }
+        renderDaftarKodeFileNominatif(item);
+    }
+
+    function renderTabelDaftarNominatif() {
+        if (!bodyTabelDaftarNominatif) return;
+        if (!nominatifRowsAktif.length) {
+            bodyTabelDaftarNominatif.innerHTML = '<tr class="table-state-row"><td colspan="27"><div class="table-state table-state--empty"><strong>Belum ada baris nominatif</strong><small>Buka kode file yang dipilih untuk membentuk tabel dari Plot SK Bidang.</small></div></td></tr>';
+            if (ringkasanDaftarNominatif) ringkasanDaftarNominatif.hidden = true;
+            return;
+        }
+        const jumlahHonor = nominatifRowsAktif.reduce((sum, row) => sum + (Number(row.total_honor) || 0), 0);
+        const jumlahBulanan = nominatifRowsAktif.reduce((sum, row) => sum + (Number(row.total) || 0), 0);
+        if (ringkasanDaftarNominatif) {
+            ringkasanDaftarNominatif.hidden = false;
+            ringkasanDaftarNominatif.innerHTML = `<span><strong>${nominatifRowsAktif.length.toLocaleString('id-ID')}</strong> baris personil</span><span>Total Honor: <strong>${esc(formatRupiahKomaDash(jumlahHonor))}</strong></span><span>Total Bulanan: <strong>${esc(formatRupiahKomaDash(jumlahBulanan))}</strong></span>`;
+        }
+        bodyTabelDaftarNominatif.innerHTML = nominatifRowsAktif.map((row, index) => {
+            const monthCells = bulanDaftarNominatif.map(nama => `<td class="nominatif-money nominatif-readonly">${row.bulan[nama] ? esc(formatRupiahKomaDash(row.bulan[nama])) : '-'}</td>`).join('');
+            const selisihClass = Math.abs(Number(row.selisih) || 0) < 0.01 ? 'is-zero' : (Number(row.selisih) < 0 ? 'is-negative' : '');
+            return `<tr>
+                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="nip" value="${esc(row.nip)}" placeholder="NIP/No. Pegawai"></td>
+                <td title="${esc(row.nama)}"><strong>${esc(row.nama || '-')}</strong></td>
+                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="no_sk" value="${esc(row.no_sk)}" placeholder="Nomor SK"></td>
+                <td>${esc(row.jabatan || '-')}</td>
+                <td><span class="kode-file-tag">${esc(row.kode_file || '-')}</span></td>
+                <td title="${esc(row.judul_kegiatan)}">${esc(row.judul_kegiatan || '-')}</td>
+                <td>${esc(row.periode || '-')}</td>
+                <td>${esc(row.satuan_honor || 'Orang Bulan')}</td>
+                <td class="nominatif-money">${esc(formatRupiahKomaDash(row.tarif_maksimal))}</td>
+                <td class="nominatif-money">${esc(formatRupiahKomaDash(row.nilai_satuan))}</td>
+                <td class="nominatif-number">${esc(Number(row.volume || 0).toLocaleString('id-ID', { maximumFractionDigits: 2 }))}</td>
+                <td class="nominatif-money">${esc(formatRupiahKomaDash(row.total_honor))}</td>
+                ${monthCells}
+                <td class="nominatif-money">${esc(formatRupiahKomaDash(row.total))}</td>
+                <td class="nominatif-money nominatif-difference ${selisihClass}">${esc(formatRupiahKomaDash(row.selisih))}</td>
+                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="keterangan" value="${esc(row.keterangan)}" placeholder="Keterangan"></td>
+            </tr>`;
+        }).join('');
+    }
+
+    function renderDaftarKodeFileNominatif(item = null) {
+        if (!bodyTabelDaftarNominatifKodeFile) return;
+        const rows = item ? pksNominatifUntukSimulasi(item) : [];
+        if (!rows.length) {
+            bodyTabelDaftarNominatifKodeFile.innerHTML = '<tr class="table-state-row"><td colspan="8"><div class="table-state table-state--empty"><strong>Belum ada daftar kode file</strong><small>Pilih hasil simulasi yang memiliki PKS.</small></div></td></tr>';
+            if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = true;
+            if (checkAllDaftarNominatifKodeFile) checkAllDaftarNominatifKodeFile.checked = false;
+            return;
+        }
+        const savedMap = daftarNominatifBySimulasi[item.id] || {};
+        bodyTabelDaftarNominatifKodeFile.innerHTML = rows.map((row, index) => {
+            const kode = row.kode_file || row.id_program || row.id;
+            const tersimpan = Boolean(savedMap[kode]?.rows?.length);
+            return `<tr>
+                <td><input type="checkbox" data-nominatif-code-check="${esc(kode)}" ${tersimpan ? '' : 'disabled'} aria-label="Pilih ${esc(kode)}"></td>
+                <td>${index + 1}</td>
+                <td><span class="kode-file-tag">${esc(kode)}</span></td>
+                <td>${esc(row.nama_mitra || '-')}</td>
+                <td>${esc(row.judul_pks || '-')}</td>
+                <td>${esc(item.snapshot ? periodeNominatifDariSnapshot(item.snapshot).label : '-')}</td>
+                <td>${Number(savedMap[kode]?.rows?.length || 0).toLocaleString('id-ID')}</td>
+                <td class="${tersimpan ? 'nominatif-status-saved' : ''}">${tersimpan ? 'Tersimpan' : 'Belum disimpan'}</td>
+            </tr>`;
+        }).join('');
+        if (checkAllDaftarNominatifKodeFile) checkAllDaftarNominatifKodeFile.checked = false;
+        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = !rows.some(row => Boolean(savedMap[row.kode_file || row.id_program || row.id]?.rows?.length));
+    }
+
+    function renderDaftarNominatif() {
+        renderPilihanDaftarNominatif();
+        renderTabelDaftarNominatif();
+    }
+
+    async function bukaTabelDaftarNominatif() {
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        if (!item || !nominatifKodeFileDipilih) return;
+        const pks = pksNominatifUntukSimulasi(item).find(row => (row.kode_file || row.id_program || row.id) === nominatifKodeFileDipilih);
+        if (!pks) {
+            setInfoDaftarNominatif('Kode file tidak ditemukan pada hasil simulasi.', true);
+            return;
+        }
+        const tersimpan = fileNominatifTersimpan(item.id, nominatifKodeFileDipilih);
+        nominatifRowsAktif = tersimpan?.rows?.length
+            ? tersimpan.rows.map(normalisasiBarisDaftarNominatif)
+            : buatBarisDaftarNominatifDariSnapshot(item, pks);
+        renderTabelDaftarNominatif();
+        renderPilihanDaftarNominatif();
+        if (!nominatifRowsAktif.length) setInfoDaftarNominatif('Tidak ada personil pada kode file ini di Plot SK Bidang.', true);
+        else setInfoDaftarNominatif(`${nominatifRowsAktif.length.toLocaleString('id-ID')} baris siap diperiksa. Simpan setelah data sudah benar.`);
+    }
+
+    async function simpanDaftarNominatifAktif() {
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        if (!item || !nominatifKodeFileDipilih || !nominatifRowsAktif.length) return;
+        bodyTabelDaftarNominatif?.querySelectorAll('[data-nominatif-index][data-nominatif-field]')?.forEach(input => {
+            const index = Number(input.dataset.nominatifIndex);
+            const field = input.dataset.nominatifField;
+            if (nominatifRowsAktif[index] && ['nip', 'no_sk', 'keterangan'].includes(field)) {
+                nominatifRowsAktif[index][field] = String(input.value || '').trim();
+            }
+        });
+        const pks = pksNominatifUntukSimulasi(item).find(row => (row.kode_file || row.id_program || row.id) === nominatifKodeFileDipilih) || {};
+        if (!daftarNominatifBySimulasi[item.id]) daftarNominatifBySimulasi[item.id] = {};
+        daftarNominatifBySimulasi[item.id][nominatifKodeFileDipilih] = {
+            simulation_id: item.id,
+            simulation_name: item.nama,
+            kode_file: nominatifKodeFileDipilih,
+            id_program: pks.id_program || pks.id || '',
+            nama_mitra: pks.nama_mitra || '',
+            judul_kegiatan: pks.judul_pks || '',
+            periode: periodeNominatifDariSnapshot(item.snapshot).label,
+            saved_at: new Date().toISOString(),
+            rows: nominatifRowsAktif.map(normalisasiBarisDaftarNominatif)
+        };
+        simpanPlottingKerma();
+        btnSimpanDaftarNominatif.disabled = true;
+        setInfoDaftarNominatif('Daftar nominatif berhasil disimpan.');
+        try {
+            await simpanPlottingKermaKeServer(snapshotPlottingKerma());
+        } finally {
+            renderPilihanDaftarNominatif();
+            renderTabelDaftarNominatif();
+        }
+    }
+
+    function setTabDaftarNominatif(tab = 'tabel') {
+        const isTabel = tab === 'tabel';
+        tabDaftarNominatifTabel?.classList.toggle('active', isTabel);
+        tabDaftarNominatifKodeFile?.classList.toggle('active', !isTabel);
+        tabDaftarNominatifTabel?.setAttribute('aria-selected', String(isTabel));
+        tabDaftarNominatifKodeFile?.setAttribute('aria-selected', String(!isTabel));
+        if (panelDaftarNominatifTabel) panelDaftarNominatifTabel.hidden = !isTabel;
+        if (panelDaftarNominatifKodeFile) panelDaftarNominatifKodeFile.hidden = isTabel;
+    }
+
+    async function downloadDaftarNominatifTerpilih() {
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        if (!item) return;
+        const selected = [...(bodyTabelDaftarNominatifKodeFile?.querySelectorAll('[data-nominatif-code-check]:checked') || [])]
+            .map(input => input.dataset.nominatifCodeCheck)
+            .filter(Boolean);
+        if (!selected.length) {
+            setInfoDaftarNominatif('Pilih kode file yang sudah tersimpan pada tab Daftar Kode File.', true);
+            return;
+        }
+        const files = selected.map(kode => daftarNominatifBySimulasi[item.id]?.[kode]).filter(Boolean);
+        const response = await fetch('/api/daftar-nominatif/export', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ simulation_name: item.nama, files })
+        });
+        if (!response.ok) {
+            let message = 'Gagal mengunduh daftar nominatif.';
+            try { message = (await response.json())?.pesan || message; } catch { /* response bukan JSON */ }
+            setInfoDaftarNominatif(message, true);
+            return;
+        }
+        const blob = await response.blob();
+        unduhBlobSkTim(blob, namaFileDariContentDisposition(response.headers.get('Content-Disposition'), 'Daftar Nominatif.xlsx'));
+    }
+
     function renderTabelNomorSkTim(item = hasilSimulasiSkDipilih) {
         if (!bodyTabelNomorSkTim) return;
         const rows = daftarPksDariHasilSimulasiSkTim(item || {});
@@ -16698,7 +17092,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             pks[i] = {};
             rolePlottingKerma.forEach(role => { pks[i][role] = ''; });
         }
-        return { nama: '', gelar_depan: '', gelar_belakang: '', peran: 'Dosen', jabatan_fungsional: '', kelompok_keahlian: '', status: 'Aktif', jabatan_sbm: '', jabatan_sbm_2: '', level_jabatan_1: '', level_jabatan_2: '', target_kerma: '', keterangan: '', pks, distribusi_roles: {} };
+        return { nama: '', nip: '', gelar_depan: '', gelar_belakang: '', peran: 'Dosen', jabatan_fungsional: '', kelompok_keahlian: '', status: 'Aktif', jabatan_sbm: '', jabatan_sbm_2: '', level_jabatan_1: '', level_jabatan_2: '', target_kerma: '', keterangan: '', pks, distribusi_roles: {} };
     }
 
     function normalisasiNilaiPlotSk(value, role) {
@@ -17960,6 +18354,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             await muatDataEksporPlottingKerma();
         })();
     });
+    menuDaftarNominatif?.addEventListener('click', () => {
+        switchPage(menuDaftarNominatif, sectionDaftarNominatif);
+        void (async () => {
+            await pastikanPlottingKermaDariServer({ render: false });
+            if (!allData.length) await muatDataEksporPlottingKerma();
+            renderDaftarNominatif();
+        })();
+    });
     menuLaporan.addEventListener('click',            () => switchPage(menuLaporan, sectionLaporan));
     menuKontrak.addEventListener('click',            () => { switchPage(menuKontrak, sectionKontrak); loadKontrak(); });
     menuPimpinan?.addEventListener('click',          () => { switchPage(menuPimpinan, sectionPimpinan); loadDashboardPimpinan(); });
@@ -18095,6 +18497,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         void muatDataEksporPlottingKerma();
     });
     bodyTabelDaftarHasilSimulasi?.addEventListener('click', event => handleDaftarHasilSimulasiAction(event.target));
+    selectDaftarNominatifSimulasi?.addEventListener('change', event => {
+        nominatifSimulasiDipilihId = String(event.target.value || '').trim();
+        nominatifKodeFileDipilih = '';
+        nominatifRowsAktif = [];
+        renderDaftarNominatif();
+    });
+    selectDaftarNominatifKodeFile?.addEventListener('change', event => {
+        nominatifKodeFileDipilih = String(event.target.value || '').trim();
+        nominatifRowsAktif = [];
+        renderPilihanDaftarNominatif();
+        renderTabelDaftarNominatif();
+    });
+    btnBukaDaftarNominatif?.addEventListener('click', bukaTabelDaftarNominatif);
+    btnSimpanDaftarNominatif?.addEventListener('click', simpanDaftarNominatifAktif);
+    tabDaftarNominatifTabel?.addEventListener('click', () => setTabDaftarNominatif('tabel'));
+    tabDaftarNominatifKodeFile?.addEventListener('click', () => setTabDaftarNominatif('kode'));
+    checkAllDaftarNominatifKodeFile?.addEventListener('change', event => {
+        bodyTabelDaftarNominatifKodeFile?.querySelectorAll('[data-nominatif-code-check]:not(:disabled)').forEach(input => {
+            input.checked = Boolean(event.target.checked);
+        });
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        const savedMap = item ? daftarNominatifBySimulasi[item.id] || {} : {};
+        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = !bodyTabelDaftarNominatifKodeFile?.querySelector('[data-nominatif-code-check]:checked') || !Object.keys(savedMap).length;
+    });
+    bodyTabelDaftarNominatifKodeFile?.addEventListener('change', event => {
+        if (!event.target.matches('[data-nominatif-code-check]')) return;
+        if (checkAllDaftarNominatifKodeFile) {
+            const all = [...bodyTabelDaftarNominatifKodeFile.querySelectorAll('[data-nominatif-code-check]:not(:disabled)')];
+            checkAllDaftarNominatifKodeFile.checked = all.length > 0 && all.every(input => input.checked);
+        }
+        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = !bodyTabelDaftarNominatifKodeFile.querySelector('[data-nominatif-code-check]:checked');
+    });
+    btnDownloadDaftarNominatif?.addEventListener('click', downloadDaftarNominatifTerpilih);
     bodyTabelEksporPlottingDaftarJabatan?.addEventListener('click', event => handleDaftarJabatanPlottingAction(event.target));
     btnTutupModalEditDaftarJabatanPlotting?.addEventListener('click', tutupModalEditDaftarJabatanPlotting);
     btnBatalEditDaftarJabatanPlotting?.addEventListener('click', tutupModalEditDaftarJabatanPlotting);
