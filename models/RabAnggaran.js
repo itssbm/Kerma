@@ -11,6 +11,10 @@ module.exports = createModelAdapter({
         'harga_satuan',
         'volume',
         'keterangan',
+        'sumber',
+        'id_pengajuan',
+        'simulation_id',
+        'simulation_name',
         'createdAt',
         'updatedAt'
     ]

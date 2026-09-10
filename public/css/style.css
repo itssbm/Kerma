@@ -2063,6 +2063,20 @@ tr.warn-1thn:hover > td { background-color: #FEF9C3 !important; }
   transition: var(--trans);
 }
 .btn-danger:hover { background: #B91C1C; transform: translateY(-1px); }
+.btn-danger--compact {
+  min-height: 32px;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+.btn-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn-danger:disabled:hover {
+  background: var(--danger);
+  transform: none;
+}
 
 /* Aksi buttons in table */
 .btn-aksi {
@@ -2231,6 +2245,7 @@ tr.warn-1thn:hover > td { background-color: #FEF9C3 !important; }
 .form-alert { padding: 9px 14px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; }
 .form-alert--success { background: var(--success-bg); color: var(--success); }
 .form-alert--error   { background: var(--danger-bg);  color: var(--danger);  }
+.form-alert--warning { background: #FFF8E7; color: #8A5A00; }
 .form-input-file {
   border: 2px dashed var(--border-2); border-radius: var(--radius-sm);
   padding: 8px 11px; font-size: 12px; color: var(--text-2);
@@ -3028,6 +3043,14 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   min-height: 36px;
   white-space: nowrap;
 }
+.nominatif-selection-actions #btnAjukanDaftarNominatif {
+  background: #0f6fb5;
+  border-color: #0f6fb5;
+}
+.nominatif-selection-actions #btnAjukanDaftarNominatif:not(:disabled):hover {
+  background: #09588f;
+  border-color: #09588f;
+}
 .nominatif-selection-info {
   margin-top: 9px;
   color: var(--text-3);
@@ -3131,15 +3154,41 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   padding: 2px 0;
 }
 .nominatif-code-toolbar .list-item-selectall { margin: 0; }
+.nominatif-code-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
 .nominatif-code-table { min-width: 950px; }
 .nominatif-code-table th { position: sticky; top: 0; z-index: 3; }
 .nominatif-code-table td, .nominatif-code-table th { padding: 9px 10px; }
 .nominatif-code-table td:first-child, .nominatif-code-table th:first-child { width: 62px; text-align: center; }
 .nominatif-code-table input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--primary); }
 .nominatif-code-table .nominatif-status-saved { color: var(--success); font-weight: 700; }
+.modal-card--pengajuan-nominatif { width: min(620px, calc(100vw - 32px)); }
+.modal-card--pengajuan-nominatif .form-group { gap: 6px; }
+.modal-card--pengajuan-nominatif .form-hint {
+  color: #64748B;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.pengajuan-pengeluaran-table-container { min-height: 0; }
+.pengajuan-pengeluaran-table { min-width: 1240px; }
+.pengajuan-pengeluaran-table th,
+.pengajuan-pengeluaran-table td { white-space: nowrap; }
+.pengajuan-pengeluaran-table th:first-child,
+.pengajuan-pengeluaran-table td:first-child { width: 52px; text-align: center; }
+.pengajuan-pengeluaran-table td:nth-child(4) { max-width: 230px; }
+.pengajuan-pengeluaran-table td:nth-child(6),
+.pengajuan-pengeluaran-table td:nth-child(7) { text-align: right; font-variant-numeric: tabular-nums; }
+.pengajuan-pengeluaran-table td:nth-child(10),
+.pengajuan-pengeluaran-table td:nth-child(11) { text-align: center; }
 @media (max-width: 880px) {
   .nominatif-selection-grid { grid-template-columns: 1fr; }
   .nominatif-selection-actions { justify-content: flex-start; }
+  .nominatif-code-toolbar { align-items: flex-start; flex-direction: column; }
+  .nominatif-code-actions { justify-content: flex-start; }
 }
 #panelPlotKerma {
   display: flex;
@@ -3855,6 +3904,130 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .plotting-start-checklist--global {
   margin: 0 0 12px;
+}
+.plotting-session-bar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.35fr) minmax(180px, .9fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(36, 91, 140, 0.18);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 72%);
+  box-shadow: 0 4px 14px rgba(15, 52, 86, 0.05);
+}
+.plotting-session-bar__identity,
+.plotting-session-bar__status {
+  min-width: 0;
+}
+.plotting-session-bar__identity strong,
+.plotting-session-bar__identity small,
+.plotting-session-bar__status small {
+  display: block;
+}
+.plotting-session-bar__identity strong {
+  margin-top: 3px;
+  color: var(--text-1);
+  font-size: 14px;
+  line-height: 1.3;
+}
+.plotting-session-bar__identity small,
+.plotting-session-bar__status small {
+  margin-top: 4px;
+  color: var(--text-3);
+  font-size: 10.5px;
+  line-height: 1.35;
+}
+.plotting-session-bar__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.plotting-session-badge,
+.plotting-session-stage {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.plotting-session-badge {
+  color: #075985;
+  background: #e0f2fe;
+}
+.plotting-session-badge.is-draft { color: #92400e; background: #fef3c7; }
+.plotting-session-badge.is-fix { color: #991b1b; background: #fee2e2; }
+.plotting-session-badge.is-ready { color: #166534; background: #dcfce7; }
+.plotting-session-badge.is-done { color: #155e75; background: #cffafe; }
+.plotting-session-badge.is-empty { color: #64748b; background: #f1f5f9; }
+.plotting-session-stage {
+  color: var(--text-2);
+  background: #eef2f7;
+}
+.plotting-session-bar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.btn-primary--compact,
+.btn-secondary--compact {
+  min-height: 32px;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+.plotting-saved-simulation-table th,
+.plotting-saved-simulation-table td {
+  vertical-align: middle;
+}
+.plotting-simulation-select-cell {
+  width: 58px;
+  min-width: 58px;
+  text-align: center;
+}
+.plotting-simulation-select-cell > span {
+  display: block;
+  margin-bottom: 4px;
+}
+.plotting-simulation-select-cell input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+.plotting-saved-simulation-status,
+.plotting-saved-simulation-stage {
+  white-space: nowrap;
+}
+.plotting-saved-simulation-table .pegawai-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-width: 230px;
+}
+.plotting-saved-simulation-table .btn-row-edit,
+.plotting-saved-simulation-table .btn-row-cancel {
+  min-height: 28px;
+  padding: 5px 8px;
+  font-size: 10px;
+}
+.modal-card--simulation-session {
+  width: min(620px, calc(100vw - 28px));
+  padding: 24px;
+}
+@media (max-width: 980px) {
+  .plotting-session-bar {
+    grid-template-columns: 1fr;
+  }
+  .plotting-session-bar__actions {
+    justify-content: flex-start;
+  }
 }
 .plotting-start-check {
   display: flex;
@@ -5730,9 +5903,11 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 #panelRencanaPendapatan .rencana-income-control,
 #panelRencanaPendapatan .rencana-income-section--general,
+#panelRencanaPendapatan .panel-title--spaced,
 #panelRencanaPendapatan .payment-list-header {
   flex-shrink: 0;
 }
+#panelRencanaPendapatan .panel-title--spaced { margin-top: 0 !important; }
 #panelRencanaPendapatan .table-container--compact,
 #panelUangMasuk .table-container--compact,
 #panelPaguAnggaran .table-container--compact,
@@ -5740,6 +5915,11 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 #panelAlokasiKerma .table-container--compact,
 #panelRencanaAnggaran .table-container--compact,
 #panelRealisasiAnggaran .table-container--compact {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+#panelPengajuanPengeluaran .table-container--compact {
   flex: 1;
   min-height: 0;
   overflow: auto;
@@ -5755,7 +5935,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 #panelRabAnggaran .table-container--compact th,
 #panelAlokasiKerma .table-container--compact th,
 #panelRencanaAnggaran .table-container--compact th,
-#panelRealisasiAnggaran .table-container--compact th {
+#panelRealisasiAnggaran .table-container--compact th,
+#panelPengajuanPengeluaran .table-container--compact th {
   position: sticky;
   top: 0;
   z-index: 6;
@@ -5829,52 +6010,58 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 #panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(1),
 #panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(1) { left: 0; }
 #panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(2),
-#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(2) { left: 54px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(2) { left: 40px; }
 #panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(3),
-#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(3) { left: 202px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(3) { left: 156px; }
 #panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(4),
-#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(4) { left: 392px; }
-#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(-n+4),
-#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(-n+4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(4) { left: 284px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(5),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(5) { left: 392px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(6),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(6) { left: 500px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(7),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(7) { left: 608px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(-n+7),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(-n+7) {
   position: sticky;
 }
-#panelRencanaPendapatan .rencana-termin-table-wrap thead th:nth-child(-n+4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap thead th:nth-child(-n+7) {
   z-index: 12;
 }
-#panelRencanaPendapatan .rencana-termin-table-wrap tbody td:not([colspan]):nth-child(-n+4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap tbody td:not([colspan]):nth-child(-n+7) {
   z-index: 4;
   background: #fff;
 }
-#panelRencanaPendapatan .rencana-termin-table-wrap tbody tr:nth-child(even) td:not([colspan]):nth-child(-n+4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap tbody tr:nth-child(even) td:not([colspan]):nth-child(-n+7) {
   background: #FAFCFF;
 }
-#panelRencanaPendapatan .rencana-termin-table-wrap tbody tr:hover td:not([colspan]):nth-child(-n+4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap tbody tr:hover td:not([colspan]):nth-child(-n+7) {
   background: #EEF4FD !important;
 }
-#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(4),
-#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(7),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(7) {
   border-right: 2px solid rgba(0, 75, 135, 0.22);
   box-shadow: 8px 0 12px -12px rgba(15, 27, 45, 0.65);
 }
-#panelRencanaPendapatan .rencana-termin-table-wrap thead th:nth-child(4) {
+#panelRencanaPendapatan .rencana-termin-table-wrap thead th:nth-child(7) {
   border-right-color: rgba(255,255,255,0.46);
 }
+.rencana-termin-table-wrap th:nth-child(4),
 .rencana-termin-table-wrap th:nth-child(5),
-.rencana-termin-table-wrap th:nth-child(6),
-.rencana-termin-table-wrap th:nth-child(7) {
+.rencana-termin-table-wrap th:nth-child(6) {
   min-width: 142px;
   white-space: nowrap;
   text-align: center;
 }
+.rencana-termin-table-wrap td:nth-child(4),
 .rencana-termin-table-wrap td:nth-child(5),
-.rencana-termin-table-wrap td:nth-child(6),
-.rencana-termin-table-wrap td:nth-child(7) {
+.rencana-termin-table-wrap td:nth-child(6) {
   min-width: 142px;
   white-space: nowrap;
   text-align: right;
 }
-.rencana-termin-table-wrap th:nth-child(8),
-.rencana-termin-table-wrap td:nth-child(8) {
+.rencana-termin-table-wrap th:nth-child(7),
+.rencana-termin-table-wrap td:nth-child(7) {
   min-width: 132px;
   white-space: nowrap;
   text-align: center;
@@ -5891,6 +6078,39 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   vertical-align: top;
   padding-top: 6px !important;
   padding-bottom: 6px !important;
+}
+.rencana-termin-month-cell,
+.rencana-termin-table-wrap td.rencana-termin-empty,
+.rencana-termin-table-wrap th[data-col^="bulan_"],
+.rencana-termin-table-wrap th[data-col="belum_terjadwal"] {
+  width: 188px;
+  min-width: 188px;
+}
+.rencana-termin-month-cell {
+  padding: 6px !important;
+  vertical-align: top;
+  text-align: left !important;
+  white-space: normal !important;
+  background: #F8FAFC;
+}
+.rencana-termin-cell--entry {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px !important;
+  border: 1px solid rgba(203,213,224,0.78);
+  border-left-width: 3px;
+  border-radius: 6px;
+  white-space: normal;
+}
+.rencana-termin-cell--entry + .rencana-termin-cell--entry {
+  margin-top: 6px;
+}
+.rencana-termin-cell--entry strong,
+.rencana-termin-cell--entry small {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .rencana-termin-cell--clickable {
   cursor: pointer;
@@ -5930,6 +6150,516 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   font-size: 9px;
   line-height: 1;
 }
+
+/* Keep the payment schedule readable while reducing its horizontal footprint. */
+.rencana-termin-table-wrap table {
+  min-width: 980px;
+  table-layout: fixed;
+  font-size: 10px;
+}
+.rencana-termin-table-wrap th {
+  padding: 5px 6px;
+  font-size: 9px;
+  line-height: 1.1;
+}
+.rencana-termin-table-wrap td {
+  padding: 4px 6px;
+  font-size: 9.5px;
+  line-height: 1.15;
+}
+.rencana-termin-table-wrap th:nth-child(1),
+.rencana-termin-table-wrap td:nth-child(1) {
+  width: 40px;
+  min-width: 40px;
+}
+.rencana-termin-table-wrap th:nth-child(2),
+.rencana-termin-table-wrap td:nth-child(2) {
+  width: 116px;
+  min-width: 116px;
+}
+.rencana-termin-table-wrap th:nth-child(3),
+.rencana-termin-table-wrap td:nth-child(3) {
+  width: 128px;
+  min-width: 128px;
+}
+.rencana-termin-table-wrap th:nth-child(4),
+.rencana-termin-table-wrap td:nth-child(4) {
+  width: 108px;
+  min-width: 108px;
+}
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(2),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(2) { left: 40px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(3),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(3) { left: 156px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(4),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(4) { left: 284px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(5),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(5) { left: 392px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(6),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(6) { left: 500px; }
+#panelRencanaPendapatan .rencana-termin-table-wrap th:nth-child(7),
+#panelRencanaPendapatan .rencana-termin-table-wrap td:not([colspan]):nth-child(7) { left: 608px; }
+.rencana-termin-table-wrap th:nth-child(4),
+.rencana-termin-table-wrap th:nth-child(5),
+.rencana-termin-table-wrap th:nth-child(6),
+.rencana-termin-table-wrap td:nth-child(4),
+.rencana-termin-table-wrap td:nth-child(5),
+.rencana-termin-table-wrap td:nth-child(6) {
+  width: 108px;
+  min-width: 108px;
+}
+.rencana-termin-table-wrap th:nth-child(7),
+.rencana-termin-table-wrap td:nth-child(7) {
+  width: 92px;
+  min-width: 92px;
+  text-align: center;
+}
+.rencana-termin-table-wrap td:nth-child(3)[title] {
+  cursor: help;
+}
+.rencana-termin-month-cell,
+.rencana-termin-table-wrap td.rencana-termin-empty,
+.rencana-termin-table-wrap th[data-col^="bulan_"],
+.rencana-termin-table-wrap th[data-col="belum_terjadwal"] {
+  width: 158px;
+  min-width: 158px;
+}
+.rencana-termin-month-cell {
+  padding: 5px !important;
+}
+.rencana-termin-cell--entry {
+  padding: 6px !important;
+}
+.rencana-termin-cell strong {
+  font-size: 9px;
+}
+.rencana-termin-cell small {
+  font-size: 8px;
+}
+.rencana-termin-table-wrap thead th,
+.rencana-termin-table-wrap thead th[data-col] {
+  box-sizing: border-box;
+  background: linear-gradient(180deg, var(--primary), #073B73) !important;
+  color: rgba(255,255,255,0.95) !important;
+  opacity: 1;
+  visibility: visible;
+}
+.rencana-termin-table-wrap thead th[data-col="status_pembayaran"] {
+  width: 92px;
+  min-width: 92px;
+  max-width: 92px;
+  text-align: center;
+  white-space: nowrap;
+}
+.rencana-termin-table-wrap thead th[data-col^="bulan_"],
+.rencana-termin-table-wrap thead th[data-col="belum_terjadwal"] {
+  text-align: center;
+  white-space: normal;
+}
+.rencana-termin-kode-cell {
+  vertical-align: middle;
+}
+.rencana-termin-kode-cell .kode-file-tag {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rencana-termin-alokasi-badge {
+  margin-top: 3px;
+  padding: 2px 5px;
+  font-size: 8px;
+  line-height: 1;
+}
+
+/* The removed allocation column must not make the first month sticky. */
+#panelRencanaPendapatan table.rencana-termin-table--skema th:nth-child(7),
+#panelRencanaPendapatan table.rencana-termin-table--skema td:not([colspan]):nth-child(7),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi th:nth-child(7),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi td:not([colspan]):nth-child(7) {
+  left: auto;
+  border-right: 0;
+  box-shadow: none;
+}
+#panelRencanaPendapatan table.rencana-termin-table--skema th:nth-child(7),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi th:nth-child(7) {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+#panelRencanaPendapatan table.rencana-termin-table--skema td:not([colspan]):nth-child(7),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi td:not([colspan]):nth-child(7) {
+  position: static;
+  z-index: auto;
+}
+#panelRencanaPendapatan table.rencana-termin-table--skema th:nth-child(6),
+#panelRencanaPendapatan table.rencana-termin-table--skema td:not([colspan]):nth-child(6),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi th:nth-child(6),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi td:not([colspan]):nth-child(6) {
+  border-right: 2px solid rgba(0, 75, 135, 0.22);
+  box-shadow: 8px 0 12px -12px rgba(15, 27, 45, 0.65);
+}
+#panelRencanaPendapatan table.rencana-termin-table--skema thead th:nth-child(6),
+#panelRencanaPendapatan table.rencana-termin-table--realisasi thead th:nth-child(6) {
+  border-right-color: rgba(255,255,255,0.46);
+}
+
+/* Compact the payment history without changing the other finance tables. */
+.payment-history-table {
+  min-width: 1100px;
+  table-layout: fixed;
+  font-size: 9.5px;
+}
+.payment-history-table th {
+  padding: 5px 6px;
+  font-size: 8.5px;
+  line-height: 1.1;
+  white-space: normal;
+}
+.payment-history-table td {
+  padding: 4px 6px;
+  font-size: 9.5px;
+  line-height: 1.15;
+}
+.payment-history-table th:nth-child(1),
+.payment-history-table td:nth-child(1) {
+  width: 40px;
+  min-width: 40px;
+  text-align: center;
+}
+.payment-history-table th:nth-child(2),
+.payment-history-table td:nth-child(2) {
+  width: 116px;
+  min-width: 116px;
+}
+.payment-history-table th:nth-child(3),
+.payment-history-table td:nth-child(3) {
+  width: 140px;
+  min-width: 140px;
+}
+.payment-history-table th:nth-child(4),
+.payment-history-table td:nth-child(4) {
+  width: 100px;
+  min-width: 100px;
+}
+.payment-history-table th:nth-child(5),
+.payment-history-table td:nth-child(5) {
+  width: 112px;
+  min-width: 112px;
+}
+.payment-history-table th:nth-child(6),
+.payment-history-table td:nth-child(6),
+.payment-history-table th:nth-child(7),
+.payment-history-table td:nth-child(7),
+.payment-history-table th:nth-child(8),
+.payment-history-table td:nth-child(8) {
+  width: 118px;
+  min-width: 118px;
+}
+.payment-history-table th:nth-child(9),
+.payment-history-table td:nth-child(9) {
+  width: 136px;
+  min-width: 136px;
+}
+.payment-history-table th:nth-child(10),
+.payment-history-table td:nth-child(10) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.payment-history-table td:nth-child(2),
+.payment-history-table td:nth-child(3),
+.payment-history-table td:nth-child(4),
+.payment-history-table td:nth-child(5),
+.payment-history-table td:nth-child(9) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.payment-history-table .kode-file-tag {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 1px 5px;
+  font-size: 8.5px;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.payment-history-table td:nth-child(3) strong {
+  font-size: inherit;
+}
+.payment-history-table .table-actions-inline {
+  gap: 3px;
+}
+.payment-history-table .table-actions-inline .btn-mini-action {
+  min-height: 22px;
+  padding: 3px 4px;
+  font-size: 8.5px;
+}
+
+/* Flat payment schedule: one row per PKS payment stage. */
+.rencana-pembayaran-table--flat {
+  min-width: 1320px !important;
+  table-layout: fixed;
+  font-size: 9.5px;
+}
+.rencana-pembayaran-table--flat th,
+.rencana-pembayaran-table--flat td {
+  position: static !important;
+  left: auto !important;
+  box-shadow: none !important;
+}
+.rencana-pembayaran-table--flat thead th {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 12 !important;
+  padding: 6px 7px;
+  font-size: 8.5px;
+  line-height: 1.15;
+  text-align: center;
+  vertical-align: middle;
+  white-space: normal;
+}
+.rencana-pembayaran-table--flat thead th small {
+  display: block;
+  margin-top: 2px;
+  font-size: 8px;
+  font-weight: 600;
+  opacity: .82;
+}
+.rencana-pembayaran-table--flat tbody td {
+  padding: 5px 7px;
+  font-size: 9.5px;
+  line-height: 1.2;
+  vertical-align: middle;
+}
+.rencana-pembayaran-table--flat th:nth-child(1),
+.rencana-pembayaran-table--flat td:nth-child(1) {
+  width: 42px;
+  min-width: 42px;
+  text-align: center;
+}
+.rencana-pembayaran-table--flat th:nth-child(2),
+.rencana-pembayaran-table--flat td:nth-child(2) {
+  width: 136px;
+  min-width: 136px;
+}
+.rencana-pembayaran-table--flat th:nth-child(3),
+.rencana-pembayaran-table--flat td:nth-child(3) {
+  width: 150px;
+  min-width: 150px;
+}
+.rencana-pembayaran-table--flat th:nth-child(4),
+.rencana-pembayaran-table--flat td:nth-child(4) {
+  width: 176px;
+  min-width: 176px;
+}
+.rencana-pembayaran-table--flat th:nth-child(5),
+.rencana-pembayaran-table--flat td:nth-child(5),
+.rencana-pembayaran-table--flat th:nth-child(8),
+.rencana-pembayaran-table--flat td:nth-child(8) {
+  width: 154px;
+  min-width: 154px;
+}
+.rencana-pembayaran-table--flat th:nth-child(7),
+.rencana-pembayaran-table--flat td:nth-child(7) {
+  width: 112px;
+  min-width: 112px;
+}
+.rencana-pembayaran-table--flat th:nth-child(6),
+.rencana-pembayaran-table--flat td:nth-child(6),
+.rencana-pembayaran-table--flat th:nth-child(9),
+.rencana-pembayaran-table--flat td:nth-child(9) {
+  width: 142px;
+  min-width: 142px;
+}
+.rencana-pembayaran-table--flat th:nth-child(10),
+.rencana-pembayaran-table--flat td:nth-child(10) {
+  width: 280px;
+  min-width: 280px;
+}
+.rencana-pembayaran-table--flat td:nth-child(4),
+.rencana-pembayaran-table--flat td:nth-child(5),
+.rencana-pembayaran-table--flat td:nth-child(8) {
+  white-space: normal;
+}
+.rencana-pembayaran-table--flat th:nth-child(4),
+.rencana-pembayaran-table--flat td:nth-child(4) {
+  text-align: left;
+}
+.rencana-pembayaran-table--flat th:nth-child(5),
+.rencana-pembayaran-table--flat td:nth-child(5),
+.rencana-pembayaran-table--flat th:nth-child(8),
+.rencana-pembayaran-table--flat td:nth-child(8),
+.rencana-pembayaran-table--flat th:nth-child(7),
+.rencana-pembayaran-table--flat td:nth-child(7),
+.rencana-pembayaran-table--flat th:nth-child(6),
+.rencana-pembayaran-table--flat td:nth-child(6),
+.rencana-pembayaran-table--flat th:nth-child(9),
+.rencana-pembayaran-table--flat td:nth-child(9) {
+  text-align: right;
+}
+.rencana-pembayaran-table--flat td:nth-child(6),
+.rencana-pembayaran-table--flat td:nth-child(9) {
+  text-align: right;
+  white-space: nowrap;
+}
+.rencana-pembayaran-table--flat .rencana-termin-kode-cell .rencana-termin-alokasi-badge {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin-top: 3px;
+}
+.rencana-pembayaran-table--flat .rencana-pembayaran-actual {
+  color: inherit;
+  font-weight: inherit;
+}
+.rencana-pembayaran-table--flat .rencana-pembayaran-empty {
+  color: #94a3b8;
+}
+.rencana-pembayaran-status-cell {
+  text-align: center !important;
+}
+.rencana-pembayaran-status-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  width: 100%;
+}
+.rencana-pembayaran-status {
+  display: inline-flex;
+  min-width: 82px;
+  min-height: 26px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+  text-align: center;
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+.rencana-pembayaran-status--action {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.rencana-pembayaran-status--action:hover,
+.rencana-pembayaran-status--action:focus-visible {
+  filter: brightness(.96);
+  outline: 2px solid rgba(14, 165, 233, .28);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .9) inset;
+}
+.rencana-pembayaran-status--action:active {
+  transform: translateY(1px);
+}
+.rencana-pembayaran-status--running {
+  color: #31506f;
+  background: #eef4fa;
+  border-color: #c9d9ea;
+}
+.rencana-pembayaran-status--create {
+  color: #8a5a00;
+  background: #fff4d6;
+  border-color: #efd38a;
+}
+.rencana-pembayaran-status--invoice {
+  color: #176b4c;
+  background: #e7f7ef;
+  border-color: #a9dfc2;
+}
+.rencana-pembayaran-status--payment {
+  color: #155e75;
+  background: #ecfeff;
+  border-color: #67e8f9;
+}
+.rencana-pembayaran-status--paid {
+  color: #12633f;
+  background: #dff5e9;
+  border-color: #9dd8b7;
+}
+.rencana-pembayaran-status--bkm {
+  color: #155e75;
+  background: #ecfeff;
+  border-color: #67e8f9;
+}
+.rencana-pembayaran-status--overdue,
+.rencana-pembayaran-status--overdue-partial {
+  color: #991b1b;
+  background: #fee2e2;
+  border-color: #fca5a5;
+  flex-direction: column;
+  white-space: normal;
+  text-align: center;
+}
+.rencana-pembayaran-status-detail {
+  display: block;
+  max-width: 100%;
+  margin-top: 2px;
+  font-size: 7px;
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: normal;
+}
+.rencana-pembayaran-status--partial {
+  color: #8a5a00;
+  background: #fff4d6;
+  border-color: #efd38a;
+}
+.rencana-pembayaran-status--empty {
+  color: #94a3b8;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+.rencana-pembayaran-status-actions .btn-mini-action {
+  min-height: 26px;
+  min-width: 82px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 9px;
+  line-height: 1.15;
+}
+.rencana-pembayaran-status-actions .btn-mini-action--invoice-ready {
+  background: #f0fdf4;
+  border-color: #a7d8b8;
+  color: #176b4c;
+}
+.rencana-pembayaran-status-actions .btn-mini-action--invoice-ready:hover:not(:disabled) {
+  background: #dcfce7;
+  border-color: #86c99e;
+}
+.rencana-pembayaran-status-actions .rencana-pembayaran-status--bkm {
+  color: #155e75;
+  background: #ecfeff;
+  border-color: #67e8f9;
+}
+.rencana-pembayaran-status-actions .rencana-pembayaran-status--bkm:hover:not(:disabled) {
+  background: #cffafe;
+  border-color: #22d3ee;
+}
+.rencana-pembayaran-actions {
+  gap: 3px;
+  align-items: stretch;
+}
+.rencana-pembayaran-actions .btn-mini-action {
+  min-height: 23px;
+  padding: 3px 5px;
+  font-size: 8.5px;
+}
+.rencana-pembayaran-no-action {
+  color: #94a3b8;
+}
 .modal-card--invoice-payment {
   width: min(760px, calc(100vw - 28px));
 }
@@ -5959,6 +6689,138 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   margin-top: 0;
   padding-top: 10px;
   border-top: 1px solid var(--border);
+}
+.modal-card--bukti-kas-masuk {
+  width: min(820px, calc(100vw - 28px));
+}
+.bkm-modal-body {
+  padding: 0 22px 22px;
+}
+.bkm-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bkm-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+.bkm-modal-field--wide {
+  grid-column: 1 / -1;
+}
+.bkm-modal-textarea {
+  min-height: 82px;
+  resize: vertical;
+  line-height: 1.4;
+}
+.bkm-modal-actions {
+  justify-content: flex-end;
+  margin-top: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.payment-admin-date-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 100%;
+  max-width: 100%;
+  text-align: center;
+}
+.btn-bukti-kas-masuk {
+  align-self: center;
+  border-color: #b7d4f2;
+  background: #eff6ff;
+  color: #125a99;
+  white-space: nowrap;
+}
+.btn-bukti-kas-masuk:hover,
+.btn-bukti-kas-masuk:focus-visible {
+  border-color: #7fb5e8;
+  background: #dbeeff;
+  color: #0c477b;
+}
+
+.btn-perhitungan-dpi {
+  display: inline-block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  font: inherit;
+  font-weight: 600;
+  text-align: right;
+  cursor: pointer;
+}
+.btn-perhitungan-dpi:hover,
+.btn-perhitungan-dpi:focus-visible {
+  color: var(--primary-dark, #0c477b);
+  text-decoration: underline;
+  outline: none;
+}
+.modal-card--perhitungan-dpi {
+  width: min(660px, calc(100vw - 28px));
+}
+.dpi-modal-body {
+  padding: 0 22px 22px;
+}
+.dpi-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dpi-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+.dpi-modal-field--wide {
+  grid-column: 1 / -1;
+}
+.dpi-modal-money {
+  color: var(--primary);
+  font-weight: 700;
+  text-align: right;
+}
+.dpi-modal-money.dpi-modal-field--editable {
+  border-color: #78aee0;
+  background: #f5faff;
+  cursor: text;
+}
+.dpi-modal-actions {
+  justify-content: flex-end;
+  margin-top: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 720px) {
+  .dpi-modal-grid {
+    grid-template-columns: 1fr;
+  }
+  .dpi-modal-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .dpi-modal-actions .btn-primary,
+  .dpi-modal-actions .btn-secondary {
+    width: 100%;
+  }
+}
+
+/* The payment table aligns the Admin date column to the right by default.
+   Keep the date and its BKM action centered as one cell-level control. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8) {
+  text-align: center !important;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8) .payment-admin-date-cell {
+  align-items: center !important;
+  justify-content: center !important;
+  margin-inline: auto;
+  text-align: center !important;
 }
 .modal-card--sk-team {
   width: min(1040px, calc(100vw - 28px));
@@ -6018,6 +6880,9 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   .invoice-modal-grid {
     grid-template-columns: 1fr;
   }
+  .bkm-modal-grid {
+    grid-template-columns: 1fr;
+  }
   .sk-team-form-grid {
     grid-template-columns: 1fr;
   }
@@ -6027,6 +6892,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   }
   .invoice-modal-actions .btn-primary,
   .invoice-modal-actions .btn-secondary,
+  .bkm-modal-actions .btn-primary,
+  .bkm-modal-actions .btn-secondary,
   .sk-team-actions .btn-primary,
   .sk-team-actions .btn-secondary {
     width: 100%;
@@ -6100,7 +6967,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 #panelAlokasiKerma,
 #panelRealisasiRiInvoice,
 #panelRencanaAnggaran,
-#panelRealisasiAnggaran {
+#panelRealisasiAnggaran,
+#panelPengajuanPengeluaran {
   min-height: 0;
   overflow: hidden;
 }
@@ -6110,7 +6978,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 #panelAlokasiKerma,
 #panelRealisasiRiInvoice,
 #panelRencanaAnggaran,
-#panelRealisasiAnggaran {
+#panelRealisasiAnggaran,
+#panelPengajuanPengeluaran {
   display: flex;
   flex-direction: column;
 }
@@ -6126,7 +6995,8 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 #panelPaguAnggaran .payment-list-header,
 #panelRabAnggaran .payment-list-header,
-#panelAlokasiKerma .payment-list-header {
+#panelAlokasiKerma .payment-list-header,
+#panelPengajuanPengeluaran .payment-list-header {
   flex-shrink: 0;
 }
 #panelPaguAnggaran .pagu-table-wrap,
@@ -6468,6 +7338,13 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   flex-direction: column;
   margin-bottom: 4px;
 }
+.rencana-income-section--pembayaran {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  margin-bottom: 4px;
+}
 .rencana-income-section-head {
   display: flex;
   align-items: flex-start;
@@ -6562,17 +7439,6 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   filter: saturate(1.08);
   box-shadow: 0 14px 28px rgba(0,75,135,0.22);
   outline: none;
-}
-.rencana-income-detail-panel {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  flex-direction: column;
-  margin: 0;
-  padding: 10px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, rgba(0,75,135,0.16), rgba(14,78,135,0.11));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.58), 0 10px 22px rgba(0,45,90,0.08);
 }
 .rencana-income-detail-summary {
   display: grid;
@@ -7666,6 +8532,15 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   text-align: right;
   white-space: nowrap;
 }
+.payment-history-table th:nth-child(4),
+.payment-history-table th:nth-child(5),
+.payment-history-table td:nth-child(4),
+.payment-history-table td:nth-child(5),
+.payment-history-table th:nth-child(6),
+.payment-history-table th:nth-child(7),
+.payment-history-table th:nth-child(8) {
+  text-align: right;
+}
 .payment-history-table th:nth-child(10),
 .payment-history-table td:nth-child(10) {
   width: 112px;
@@ -7690,6 +8565,309 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 }
 .payment-history-table .table-actions-inline {
   flex-wrap: nowrap;
+}
+
+/* Keep the Payment and Reception table headings visually identical. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat thead th,
+#panelUangMasuk .payment-history-table thead th {
+  padding: 6px 7px;
+  font-size: 9px;
+  line-height: 1.15;
+  text-align: center !important;
+  vertical-align: middle !important;
+  white-space: normal;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat thead th,
+#panelUangMasuk .payment-history-table thead th {
+  height: 42px;
+  box-sizing: border-box;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(1),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(1) {
+  width: 40px;
+  min-width: 40px;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(2),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(2) {
+  width: 136px;
+  min-width: 136px;
+}
+#panelUangMasuk .payment-history-table th:nth-child(2),
+#panelUangMasuk .payment-history-table td:nth-child(2) {
+  width: 136px;
+  min-width: 136px;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(3),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(3) {
+  width: 140px;
+  min-width: 140px;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat .rencana-termin-kode-cell .kode-file-tag,
+#panelUangMasuk .payment-history-table .kode-file-tag {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 2px 6px;
+  font-size: 9.5px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat .rencana-termin-kode-cell .kode-file-tag {
+  max-width: none;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8) {
+  border-right: none !important;
+  box-shadow: none !important;
+}
+/* The PKS payment date is compact; keep the admin date column unchanged. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5) {
+  width: 128px;
+  min-width: 128px;
+}
+/* Keep long PKS stage labels compact without widening the table. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(4),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4) {
+  width: 138px;
+  min-width: 138px;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(7),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(7) {
+  width: 112px;
+  min-width: 112px;
+  text-align: center;
+}
+
+/* Keep the Pembayaran table inside the available workspace. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100%;
+  table-layout: fixed !important;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th,
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td {
+  min-width: 0 !important;
+  max-width: none;
+  box-sizing: border-box;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(1),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(1) { width: 4% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(2),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(2) { width: 11% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(3),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(3) { width: 19% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(4),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4) { width: 12% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5) { width: 9% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(6),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(6) { width: 10% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(7),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(7) { width: 13% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8) { width: 12% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(9) { width: 10% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat .rencana-termin-kode-cell .kode-file-tag {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(9) {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat .rencana-pembayaran-status {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(7),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(7) {
+  border-right: none !important;
+  box-shadow: none !important;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat .btn-bukti-kas-masuk {
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.1;
+}
+/* The Admin payment amount is followed by DPI and net receipt columns. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(1),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(1) { width: 4% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(2),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(2) { width: 11% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(3),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(3) { width: 14% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(4),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4) { width: 11% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5) { width: 8% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(6),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(6) { width: 9% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(7),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(7) { width: 11% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8) { width: 9% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(9) { width: 9% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(10),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(10) { width: 7% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(11),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(11) { width: 7% !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(10),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(11) {
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(6),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(6),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(10),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(10),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(11),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(11) {
+  text-align: right;
+}
+/* Use a readable fixed width and let the table container scroll horizontally
+   when the viewport cannot show all payment columns at once. */
+#panelRencanaPendapatan .rencana-pembayaran-table--flat {
+  width: max(100%, 1458px) !important;
+  min-width: 1458px !important;
+  max-width: none !important;
+  table-layout: fixed !important;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(1),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(1) { width: 48px !important; min-width: 48px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(2),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(2) { width: 135px !important; min-width: 135px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(3),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(3) { width: 160px !important; min-width: 160px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(4),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(4) { width: 150px !important; min-width: 150px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(5) { width: 115px !important; min-width: 115px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(6),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(6) { width: 135px !important; min-width: 135px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(7),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(7) { width: 115px !important; min-width: 115px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(8) { width: 130px !important; min-width: 130px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(9) { width: 125px !important; min-width: 125px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(10),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(10) { width: 135px !important; min-width: 135px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(11),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(11) { width: 100px !important; min-width: 100px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(12),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(12) { width: 110px !important; min-width: 110px !important; }
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(5),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(6),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(8),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(9),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(10),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(11),
+#panelRencanaPendapatan .rencana-pembayaran-table--flat th:nth-child(12) {
+  text-align: center !important;
+}
+th[data-col="no"] .th-filter-btn {
+  top: 50%;
+  left: calc(50% + 9px);
+  right: auto;
+  width: 10px;
+  height: 12px;
+  padding: 0;
+  transform: translateY(-50%);
+  box-sizing: border-box;
+}
+th[data-col="no"] .th-filter-btn svg {
+  width: 9px;
+  height: 9px;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat tbody td,
+#panelUangMasuk .payment-history-table tbody td {
+  padding: 5px 7px;
+  font-size: 9.5px;
+  line-height: 1.2;
+  vertical-align: middle;
+  box-sizing: border-box;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat tbody td,
+#panelPaguAnggaran .pagu-anggaran-table tbody td {
+  border-bottom: 1px solid #E1E8F0;
+}
+.rencana-pembayaran-action-cell {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+#panelRencanaPendapatan .rencana-pembayaran-status-cell .rencana-pembayaran-status--bkm {
+  color: #155e75;
+  background: #ecfeff;
+  border-color: #67e8f9;
+}
+#panelRencanaPendapatan .rencana-pembayaran-status-cell .rencana-pembayaran-status--bkm:hover:not(:disabled) {
+  background: #cffafe;
+  border-color: #22d3ee;
+}
+#panelRencanaPendapatan .rencana-pembayaran-table--flat td:nth-child(12) {
+  text-align: right !important;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.rencana-pembayaran-action-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  width: 100%;
+}
+.rencana-pembayaran-action-list .btn-mini-action {
+  min-height: 25px;
+  min-width: 84px;
+  padding: 4px 7px;
+  border-radius: 6px;
+  font-size: 9px;
+  line-height: 1.15;
+}
+.rencana-pembayaran-action-list .rencana-pembayaran-action--bkm {
+  color: #155e75;
+  background: #ecfeff;
+  border-color: #67e8f9;
+}
+.rencana-pembayaran-action-list .rencana-pembayaran-action--bkm:hover:not(:disabled) {
+  color: #155e75;
+  background: #cffafe;
+  border-color: #22d3ee;
 }
 .td-center {
   text-align: center;
@@ -7851,6 +9029,78 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   margin-left: auto;
   min-width: 0;
 }
+#panelRencanaPendapatan .payment-search-wrap,
+#panelUangMasuk .payment-search-wrap {
+  margin-left: 0;
+  align-items: flex-start;
+}
+#panelRencanaPendapatan .payment-search-wrap {
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+#panelRencanaPendapatan .payment-search-wrap > .filter-info {
+  flex: 0 0 100%;
+}
+#panelRencanaPendapatan .payment-filter-container {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 9px 11px;
+  border: 1px solid #C9D6E2;
+  border-radius: 10px;
+  background: #DDE6EF;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.045), inset 0 1px 0 rgba(255, 255, 255, 0.68);
+}
+#panelRencanaPendapatan .payment-filter-container .payment-period-filter {
+  margin-top: 0;
+}
+#panelRencanaPendapatan .payment-total-summary {
+  order: -1;
+  margin-left: 0;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+#panelRencanaPendapatan .payment-total-summary article {
+  min-width: 150px;
+  border-color: var(--border);
+  border-top-width: 3px;
+  background: var(--surface);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+}
+#panelRencanaPendapatan .payment-total-summary article span {
+  color: var(--text-3);
+}
+#panelRencanaPendapatan .payment-total-summary article strong {
+  color: var(--text-1);
+}
+#panelRencanaPendapatan .payment-total-summary article:nth-child(1) {
+  border-top-color: #2D6A9F;
+}
+#panelRencanaPendapatan .payment-total-summary article:nth-child(2) {
+  border-top-color: #4C7A86;
+}
+#panelRencanaPendapatan .payment-total-summary article:nth-child(3) {
+  border-top-color: #B77B2A;
+}
+#panelRencanaPendapatan .payment-total-summary article:nth-child(4) {
+  border-top-color: #3C8A6E;
+}
+#panelRencanaPendapatan .payment-total-summary article:nth-child(5) {
+  border-top-color: #8A6A2F;
+}
+#panelRencanaPendapatan .payment-total-summary article:nth-child(6) {
+  border-top-color: #6C7180;
+}
+#panelUangMasuk .payment-total-summary {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+#panelUangMasuk .payment-total-summary article {
+  min-width: 150px;
+}
 .payment-searchbar {
   display: flex;
   align-items: flex-start;
@@ -7870,6 +9120,260 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .payment-searchbar .btn-reset {
   padding: 6px 10px;
   font-size: 11px;
+}
+#panelRencanaPendapatan .payment-code-searchbar {
+  display: flex;
+  flex: 1 1 320px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 270px;
+}
+#panelRencanaPendapatan .payment-code-search-shell {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 390px);
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 11px;
+  border: 1.5px solid var(--border-2);
+  border-radius: 9px;
+  background: #EFF4F8;
+  transition: var(--trans);
+}
+#panelRencanaPendapatan .payment-code-search-shell:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,75,135,0.10);
+}
+.payment-code-search-icon {
+  flex: 0 0 19px;
+  width: 19px;
+  height: 19px;
+  color: var(--primary);
+}
+#panelRencanaPendapatan .payment-code-search-input {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  min-height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+#panelRencanaPendapatan .payment-code-search-input:focus {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+#panelRencanaPendapatan .payment-code-search-input::-webkit-calendar-picker-indicator {
+  display: none !important;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+#panelRencanaPendapatan .payment-code-search-input::-webkit-list-button {
+  display: none !important;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+#panelRencanaPendapatan .payment-code-search-input::-webkit-search-cancel-button,
+#panelRencanaPendapatan .payment-code-search-input::-webkit-search-decoration {
+  display: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.payment-code-search-chevron {
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+.payment-period-filter {
+  position: relative;
+  z-index: 21;
+  display: flex;
+  flex: 1 1 320px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 270px;
+  margin-top: 0;
+}
+.payment-period-title {
+  align-self: flex-start;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.payment-period-control {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.payment-period-trigger {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 390px);
+  min-width: 0;
+  min-height: 38px;
+  padding: 7px 11px;
+  border: 1.5px solid var(--border-2);
+  border-radius: 9px;
+  background: #EFF4F8;
+  color: var(--text-1);
+  cursor: pointer;
+  pointer-events: auto;
+  text-align: left;
+  transition: var(--trans);
+}
+.payment-period-trigger:hover,
+.payment-period-trigger:focus-visible,
+.payment-period-filter.is-open .payment-period-trigger {
+  border-color: var(--primary);
+  background: #EFF4F8;
+  box-shadow: 0 0 0 3px rgba(0,75,135,0.10);
+}
+.payment-period-trigger-icon {
+  flex: 0 0 19px;
+  width: 19px;
+  height: 19px;
+  color: var(--primary);
+}
+.payment-period-trigger-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-1);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.payment-period-trigger-label.is-placeholder {
+  color: var(--text-3);
+  font-weight: 600;
+}
+.payment-period-trigger-chevron {
+  flex: 0 0 auto;
+  color: var(--text-3);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
+}
+.payment-period-filter.is-open .payment-period-trigger-chevron {
+  transform: rotate(180deg) translateY(2px);
+}
+.payment-period-reset {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  white-space: nowrap;
+}
+.payment-period-popover {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(100%, 430px);
+  min-width: 320px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+.payment-period-popover[hidden] {
+  display: none;
+}
+.payment-period-popover-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-1);
+  font-size: 12px;
+}
+.payment-period-popover-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-2);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+.payment-period-popover-close:hover,
+.payment-period-popover-close:focus-visible {
+  border-color: var(--border-2);
+  background: var(--border);
+  color: var(--text-1);
+}
+.payment-period-popover-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 8px;
+  padding: 13px 0;
+}
+.payment-period-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.payment-period-date-field input {
+  width: 100%;
+  min-height: 34px;
+  padding: 6px 8px;
+  font-size: 11.5px;
+}
+.payment-period-separator {
+  padding-bottom: 9px;
+  color: var(--text-3);
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.payment-period-popover-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.payment-period-popover-actions .btn-primary {
+  min-width: 92px;
 }
 .payment-search-wrap .filter-info {
   margin-top: 0;
@@ -8078,6 +9582,58 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
   .payment-search-wrap {
     align-items: stretch;
     width: 100%;
+  }
+  #panelRencanaPendapatan .payment-search-wrap {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+  }
+  #panelRencanaPendapatan .payment-filter-container {
+    align-items: stretch;
+    gap: 8px;
+  }
+  #panelRencanaPendapatan .payment-filter-container .payment-period-filter {
+    margin-top: 6px;
+  }
+  #panelRencanaPendapatan .payment-period-filter {
+    width: 100%;
+    min-width: 0;
+  }
+  #panelRencanaPendapatan .payment-code-searchbar {
+    width: 100%;
+    min-width: 0;
+  }
+  #panelRencanaPendapatan .payment-code-search-shell {
+    width: 100%;
+    max-width: none;
+  }
+  #panelRencanaPendapatan .payment-period-trigger {
+    width: 100%;
+    max-width: none;
+  }
+  #panelRencanaPendapatan .payment-period-popover {
+    position: static;
+    width: 100%;
+    min-width: 0;
+    margin-top: 4px;
+    box-shadow: var(--shadow-sm);
+  }
+  #panelRencanaPendapatan .payment-total-summary {
+    order: 0;
+    width: 100%;
+    margin-left: 0;
+  }
+  #panelRencanaPendapatan .payment-total-summary article {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  #panelUangMasuk .payment-total-summary {
+    width: 100%;
+    margin-left: 0;
+  }
+  #panelUangMasuk .payment-total-summary article {
+    flex: 1 1 0;
+    min-width: 0;
   }
   .payment-searchbar {
     flex-wrap: wrap;

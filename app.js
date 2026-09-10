@@ -615,6 +615,7 @@ function payloadPlottingAman(payload = {}) {
     );
     return {
         plottingSchemaVersion: Math.max(schemaVersion, PLOTTING_SCHEMA_VERSION),
+        sesiSimulasiAktifId: String(sumber.sesiSimulasiAktifId || '').trim(),
         presetPerhitunganDasarIdeal2026S2: sumber.presetPerhitunganDasarIdeal2026S2 ?? 0,
         plotSkIdealDibuat2026S2: sumber.plotSkIdealDibuat2026S2 ?? 0,
         jumlahPksPlotting: sumber.jumlahPksPlotting ?? 2,
@@ -649,6 +650,9 @@ function payloadPlottingAman(payload = {}) {
         daftarHasilSimulasiPlotting: daftarHasilSimulasi,
         daftarNominatifBySimulasi: sumber.daftarNominatifBySimulasi && typeof sumber.daftarNominatifBySimulasi === 'object'
             ? sumber.daftarNominatifBySimulasi
+            : {},
+        pengajuanPengeluaranBySimulasi: sumber.pengajuanPengeluaranBySimulasi && typeof sumber.pengajuanPengeluaranBySimulasi === 'object'
+            ? sumber.pengajuanPengeluaranBySimulasi
             : {},
         nomorSkByPksTersimpan: sumber.nomorSkByPksTersimpan && typeof sumber.nomorSkByPksTersimpan === 'object'
             ? sumber.nomorSkByPksTersimpan
@@ -1470,6 +1474,58 @@ function formatTanggalISO(d) {
     const m = String(d.getMonth() + 1).padStart(2, '0');
     const day = String(d.getDate()).padStart(2, '0');
     return `${y}-${m}-${day}`;
+}
+
+const BKM_DEFAULT_NO_REKENING = '901102012';
+const BKM_BULAN_SINGKAT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'AGT', 'Sep', 'Okt', 'Nov', 'Des'];
+
+function bagianNomorBkm(value = '') {
+    const match = String(value || '').trim().match(/^([^/]+)\/(Jan|Feb|Mar|Apr|Mei|Jun|Jul|AGT|Agu|Sep|Okt|Nov|Des)\/(\d{4})\/(\d+)$/i);
+    if (!match) return null;
+    return {
+        rekening: match[1],
+        bulan: match[2],
+        tahun: Number(match[3]),
+        urutan: Number(match[4])
+    };
+}
+
+function normalisasiNomorBkm(value = '') {
+    const bagian = bagianNomorBkm(value);
+    if (!bagian) return '';
+    return `${bagian.rekening}/${bagian.bulan}/${bagian.tahun}/${String(Math.max(0, bagian.urutan || 0)).padStart(3, '0')}`;
+}
+
+async function buatNomorBkmBerikutnya(tanggal, noRekening = BKM_DEFAULT_NO_REKENING, excludeId = '') {
+    const date = parseTanggalDashboard(tanggal);
+    if (!date) return '';
+    const rekening = String(noRekening || BKM_DEFAULT_NO_REKENING).trim();
+    const bulan = BKM_BULAN_SINGKAT[date.getMonth()];
+    const tahun = date.getFullYear();
+    const tanggalInput = formatTanggalISO(date);
+    const rows = await safeMongoRead(
+        'RealisasiPembayaran.find(bkm-number)',
+        () => RealisasiPembayaran.find({}, 'bkm_nomor bkm_sudah_disimpan bkm_tanggal tanggal bkm_no_rekening').lean(),
+        []
+    );
+    let max = 0;
+    rows.forEach(row => {
+        if (excludeId && String(row._id || '') === String(excludeId)) return;
+        const bagian = bagianNomorBkm(row.bkm_nomor);
+        if (bagian
+            && bagian.rekening === rekening
+            && bagian.bulan.toLowerCase() === bulan.toLowerCase()
+            && bagian.tahun === tahun) {
+            max = Math.max(max, bagian.urutan);
+            return;
+        }
+        const tersimpan = row.bkm_sudah_disimpan === true
+            || String(row.bkm_sudah_disimpan || '').toLowerCase() === 'true';
+        const tanggalBkm = formatTanggalInput(row.bkm_tanggal || row.tanggal || '');
+        const rekeningBkm = String(row.bkm_no_rekening || BKM_DEFAULT_NO_REKENING).trim();
+        if (tersimpan && tanggalBkm === tanggalInput && rekeningBkm === rekening) max += 1;
+    });
+    return `${rekening}/${bulan}/${tahun}/${String(max + 1).padStart(3, '0')}`;
 }
 
 function tambahHari(d, jumlah) {
@@ -3834,9 +3890,10 @@ function cariRencanaPembayaranUntukRealisasi(row, index) {
         ambilRencanaBelumDipakai(index.byProgramTahap, `${idProgram}|${tahap}`) ||
         ambilRencanaBelumDipakai(index.byKodeTahap, `${kodeFile}|${tahap}`) ||
         ambilRencanaBelumDipakai(index.byProgramNominal, `${idProgram}|${nominal}`) ||
-        ambilRencanaBelumDipakai(index.byKodeNominal, `${kodeFile}|${nominal}`) ||
-        ambilRencanaBelumDipakai(index.byProgram, idProgram) ||
-        ambilRencanaBelumDipakai(index.byKode, kodeFile);
+        ambilRencanaBelumDipakai(index.byKodeNominal, `${kodeFile}|${nominal}`);
+    // A payment without a stage, schedule date, matching amount, or exact key
+    // must remain unassigned. Resolving it to the first term in a contract
+    // makes an unrelated legacy payment look like that term was paid.
     if (rencana) return rencana;
 
     const tanggalTersimpan = formatTanggalInput(row.rencana_tanggal || '');
@@ -3908,7 +3965,6 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
     const byFallbackKey = new Map();
     const byProgramTahap = new Map();
     const byKodeTahap = new Map();
-    const byKontrakKey = new Map();
     const add = (map, key, row) => {
         if (!key) return;
         if (!map.has(key)) map.set(key, []);
@@ -3923,7 +3979,6 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
         add(byFallbackKey, buatRencanaPendapatanFallbackKey(row), row);
         add(byProgramTahap, `${idProgram}|${tahap}`, row);
         add(byKodeTahap, `${kodeFile}|${tahap}`, row);
-        add(byKontrakKey, row.__kontrak_key, row);
     });
 
     const alokasiKeRow = (row, amount, { allowOverflow = false } = {}) => {
@@ -3945,13 +4000,6 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
             sisa = alokasiKeRow(row, sisa, options);
         });
         return sisa;
-    };
-
-    const realisasiTanpaKey = new Map();
-    const realisasiTanpaTahap = new Map();
-    const tambahRealisasiTanpaKey = (map, key, amount) => {
-        if (!key || amount <= 0) return;
-        map.set(key, (map.get(key) || 0) + amount);
     };
 
     realisasiPembayaran.forEach(row => {
@@ -3979,16 +4027,9 @@ function alokasikanRealisasiPembayaranKeRencana(rencanaRows = [], realisasiPemba
             nominalRealisasi = alokasiKeCandidates(byKodeTahap.get(`${kodeFile}|${tahap}`) || [], nominalRealisasi, { allowOverflow: true });
         }
 
-        if (nominalRealisasi > 0) {
-            tambahRealisasiTanpaKey(tahap ? realisasiTanpaKey : realisasiTanpaTahap, keyKontrakRencanaPendapatan(row), nominalRealisasi);
-        }
-    });
-
-    realisasiTanpaKey.forEach((nominalRealisasi, kontrakKey) => {
-        alokasiKeCandidates(byKontrakKey.get(kontrakKey) || [], nominalRealisasi, { allowOverflow: true });
-    });
-    realisasiTanpaTahap.forEach((nominalRealisasi, kontrakKey) => {
-        alokasiKeCandidates(byKontrakKey.get(kontrakKey) || [], nominalRealisasi);
+        // Do not infer a termin from the contract alone. The remaining
+        // amount is still included in contract-level payment totals, but it
+        // cannot change the paid/unpaid state of any individual term.
     });
 
     return rows
@@ -4244,11 +4285,14 @@ function sanitasiRiwayatJabatanPlotting(raw = [], konfigurasi = konfigurasiBidan
     return raw.map(item => {
         if (!item || typeof item !== 'object') return item;
         if (!item.snapshot || typeof item.snapshot !== 'object') return item;
+        const snapshotConfig = item.snapshot.jabatanBidangPlottingKerma && typeof item.snapshot.jabatanBidangPlottingKerma === 'object'
+            ? item.snapshot.jabatanBidangPlottingKerma
+            : konfigurasi;
         return {
             ...item,
             snapshot: {
                 ...item.snapshot,
-                jabatanBidangPlottingKerma: konfigurasi
+                jabatanBidangPlottingKerma: snapshotConfig
             }
         };
     });
@@ -4662,6 +4706,10 @@ function konversiDocxKePdf(buffer, filename = 'SK.docx') {
 
 app.post('/api/plotting-kerma/sk-tim-pengelola', requireLogin, async (req, res) => {
     try {
+        const statusSesi = String(req.body?.status_sesi || '').trim();
+        if (statusSesi && !['Siap Generate SK', 'Selesai'].includes(statusSesi)) {
+            return res.status(409).json({ pesan: 'Sesi belum final. Tetapkan sebagai Hasil Final sebelum Generate SK.' });
+        }
         const snapshot = req.body?.snapshot && typeof req.body.snapshot === 'object' ? req.body.snapshot : {};
         const format = String(req.body?.format || 'docx').toLowerCase() === 'pdf' ? 'pdf' : 'docx';
         const tanggalSkDate = parseTanggalDashboard(req.body?.tanggal_sk);
@@ -4874,11 +4922,107 @@ async function buatNomorInvoicePembayaran(tanggalInvoice) {
     return `NO. ${String(jumlahTahunIni + 1).padStart(3, '0')}/IT1.C09.2/KU/${tahun}`;
 }
 
-async function cariRencanaTerminInvoice(rencanaKey) {
+function rencanaTerminCocokDenganPetunjuk(row = {}, hints = {}) {
+    if (!row || !hints || typeof hints !== 'object') return true;
+
+    const kodeFile = String(hints.kode_file || '').trim();
+    if (kodeFile && String(row.kode_file || '').trim() !== kodeFile) return false;
+
+    const tahap = normalisasiKeyBagian(hints.rencana_tahap || '');
+    if (tahap && normalisasiKeyBagian(row.tahap || '') !== tahap) return false;
+
+    const tanggal = formatTanggalInput(hints.rencana_tanggal || hints.rencana_tanggal_input || '');
+    if (tanggal && formatTanggalInput(row.tanggal_input || '') !== tanggal) return false;
+
+    const nominal = Number(hints.rencana_nominal);
+    if (Number.isFinite(nominal) && nominal > 0 && Number(row.nominal) !== nominal) return false;
+
+    return true;
+}
+
+async function cariRencanaTerminInvoice(rencanaKey, hints = {}) {
     const key = String(rencanaKey || '').trim();
     if (!key) return null;
     const payload = await bangunRencanaPendapatanTermin();
-    return (payload.data || []).find(row => String(row.rencana_key || '').trim() === key) || null;
+    const rows = payload.data || [];
+    const byKey = rows.find(row => String(row.rencana_key || '').trim() === key) || null;
+    if (byKey && rencanaTerminCocokDenganPetunjuk(byKey, hints)) return byKey;
+
+    // A legacy/incorrect key must not silently resolve to another stage.
+    // Use the explicit stage identity sent by the client when available.
+    return rows.find(row => rencanaTerminCocokDenganPetunjuk(row, hints)) || null;
+}
+
+function nomorTahapInvoice(value = '') {
+    const text = normalisasiKeyBagian(value);
+    const angka = text.match(/(?:tahap|termin|cicilan|semester)?\s*(\d+)/i);
+    if (angka) return Number(angka[1]) || null;
+    const kata = {
+        pertama: 1, kesatu: 1, satu: 1,
+        kedua: 2, dua: 2,
+        ketiga: 3, tiga: 3,
+        keempat: 4, empat: 4,
+        kelima: 5, lima: 5,
+        keenam: 6, enam: 6,
+        ketujuh: 7, tujuh: 7,
+        kedelapan: 8, delapan: 8,
+        kesembilan: 9, sembilan: 9,
+        kesepuluh: 10, sepuluh: 10
+    };
+    const found = Object.entries(kata).find(([word]) => text.includes(word));
+    return found ? found[1] : null;
+}
+
+async function cariInvoicePembayaranUntukRencana(rencana = {}, rencanaKey = '') {
+    const key = String(rencanaKey || rencana.rencana_key || '').trim();
+    if (key) {
+        const exact = await InvoicePembayaran.findOne({ rencana_key: key }).lean();
+        if (exact) return exact;
+    }
+
+    const kodeFile = String(rencana.kode_file || '').trim();
+    if (!kodeFile) return null;
+    const invoices = await InvoicePembayaran.find({ kode_file: kodeFile }).sort({ createdAt: -1 }).lean();
+    if (!invoices.length) return null;
+
+    const tahap = nomorTahapInvoice(rencana.tahap || rencana.rencana_tahap);
+    const tanggal = formatTanggalInput(rencana.tanggal_input || rencana.rencana_tanggal || '');
+    const nominal = Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0;
+    const kandidat = invoices.filter(invoice => {
+        const tahapInvoice = nomorTahapInvoice(invoice.rencana_tahap);
+        const tanggalInvoice = formatTanggalInput(invoice.rencana_tanggal || invoice.rencana_tanggal_input || '');
+        const nominalInvoice = Number(invoice.rencana_nominal) || 0;
+        const tahapSama = Number.isFinite(tahap) && tahap === tahapInvoice;
+        const tanggalSama = Boolean(tanggal && tanggalInvoice && tanggal === tanggalInvoice);
+        const nominalSama = Boolean(nominal > 0 && nominalInvoice > 0 && nominal === nominalInvoice);
+        return (tahapSama && tanggalSama) || (tanggalSama && nominalSama) || (tahapSama && nominalSama);
+    });
+    if (kandidat.length) return kandidat[0];
+
+    // If the schedule date/nominal changed after invoice creation, a unique
+    // stage within one code file is still safe to use as the identity.
+    const tahapKandidat = Number.isFinite(tahap)
+        ? invoices.filter(invoice => nomorTahapInvoice(invoice.rencana_tahap) === tahap)
+        : [];
+    return tahapKandidat.length === 1 ? tahapKandidat[0] : null;
+}
+
+async function ringkasanPembayaranTerminAktual(rencana = {}) {
+    const key = String(rencana.rencana_key || '').trim();
+    if (!key) return { jumlah: 0, totalBruto: 0, nominalRencana: Number(rencana.nominal) || 0, lunas: false };
+    const rows = await safeMongoRead(
+        'RealisasiPembayaran.find(invoice-termin)',
+        () => RealisasiPembayaran.find({ rencana_key: key }).lean(),
+        []
+    );
+    const totalBruto = rows.reduce((sum, row) => sum + nominalBrutoPenerimaan(row), 0);
+    const nominalRencana = Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0;
+    return {
+        jumlah: rows.length,
+        totalBruto,
+        nominalRencana,
+        lunas: rows.length > 0 && nominalRencana > 0 && totalBruto >= nominalRencana
+    };
 }
 
 function escapeHtml(value = '') {
@@ -5108,7 +5252,17 @@ app.get('/api/invoice-pembayaran/preview', async (req, res) => {
         const rencanaKey = String(req.query?.rencana_key || '').trim();
         if (!rencanaKey) return res.status(400).json({ pesan: 'Rencana pembayaran wajib dipilih.' });
 
-        const existing = await InvoicePembayaran.findOne({ rencana_key: rencanaKey }).lean();
+        const rencanaHints = {
+            kode_file: req.query?.kode_file || '',
+            rencana_tahap: req.query?.rencana_tahap || '',
+            rencana_tanggal: req.query?.rencana_tanggal || '',
+            rencana_nominal: req.query?.rencana_nominal || ''
+        };
+        const rencana = await cariRencanaTerminInvoice(rencanaKey, rencanaHints);
+        if (!rencana) return res.status(404).json({ pesan: 'Rencana pembayaran tidak ditemukan.' });
+        const rencanaKeyResolved = String(rencana.rencana_key || rencanaKey).trim();
+
+        const existing = await cariInvoicePembayaranUntukRencana(rencana, rencanaKeyResolved);
         if (existing) {
             const program = await Program.findOne({ id_program: existing.id_program }).lean();
             const mitra = program ? await cariMitraUntukInvoice(program) : null;
@@ -5120,10 +5274,8 @@ app.get('/api/invoice-pembayaran/preview', async (req, res) => {
                 }
             });
         }
-
-        const rencana = await cariRencanaTerminInvoice(rencanaKey);
-        if (!rencana) return res.status(404).json({ pesan: 'Rencana pembayaran tidak ditemukan.' });
-        if (rencana.terealisasi) return res.status(400).json({ pesan: 'Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.' });
+        const pembayaranAktual = await ringkasanPembayaranTerminAktual(rencana);
+        if (pembayaranAktual.lunas) return res.status(400).json({ pesan: 'Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.' });
 
         const lookup = await cariProgramDariKodeFile(rencana.kode_file || '');
         if (lookup.error) return res.status(400).json({ pesan: lookup.error });
@@ -5133,12 +5285,14 @@ app.get('/api/invoice-pembayaran/preview', async (req, res) => {
         if (!tanggalInvoiceDate) return res.status(400).json({ pesan: 'Tanggal invoice tidak valid.' });
         const tanggalInvoice = formatTanggalISO(tanggalInvoiceDate);
         const mitra = await cariMitraUntukInvoice(lookup.program);
-        const nominal = Math.max(0, Math.round(Number(rencana.nominal_sisa) || Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0));
+        const nominal = pembayaranAktual.jumlah > 0
+            ? Math.max(0, Math.round(pembayaranAktual.nominalRencana - pembayaranAktual.totalBruto))
+            : Math.max(0, Math.round(Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0));
         const nomorInvoice = String(req.query?.nomor_invoice || '').trim() || await buatNomorInvoicePembayaran(tanggalInvoice);
         const invoicePreview = {
             id_program: lookup.program.id_program,
             kode_file: lookup.kodeFile,
-            rencana_key: rencanaKey,
+            rencana_key: rencanaKeyResolved,
             rencana_tahap: rencana.tahap || '',
             rencana_tanggal: rencana.tanggal_input || '',
             rencana_nominal: nominal,
@@ -5162,14 +5316,19 @@ app.post('/api/invoice-pembayaran', async (req, res) => {
         const rencanaKey = String(req.body?.rencana_key || '').trim();
         if (!rencanaKey) return res.status(400).json({ pesan: 'Rencana pembayaran wajib dipilih.' });
 
-        const rencana = await cariRencanaTerminInvoice(rencanaKey);
+        const rencanaHints = {
+            kode_file: req.body?.kode_file || '',
+            rencana_tahap: req.body?.rencana_tahap || '',
+            rencana_tanggal: req.body?.rencana_tanggal || '',
+            rencana_nominal: req.body?.rencana_nominal || ''
+        };
+        const rencana = await cariRencanaTerminInvoice(rencanaKey, rencanaHints);
         if (!rencana) return res.status(404).json({ pesan: 'Rencana pembayaran tidak ditemukan.' });
-        if (rencana.terealisasi) return res.status(400).json({ pesan: 'Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.' });
-
+        const rencanaKeyResolved = String(rencana.rencana_key || rencanaKey).trim();
         const lookup = await cariProgramDariKodeFile(rencana.kode_file || req.body?.kode_file || '');
         if (lookup.error) return res.status(400).json({ pesan: lookup.error });
 
-        const existing = await InvoicePembayaran.findOne({ rencana_key: rencanaKey });
+        const existing = await cariInvoicePembayaranUntukRencana(rencana, rencanaKeyResolved);
         if (existing) {
             return res.json({
                 pesan: 'Invoice untuk termin ini sudah dibuat.',
@@ -5177,17 +5336,22 @@ app.post('/api/invoice-pembayaran', async (req, res) => {
             });
         }
 
+        const pembayaranAktual = await ringkasanPembayaranTerminAktual(rencana);
+        if (pembayaranAktual.lunas) return res.status(400).json({ pesan: 'Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.' });
+
         const tanggalInvoiceDate = parseTanggalDashboard(req.body?.tanggal_invoice || new Date());
         if (!tanggalInvoiceDate) return res.status(400).json({ pesan: 'Tanggal invoice tidak valid.' });
         const tanggalInvoice = formatTanggalISO(tanggalInvoiceDate);
-        const nominal = Math.max(0, Math.round(Number(rencana.nominal_sisa) || Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0));
+        const nominal = pembayaranAktual.jumlah > 0
+            ? Math.max(0, Math.round(pembayaranAktual.nominalRencana - pembayaranAktual.totalBruto))
+            : Math.max(0, Math.round(Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0));
         if (nominal <= 0) return res.status(400).json({ pesan: 'Nominal invoice harus lebih dari 0.' });
 
         const nomorInvoice = String(req.body?.nomor_invoice || '').trim() || await buatNomorInvoicePembayaran(tanggalInvoice);
         const created = await InvoicePembayaran.create({
             id_program: lookup.program.id_program,
             kode_file: lookup.kodeFile,
-            rencana_key: rencanaKey,
+            rencana_key: rencanaKeyResolved,
             rencana_tahap: rencana.tahap || '',
             rencana_tanggal: rencana.tanggal_input || '',
             rencana_nominal: nominal,
@@ -5309,12 +5473,37 @@ app.get('/api/daftar-realisasi-pembayaran', async (req, res) => {
                 nominal_dpi_display: `Rp ${formatRupiahAngka(nominalDpi)}`,
                 nominal: nominalRealisasi,
                 nominal_display: `Rp ${formatRupiahAngka(nominalRealisasi)}`,
+                dpi_sudah_disimpan: row.dpi_sudah_disimpan === true
+                    || String(row.dpi_sudah_disimpan || '').toLowerCase() === 'true'
+                    || (!Object.prototype.hasOwnProperty.call(row, 'dpi_sudah_disimpan')
+                        && (row.bkm_sudah_disimpan === true || String(row.bkm_sudah_disimpan || '').toLowerCase() === 'true')
+                        && Number(row.nominal) > 0),
                 keterangan: keteranganRealisasiPembayaranTampil(row.keterangan),
-                rencana_key: row.rencana_key || '',
-                rencana_tahap: row.rencana_tahap || '',
-                rencana_tanggal: row.rencana_tanggal || '',
-                rencana_nominal: Number(row.rencana_nominal) || 0,
-                rencana_nominal_display: row.rencana_nominal ? `Rp ${formatRupiahAngka(row.rencana_nominal)}` : ''
+                // Keep the resolved PKS schedule metadata on legacy payment
+                // records so the client does not invent labels such as
+                // "Realisasi 3" when the original rencana_key is absent.
+                rencana_key: rencana?.rencana_key || row.rencana_key || '',
+                rencana_tahap: rencana?.tahap || (
+                    /^realisasi\s+\d+$/i.test(String(row.rencana_tahap || '').trim())
+                        ? ''
+                        : row.rencana_tahap || ''
+                ),
+                rencana_tanggal: rencana?.tanggal_input || row.rencana_tanggal || '',
+                rencana_nominal: Number(rencana?.nominal) || Number(row.rencana_nominal) || 0,
+                rencana_nominal_display: rencana?.nominal || row.rencana_nominal
+                    ? `Rp ${formatRupiahAngka(Number(rencana?.nominal) || Number(row.rencana_nominal) || 0)}`
+                    : '',
+                bkm_sudah_disimpan: row.bkm_sudah_disimpan === true || String(row.bkm_sudah_disimpan || '').toLowerCase() === 'true',
+                bkm_nomor: String(row.bkm_nomor || ''),
+                bkm_tanggal: formatTanggalInput(row.bkm_tanggal || ''),
+                bkm_jumlah: Number(row.bkm_jumlah) || 0,
+                bkm_nama_bank: String(row.bkm_nama_bank || ''),
+                bkm_no_rekening: String(row.bkm_no_rekening || ''),
+                bkm_nama_rekening: String(row.bkm_nama_rekening || ''),
+                bkm_nama_unit: String(row.bkm_nama_unit || ''),
+                bkm_no_bukti: String(row.bkm_no_bukti || ''),
+                bkm_uraian: String(row.bkm_uraian || ''),
+                bkm_disimpan_pada: row.bkm_disimpan_pada || ''
             };
         });
         const total = data.reduce((sum, row) => sum + (Number(row.nominal) || 0), 0);
@@ -5353,11 +5542,25 @@ app.post('/api/tambah-realisasi-pembayaran', async (req, res) => {
         if (nominalBrutoFinal < nominalAngka)
             return res.status(400).json({ pesan: 'Nominal bruto tidak boleh lebih kecil dari Realisasi Penerimaan.' });
         const rencanaKey = rencana_key?.trim() || '';
-        if (rencanaKey) {
-            const sudahDirealisasikan = await RealisasiPembayaran.exists({ rencana_key: rencanaKey });
-            if (sudahDirealisasikan)
-                return res.status(409).json({ pesan: 'Rencana penerimaan ini sudah direalisasikan.' });
-        }
+        if (!rencanaKey)
+            return res.status(400).json({ pesan: 'Pembayaran wajib dikaitkan dengan tahap pembayaran PKS.' });
+
+        const rencana = await cariRencanaTerminInvoice(rencanaKey, {
+            kode_file: lookup.kodeFile,
+            rencana_tahap,
+            rencana_tanggal,
+            rencana_nominal
+        });
+        if (!rencana)
+            return res.status(400).json({ pesan: 'Tahap pembayaran PKS tidak ditemukan. Catat pembayaran dari tabel Pembayaran.' });
+
+        const rencanaKeyResolved = String(rencana.rencana_key || rencanaKey).trim();
+        const sudahDirealisasikan = await RealisasiPembayaran.exists({ rencana_key: rencanaKeyResolved });
+        if (sudahDirealisasikan)
+            return res.status(409).json({ pesan: 'Rencana pembayaran ini sudah direalisasikan.' });
+
+        const nomorBkm = await buatNomorBkmBerikutnya(tanggalPembayaran, BKM_DEFAULT_NO_REKENING);
+        const uraianBkm = keterangan?.trim() || ['Pembayaran', rencana.tahap || rencana_tahap?.trim(), lookup.kodeFile].filter(Boolean).join(' - ');
 
         await RealisasiPembayaran.create({
             id_program: lookup.program.id_program,
@@ -5366,16 +5569,211 @@ app.post('/api/tambah-realisasi-pembayaran', async (req, res) => {
             nominal_bruto: nominalBrutoFinal,
             potongan_persen: potonganPersenFinal,
             nominal: nominalAngka,
+            dpi_sudah_disimpan: true,
             keterangan: keterangan?.trim() || '',
-            rencana_key: rencanaKey,
-            rencana_tahap: rencana_tahap?.trim() || '',
-            rencana_tanggal: rencana_tanggal?.trim() || '',
-            rencana_nominal: Number(rencana_nominal) || nominalBrutoFinal
+            rencana_key: rencanaKeyResolved,
+            rencana_tahap: rencana.tahap || rencana_tahap?.trim() || '',
+            rencana_tanggal: rencana.tanggal_input || rencana_tanggal?.trim() || '',
+            rencana_nominal: Number(rencana.nominal) || Number(rencana_nominal) || nominalBrutoFinal,
+            bkm_sudah_disimpan: true,
+            bkm_nomor: nomorBkm,
+            bkm_tanggal: formatTanggalISO(tanggalPembayaran),
+            bkm_jumlah: nominalBrutoFinal,
+            bkm_nama_bank: 'BNI',
+            bkm_no_rekening: BKM_DEFAULT_NO_REKENING,
+            bkm_nama_rekening: 'Penampungan - PPM SBM',
+            bkm_nama_unit: '101221-SBM - Ops. - Ganesa',
+            bkm_no_bukti: '',
+            bkm_uraian: uraianBkm,
+            bkm_dibuat_oleh: String(req.session?.user?.username || req.session?.user?.nama || '').trim(),
+            bkm_disimpan_pada: new Date().toISOString()
         });
-        res.json({ pesan: 'Realisasi pembayaran berhasil ditambahkan.' });
+        res.json({ pesan: 'Realisasi pembayaran dan BKM berhasil disimpan.', bkm_nomor: nomorBkm });
     } catch (err) {
         console.error('Gagal menambah realisasi pembayaran:', err);
         res.status(500).json({ pesan: 'Gagal menyimpan realisasi pembayaran.' });
+    }
+});
+
+// BKM is the authoritative confirmation that a scheduled payment was
+// received. Keep it on the payment record so the payment table can show the
+// Admin date/amount and calculate Lunas from persisted data.
+app.get('/api/bukti-kas-masuk/nomor-berikutnya', async (req, res) => {
+    try {
+        const tanggal = parseTanggalDashboard(req.query?.tanggal_masuk || req.query?.tanggal || new Date());
+        if (!tanggal) return res.status(400).json({ pesan: 'Tanggal BKM tidak valid.' });
+        const noRekening = String(req.query?.no_rekening || BKM_DEFAULT_NO_REKENING).trim();
+        const nomorBkm = await buatNomorBkmBerikutnya(
+            formatTanggalISO(tanggal),
+            noRekening,
+            String(req.query?.exclude_id || '').trim()
+        );
+        if (!nomorBkm) return res.status(400).json({ pesan: 'Nomor BKM otomatis tidak dapat dibuat.' });
+        res.json({ nomor_bkm: nomorBkm });
+    } catch (err) {
+        console.error('Gagal membuat nomor BKM berikutnya:', err);
+        res.status(500).json({ pesan: 'Gagal membuat nomor BKM otomatis.' });
+    }
+});
+
+app.post('/api/bukti-kas-masuk', async (req, res) => {
+    try {
+        const body = req.body || {};
+        const rencanaKey = String(body.rencana_key || '').trim();
+        if (!rencanaKey) return res.status(400).json({ pesan: 'Rencana pembayaran wajib dipilih.' });
+
+        const rencana = await cariRencanaTerminInvoice(rencanaKey, {
+            kode_file: body.kode_file || '',
+            rencana_tahap: body.rencana_tahap || '',
+            rencana_tanggal: body.rencana_tanggal || '',
+            rencana_nominal: body.rencana_nominal || ''
+        });
+        if (!rencana) return res.status(404).json({ pesan: 'Rencana pembayaran tidak ditemukan.' });
+
+        const rencanaKeyResolved = String(rencana.rencana_key || rencanaKey).trim();
+        const invoice = await cariInvoicePembayaranUntukRencana(rencana, rencanaKeyResolved);
+        let existing = await RealisasiPembayaran.findOne({ rencana_key: rencanaKeyResolved });
+        // Legacy payment rows may predate invoice tracking. Allow their BKM
+        // to be completed so the migration can still reach the same final
+        // state, while new invoice-only rows remain invoice-gated.
+        if (!invoice && !existing) return res.status(409).json({ pesan: 'BKM hanya dapat disimpan setelah invoice dibuat.' });
+
+        const lookup = await cariProgramDariKodeFile(rencana.kode_file || body.kode_file || '');
+        if (lookup.error) return res.status(400).json({ pesan: lookup.error });
+
+        const tanggalMasuk = parseTanggalDashboard(body.tanggal_masuk);
+        const jumlahBkm = Number(body.jumlah_bkm);
+        const nominalRencana = Number(rencana.nominal) || Number(rencana.nominal_rencana) || 0;
+        if (!tanggalMasuk) return res.status(400).json({ pesan: 'Tanggal pembayaran pada BKM wajib diisi dan harus valid.' });
+        if (!Number.isFinite(jumlahBkm) || jumlahBkm <= 0) return res.status(400).json({ pesan: 'Jumlah pembayaran pada BKM harus lebih dari 0.' });
+        if (nominalRencana > 0 && jumlahBkm > nominalRencana) {
+            return res.status(400).json({
+                pesan: `Jumlah pembayaran BKM tidak boleh melebihi jumlah pembayaran PKS: Rp ${formatRupiahAngka(nominalRencana)},-.`
+            });
+        }
+
+        const noRekening = String(body.no_rekening || BKM_DEFAULT_NO_REKENING).trim();
+        const tanggalBkm = formatTanggalISO(tanggalMasuk);
+        const nomorBkmTersimpan = normalisasiNomorBkm(existing?.bkm_nomor || '')
+            || String(existing?.bkm_nomor || '').trim();
+        const tanggalBkmTersimpan = formatTanggalInput(existing?.bkm_tanggal || '');
+        const nomorBkmInput = String(body.nomor_bkm || '').trim();
+        const adaPenandaManual = Object.prototype.hasOwnProperty.call(body, 'nomor_bkm_manual');
+        const nomorBkmManual = adaPenandaManual
+            ? body.nomor_bkm_manual === true || String(body.nomor_bkm_manual || '').toLowerCase() === 'true'
+            : Boolean(nomorBkmInput);
+        const nomorBkm = (nomorBkmManual && nomorBkmInput && (normalisasiNomorBkm(nomorBkmInput) || nomorBkmInput))
+            || (nomorBkmTersimpan && tanggalBkmTersimpan === tanggalBkm ? nomorBkmTersimpan : '')
+            || await buatNomorBkmBerikutnya(tanggalMasuk, noRekening, existing?._id);
+        const nominalPenerimaan = Math.round(jumlahBkm * 0.8);
+        const bkmSebelumnya = Number(existing?.bkm_jumlah) || Number(existing?.nominal_bruto) || 0;
+        const dpiSebelumnya = existing?.dpi_sudah_disimpan === true
+            || String(existing?.dpi_sudah_disimpan || '').toLowerCase() === 'true'
+            || (existing?.dpi_sudah_disimpan === undefined && Number(existing?.nominal) > 0);
+        const dataPembayaran = {
+            id_program: lookup.program.id_program,
+            kode_file: lookup.kodeFile,
+            tanggal: formatTanggalISO(tanggalMasuk),
+            nominal_bruto: jumlahBkm,
+            potongan_persen: 20,
+            nominal: nominalPenerimaan,
+            // BKM confirms the gross payment. DPI and net receipt are shown
+            // only after the admin explicitly saves the DPI calculation.
+            dpi_sudah_disimpan: bkmSebelumnya > 0 && bkmSebelumnya === jumlahBkm ? dpiSebelumnya : false,
+            keterangan: String(body.bkm_uraian || '').trim(),
+            rencana_key: rencanaKeyResolved,
+            rencana_tahap: String(rencana.tahap || body.rencana_tahap || '').trim(),
+            rencana_tanggal: String(rencana.tanggal_input || body.rencana_tanggal || '').trim(),
+            rencana_nominal: nominalRencana,
+            bkm_sudah_disimpan: true,
+            bkm_nomor: nomorBkm,
+            bkm_tanggal: tanggalBkm,
+            bkm_jumlah: jumlahBkm,
+            bkm_nama_bank: String(body.nama_bank || 'BNI').trim(),
+            bkm_no_rekening: noRekening,
+            bkm_nama_rekening: String(body.nama_rekening || 'Penampungan - PPM SBM').trim(),
+            bkm_nama_unit: String(body.nama_unit || '101221-SBM - Ops. - Ganesa').trim(),
+            bkm_no_bukti: String(body.no_bukti || '').trim(),
+            bkm_uraian: String(body.bkm_uraian || '').trim(),
+            bkm_dibuat_oleh: String(req.session?.user?.username || req.session?.user?.nama || '').trim(),
+            bkm_disimpan_pada: new Date().toISOString()
+        };
+
+        if (existing) {
+            Object.assign(existing, dataPembayaran);
+            await existing.save();
+        } else {
+            existing = await RealisasiPembayaran.create(dataPembayaran);
+        }
+
+        res.json({
+            pesan: 'BKM berhasil disimpan. Status pembayaran diperbarui menjadi Lunas.',
+            data: {
+                id_pembayaran: String(existing._id),
+                rencana_key: rencanaKeyResolved,
+                bkm_sudah_disimpan: true,
+                bkm_tanggal: dataPembayaran.bkm_tanggal,
+                bkm_jumlah: jumlahBkm,
+                bkm_nomor: dataPembayaran.bkm_nomor,
+                bkm_no_rekening: dataPembayaran.bkm_no_rekening
+            }
+        });
+    } catch (err) {
+        console.error('Gagal menyimpan BKM:', err);
+        res.status(500).json({ pesan: 'Gagal menyimpan Bukti Kas Masuk.' });
+    }
+});
+
+app.put('/api/realisasi-pembayaran/:id/dpi', async (req, res) => {
+    try {
+        const existing = await RealisasiPembayaran.findById(req.params.id);
+        if (!existing) return res.status(404).json({ pesan: 'Realisasi pembayaran tidak ditemukan.' });
+
+        const bkmTersimpan = existing.bkm_sudah_disimpan === true
+            || String(existing.bkm_sudah_disimpan || '').toLowerCase() === 'true';
+        if (!bkmTersimpan) {
+            return res.status(400).json({ pesan: 'Perhitungan DPI hanya dapat disimpan setelah BKM dibuat.' });
+        }
+
+        const nominalBrutoInput = Number(req.body?.nominal_bruto);
+        const jumlahPembayaran = Number.isFinite(nominalBrutoInput) && nominalBrutoInput > 0
+            ? nominalBrutoInput
+            : Number(existing.bkm_jumlah) || Number(existing.nominal_bruto) || 0;
+        if (!Number.isFinite(jumlahPembayaran) || jumlahPembayaran <= 0) {
+            return res.status(400).json({ pesan: 'Jumlah Pembayaran (Admin) belum tersedia untuk dihitung.' });
+        }
+
+        const nominalRencana = Number(existing.rencana_nominal) || 0;
+        if (nominalRencana > 0 && jumlahPembayaran > nominalRencana) {
+            return res.status(400).json({
+                pesan: `Jumlah Pembayaran (Admin) tidak boleh melebihi jumlah pembayaran PKS: Rp ${formatRupiahAngka(nominalRencana)},-.`
+            });
+        }
+
+        const potonganPersen = 20;
+        const dpi = Math.round(jumlahPembayaran * (potonganPersen / 100));
+        const penerimaan = jumlahPembayaran - dpi;
+        existing.nominal_bruto = jumlahPembayaran;
+        existing.potongan_persen = potonganPersen;
+        existing.nominal = penerimaan;
+        existing.bkm_jumlah = jumlahPembayaran;
+        existing.dpi_sudah_disimpan = true;
+        await existing.save();
+
+        res.json({
+            pesan: 'Perhitungan DPI berhasil disimpan.',
+            data: {
+                id_pembayaran: String(existing._id),
+                nominal_bruto: jumlahPembayaran,
+                nominal_dpi: dpi,
+                nominal: penerimaan,
+                potongan_persen: potonganPersen,
+                dpi_sudah_disimpan: true
+            }
+        });
+    } catch (err) {
+        console.error('Gagal menyimpan perhitungan DPI:', err);
+        res.status(500).json({ pesan: 'Gagal menyimpan perhitungan DPI.' });
     }
 });
 
@@ -5431,13 +5829,32 @@ app.put('/api/realisasi-pembayaran/:id', async (req, res) => {
         }
 
         const programBerubah = existing.id_program !== lookup.program.id_program;
+        const tanggalPembayaranInput = formatTanggalISO(tanggalPembayaran);
+        const noRekeningBkm = String(existing.bkm_no_rekening || BKM_DEFAULT_NO_REKENING).trim();
+        const nomorBkmLama = normalisasiNomorBkm(existing.bkm_nomor || '')
+            || String(existing.bkm_nomor || '').trim();
+        const nomorBkm = nomorBkmLama && formatTanggalInput(existing.bkm_tanggal || '') === tanggalPembayaranInput
+            ? nomorBkmLama
+            : await buatNomorBkmBerikutnya(tanggalPembayaran, noRekeningBkm, existing._id);
         existing.id_program = lookup.program.id_program;
         existing.kode_file = lookup.kodeFile;
-        existing.tanggal = formatTanggalISO(tanggalPembayaran);
+        existing.tanggal = tanggalPembayaranInput;
         existing.nominal_bruto = nominalBrutoFinal;
         existing.potongan_persen = potonganPersenFinal;
         existing.nominal = nominalAngka;
+        existing.dpi_sudah_disimpan = true;
         existing.keterangan = keterangan?.trim() || '';
+        existing.bkm_sudah_disimpan = true;
+        existing.bkm_nomor = nomorBkm;
+        existing.bkm_tanggal = tanggalPembayaranInput;
+        existing.bkm_jumlah = nominalBrutoFinal;
+        existing.bkm_nama_bank = String(existing.bkm_nama_bank || 'BNI').trim();
+        existing.bkm_no_rekening = noRekeningBkm;
+        existing.bkm_nama_rekening = String(existing.bkm_nama_rekening || 'Penampungan - PPM SBM').trim();
+        existing.bkm_nama_unit = String(existing.bkm_nama_unit || '101221-SBM - Ops. - Ganesa').trim();
+        existing.bkm_uraian = String(existing.bkm_uraian || existing.keterangan || '').trim();
+        existing.bkm_dibuat_oleh = String(existing.bkm_dibuat_oleh || req.session?.user?.username || req.session?.user?.nama || '').trim();
+        existing.bkm_disimpan_pada = existing.bkm_disimpan_pada || new Date().toISOString();
         if (programBerubah) {
             existing.rencana_key = '';
             existing.rencana_tahap = '';
@@ -5445,7 +5862,7 @@ app.put('/api/realisasi-pembayaran/:id', async (req, res) => {
             existing.rencana_nominal = 0;
         }
         await existing.save();
-        res.json({ pesan: 'Realisasi penerimaan berhasil diperbarui.' });
+        res.json({ pesan: 'Realisasi penerimaan dan BKM berhasil diperbarui.', bkm_nomor: nomorBkm });
     } catch (err) {
         console.error('Gagal update realisasi pembayaran:', err);
         res.status(500).json({ pesan: 'Gagal memperbarui realisasi penerimaan.' });
@@ -5862,8 +6279,18 @@ function bentukRabAnggaran(row, program = {}) {
         volume_display: volume.toLocaleString('id-ID'),
         total,
         total_display: `Rp ${formatRupiahAngka(total)}`,
-        keterangan: row.keterangan || ''
+        keterangan: row.keterangan || '',
+        sumber: row.sumber || '',
+        id_pengajuan: row.id_pengajuan || '',
+        simulation_id: row.simulation_id || '',
+        simulation_name: row.simulation_name || ''
     };
+}
+
+function rabAnggaranPlain(row = {}) {
+    if (row && typeof row.lean === 'function') return row.lean();
+    if (row && typeof row.toObject === 'function') return row.toObject();
+    return row || {};
 }
 
 app.get('/api/rab-anggaran', async (req, res) => {
@@ -5904,6 +6331,10 @@ async function validasiPayloadRab(body = {}, options = {}) {
     const satuan = String(body.satuan || '').trim();
     const hargaSatuan = Number(body.harga_satuan);
     const volume = Number(body.volume);
+    const sumber = String(body.sumber || '').trim();
+    const idPengajuan = String(body.id_pengajuan || '').trim();
+    const simulationId = String(body.simulation_id || '').trim();
+    const simulationName = String(body.simulation_name || '').trim();
 
     if (!uraian) return { error: 'Uraian wajib diisi.' };
     if (!kategoriBelanja) return { error: 'Kategori Belanja wajib diisi.' };
@@ -5919,23 +6350,53 @@ async function validasiPayloadRab(body = {}, options = {}) {
         satuan,
         harga_satuan: hargaSatuan,
         volume,
-        keterangan: ''
+        keterangan: String(body.keterangan || '').trim(),
+        ...(sumber ? { sumber } : {}),
+        ...(idPengajuan ? { id_pengajuan: idPengajuan } : {}),
+        ...(simulationId ? { simulation_id: simulationId } : {}),
+        ...(simulationName ? { simulation_name: simulationName } : {})
     };
     const validasiPagu = await validasiKunciPaguRab(data, options.excludeRabId);
     if (validasiPagu.error) return { error: validasiPagu.error };
 
-    return { data };
+    return {
+        data,
+        program: lookup.program
+    };
 }
 
 app.post('/api/rab-anggaran', async (req, res) => {
     try {
         const hasil = await validasiPayloadRab(req.body);
         if (hasil.error) return res.status(400).json({ pesan: hasil.error });
-        await RabAnggaran.create(hasil.data);
-        res.json({ pesan: 'RKA Kerma berhasil ditambahkan.' });
+        if (hasil.data.sumber === 'daftar_nominatif' && hasil.data.id_pengajuan) {
+            const existing = await RabAnggaran.findOne({
+                sumber: hasil.data.sumber,
+                id_pengajuan: hasil.data.id_pengajuan
+            }).lean();
+            if (existing) {
+                return res.status(409).json({
+                    pesan: 'Pengajuan ini sudah dibuat menjadi RKA Kerma dan tidak dapat dibuat ulang.',
+                    data: bentukRabAnggaran(existing, hasil.program)
+                });
+            }
+        }
+        const created = await RabAnggaran.create(hasil.data);
+        if (!created) {
+            throw new Error('Data RKA tidak dikembalikan setelah proses insert. Periksa koneksi penyimpanan.');
+        }
+        res.json({
+            pesan: 'RKA Kerma berhasil ditambahkan.',
+            data: bentukRabAnggaran(rabAnggaranPlain(created), hasil.program)
+        });
     } catch (err) {
-        console.error('Gagal menambah RKA Kerma:', err);
-        res.status(500).json({ pesan: 'Gagal menyimpan RKA Kerma.' });
+        const requestId = req.requestId || crypto.randomUUID();
+        console.error(`[RKA Kerma][${requestId}] Gagal menambah RKA Kerma:`, err);
+        const detail = !isProd && err?.message ? ` Detail: ${err.message}` : '';
+        res.status(500).json({
+            pesan: `Gagal menyimpan RKA Kerma.${detail}`,
+            requestId
+        });
     }
 });
 

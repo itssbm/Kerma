@@ -1,6 +1,21 @@
 // ─── Cek sesi & info user ────────────────────────────────────────────────────
 let currentUser = null;
 
+function fetchDenganBatasWaktu(input, options = {}, timeoutMs = 15000) {
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+    return fetch(input, { ...options, signal: controller.signal })
+        .catch(error => {
+            if (controller.signal.aborted) {
+                const timeoutError = new Error(`Permintaan melebihi batas waktu ${Math.round(timeoutMs / 1000)} detik.`);
+                timeoutError.name = 'TimeoutError';
+                throw timeoutError;
+            }
+            throw error;
+        })
+        .finally(() => window.clearTimeout(timer));
+}
+
 function buatInitial(nama) {
     const bagian = String(nama || 'KERMA').trim().split(/\s+/).filter(Boolean);
     return (bagian[0]?.[0] || 'K') + (bagian[1]?.[0] || '');
@@ -8,7 +23,7 @@ function buatInitial(nama) {
 
 async function initSession() {
     try {
-        const res = await fetch('/api/me');
+        const res = await fetchDenganBatasWaktu('/api/me', {}, 10000);
         if (!res.ok) { window.location.href = '/login'; return false; }
         currentUser = await res.json();
         document.documentElement.classList.remove('session-pending');
@@ -38,6 +53,20 @@ function cocokPencarianGlobal(item, query) {
     const haystack = teksPencarianGlobal(item).toLowerCase();
     return terms.every(term => haystack.includes(term));
 }
+
+// Keep the period picker clickable even when a slower data initializer has
+// not finished yet. The date inputs and filtering logic are initialized later.
+document.addEventListener('click', event => {
+    const trigger = event.target?.closest?.('#btnOpenFilterRencanaPendapatanPeriode');
+    if (!trigger) return;
+    const popover = document.getElementById('filterRencanaPendapatanPeriodePopover');
+    const picker = document.getElementById('paymentPeriodPicker');
+    if (!popover) return;
+    const isOpen = Boolean(popover.hidden);
+    popover.hidden = !isOpen;
+    picker?.classList.toggle('is-open', isOpen);
+    trigger.setAttribute('aria-expanded', String(isOpen));
+}, true);
 
 document.addEventListener('DOMContentLoaded', async () => {
     if (!await initSession()) return;
@@ -188,6 +217,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     const bodyTabelEksporPlotSkBidang = document.getElementById('bodyTabelEksporPlotSkBidang');
     const bodyTabelEksporPlottingRekapitulasi = document.getElementById('bodyTabelEksporPlottingRekapitulasi');
     const bodyTabelDaftarHasilSimulasi = document.getElementById('bodyTabelDaftarHasilSimulasi');
+    const sesiSimulasiAktifBar = document.getElementById('sesiSimulasiAktifBar');
+    const labelSesiSimulasiAktif = document.getElementById('labelSesiSimulasiAktif');
+    const detailSesiSimulasiAktif = document.getElementById('detailSesiSimulasiAktif');
+    const badgeStatusSesiSimulasi = document.getElementById('badgeStatusSesiSimulasi');
+    const badgeTahapSesiSimulasi = document.getElementById('badgeTahapSesiSimulasi');
+    const labelSesiSimulasiTerakhirDisimpan = document.getElementById('labelSesiSimulasiTerakhirDisimpan');
+    const btnSimpanDrafSesiSimulasi = document.getElementById('btnSimpanDrafSesiSimulasi');
+    const btnTetapkanHasilFinalSesiSimulasi = document.getElementById('btnTetapkanHasilFinalSesiSimulasi');
+    const btnBuatSimulasiBaru = document.getElementById('btnBuatSimulasiBaru');
+    const btnHapusSimulasi = document.getElementById('btnHapusSimulasi');
+    const checkAllHasilSimulasi = document.getElementById('checkAllHasilSimulasi');
+    const modalHapusSimulasi = document.getElementById('modalHapusSimulasi');
+    const btnTutupModalHapusSimulasi = document.getElementById('btnTutupModalHapusSimulasi');
+    const pesanKonfirmasiHapusSimulasi = document.getElementById('pesanKonfirmasiHapusSimulasi');
+    const btnKonfirmasiHapusSimulasi = document.getElementById('btnKonfirmasiHapusSimulasi');
+    const btnBatalHapusSimulasi = document.getElementById('btnBatalHapusSimulasi');
+    const modalBuatSimulasiBaru = document.getElementById('modalBuatSimulasiBaru');
+    const btnTutupModalBuatSimulasiBaru = document.getElementById('btnTutupModalBuatSimulasiBaru');
+    const inputNamaSesiSimulasi = document.getElementById('inputNamaSesiSimulasi');
+    const inputPeriodeAwalSesiSimulasi = document.getElementById('inputPeriodeAwalSesiSimulasi');
+    const inputPeriodeAkhirSesiSimulasi = document.getElementById('inputPeriodeAkhirSesiSimulasi');
+    const inputKeteranganSesiSimulasi = document.getElementById('inputKeteranganSesiSimulasi');
+    const alertBuatSimulasiBaru = document.getElementById('alertBuatSimulasiBaru');
+    const btnKonfirmasiBuatSimulasiBaru = document.getElementById('btnKonfirmasiBuatSimulasiBaru');
+    const btnBatalBuatSimulasiBaru = document.getElementById('btnBatalBuatSimulasiBaru');
     const selectDaftarNominatifSimulasi = document.getElementById('selectDaftarNominatifSimulasi');
     const selectDaftarNominatifKodeFile = document.getElementById('selectDaftarNominatifKodeFile');
     const btnBukaDaftarNominatif = document.getElementById('btnBukaDaftarNominatif');
@@ -201,7 +255,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     const panelDaftarNominatifTabel = document.getElementById('panelDaftarNominatifTabel');
     const panelDaftarNominatifKodeFile = document.getElementById('panelDaftarNominatifKodeFile');
     const checkAllDaftarNominatifKodeFile = document.getElementById('checkAllDaftarNominatifKodeFile');
+    const btnAjukanDaftarNominatif = document.getElementById('btnAjukanDaftarNominatif');
     const btnDownloadDaftarNominatif = document.getElementById('btnDownloadDaftarNominatif');
+    const modalAjukanDaftarNominatif = document.getElementById('modalAjukanDaftarNominatif');
+    const btnTutupModalAjukanDaftarNominatif = document.getElementById('btnTutupModalAjukanDaftarNominatif');
+    const pesanAjukanDaftarNominatif = document.getElementById('pesanAjukanDaftarNominatif');
+    const ringkasanAjukanDaftarNominatif = document.getElementById('ringkasanAjukanDaftarNominatif');
+    const alertAjukanDaftarNominatif = document.getElementById('alertAjukanDaftarNominatif');
+    const btnKonfirmasiAjukanDaftarNominatif = document.getElementById('btnKonfirmasiAjukanDaftarNominatif');
+    const btnBatalAjukanDaftarNominatif = document.getElementById('btnBatalAjukanDaftarNominatif');
+    // Keep Pengajuan Pengeluaran DOM references with the other early DOM
+    // bindings. Several render helpers can be reached during startup.
+    const bodyTabelPengajuanPengeluaran = document.getElementById('bodyTabelPengajuanPengeluaran');
+    const filterPengajuanPengeluaranCari = document.getElementById('filterPengajuanPengeluaranCari');
+    const infoHasilPengajuanPengeluaran = document.getElementById('infoHasilPengajuanPengeluaran');
+    const btnResetFilterPengajuanPengeluaran = document.getElementById('btnResetFilterPengajuanPengeluaran');
+    const ringkasanPengajuanPengeluaran = document.getElementById('ringkasanPengajuanPengeluaran');
+    const modalBuatRkaDariPengajuan = document.getElementById('modalBuatRkaDariPengajuan');
+    const btnTutupModalBuatRkaDariPengajuan = document.getElementById('btnTutupModalBuatRkaDariPengajuan');
+    const ringkasanBuatRkaDariPengajuan = document.getElementById('ringkasanBuatRkaDariPengajuan');
+    const inputUraianRkaDariPengajuan = document.getElementById('inputUraianRkaDariPengajuan');
+    const selectKategoriRkaDariPengajuan = document.getElementById('selectKategoriRkaDariPengajuan');
+    const infoBuatRkaDariPengajuan = document.getElementById('infoBuatRkaDariPengajuan');
+    const alertBuatRkaDariPengajuan = document.getElementById('alertBuatRkaDariPengajuan');
+    const btnKonfirmasiBuatRkaDariPengajuan = document.getElementById('btnKonfirmasiBuatRkaDariPengajuan');
+    const btnBatalBuatRkaDariPengajuan = document.getElementById('btnBatalBuatRkaDariPengajuan');
     const modalEditDaftarJabatanPlotting = document.getElementById('modalEditDaftarJabatanPlotting');
     const btnTutupModalEditDaftarJabatanPlotting = document.getElementById('btnTutupModalEditDaftarJabatanPlotting');
     const btnSimpanEditDaftarJabatanPlotting = document.getElementById('btnSimpanEditDaftarJabatanPlotting');
@@ -358,6 +436,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let modeTampilanPagu = 'pagu';
     let invoicePembayaranPreview = null;
     let invoicePembayaranTersimpan = null;
+    let buktiKasMasukDraft = null;
+    let nomorBkmOtomatisTerakhir = '';
+    let nomorBkmOtomatisRequest = 0;
+    const buktiKasMasukDraftByPayment = new Map();
     let rabDraftAfter = null;
     let rabEditId = null;
     let rabTerpilih = new Set();
@@ -365,6 +447,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     let realisasiRiDraftAfter = null;
     let realisasiRiDraftPrefill = null;
     let pembayaranDipilihUntukEdit = null;
+    let perhitunganDpiDraft = null;
+    let perhitunganDpiModeEdit = false;
     const FAKTOR_REALISASI_PENERIMAAN = 0.8;
     const KODE_FILE_ALOKASI_AKTIF = new Set([
         'SBM.PD-1-78-2024',
@@ -407,7 +491,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     let tabAktifPlottingKerma = 'target';
-    let tabAktifEksporPlottingKerma = 'batasan';
+    let tabAktifEksporPlottingKerma = 'hasilSimulasi';
     const STORAGE_PLOTTING_KERMA = 'kerma.plottingKerma.v1';
     let plottingKermaLoadedFromServer = false;
     let plottingKermaLoadPromise = null;
@@ -505,6 +589,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let hasilSimulasiModalTerakhir = null;
     let hasilSimulasiTertunda = null;
     let modalSimulasiManualTertunda = null;
+    let hasilSimulasiIdsMenungguDihapus = [];
     let statusMulaiPlottingKermaState = normalisasiStatusMulaiPlottingKerma(simpananPlottingKerma?.statusMulaiPlottingKerma);
     let targetDistribusiButuhOptimalisasi = Boolean(statusMulaiPlottingKermaState.targetButuhOptimalisasi);
     let targetDistribusiGuidanceCollapsed = false;
@@ -965,11 +1050,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     targetDistribusiBebanManual = normalisasiTargetDistribusiBebanManual(simpananPlottingKerma?.targetDistribusiBebanManual);
     terapkanBebanManualKeDistribusiRoles(targetDistribusiBebanManual);
     const bulanDaftarNominatif = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const STATUS_SESI_SIMULASI = Object.freeze({
+        DRAF: 'Draf',
+        PERLU_PERBAIKAN: 'Perlu Perbaikan',
+        SIAP_GENERATE_SK: 'Siap Generate SK',
+        SELESAI: 'Selesai'
+    });
+    const STATUS_PENGAJUAN_PENGELUARAN = Object.freeze({
+        SIAP_DIAJUKAN: 'Siap Diajukan',
+        DIAJUKAN: 'Diajukan',
+        DIKEMBALIKAN: 'Dikembalikan / Perlu Perbaikan',
+        DIPROSES: 'Diproses',
+        SELESAI: 'Selesai'
+    });
+    const TAHAP_SESI_SIMULASI = Object.freeze({
+        PERSIAPAN: 'Persiapan',
+        DASAR: 'Perhitungan Dasar',
+        TARGET: 'Target Distribusi',
+        PLOT: 'Plot SK',
+        KONTROL: 'Kontrol',
+        GENERATE: 'Generate SK'
+    });
     let daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi(simpananPlottingKerma?.daftarHasilSimulasiPlotting);
+    let sesiSimulasiAktifId = String(simpananPlottingKerma?.sesiSimulasiAktifId || '').trim();
+    let modeSesiSimulasi = 'edit';
+    let sesiSimulasiDirty = false;
+    let sesiSimulasiLastQueuedHash = '';
     let daftarNominatifBySimulasi = normalisasiDaftarNominatifBySimulasi(simpananPlottingKerma?.daftarNominatifBySimulasi);
+    let pengajuanPengeluaranBySimulasi = normalisasiPengajuanPengeluaranBySimulasi(simpananPlottingKerma?.pengajuanPengeluaranBySimulasi);
     let nominatifSimulasiDipilihId = '';
     let nominatifKodeFileDipilih = '';
     let nominatifRowsAktif = [];
+    let nominatifPengajuanMenunggu = [];
+    let pengajuanRkaAktif = null;
     let nomorSkByPksTersimpan = {
         ...normalisasiNomorSkByPks(simpananPlottingKerma?.nomorSkByPksTersimpan),
         ...daftarHasilSimulasiPlotting.reduce((hasil, item) => ({
@@ -981,6 +1094,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function snapshotPlottingKerma() {
         return {
             plottingSchemaVersion: 3,
+            sesiSimulasiAktifId,
             presetPerhitunganDasarIdeal2026S2,
             plotSkIdealDibuat2026S2,
             jumlahPksPlotting,
@@ -1001,6 +1115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             batasanSimulasiPlotting,
             daftarHasilSimulasiPlotting,
             daftarNominatifBySimulasi,
+            pengajuanPengeluaranBySimulasi,
             nomorSkByPksTersimpan,
             statusMulaiPlottingKerma: statusMulaiPlottingKermaState,
             rows: rowsPlottingKermaTersimpan()
@@ -1015,9 +1130,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         const targetManualLokal = targetDistribusiBebanManual;
         const nomorSkLokal = nomorSkByPksTersimpan;
         const nominatifLokal = daftarNominatifBySimulasi;
+        const pengajuanPengeluaranLokal = pengajuanPengeluaranBySimulasi;
         const konfigurasiJabatanLokal = konfigurasiJabatanBidangPlotting;
-        const pulihkanPlotManualLokal = !Object.keys(sumber.plotSkBidangManual || {}).length && Object.keys(plotManualLokal || {}).length > 0;
-        const pulihkanTargetManualLokal = !Object.keys(sumber.targetDistribusiBebanManual || {}).length && Object.keys(targetManualLokal || {}).length > 0;
+        if (Object.prototype.hasOwnProperty.call(sumber, 'sesiSimulasiAktifId')) {
+            sesiSimulasiAktifId = String(sumber.sesiSimulasiAktifId || '').trim();
+        }
+        const punyaPlotManualField = Object.prototype.hasOwnProperty.call(sumber, 'plotSkBidangManual');
+        const punyaTargetManualField = Object.prototype.hasOwnProperty.call(sumber, 'targetDistribusiBebanManual');
+        const pulihkanPlotManualLokal = !punyaPlotManualField && Object.keys(plotManualLokal || {}).length > 0;
+        const pulihkanTargetManualLokal = !punyaTargetManualField && Object.keys(targetManualLokal || {}).length > 0;
         presetPerhitunganDasarIdeal2026S2 = Number(sumber.presetPerhitunganDasarIdeal2026S2) || 0;
         plotSkIdealDibuat2026S2 = Number(sumber.plotSkIdealDibuat2026S2) || 0;
         hargaJabatanCollapsed = Boolean(sumber.hargaJabatanCollapsed);
@@ -1032,9 +1153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             : [];
         jumlahPksPlotting = Number(sumber.jumlahPksPlotting) || 2;
         plotSkBidangManual = normalisasiPlotSkBidangManual(
-            Object.keys(sumber.plotSkBidangManual || {}).length
-                ? sumber.plotSkBidangManual
-                : plotManualLokal
+            punyaPlotManualField ? sumber.plotSkBidangManual : plotManualLokal
         );
         tarifMasterJabatanPlotting = {
             ...tarifDefaultJabatanPlotting,
@@ -1075,9 +1194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             : [];
         kunciPersonilPerKermaPerhitunganDasar();
         targetDistribusiBebanManual = normalisasiTargetDistribusiBebanManual(
-            Object.keys(sumber.targetDistribusiBebanManual || {}).length
-                ? sumber.targetDistribusiBebanManual
-                : targetManualLokal
+            punyaTargetManualField ? sumber.targetDistribusiBebanManual : targetManualLokal
         );
         terapkanBebanManualKeDistribusiRoles(targetDistribusiBebanManual);
         daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi(
@@ -1085,10 +1202,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ? sumber.daftarHasilSimulasiPlotting
                 : daftarHasilSimulasiPlotting
         );
+        const sesiAktif = daftarHasilSimulasiPlotting.find(item => item.id === sesiSimulasiAktifId);
+        modeSesiSimulasi = sesiAktif && [STATUS_SESI_SIMULASI.SIAP_GENERATE_SK, STATUS_SESI_SIMULASI.SELESAI].includes(sesiAktif.status)
+            ? 'view'
+            : 'edit';
         daftarNominatifBySimulasi = normalisasiDaftarNominatifBySimulasi(
             Object.prototype.hasOwnProperty.call(sumber, 'daftarNominatifBySimulasi')
                 ? sumber.daftarNominatifBySimulasi
                 : nominatifLokal
+        );
+        pengajuanPengeluaranBySimulasi = normalisasiPengajuanPengeluaranBySimulasi(
+            Object.prototype.hasOwnProperty.call(sumber, 'pengajuanPengeluaranBySimulasi')
+                ? sumber.pengajuanPengeluaranBySimulasi
+                : pengajuanPengeluaranLokal
         );
         const nomorSkDariHasilSimulasi = daftarHasilSimulasiPlotting.reduce((hasil, item) => ({
             ...hasil,
@@ -1131,22 +1257,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function simpanPlottingKermaKeServer(payload) {
         try {
-            await fetch('/api/plotting-kerma', {
+            const response = await fetch('/api/plotting-kerma', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
+            return response.ok;
         } catch (err) {
             console.warn('Gagal menyimpan plotting kerma ke server.', err);
+            return false;
         }
     }
 
-    function jadwalkanSinkronPlottingKerma() {
-        const payload = snapshotPlottingKerma();
+    function jadwalkanSinkronPlottingKerma(payload = snapshotPlottingKerma()) {
+        const queuedHash = hashMulaiPlotting(payload);
+        sesiSimulasiLastQueuedHash = queuedHash;
         if (plottingKermaSyncTimer) clearTimeout(plottingKermaSyncTimer);
         plottingKermaSyncTimer = setTimeout(() => {
             plottingKermaSyncTimer = null;
-            simpanPlottingKermaKeServer(payload);
+            simpanPlottingKermaKeServer(payload).then(berhasil => {
+                if (berhasil && sesiSimulasiLastQueuedHash === queuedHash && hashMulaiPlotting(snapshotPlottingKerma()) === queuedHash) {
+                    sesiSimulasiDirty = false;
+                    renderSesiSimulasiBar();
+                }
+            });
         }, 250);
     }
 
@@ -1156,7 +1290,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
         try {
-            const res = await fetch('/api/plotting_kerma', { cache: 'no-store' });
+            const res = await fetchDenganBatasWaktu('/api/plotting_kerma', { cache: 'no-store' }, 15000);
             const payload = await res.json();
             if (!res.ok) throw new Error(payload.pesan || 'Gagal memuat data plotting kerma.');
             if (payload?.data) {
@@ -2746,6 +2880,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 totalPerKerma: Number(sumber.perhitunganDasarPlotting?.totalPerKerma) || 0
             },
             batasanSimulasiPlotting: normalisasiBatasanSimulasi(sumber.batasanSimulasiPlotting),
+            statusMulaiPlottingKerma: normalisasiStatusMulaiPlottingKerma(sumber.statusMulaiPlottingKerma),
+            nomorSkByPksTersimpan: normalisasiNomorSkByPks(sumber.nomorSkByPksTersimpan),
             masterLevelJabatanPlotting: {
                 ...((sumber.masterLevelJabatanPlotting && typeof sumber.masterLevelJabatanPlotting === 'object')
                     ? sumber.masterLevelJabatanPlotting
@@ -2761,14 +2897,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!Array.isArray(raw)) return [];
         return raw
             .filter(item => item && typeof item === 'object')
-            .map((item, index) => ({
-                id: String(item.id || `simulasi-${Date.now()}-${index}`),
-                nama: String(item.nama || `Simulasi ${index + 1}`).trim() || `Simulasi ${index + 1}`,
-                saved_at: String(item.saved_at || item.tanggal || new Date().toISOString()),
-                ringkasan: item.ringkasan && typeof item.ringkasan === 'object' ? { ...item.ringkasan } : {},
-                nomor_sk_by_pks: normalisasiNomorSkByPks(item.nomor_sk_by_pks || item.nomorSkByPks),
-                snapshot: normalisasiSnapshotHasilSimulasi(item.snapshot)
-            }))
+            .map((item, index) => {
+                const savedAt = String(item.saved_at || item.tanggal || item.updated_at || new Date().toISOString());
+                const snapshot = normalisasiSnapshotHasilSimulasi(item.snapshot);
+                const punyaHasil = Object.keys(snapshot.plotSkBidangManual || {}).length > 0;
+                const statusLegacy = punyaHasil ? STATUS_SESI_SIMULASI.SIAP_GENERATE_SK : STATUS_SESI_SIMULASI.DRAF;
+                const status = Object.values(STATUS_SESI_SIMULASI).includes(String(item.status || ''))
+                    ? String(item.status)
+                    : statusLegacy;
+                return {
+                    id: String(item.id || `simulasi-${Date.now()}-${index}`),
+                    nama: String(item.nama || `Simulasi ${index + 1}`).trim() || `Simulasi ${index + 1}`,
+                    deskripsi: String(item.deskripsi || item.keterangan || '').trim(),
+                    periode_awal: String(item.periode_awal || snapshot.periodePengelolaKerma?.awal || '').trim(),
+                    periode_akhir: String(item.periode_akhir || snapshot.periodePengelolaKerma?.akhir || '').trim(),
+                    status,
+                    tahap: String(item.tahap || (punyaHasil ? TAHAP_SESI_SIMULASI.KONTROL : TAHAP_SESI_SIMULASI.PERSIAPAN)),
+                    created_at: String(item.created_at || savedAt),
+                    updated_at: String(item.updated_at || savedAt),
+                    saved_at: savedAt,
+                    created_by: String(item.created_by || item.dibuat_oleh || '').trim(),
+                    updated_by: String(item.updated_by || item.diubah_oleh || '').trim(),
+                    finalized_at: String(item.finalized_at || '').trim(),
+                    ringkasan: item.ringkasan && typeof item.ringkasan === 'object' ? { ...item.ringkasan } : {},
+                    nomor_sk_by_pks: normalisasiNomorSkByPks(item.nomor_sk_by_pks || item.nomorSkByPks),
+                    snapshot
+                };
+            })
             .sort((a, b) => new Date(b.saved_at).getTime() - new Date(a.saved_at).getTime());
     }
 
@@ -2822,6 +2977,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, {});
     }
 
+    function normalisasiPengajuanPengeluaranBySimulasi(raw = {}) {
+        if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
+        const statusValid = Object.values(STATUS_PENGAJUAN_PENGELUARAN);
+        return Object.entries(raw).reduce((hasil, [simulationId, files]) => {
+            if (!simulationId || !files || typeof files !== 'object' || Array.isArray(files)) return hasil;
+            hasil[String(simulationId)] = Object.entries(files).reduce((fileHasil, [kodeFile, file]) => {
+                if (!kodeFile || !file || typeof file !== 'object') return fileHasil;
+                const status = statusValid.includes(String(file.status || ''))
+                    ? String(file.status)
+                    : STATUS_PENGAJUAN_PENGELUARAN.DIAJUKAN;
+                fileHasil[String(kodeFile)] = {
+                    simulation_id: String(file.simulation_id || simulationId),
+                    simulation_name: String(file.simulation_name || '').trim(),
+                    kode_file: String(file.kode_file || kodeFile).trim(),
+                    id_program: String(file.id_program || '').trim(),
+                    nama_mitra: String(file.nama_mitra || '').trim(),
+                    judul_kegiatan: String(file.judul_kegiatan || '').trim(),
+                    periode: String(file.periode || '').trim(),
+                    status,
+                    rka_id: String(file.rka_id || '').trim(),
+                    rka_status: String(file.rka_status || '').trim(),
+                    rka_uraian: String(file.rka_uraian || '').trim(),
+                    rka_category: String(file.rka_category || 'Belanja Pegawai').trim() || 'Belanja Pegawai',
+                    rka_created_at: String(file.rka_created_at || '').trim(),
+                    total_pengajuan: Number(file.total_pengajuan) || 0,
+                    total_bulanan: Number(file.total_bulanan) || 0,
+                    jumlah_baris: Number(file.jumlah_baris) || (Array.isArray(file.rows) ? file.rows.length : 0),
+                    jumlah_penerima_honor: Number(file.jumlah_penerima_honor) || 0,
+                    submitted_at: String(file.submitted_at || '').trim(),
+                    updated_at: String(file.updated_at || file.submitted_at || '').trim(),
+                    catatan: String(file.catatan || '').trim(),
+                    rows: Array.isArray(file.rows) ? file.rows.map(normalisasiBarisDaftarNominatif) : []
+                };
+                return fileHasil;
+            }, {});
+            return hasil;
+        }, {});
+    }
+
     function normalisasiNomorSkByPks(raw = {}) {
         if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
         return Object.entries(raw).reduce((hasil, [key, value]) => {
@@ -2847,6 +3041,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 totalPerKerma: totalPerKermaTersimpan
             },
             batasanSimulasiPlotting,
+            statusMulaiPlottingKerma: statusMulaiPlottingKermaState,
+            nomorSkByPksTersimpan,
             masterLevelJabatanPlotting,
             rows: rowsPlottingKermaTersimpan()
         });
@@ -2873,6 +3069,265 @@ document.addEventListener('DOMContentLoaded', async () => {
         };
     }
 
+    function namaPenggunaSesiSimulasi() {
+        return String(currentUser?.nama || currentUser?.username || 'Admin').trim() || 'Admin';
+    }
+
+    function sesiSimulasiAktif() {
+        return daftarHasilSimulasiPlotting.find(item => item.id === sesiSimulasiAktifId) || null;
+    }
+
+    function sesiSimulasiTerkunci(item = sesiSimulasiAktif()) {
+        return Boolean(item && [STATUS_SESI_SIMULASI.SIAP_GENERATE_SK, STATUS_SESI_SIMULASI.SELESAI].includes(item.status));
+    }
+
+    function tahapSesiSimulasiSaatIni() {
+        if (!periodePengelolaKerma.awal || !periodePengelolaKerma.akhir) return TAHAP_SESI_SIMULASI.PERSIAPAN;
+        const kesiapan = getKesiapanMulaiPlottingKerma();
+        if (!kesiapan.steps.dasar.tersimpan) return TAHAP_SESI_SIMULASI.DASAR;
+        if (!kesiapan.steps.target.tersimpan) return TAHAP_SESI_SIMULASI.TARGET;
+        if (!Object.keys(plotSkBidangManual || {}).length) return TAHAP_SESI_SIMULASI.PLOT;
+        if (sesiSimulasiAktif()?.status === STATUS_SESI_SIMULASI.SIAP_GENERATE_SK || sesiSimulasiAktif()?.status === STATUS_SESI_SIMULASI.SELESAI) {
+            return TAHAP_SESI_SIMULASI.GENERATE;
+        }
+        return TAHAP_SESI_SIMULASI.KONTROL;
+    }
+
+    function validasiSesiSimulasiSiapFinal() {
+        const kesiapan = getKesiapanMulaiPlottingKerma();
+        const alasan = [];
+        if (!kesiapan.siap) {
+            Object.entries(kesiapan.steps).forEach(([key, step]) => {
+                if (!step.lengkap || !step.tersimpan) {
+                    const label = key === 'dasar' ? 'Perhitungan Dasar' : (key === 'target' ? 'Target Distribusi' : 'Batasan Simulasi');
+                    alasan.push(`${label} belum lengkap atau belum disimpan.`);
+                }
+            });
+        }
+        if (!Object.keys(plotSkBidangManual || {}).length) alasan.push('Plot SK Bidang belum tersedia.');
+        if (!dataEksporRekapitulasiUntukFilter().length) alasan.push('Kontrol belum memiliki data untuk diperiksa.');
+        if (targetDistribusiButuhOptimalisasi) alasan.push('Target Distribusi masih memiliki catatan yang belum diselesaikan.');
+        if (typeof hitungValidasiBatasanPlotSkBidang === 'function' && Object.keys(plotSkBidangManual || {}).length) {
+            const pelanggaran = hitungValidasiBatasanPlotSkBidang().filter(item => !item.ok && !item.preference);
+            pelanggaran.slice(0, 8).forEach(item => alasan.push(`${item.label}: ${item.detailError || 'belum terpenuhi.'}`));
+            if (pelanggaran.length > 8) alasan.push(`dan ${pelanggaran.length - 8} aturan wajib lainnya.`);
+        }
+        return { ok: alasan.length === 0, alasan, kesiapan };
+    }
+
+    function statusSesiSimulasiOtomatis() {
+        const item = sesiSimulasiAktif();
+        if (sesiSimulasiTerkunci(item)) return item.status;
+        const adaPekerjaan = Boolean(
+            periodePengelolaKerma.awal || periodePengelolaKerma.akhir ||
+            daftarPksTerpilihPlotting.length || Object.keys(targetDistribusiBebanManual || {}).length ||
+            Object.keys(plotSkBidangManual || {}).length
+        );
+        if (!adaPekerjaan) return STATUS_SESI_SIMULASI.DRAF;
+        if (targetDistribusiButuhOptimalisasi) return STATUS_SESI_SIMULASI.PERLU_PERBAIKAN;
+        if (Object.keys(plotSkBidangManual || {}).length) {
+            const hasil = validasiSesiSimulasiSiapFinal();
+            if (!hasil.ok) return STATUS_SESI_SIMULASI.PERLU_PERBAIKAN;
+        }
+        return STATUS_SESI_SIMULASI.DRAF;
+    }
+
+    function snapshotSesiSimulasiKosong(awal = '', akhir = '') {
+        const snapshot = buatSnapshotHasilSimulasiAktif();
+        return {
+            ...snapshot,
+            periodePengelolaKerma: normalisasiPeriodePengelolaKerma({ awal, akhir }),
+            jumlahPksDitetapkanPlotting: 0,
+            daftarPksTerpilihPlotting: [],
+            plotSkBidangManual: {},
+            targetDistribusiBebanManual: {},
+            perhitunganDasarPlotting: {
+                ...snapshot.perhitunganDasarPlotting,
+                tersimpan: false,
+                totalPerKerma: 0
+            },
+            statusMulaiPlottingKerma: {},
+            rows: snapshot.rows.map(row => ({
+                ...row,
+                pks: {},
+                distribusi_roles: Object.fromEntries(rolePlottingKerma.map(role => [role, '']))
+            }))
+        };
+    }
+
+    function sinkronkanSesiSimulasiAktifKeRiwayat({ markDirty = true, status = null } = {}) {
+        const item = sesiSimulasiAktif();
+        if (!item || modeSesiSimulasi !== 'edit' || sesiSimulasiTerkunci(item)) return item;
+        const now = new Date().toISOString();
+        item.snapshot = buatSnapshotHasilSimulasiAktif();
+        item.ringkasan = hitungRingkasanHasilSimulasiAktif();
+        item.periode_awal = periodePengelolaKerma.awal || '';
+        item.periode_akhir = periodePengelolaKerma.akhir || '';
+        item.tahap = tahapSesiSimulasiSaatIni();
+        item.status = status || statusSesiSimulasiOtomatis();
+        item.updated_at = now;
+        item.saved_at = now;
+        item.updated_by = namaPenggunaSesiSimulasi();
+        if (markDirty) sesiSimulasiDirty = true;
+        return item;
+    }
+
+    function renderSesiSimulasiBar() {
+        const item = sesiSimulasiAktif();
+        if (!item) {
+            setText(labelSesiSimulasiAktif, 'Belum ada sesi aktif');
+            setText(detailSesiSimulasiAktif, 'Buat sesi baru untuk memulai ruang kerja yang terpisah.');
+            setText(badgeStatusSesiSimulasi, 'Belum dibuat');
+            setText(badgeTahapSesiSimulasi, TAHAP_SESI_SIMULASI.PERSIAPAN);
+            setText(labelSesiSimulasiTerakhirDisimpan, 'Belum ada penyimpanan sesi');
+            badgeStatusSesiSimulasi?.classList.add('is-empty');
+            if (btnSimpanDrafSesiSimulasi) btnSimpanDrafSesiSimulasi.disabled = true;
+            if (btnTetapkanHasilFinalSesiSimulasi) btnTetapkanHasilFinalSesiSimulasi.disabled = true;
+            return;
+        }
+        const status = item.status || STATUS_SESI_SIMULASI.DRAF;
+        const statusClass = status === STATUS_SESI_SIMULASI.DRAF ? 'is-draft'
+            : status === STATUS_SESI_SIMULASI.PERLU_PERBAIKAN ? 'is-fix'
+                : status === STATUS_SESI_SIMULASI.SIAP_GENERATE_SK ? 'is-ready'
+                    : status === STATUS_SESI_SIMULASI.SELESAI ? 'is-done'
+                        : 'is-empty';
+        setText(labelSesiSimulasiAktif, item.nama);
+        setText(detailSesiSimulasiAktif, item.deskripsi || `${item.periode_awal || '-'} sampai ${item.periode_akhir || '-'}`);
+        setText(badgeStatusSesiSimulasi, status);
+        setText(badgeTahapSesiSimulasi, item.tahap || tahapSesiSimulasiSaatIni());
+        setText(labelSesiSimulasiTerakhirDisimpan, `${sesiSimulasiDirty ? 'Ada perubahan belum disimpan · ' : ''}Terakhir diperbarui ${formatTanggalWaktuSimulasi(item.updated_at || item.saved_at)}`);
+        if (badgeStatusSesiSimulasi) badgeStatusSesiSimulasi.className = `plotting-session-badge ${statusClass}`;
+        if (btnSimpanDrafSesiSimulasi) {
+            btnSimpanDrafSesiSimulasi.disabled = modeSesiSimulasi !== 'edit' || sesiSimulasiTerkunci(item);
+            btnSimpanDrafSesiSimulasi.textContent = sesiSimulasiDirty ? 'Simpan Draf' : 'Tersimpan';
+        }
+        if (btnTetapkanHasilFinalSesiSimulasi) {
+            btnTetapkanHasilFinalSesiSimulasi.disabled = modeSesiSimulasi !== 'edit' || sesiSimulasiTerkunci(item);
+        }
+        const readOnly = modeSesiSimulasi !== 'edit' || sesiSimulasiTerkunci(item);
+        document.querySelectorAll('#sectionPlottingKerma .plotting-export-panel input, #sectionPlottingKerma .plotting-export-panel select, #sectionPlottingKerma .plotting-export-panel textarea, #sectionPlottingKerma .plotting-export-panel button').forEach(control => {
+            if (control.closest('#sesiSimulasiAktifBar, #panelEksporPlottingDaftarSimulasi') || control.classList.contains('mahasiswa-tab') || control.id.startsWith('tabEksporPlotting')) return;
+            control.disabled = readOnly;
+        });
+    }
+
+    function simpanDrafSesiSimulasiAktif({ silent = false } = {}) {
+        const item = sesiSimulasiAktif();
+        if (!item) {
+            if (!silent) window.alert('Buat Simulasi Baru terlebih dahulu agar pekerjaan memiliki sesi tersendiri.');
+            return false;
+        }
+        if (modeSesiSimulasi !== 'edit' || sesiSimulasiTerkunci(item)) {
+            if (!silent) window.alert('Sesi ini sudah dikunci dan tidak dapat diubah.');
+            return false;
+        }
+        sinkronkanSesiSimulasiAktifKeRiwayat({ markDirty: false });
+        sesiSimulasiDirty = false;
+        simpanPlottingKerma({ syncSession: false });
+        renderDaftarHasilSimulasiPlotting();
+        renderSesiSimulasiBar();
+        if (!silent) setStatusMulaiPlotting('Draf sesi berhasil disimpan.', 'success');
+        return true;
+    }
+
+    function konfirmasiPindahSesiSimulasi() {
+        if (!sesiSimulasiDirty) return true;
+        const lanjut = window.confirm('Ada perubahan sesi yang belum disimpan. Simpan Draf sebelum membuka sesi lain?');
+        if (!lanjut) return false;
+        return simpanDrafSesiSimulasiAktif({ silent: true });
+    }
+
+    function tampilkanAlertBuatSimulasiBaru(message = '') {
+        if (!alertBuatSimulasiBaru) return;
+        alertBuatSimulasiBaru.textContent = message;
+        alertBuatSimulasiBaru.style.display = message ? '' : 'none';
+    }
+
+    function bukaModalBuatSimulasiBaru() {
+        if (!konfirmasiPindahSesiSimulasi()) return;
+        tampilkanAlertBuatSimulasiBaru('');
+        if (inputNamaSesiSimulasi) inputNamaSesiSimulasi.value = '';
+        if (inputPeriodeAwalSesiSimulasi) inputPeriodeAwalSesiSimulasi.value = '';
+        if (inputPeriodeAkhirSesiSimulasi) inputPeriodeAkhirSesiSimulasi.value = '';
+        if (inputKeteranganSesiSimulasi) inputKeteranganSesiSimulasi.value = '';
+        if (modalBuatSimulasiBaru) modalBuatSimulasiBaru.style.display = 'flex';
+        setTimeout(() => inputNamaSesiSimulasi?.focus(), 0);
+    }
+
+    function tutupModalBuatSimulasiBaru() {
+        if (modalBuatSimulasiBaru) modalBuatSimulasiBaru.style.display = 'none';
+        tampilkanAlertBuatSimulasiBaru('');
+    }
+
+    function buatSesiSimulasiDariModal() {
+        const nama = String(inputNamaSesiSimulasi?.value || '').trim();
+        const awal = String(inputPeriodeAwalSesiSimulasi?.value || '').trim();
+        const akhir = String(inputPeriodeAkhirSesiSimulasi?.value || '').trim();
+        if (!nama) return tampilkanAlertBuatSimulasiBaru('Nama Simulasi wajib diisi.');
+        if (!awal || !akhir) return tampilkanAlertBuatSimulasiBaru('Periode awal dan akhir wajib diisi.');
+        if (awal > akhir) return tampilkanAlertBuatSimulasiBaru('Periode awal tidak boleh melewati periode akhir.');
+        const now = new Date().toISOString();
+        const id = `sesi-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const snapshot = snapshotSesiSimulasiKosong(awal, akhir);
+        snapshot.periodePengelolaKerma = normalisasiPeriodePengelolaKerma({ awal, akhir });
+        const item = {
+            id,
+            nama,
+            deskripsi: String(inputKeteranganSesiSimulasi?.value || '').trim(),
+            periode_awal: awal,
+            periode_akhir: akhir,
+            status: STATUS_SESI_SIMULASI.DRAF,
+            tahap: TAHAP_SESI_SIMULASI.PERSIAPAN,
+            created_at: now,
+            updated_at: now,
+            saved_at: now,
+            created_by: namaPenggunaSesiSimulasi(),
+            updated_by: namaPenggunaSesiSimulasi(),
+            ringkasan: {},
+            nomor_sk_by_pks: {},
+            snapshot
+        };
+        daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi([item, ...daftarHasilSimulasiPlotting]);
+        sesiSimulasiAktifId = id;
+        modeSesiSimulasi = 'edit';
+        sesiSimulasiDirty = false;
+        terapkanPayloadPlottingKerma({ ...snapshot, daftarHasilSimulasiPlotting, sesiSimulasiAktifId: id });
+        daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi(daftarHasilSimulasiPlotting);
+        simpanDrafSesiSimulasiAktif({ silent: true });
+        tutupModalBuatSimulasiBaru();
+        renderPlottingKermaViews();
+        renderDaftarHasilSimulasiPlotting();
+        setTabEksporPlottingKerma('batasan');
+        setStatusMulaiPlotting(`Sesi “${nama}” dibuat sebagai Draf.`, 'success');
+    }
+
+    function tetapkanSesiSimulasiSebagaiFinal() {
+        const item = sesiSimulasiAktif();
+        if (!item) return window.alert('Buat atau buka sesi simulasi terlebih dahulu.');
+        if (sesiSimulasiTerkunci(item)) return window.alert('Sesi ini sudah ditetapkan dan dikunci.');
+        const hasil = validasiSesiSimulasiSiapFinal();
+        if (!hasil.ok) {
+            window.alert(`Sesi belum dapat ditetapkan sebagai hasil final:\n\n- ${hasil.alasan.join('\n- ')}`);
+            return;
+        }
+        if (!window.confirm('Tetapkan sesi ini sebagai Hasil Final? Setelah dikunci, sesi tidak dapat diubah.')) return;
+        const now = new Date().toISOString();
+        item.snapshot = buatSnapshotHasilSimulasiAktif();
+        item.ringkasan = hitungRingkasanHasilSimulasiAktif();
+        item.status = STATUS_SESI_SIMULASI.SIAP_GENERATE_SK;
+        item.tahap = TAHAP_SESI_SIMULASI.GENERATE;
+        item.finalized_at = now;
+        item.updated_at = now;
+        item.saved_at = now;
+        item.updated_by = namaPenggunaSesiSimulasi();
+        modeSesiSimulasi = 'view';
+        sesiSimulasiDirty = false;
+        simpanPlottingKerma({ syncSession: false });
+        renderPlottingKermaViews();
+        renderDaftarHasilSimulasiPlotting();
+        setStatusMulaiPlotting('Hasil final ditetapkan. Sesi terkunci dan siap dibuatkan SK.', 'success');
+    }
+
     function formatTanggalWaktuSimulasi(value) {
         const tanggal = new Date(value);
         if (Number.isNaN(tanggal.getTime())) return '-';
@@ -2885,14 +3340,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function simpanPlottingKerma() {
+    function simpanPlottingKerma({ syncSession = true } = {}) {
+        if (syncSession && modeSesiSimulasi === 'edit') sinkronkanSesiSimulasiAktifKeRiwayat({ markDirty: true });
         const payload = snapshotPlottingKerma();
         try {
             localStorage.setItem(STORAGE_PLOTTING_KERMA, JSON.stringify(payload));
         } catch {
             // localStorage bisa tidak tersedia pada mode private; data sesi tetap berjalan.
         }
-        jadwalkanSinkronPlottingKerma();
+        jadwalkanSinkronPlottingKerma(payload);
+        renderSesiSimulasiBar();
     }
 
     function normalisasiStatusMulaiPlottingKerma(raw = {}) {
@@ -14708,35 +15165,134 @@ document.addEventListener('DOMContentLoaded', async () => {
         setStatusNilaiSelisihRekap(eksporRekapSelisihStaf, totalStaf);
     }
 
-    function renderDaftarHasilSimulasiPlotting() {
-        if (!bodyTabelDaftarHasilSimulasi) return;
-        if (!daftarHasilSimulasiPlotting.length) {
-            bodyTabelDaftarHasilSimulasi.innerHTML = tableState(7, 'empty', 'Belum ada hasil simulasi', 'Simpan hasil simulasi dari tab Kontrol agar muncul di daftar ini.');
+    function hasilSimulasiTerpilihUntukDihapus() {
+        if (!bodyTabelDaftarHasilSimulasi) return [];
+        return Array.from(bodyTabelDaftarHasilSimulasi.querySelectorAll('input[data-hasil-simulasi-select]:checked'))
+            .map(input => String(input.dataset.hasilSimulasiSelect || '').trim())
+            .filter(Boolean);
+    }
+
+    function perbaruiAksiHapusSimulasi() {
+        const checks = bodyTabelDaftarHasilSimulasi
+            ? Array.from(bodyTabelDaftarHasilSimulasi.querySelectorAll('input[data-hasil-simulasi-select]'))
+            : [];
+        const terpilih = checks.filter(input => input.checked);
+        if (btnHapusSimulasi) btnHapusSimulasi.disabled = terpilih.length === 0;
+        if (checkAllHasilSimulasi) {
+            checkAllHasilSimulasi.checked = checks.length > 0 && terpilih.length === checks.length;
+            checkAllHasilSimulasi.indeterminate = terpilih.length > 0 && terpilih.length < checks.length;
+            checkAllHasilSimulasi.disabled = checks.length === 0;
+        }
+    }
+
+    function bukaModalHapusSimulasi(ids = hasilSimulasiTerpilihUntukDihapus()) {
+        const idsValid = [...new Set((Array.isArray(ids) ? ids : []).map(id => String(id || '').trim()).filter(id =>
+            daftarHasilSimulasiPlotting.some(item => item.id === id)
+        ))];
+        if (!idsValid.length) {
+            perbaruiAksiHapusSimulasi();
             return;
         }
-        bodyTabelDaftarHasilSimulasi.innerHTML = daftarHasilSimulasiPlotting.map((item, index) => {
+        hasilSimulasiIdsMenungguDihapus = idsValid;
+        const jumlah = idsValid.length;
+        const label = jumlah === 1 ? 'sesi simulasi yang dipilih' : `${jumlah} sesi simulasi yang dipilih`;
+        if (pesanKonfirmasiHapusSimulasi) {
+            pesanKonfirmasiHapusSimulasi.textContent = `Apakah Anda yakin akan menghapus ${label}? Data yang dihapus tidak dapat dipulihkan.`;
+        }
+        if (modalHapusSimulasi) modalHapusSimulasi.style.display = 'flex';
+        setTimeout(() => btnBatalHapusSimulasi?.focus(), 0);
+    }
+
+    function tutupModalHapusSimulasi() {
+        if (modalHapusSimulasi) modalHapusSimulasi.style.display = 'none';
+        hasilSimulasiIdsMenungguDihapus = [];
+    }
+
+    function hapusSimulasiTerpilih() {
+        const ids = new Set(hasilSimulasiIdsMenungguDihapus);
+        const daftarYangDihapus = daftarHasilSimulasiPlotting.filter(item => ids.has(item.id));
+        if (!daftarYangDihapus.length) {
+            tutupModalHapusSimulasi();
+            return;
+        }
+        const sesiAktifDihapus = ids.has(sesiSimulasiAktifId);
+        const namaYangDihapus = daftarYangDihapus.map(item => item.nama).filter(Boolean);
+        daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi(
+            daftarHasilSimulasiPlotting.filter(item => !ids.has(item.id))
+        );
+        daftarNominatifBySimulasi = Object.fromEntries(
+            Object.entries(daftarNominatifBySimulasi || {}).filter(([id]) => !ids.has(id))
+        );
+        pengajuanPengeluaranBySimulasi = Object.fromEntries(
+            Object.entries(pengajuanPengeluaranBySimulasi || {}).filter(([id]) => !ids.has(id))
+        );
+        if (sesiAktifDihapus) {
+            nomorSkByPksTersimpan = {};
+            sesiSimulasiAktifId = '';
+            modeSesiSimulasi = 'edit';
+            sesiSimulasiDirty = false;
+            const snapshotKosong = snapshotSesiSimulasiKosong('', '');
+            terapkanPayloadPlottingKerma({
+                ...snapshotKosong,
+                daftarHasilSimulasiPlotting,
+                sesiSimulasiAktifId: '',
+                nomorSkByPksTersimpan: {}
+            });
+            daftarHasilSimulasiPlotting = normalisasiDaftarHasilSimulasi(daftarHasilSimulasiPlotting);
+        }
+        simpanPlottingKerma({ syncSession: false });
+        tutupModalHapusSimulasi();
+        renderPlottingKermaViews();
+        renderDaftarHasilSimulasiPlotting();
+        setTabEksporPlottingKerma('hasilSimulasi');
+        setStatusMulaiPlotting(
+            `${namaYangDihapus.length} simulasi berhasil dihapus.`,
+            'success'
+        );
+    }
+
+    function renderDaftarHasilSimulasiPlotting() {
+        if (!bodyTabelDaftarHasilSimulasi) return;
+        const daftar = daftarHasilSimulasiPlotting;
+        if (!daftar.length) {
+            bodyTabelDaftarHasilSimulasi.innerHTML = tableState(10, 'empty', 'Belum ada sesi simulasi', 'Klik Buat Simulasi Baru untuk membuat ruang kerja per periode.');
+            perbaruiAksiHapusSimulasi();
+            return;
+        }
+        bodyTabelDaftarHasilSimulasi.innerHTML = daftar.map((item, index) => {
             const ringkasan = item.ringkasan || {};
+            const statusClass = item.status === STATUS_SESI_SIMULASI.DRAF ? 'is-draft'
+                : item.status === STATUS_SESI_SIMULASI.PERLU_PERBAIKAN ? 'is-fix'
+                    : item.status === STATUS_SESI_SIMULASI.SIAP_GENERATE_SK ? 'is-ready'
+                        : item.status === STATUS_SESI_SIMULASI.SELESAI ? 'is-done'
+                            : 'is-empty';
+            const aktif = item.id === sesiSimulasiAktifId;
+            const dapatDilanjutkan = [STATUS_SESI_SIMULASI.DRAF, STATUS_SESI_SIMULASI.PERLU_PERBAIKAN].includes(item.status);
             return `
-                <tr>
+                <tr class="${aktif ? 'is-active-session' : ''}">
+                    <td class="plotting-simulation-select-cell"><input type="checkbox" data-hasil-simulasi-select="${esc(item.id)}" aria-label="Pilih ${esc(item.nama || 'hasil simulasi')}"></td>
                     <td>${index + 1}</td>
                     <td>
                         <strong>${esc(item.nama || '-')}</strong>
-                        <small class="plotting-saved-simulation-period">${esc(ringkasan.periode || '-')}</small>
+                        <small class="plotting-saved-simulation-period">${esc(item.deskripsi || ringkasan.periode || `${item.periode_awal || '-'} sampai ${item.periode_akhir || '-'}`)}</small>
                     </td>
-                    <td>${esc(formatTanggalWaktuSimulasi(item.saved_at))}</td>
+                    <td class="plotting-saved-simulation-status"><span class="plotting-session-badge ${statusClass}">${esc(item.status)}</span></td>
+                    <td class="plotting-saved-simulation-stage">${esc(item.tahap || TAHAP_SESI_SIMULASI.PERSIAPAN)}</td>
+                    <td>${esc(formatTanggalWaktuSimulasi(item.updated_at || item.saved_at))}</td>
                     <td class="td-number">${esc(formatJumlahPks(Number(ringkasan.jumlahPks) || item.snapshot?.jumlahPksPlotting || 0))}</td>
                     <td class="td-number ${Number(ringkasan.selisihDosen) < 0 ? 'realisasi-sisa-warning' : ''}">${esc(formatRupiahKomaDash(ringkasan.selisihDosen))}</td>
                     <td class="td-number ${Number(ringkasan.selisihStaf) < 0 ? 'realisasi-sisa-warning' : ''}">${esc(formatRupiahKomaDash(ringkasan.selisihStaf))}</td>
                     <td>
                         <div class="pegawai-row-actions">
-                            <button type="button" class="btn-row-edit" data-hasil-simulasi-action="open" data-hasil-simulasi-id="${esc(item.id)}">Buka</button>
-                            <button type="button" class="btn-row-edit" data-hasil-simulasi-action="sk" data-hasil-simulasi-id="${esc(item.id)}">Buat SK</button>
-                            <button type="button" class="btn-row-cancel" data-hasil-simulasi-action="delete" data-hasil-simulasi-id="${esc(item.id)}">Hapus</button>
+                            ${dapatDilanjutkan ? `<button type="button" class="btn-row-edit" data-hasil-simulasi-action="continue" data-hasil-simulasi-id="${esc(item.id)}">Lanjutkan</button>` : ''}
+                            <button type="button" class="btn-row-edit" data-hasil-simulasi-action="view" data-hasil-simulasi-id="${esc(item.id)}">Buka</button>
+                            ${[STATUS_SESI_SIMULASI.SIAP_GENERATE_SK, STATUS_SESI_SIMULASI.SELESAI].includes(item.status) ? `<button type="button" class="btn-row-edit" data-hasil-simulasi-action="sk" data-hasil-simulasi-id="${esc(item.id)}">Buat SK</button>` : ''}
                         </div>
                     </td>
                 </tr>
             `;
         }).join('');
+        perbaruiAksiHapusSimulasi();
     }
 
     function tampilkanAlertSimpanHasilSimulasi(message = '', type = 'error') {
@@ -14753,6 +15309,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function bukaModalSimpanHasilSimulasi() {
+        if (sesiSimulasiAktif()) {
+            tetapkanSesiSimulasiSebagaiFinal();
+            return;
+        }
+        window.alert('Buat Simulasi Baru terlebih dahulu. Hasil simulasi harus berada di dalam Sesi Simulasi.');
+        setTabEksporPlottingKerma('hasilSimulasi');
+        return;
+        /* Legacy fallback retained for old local data only. */
         const adaPlot = Object.keys(plotSkBidangManual || {}).length > 0;
         const adaRekap = dataEksporRekapitulasiUntukFilter().length > 0;
         if (!adaPlot || !adaRekap) {
@@ -14778,6 +15342,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function simpanHasilSimulasiDariModal() {
+        if (sesiSimulasiAktif()) {
+            tetapkanSesiSimulasiSebagaiFinal();
+            tutupModalSimpanHasilSimulasi();
+            return;
+        }
         const nama = String(inputNamaHasilSimulasi?.value || '').trim();
         if (!nama) {
             tampilkanAlertSimpanHasilSimulasi('Nama simulasi wajib diisi.');
@@ -14801,28 +15370,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         setTabEksporPlottingKerma('hasilSimulasi');
     }
 
-    function bukaHasilSimulasiTersimpan(id) {
+    function bukaHasilSimulasiTersimpan(id, { viewOnly = false } = {}) {
         const item = daftarHasilSimulasiPlotting.find(simulasi => simulasi.id === id);
         if (!item) return;
+        if (!konfirmasiPindahSesiSimulasi()) return;
         const arsip = daftarHasilSimulasiPlotting;
         terapkanPayloadPlottingKerma({
             ...item.snapshot,
-            daftarHasilSimulasiPlotting: arsip
+            daftarHasilSimulasiPlotting: arsip,
+            sesiSimulasiAktifId: item.id
         });
         daftarHasilSimulasiPlotting = arsip;
-        simpanPlottingKerma();
+        sesiSimulasiAktifId = item.id;
+        modeSesiSimulasi = viewOnly || sesiSimulasiTerkunci(item) ? 'view' : 'edit';
+        sesiSimulasiDirty = false;
+        simpanPlottingKerma({ syncSession: false });
         renderPlottingKermaViews();
         setTabEksporPlottingKerma('rekapitulasi');
     }
 
-    function hapusHasilSimulasiTersimpan(id) {
+    function lanjutkanHasilSimulasiTersimpan(id) {
         const item = daftarHasilSimulasiPlotting.find(simulasi => simulasi.id === id);
-        if (!item) return;
-        const yakin = window.confirm(`Hapus hasil simulasi "${item.nama}"?`);
-        if (!yakin) return;
-        daftarHasilSimulasiPlotting = daftarHasilSimulasiPlotting.filter(simulasi => simulasi.id !== id);
-        simpanPlottingKerma();
-        renderDaftarHasilSimulasiPlotting();
+        if (!item || !konfirmasiPindahSesiSimulasi()) return;
+        if (![STATUS_SESI_SIMULASI.DRAF, STATUS_SESI_SIMULASI.PERLU_PERBAIKAN].includes(item.status)) {
+            return bukaHasilSimulasiTersimpan(id);
+        }
+        bukaHasilSimulasiTersimpan(id);
+        modeSesiSimulasi = 'edit';
+        renderSesiSimulasiBar();
     }
 
     function tampilkanAlertGenerateSkTim(message = '', type = 'error') {
@@ -15027,14 +15602,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         infoDaftarNominatif.classList.toggle('is-error', Boolean(isError));
     }
 
+    function pengajuanPengeluaranUntukFile(simulationId = '', kodeFile = '') {
+        return pengajuanPengeluaranBySimulasi?.[String(simulationId)]?.[String(kodeFile)] || null;
+    }
+
+    function pengajuanPengeluaranTerkunci(file = null) {
+        return Boolean(file && [
+            STATUS_PENGAJUAN_PENGELUARAN.DIAJUKAN,
+            STATUS_PENGAJUAN_PENGELUARAN.DIPROSES,
+            STATUS_PENGAJUAN_PENGELUARAN.SELESAI
+        ].includes(file.status));
+    }
+
+    function ringkasanNominalNominatif(rows = []) {
+        const daftar = Array.isArray(rows) ? rows : [];
+        return {
+            totalPengajuan: daftar.reduce((sum, row) => sum + (Number(row.total_honor) || 0), 0),
+            totalBulanan: daftar.reduce((sum, row) => sum + (Number(row.total) || 0), 0),
+            jumlahPenerimaHonor: daftar.filter(row => (Number(row.total_honor) || 0) > 0).length
+        };
+    }
+
+    function kodeFileNominatifTerpilih() {
+        return Array.from(bodyTabelDaftarNominatifKodeFile?.querySelectorAll('[data-nominatif-code-check]:checked') || [])
+            .map(input => String(input.dataset.nominatifCodeCheck || '').trim())
+            .filter(Boolean);
+    }
+
+    function perbaruiAksiKodeFileNominatif() {
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        const selected = kodeFileNominatifTerpilih();
+        const savedMap = item ? daftarNominatifBySimulasi[item.id] || {} : {};
+        const pending = selected.filter(kode => {
+            const file = savedMap[kode];
+            return file?.rows?.length && !pengajuanPengeluaranTerkunci(pengajuanPengeluaranUntukFile(item?.id, kode));
+        });
+        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = selected.length === 0;
+        if (btnAjukanDaftarNominatif) {
+            btnAjukanDaftarNominatif.disabled = pending.length === 0;
+            btnAjukanDaftarNominatif.title = pending.length
+                ? `Ajukan ${pending.length} Kode File ke Pengeluaran`
+                : 'Pilih Kode File yang sudah disimpan terlebih dahulu';
+        }
+    }
+
     function renderPilihanDaftarNominatif() {
         if (!selectDaftarNominatifSimulasi || !selectDaftarNominatifKodeFile) return;
-        const simulationIdValid = daftarHasilSimulasiPlotting.some(item => item.id === nominatifSimulasiDipilihId);
-        if (!simulationIdValid) nominatifSimulasiDipilihId = daftarHasilSimulasiPlotting[0]?.id || '';
-        selectDaftarNominatifSimulasi.innerHTML = `<option value="">Pilih hasil simulasi</option>${daftarHasilSimulasiPlotting.map(item => `
+        const daftarResmi = daftarHasilSimulasiPlotting.filter(item => [STATUS_SESI_SIMULASI.SIAP_GENERATE_SK, STATUS_SESI_SIMULASI.SELESAI].includes(item.status));
+        const simulationIdValid = daftarResmi.some(item => item.id === nominatifSimulasiDipilihId);
+        if (!simulationIdValid) nominatifSimulasiDipilihId = daftarResmi[0]?.id || '';
+        selectDaftarNominatifSimulasi.innerHTML = `<option value="">Pilih hasil simulasi</option>${daftarResmi.map(item => `
             <option value="${esc(item.id)}" ${item.id === nominatifSimulasiDipilihId ? 'selected' : ''}>${esc(item.nama)}</option>
         `).join('')}`;
-        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        const item = daftarResmi.find(candidate => candidate.id === nominatifSimulasiDipilihId);
         const pks = item ? pksNominatifUntukSimulasi(item) : [];
         if (!pks.some(row => row.kode_file === nominatifKodeFileDipilih)) nominatifKodeFileDipilih = '';
         selectDaftarNominatifKodeFile.innerHTML = `<option value="">Pilih kode file</option>${pks.map(row => {
@@ -15044,11 +15664,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         selectDaftarNominatifKodeFile.disabled = !item || !pks.length;
         btnBukaDaftarNominatif.disabled = !item || !nominatifKodeFileDipilih;
         const tersimpan = item && nominatifKodeFileDipilih ? fileNominatifTersimpan(item.id, nominatifKodeFileDipilih) : null;
-        btnSimpanDaftarNominatif.disabled = !nominatifRowsAktif.length || !item || !nominatifKodeFileDipilih;
+        const pengajuanAktif = item && nominatifKodeFileDipilih
+            ? pengajuanPengeluaranUntukFile(item.id, nominatifKodeFileDipilih)
+            : null;
+        btnSimpanDaftarNominatif.disabled = !nominatifRowsAktif.length || !item || !nominatifKodeFileDipilih || pengajuanPengeluaranTerkunci(pengajuanAktif);
         if (item && pks.length) {
-            setInfoDaftarNominatif(`${pks.length} kode file tersedia pada ${item.nama}. ${Object.keys(daftarNominatifBySimulasi[item.id] || {}).length} kode file sudah disimpan.`);
-        } else if (!daftarHasilSimulasiPlotting.length) {
-            setInfoDaftarNominatif('Belum ada hasil simulasi tersimpan. Simpan hasil simulasi dari tab Kontrol terlebih dahulu.');
+            const statusInfo = pengajuanAktif?.status ? ` Status pengeluaran: ${pengajuanAktif.status}.` : '';
+            setInfoDaftarNominatif(`${pks.length} kode file tersedia pada ${item.nama}. ${Object.keys(daftarNominatifBySimulasi[item.id] || {}).length} kode file sudah disimpan.${statusInfo}`);
+        } else if (!daftarResmi.length) {
+            setInfoDaftarNominatif('Belum ada hasil simulasi final. Draf dan sesi yang belum ditetapkan tidak masuk laporan resmi.');
         }
         renderDaftarKodeFileNominatif(item);
     }
@@ -15066,13 +15690,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             ringkasanDaftarNominatif.hidden = false;
             ringkasanDaftarNominatif.innerHTML = `<span><strong>${nominatifRowsAktif.length.toLocaleString('id-ID')}</strong> baris personil</span><span>Total Honor: <strong>${esc(formatRupiahKomaDash(jumlahHonor))}</strong></span><span>Total Bulanan: <strong>${esc(formatRupiahKomaDash(jumlahBulanan))}</strong></span>`;
         }
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        const pengajuanAktif = item && nominatifKodeFileDipilih
+            ? pengajuanPengeluaranUntukFile(item.id, nominatifKodeFileDipilih)
+            : null;
+        const readOnly = pengajuanPengeluaranTerkunci(pengajuanAktif);
+        const readOnlyAttr = readOnly ? ' readonly' : '';
         bodyTabelDaftarNominatif.innerHTML = nominatifRowsAktif.map((row, index) => {
             const monthCells = bulanDaftarNominatif.map(nama => `<td class="nominatif-money nominatif-readonly">${row.bulan[nama] ? esc(formatRupiahKomaDash(row.bulan[nama])) : '-'}</td>`).join('');
             const selisihClass = Math.abs(Number(row.selisih) || 0) < 0.01 ? 'is-zero' : (Number(row.selisih) < 0 ? 'is-negative' : '');
             return `<tr>
-                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="nip" value="${esc(row.nip)}" placeholder="NIP/No. Pegawai"></td>
+                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="nip" value="${esc(row.nip)}" placeholder="NIP/No. Pegawai"${readOnlyAttr}></td>
                 <td title="${esc(row.nama)}"><strong>${esc(row.nama || '-')}</strong></td>
-                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="no_sk" value="${esc(row.no_sk)}" placeholder="Nomor SK"></td>
+                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="no_sk" value="${esc(row.no_sk)}" placeholder="Nomor SK"${readOnlyAttr}></td>
                 <td>${esc(row.jabatan || '-')}</td>
                 <td><span class="kode-file-tag">${esc(row.kode_file || '-')}</span></td>
                 <td title="${esc(row.judul_kegiatan)}">${esc(row.judul_kegiatan || '-')}</td>
@@ -15085,7 +15715,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ${monthCells}
                 <td class="nominatif-money">${esc(formatRupiahKomaDash(row.total))}</td>
                 <td class="nominatif-money nominatif-difference ${selisihClass}">${esc(formatRupiahKomaDash(row.selisih))}</td>
-                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="keterangan" value="${esc(row.keterangan)}" placeholder="Keterangan"></td>
+                <td><input type="text" class="form-input nominatif-input" data-nominatif-index="${index}" data-nominatif-field="keterangan" value="${esc(row.keterangan)}" placeholder="Keterangan"${readOnlyAttr}></td>
             </tr>`;
         }).join('');
     }
@@ -15094,8 +15724,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!bodyTabelDaftarNominatifKodeFile) return;
         const rows = item ? pksNominatifUntukSimulasi(item) : [];
         if (!rows.length) {
-            bodyTabelDaftarNominatifKodeFile.innerHTML = '<tr class="table-state-row"><td colspan="8"><div class="table-state table-state--empty"><strong>Belum ada daftar kode file</strong><small>Pilih hasil simulasi yang memiliki PKS.</small></div></td></tr>';
+            bodyTabelDaftarNominatifKodeFile.innerHTML = '<tr class="table-state-row"><td colspan="10"><div class="table-state table-state--empty"><strong>Belum ada daftar kode file</strong><small>Pilih hasil simulasi yang memiliki PKS.</small></div></td></tr>';
             if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = true;
+            if (btnAjukanDaftarNominatif) btnAjukanDaftarNominatif.disabled = true;
             if (checkAllDaftarNominatifKodeFile) checkAllDaftarNominatifKodeFile.checked = false;
             return;
         }
@@ -15103,6 +15734,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         bodyTabelDaftarNominatifKodeFile.innerHTML = rows.map((row, index) => {
             const kode = row.kode_file || row.id_program || row.id;
             const tersimpan = Boolean(savedMap[kode]?.rows?.length);
+            const pengajuan = pengajuanPengeluaranUntukFile(item.id, kode);
+            const statusPengajuan = pengajuan?.status || (tersimpan ? STATUS_PENGAJUAN_PENGELUARAN.SIAP_DIAJUKAN : '-');
+            const ringkasan = pengajuan || (tersimpan ? ringkasanNominalNominatif(savedMap[kode].rows) : null);
             return `<tr>
                 <td><input type="checkbox" data-nominatif-code-check="${esc(kode)}" ${tersimpan ? '' : 'disabled'} aria-label="Pilih ${esc(kode)}"></td>
                 <td>${index + 1}</td>
@@ -15112,10 +15746,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <td>${esc(item.snapshot ? periodeNominatifDariSnapshot(item.snapshot).label : '-')}</td>
                 <td>${Number(savedMap[kode]?.rows?.length || 0).toLocaleString('id-ID')}</td>
                 <td class="${tersimpan ? 'nominatif-status-saved' : ''}">${tersimpan ? 'Tersimpan' : 'Belum disimpan'}</td>
+                <td class="${pengajuan ? 'nominatif-status-saved' : ''}">${esc(statusPengajuan)}</td>
+                <td class="nominatif-money">${ringkasan ? esc(formatRupiahKomaDash(ringkasan.total_pengajuan ?? ringkasan.totalPengajuan)) : '-'}</td>
             </tr>`;
         }).join('');
         if (checkAllDaftarNominatifKodeFile) checkAllDaftarNominatifKodeFile.checked = false;
-        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = !rows.some(row => Boolean(savedMap[row.kode_file || row.id_program || row.id]?.rows?.length));
+        perbaruiAksiKodeFileNominatif();
     }
 
     function renderDaftarNominatif() {
@@ -15144,6 +15780,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function simpanDaftarNominatifAktif() {
         const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
         if (!item || !nominatifKodeFileDipilih || !nominatifRowsAktif.length) return;
+        if (pengajuanPengeluaranTerkunci(pengajuanPengeluaranUntukFile(item.id, nominatifKodeFileDipilih))) {
+            setInfoDaftarNominatif('Daftar Nominatif sudah diajukan ke Pengeluaran dan dikunci.', true);
+            return;
+        }
         bodyTabelDaftarNominatif?.querySelectorAll('[data-nominatif-index][data-nominatif-field]')?.forEach(input => {
             const index = Number(input.dataset.nominatifIndex);
             const field = input.dataset.nominatifField;
@@ -15173,6 +15813,405 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderPilihanDaftarNominatif();
             renderTabelDaftarNominatif();
         }
+    }
+
+    function tampilkanAlertAjukanDaftarNominatif(message = '', type = 'error') {
+        if (!alertAjukanDaftarNominatif) return;
+        alertAjukanDaftarNominatif.textContent = message;
+        alertAjukanDaftarNominatif.className = `form-alert form-alert--${type}`;
+        alertAjukanDaftarNominatif.style.display = message ? '' : 'none';
+    }
+
+    function validasiFileNominatifUntukPengajuan(item = null, kodeFile = '') {
+        const saved = item ? fileNominatifTersimpan(item.id, kodeFile) : null;
+        if (!saved?.rows?.length) {
+            return { ok: false, message: `${kodeFile}: Daftar Nominatif belum disimpan.` };
+        }
+        const pengajuan = pengajuanPengeluaranUntukFile(item.id, kodeFile);
+        if (pengajuanPengeluaranTerkunci(pengajuan)) {
+            return { ok: false, message: `${kodeFile}: sudah berstatus ${pengajuan.status} dan tidak dapat diajukan ulang.` };
+        }
+        const rows = saved.rows.map(normalisasiBarisDaftarNominatif);
+        const rowsBerselisih = rows.filter(row => Math.abs(Number(row.selisih) || 0) > 0.01);
+        if (rowsBerselisih.length) {
+            return { ok: false, message: `${kodeFile}: masih ada ${rowsBerselisih.length} baris dengan selisih perhitungan.` };
+        }
+        const summary = ringkasanNominalNominatif(rows);
+        if (summary.totalPengajuan <= 0) {
+            return { ok: false, message: `${kodeFile}: tidak ada nominal honor yang dapat diajukan.` };
+        }
+        return { ok: true, kodeFile, file: saved, rows, summary };
+    }
+
+    function bukaModalAjukanDaftarNominatif() {
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        const selected = kodeFileNominatifTerpilih();
+        if (!item || !selected.length) {
+            setInfoDaftarNominatif('Pilih Kode File yang sudah disimpan dan belum diajukan.', true);
+            return;
+        }
+        const hasilValidasi = selected.map(kode => validasiFileNominatifUntukPengajuan(item, kode));
+        const valid = hasilValidasi.filter(result => result.ok);
+        const catatan = hasilValidasi.filter(result => !result.ok).map(result => result.message);
+        if (!valid.length) {
+            setInfoDaftarNominatif(catatan.join(' '), true);
+            return;
+        }
+        nominatifPengajuanMenunggu = valid;
+        const totalPengajuan = valid.reduce((sum, result) => sum + result.summary.totalPengajuan, 0);
+        const jumlahPenerima = valid.reduce((sum, result) => sum + result.summary.jumlahPenerimaHonor, 0);
+        if (pesanAjukanDaftarNominatif) {
+            pesanAjukanDaftarNominatif.textContent = `Ajukan ${valid.length} Kode File dari simulasi “${item.nama}” ke Pengeluaran?`;
+        }
+        if (ringkasanAjukanDaftarNominatif) {
+            ringkasanAjukanDaftarNominatif.innerHTML = `
+                <article><span>Kode File</span><strong>${valid.length.toLocaleString('id-ID')}</strong></article>
+                <article><span>Penerima Honor</span><strong>${jumlahPenerima.toLocaleString('id-ID')}</strong></article>
+                <article><span>Total Pengajuan</span><strong>${esc(formatRupiahKomaDash(totalPengajuan))}</strong></article>
+                <article><span>Periode</span><strong>${esc(item.snapshot ? periodeNominatifDariSnapshot(item.snapshot).label : '-')}</strong></article>
+            `;
+        }
+        tampilkanAlertAjukanDaftarNominatif(
+            catatan.length ? `Sebagian Kode File tidak ikut diajukan: ${catatan.join(' ')}` : '',
+            catatan.length ? 'warning' : 'error'
+        );
+        if (btnKonfirmasiAjukanDaftarNominatif) btnKonfirmasiAjukanDaftarNominatif.disabled = false;
+        if (modalAjukanDaftarNominatif) modalAjukanDaftarNominatif.style.display = 'flex';
+        setTimeout(() => btnBatalAjukanDaftarNominatif?.focus(), 0);
+    }
+
+    function tutupModalAjukanDaftarNominatif() {
+        if (modalAjukanDaftarNominatif) modalAjukanDaftarNominatif.style.display = 'none';
+        nominatifPengajuanMenunggu = [];
+        tampilkanAlertAjukanDaftarNominatif('');
+    }
+
+    async function konfirmasiAjukanDaftarNominatif() {
+        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
+        if (!item || !nominatifPengajuanMenunggu.length) {
+            tutupModalAjukanDaftarNominatif();
+            return;
+        }
+        const now = new Date().toISOString();
+        if (!pengajuanPengeluaranBySimulasi[item.id]) pengajuanPengeluaranBySimulasi[item.id] = {};
+        nominatifPengajuanMenunggu.forEach(result => {
+            const summary = result.summary;
+            pengajuanPengeluaranBySimulasi[item.id][result.kodeFile] = {
+                simulation_id: item.id,
+                simulation_name: item.nama,
+                kode_file: result.kodeFile,
+                id_program: result.file.id_program || '',
+                nama_mitra: result.file.nama_mitra || '',
+                judul_kegiatan: result.file.judul_kegiatan || '',
+                periode: result.file.periode || (item.snapshot ? periodeNominatifDariSnapshot(item.snapshot).label : ''),
+                status: STATUS_PENGAJUAN_PENGELUARAN.DIAJUKAN,
+                rka_id: '',
+                rka_status: 'Belum dibuat',
+                rka_category: 'Belanja Pegawai',
+                rka_created_at: '',
+                total_pengajuan: summary.totalPengajuan,
+                total_bulanan: summary.totalBulanan,
+                jumlah_baris: result.rows.length,
+                jumlah_penerima_honor: summary.jumlahPenerimaHonor,
+                submitted_at: now,
+                updated_at: now,
+                catatan: '',
+                rows: cloneDataPlotting(result.rows, [])
+            };
+        });
+        const jumlahDiajukan = nominatifPengajuanMenunggu.length;
+        simpanPlottingKerma();
+        if (btnKonfirmasiAjukanDaftarNominatif) {
+            btnKonfirmasiAjukanDaftarNominatif.disabled = true;
+            btnKonfirmasiAjukanDaftarNominatif.textContent = 'Menyimpan...';
+        }
+        let pesanSimpan = `${jumlahDiajukan} Kode File berhasil diajukan ke Pengeluaran.`;
+        try {
+            await simpanPlottingKermaKeServer(snapshotPlottingKerma());
+        } catch {
+            pesanSimpan += ' Data tersimpan di perangkat, tetapi sinkronisasi server perlu dicoba kembali.';
+        } finally {
+            if (btnKonfirmasiAjukanDaftarNominatif) {
+                btnKonfirmasiAjukanDaftarNominatif.disabled = false;
+                btnKonfirmasiAjukanDaftarNominatif.textContent = 'Ajukan';
+            }
+        }
+        tutupModalAjukanDaftarNominatif();
+        renderPilihanDaftarNominatif();
+        renderTabelDaftarNominatif();
+        renderTabelPengajuanPengeluaran();
+        switchPage(menuPengeluaran, sectionRealisasi);
+        setTabRealisasi('pengajuan');
+        renderTabelPengajuanPengeluaran();
+        setInfoDaftarNominatif(pesanSimpan);
+    }
+
+    function daftarPengajuanPengeluaranDatar() {
+        return Object.values(pengajuanPengeluaranBySimulasi || {})
+            .flatMap(files => Object.values(files || {}))
+            .filter(file => file && file.kode_file)
+            .sort((a, b) => new Date(b.updated_at || b.submitted_at).getTime() - new Date(a.updated_at || a.submitted_at).getTime());
+    }
+
+    function idPengajuanPengeluaran(file = {}) {
+        return `${String(file.simulation_id || '').trim()}::${String(file.kode_file || '').trim()}`;
+    }
+
+    function rkaDariPengajuanPengeluaran(file = {}) {
+        const idPengajuan = idPengajuanPengeluaran(file);
+        return allRabAnggaranData.find(row => (
+            String(row.sumber || '').trim() === 'daftar_nominatif'
+            && String(row.id_pengajuan || '').trim() === idPengajuan
+        )) || allRabAnggaranData.find(row => (
+            file.rka_id && String(row.id_rab || '').trim() === String(file.rka_id).trim()
+        )) || null;
+    }
+
+    function evaluasiRkaDariPengajuan(file = {}, kategori = 'Belanja Pegawai') {
+        const kodeFile = String(file.kode_file || '').trim();
+        const kategoriBelanja = String(kategori || '').trim();
+        const fieldPagu = fieldPaguRabByKategori[kategoriBelanja];
+        const rkaTersimpan = rkaDariPengajuanPengeluaran(file);
+        if (rkaTersimpan || file.rka_id) {
+            return { ok: false, alasan: 'sudah_dibuat', rka: rkaTersimpan };
+        }
+        if (!kodeFile || !fieldPagu) {
+            return { ok: false, alasan: 'kategori_tidak_valid', pesan: 'Kode File dan kategori belanja wajib dipilih.' };
+        }
+
+        const rowPagu = rowPaguDariKodeFile(kodeFile);
+        const paguTersedia = Math.max(
+            angkaPaguAnggaran(rowPagu?.[fieldPagu]),
+            nilaiRkaTerkunciKategori(rowPagu, kodeFile, fieldPagu)
+        );
+        const rkaTerkunci = nilaiRkaTerkunciKategori(rowPagu, kodeFile, fieldPagu);
+        const sisaPagu = paguTersedia - rkaTerkunci;
+        const kebutuhan = angkaPaguAnggaran(file.total_pengajuan);
+        if (!rowPagu) {
+            return {
+                ok: false,
+                alasan: 'pagu_tidak_ditemukan',
+                kategori: kategoriBelanja,
+                kebutuhan,
+                paguTersedia,
+                rkaTerkunci,
+                sisaPagu
+            };
+        }
+        return {
+            ok: kebutuhan <= sisaPagu + 1,
+            alasan: kebutuhan <= sisaPagu + 1 ? '' : 'pagu_tidak_cukup',
+            kategori: kategoriBelanja,
+            kebutuhan,
+            paguTersedia,
+            rkaTerkunci,
+            sisaPagu,
+            kekurangan: Math.max(0, kebutuhan - sisaPagu),
+            fieldPagu
+        };
+    }
+
+    function uraianRkaDariPengajuan(file = {}) {
+        return String(file.rka_uraian || `Honor Daftar Nominatif - ${file.simulation_name || file.kode_file || ''}`)
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function tampilkanAlertBuatRka(message = '', type = 'error') {
+        if (!alertBuatRkaDariPengajuan) return;
+        alertBuatRkaDariPengajuan.textContent = message;
+        alertBuatRkaDariPengajuan.className = `form-alert form-alert--${type}`;
+        alertBuatRkaDariPengajuan.style.display = message ? '' : 'none';
+    }
+
+    function renderRingkasanBuatRkaDariPengajuan() {
+        const file = pengajuanRkaAktif;
+        if (!file || !ringkasanBuatRkaDariPengajuan) return null;
+        const kategori = String(selectKategoriRkaDariPengajuan?.value || file.rka_category || 'Belanja Pegawai').trim();
+        const evaluasi = evaluasiRkaDariPengajuan(file, kategori);
+        const uraian = normalisasiUraianRab(inputUraianRkaDariPengajuan?.value || '');
+        evaluasi.uraian = uraian;
+        if (!uraian) {
+            evaluasi.ok = false;
+            evaluasi.alasan = 'uraian_kosong';
+        }
+        ringkasanBuatRkaDariPengajuan.innerHTML = `
+            <article><span>Kode File</span><strong>${esc(file.kode_file || '-')}</strong></article>
+            <article><span>Total Pengajuan</span><strong>${esc(formatRupiahKomaDash(evaluasi.kebutuhan || file.total_pengajuan || 0))}</strong></article>
+            <article><span>PAGU ${esc(kategori.replace(/^Belanja\s+/i, ''))}</span><strong>${esc(formatRupiahKomaDash(evaluasi.paguTersedia || 0))}</strong></article>
+            <article><span>Sisa Setelah RKA</span><strong>${esc(formatRupiahKomaDash(Math.max(0, evaluasi.sisaPagu || 0)))}</strong></article>
+        `;
+        if (infoBuatRkaDariPengajuan) {
+            const info = evaluasi.alasan === 'sudah_dibuat'
+                ? 'Pengajuan ini sudah memiliki RKA Kerma.'
+                : `PAGU ${kategori}: ${formatRupiahKomaDash(evaluasi.paguTersedia || 0)} · RKA terkunci: ${formatRupiahKomaDash(evaluasi.rkaTerkunci || 0)} · sisa tersedia: ${formatRupiahKomaDash(Math.max(0, evaluasi.sisaPagu || 0))}.`;
+            infoBuatRkaDariPengajuan.textContent = info;
+            infoBuatRkaDariPengajuan.className = 'form-alert form-alert--warning';
+            infoBuatRkaDariPengajuan.style.display = '';
+        }
+        let pesan = '';
+        if (evaluasi.alasan === 'sudah_dibuat') {
+            pesan = 'RKA Kerma untuk pengajuan ini sudah dibuat dan tidak dapat dibuat ulang.';
+        } else if (evaluasi.alasan === 'pagu_tidak_ditemukan') {
+            pesan = `PAGU untuk Kode File ${file.kode_file} belum tersedia.`;
+        } else if (evaluasi.alasan === 'pagu_tidak_cukup') {
+            pesan = `Sisa PAGU kategori ${kategori} tidak mencukupi. Kekurangan: ${formatRupiahKomaDash(evaluasi.kekurangan)}.`;
+        } else if (evaluasi.alasan === 'kategori_tidak_valid') {
+            pesan = evaluasi.pesan || 'Kategori belanja tidak valid.';
+        } else if (evaluasi.alasan === 'uraian_kosong') {
+            pesan = 'Uraian wajib diisi.';
+        }
+        tampilkanAlertBuatRka(pesan);
+        if (btnKonfirmasiBuatRkaDariPengajuan) btnKonfirmasiBuatRkaDariPengajuan.disabled = !evaluasi.ok;
+        return evaluasi;
+    }
+
+    async function bukaModalBuatRkaDariPengajuan(file = null) {
+        if (!file) return;
+        if (rkaDariPengajuanPengeluaran(file) || file.rka_id) {
+            alert('RKA Kerma untuk pengajuan ini sudah dibuat.');
+            return;
+        }
+        pengajuanRkaAktif = file;
+        if (inputUraianRkaDariPengajuan) inputUraianRkaDariPengajuan.value = uraianRkaDariPengajuan(file);
+        if (selectKategoriRkaDariPengajuan) selectKategoriRkaDariPengajuan.value = file.rka_category || 'Belanja Pegawai';
+        if (modalBuatRkaDariPengajuan) modalBuatRkaDariPengajuan.style.display = 'flex';
+        if (btnKonfirmasiBuatRkaDariPengajuan) {
+            btnKonfirmasiBuatRkaDariPengajuan.disabled = true;
+            btnKonfirmasiBuatRkaDariPengajuan.textContent = 'Memeriksa PAGU...';
+        }
+        tampilkanAlertBuatRka('');
+        try {
+            await muatPaguAnggaran();
+            await muatRabAnggaran();
+            renderRingkasanBuatRkaDariPengajuan();
+        } catch (err) {
+            tampilkanAlertBuatRka(err.message || 'Gagal memeriksa PAGU dan RKA Kerma.');
+        } finally {
+            if (btnKonfirmasiBuatRkaDariPengajuan) btnKonfirmasiBuatRkaDariPengajuan.textContent = 'Buat RKA Kerma';
+        }
+    }
+
+    function tutupModalBuatRkaDariPengajuan() {
+        if (modalBuatRkaDariPengajuan) modalBuatRkaDariPengajuan.style.display = 'none';
+        pengajuanRkaAktif = null;
+        tampilkanAlertBuatRka('');
+    }
+
+    async function konfirmasiBuatRkaDariPengajuan() {
+        const file = pengajuanRkaAktif;
+        if (!file) return;
+        const kategori = String(selectKategoriRkaDariPengajuan?.value || 'Belanja Pegawai').trim();
+        const evaluasi = renderRingkasanBuatRkaDariPengajuan();
+        if (!evaluasi?.ok) return;
+        const uraian = normalisasiUraianRab(inputUraianRkaDariPengajuan?.value || '');
+        if (!uraian) return;
+        const idPengajuan = idPengajuanPengeluaran(file);
+        const now = new Date().toISOString();
+        if (btnKonfirmasiBuatRkaDariPengajuan) {
+            btnKonfirmasiBuatRkaDariPengajuan.disabled = true;
+            btnKonfirmasiBuatRkaDariPengajuan.textContent = 'Menyimpan...';
+        }
+        try {
+            const response = await fetch('/api/rab-anggaran', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({
+                    kode_file: file.kode_file,
+                    kategori_belanja: kategori,
+                    uraian,
+                    satuan: 'Orang Bulan',
+                    harga_satuan: Number(file.total_pengajuan) || 0,
+                    volume: 1,
+                    keterangan: `Dari Daftar Nominatif · ${file.simulation_name || '-'} · ${file.periode || '-'}`,
+                    sumber: 'daftar_nominatif',
+                    id_pengajuan: idPengajuan,
+                    simulation_id: file.simulation_id || '',
+                    simulation_name: file.simulation_name || ''
+                })
+            });
+            let result = {};
+            try {
+                result = await response.json();
+            } catch {
+                result = {};
+            }
+            if (!response.ok) {
+                throw new Error(result.pesan || `Gagal membuat RKA Kerma (HTTP ${response.status}).`);
+            }
+            const current = pengajuanPengeluaranUntukFile(file.simulation_id, file.kode_file) || file;
+            current.status = STATUS_PENGAJUAN_PENGELUARAN.DIPROSES;
+            current.rka_id = String(result.data?.id_rab || '').trim();
+            current.rka_status = 'Tersimpan';
+            current.rka_uraian = uraian;
+            current.rka_category = kategori;
+            current.rka_created_at = now;
+            current.updated_at = now;
+            simpanPlottingKerma();
+            const tersinkron = await simpanPlottingKermaKeServer(snapshotPlottingKerma());
+            tutupModalBuatRkaDariPengajuan();
+            renderTabelPengajuanPengeluaran();
+            setTabRealisasi('rab');
+            setKodeFileRab(file.kode_file);
+            await muatPaguAnggaran();
+            await muatRabAnggaran();
+            alert(`RKA Kerma berhasil dibuat untuk ${file.kode_file}.${tersinkron ? '' : ' Data sesi tersimpan di perangkat; sinkronisasi server perlu dicoba kembali.'}`);
+        } catch (err) {
+            tampilkanAlertBuatRka(err.message || 'Gagal membuat RKA Kerma.');
+            if (btnKonfirmasiBuatRkaDariPengajuan) btnKonfirmasiBuatRkaDariPengajuan.disabled = false;
+        } finally {
+            if (btnKonfirmasiBuatRkaDariPengajuan && modalBuatRkaDariPengajuan?.style.display === 'flex') {
+                btnKonfirmasiBuatRkaDariPengajuan.textContent = 'Buat RKA Kerma';
+            }
+        }
+    }
+
+    function renderTabelPengajuanPengeluaran() {
+        if (!bodyTabelPengajuanPengeluaran) return;
+        const sumber = daftarPengajuanPengeluaranDatar();
+        const cari = String(filterPengajuanPengeluaranCari?.value || '').trim().toLowerCase();
+        const rows = cari
+            ? sumber.filter(file => [file.simulation_name, file.kode_file, file.nama_mitra, file.judul_kegiatan, file.periode, file.status]
+                .some(value => String(value || '').toLowerCase().includes(cari)))
+            : sumber;
+        if (ringkasanPengajuanPengeluaran) {
+            ringkasanPengajuanPengeluaran.hidden = !sumber.length;
+            if (sumber.length) {
+                const total = sumber.reduce((sum, file) => sum + (Number(file.total_pengajuan) || 0), 0);
+                ringkasanPengajuanPengeluaran.innerHTML = `<span><strong>${sumber.length.toLocaleString('id-ID')}</strong> pengajuan</span><span>Total Pengajuan: <strong>${esc(formatRupiahKomaDash(total))}</strong></span>`;
+            }
+        }
+        if (!rows.length) {
+            bodyTabelPengajuanPengeluaran.innerHTML = tableState(11, 'empty', sumber.length ? 'Tidak ada pengajuan yang cocok' : 'Belum ada pengajuan pengeluaran', sumber.length ? 'Ubah kata pencarian untuk menampilkan data kembali.' : 'Ajukan Daftar Nominatif dari tab Daftar Kode File.');
+            if (infoHasilPengajuanPengeluaran) infoHasilPengajuanPengeluaran.textContent = sumber.length ? `Menampilkan 0 dari ${sumber.length} pengajuan` : '';
+            return;
+        }
+        bodyTabelPengajuanPengeluaran.innerHTML = rows.map((file, index) => `
+            ${(() => {
+                const rka = rkaDariPengajuanPengeluaran(file);
+                const rkaTersimpan = Boolean(rka || file.rka_id || file.rka_status === 'Tersimpan');
+                const kategori = rka?.kategori_belanja || file.rka_category || 'Belanja Pegawai';
+                return `<tr>
+                <td>${index + 1}</td>
+                <td><strong>${esc(file.simulation_name || '-')}</strong></td>
+                <td><span class="kode-file-tag">${esc(file.kode_file)}</span></td>
+                <td class="td-truncate">${esc(file.nama_mitra || '-')}</td>
+                <td>${esc(file.periode || '-')}</td>
+                <td class="td-number">${Number(file.jumlah_penerima_honor || 0).toLocaleString('id-ID')}</td>
+                <td class="nominatif-money">${esc(formatRupiahKomaDash(file.total_pengajuan))}</td>
+                <td>${esc(formatTanggalWaktuSimulasi(file.submitted_at || file.updated_at))}</td>
+                <td class="nominatif-status-saved">${esc(file.status || STATUS_PENGAJUAN_PENGELUARAN.DIAJUKAN)}</td>
+                <td>${esc(rkaTersimpan ? kategori : 'Belum ditetapkan')}</td>
+                <td>
+                    ${rkaTersimpan
+                        ? '<span class="nominatif-status-saved">RKA Tersimpan</span>'
+                        : `<button type="button" class="btn-mini-action" data-pengajuan-buat-rka-simulasi="${esc(file.simulation_id)}" data-pengajuan-buat-rka-kode="${esc(file.kode_file)}">Buat RKA Kerma</button>`}
+                </td>
+            </tr>`;
+            })()}
+        `).join('');
+        if (infoHasilPengajuanPengeluaran) infoHasilPengajuanPengeluaran.textContent = cari ? `Menampilkan ${rows.length} dari ${sumber.length} pengajuan` : '';
     }
 
     function setTabDaftarNominatif(tab = 'tabel') {
@@ -15236,6 +16275,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function bukaModalGenerateSkTim(id) {
         const item = daftarHasilSimulasiPlotting.find(simulasi => simulasi.id === id);
         if (!item) return;
+        if (![STATUS_SESI_SIMULASI.SIAP_GENERATE_SK, STATUS_SESI_SIMULASI.SELESAI].includes(item.status)) {
+            window.alert(`Sesi “${item.nama}” belum dapat dibuatkan SK. Tetapkan sebagai Hasil Final setelah Target Distribusi, Plot SK, dan Kontrol terpenuhi.`);
+            return;
+        }
         hasilSimulasiSkDipilih = item;
         tampilkanAlertGenerateSkTim('');
         if (!allData.length) await muatDataEksporPlottingKerma();
@@ -15317,6 +16360,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ...normalisasiNomorSkByPks(nomorSkItem.nomor_sk_by_pks),
                 ...normalisasiNomorSkByPks(nomorSkTersimpan)
             };
+            nomorSkItem.snapshot = {
+                ...nomorSkItem.snapshot,
+                nomorSkByPksTersimpan: normalisasiNomorSkByPks(nomorSkItem.nomor_sk_by_pks)
+            };
             hasilSimulasiSkDipilih = nomorSkItem;
             simpanPlottingKerma();
         }
@@ -15332,6 +16379,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     nama_simulasi: hasilSimulasiSkDipilih.nama || '',
+                    status_sesi: hasilSimulasiSkDipilih.status || '',
                     snapshot: hasilSimulasiSkDipilih.snapshot || {},
                     nomor_sk_by_pks,
                     tanggal_sk: tanggalSk,
@@ -15348,6 +16396,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             const blob = await res.blob();
             const filename = namaFileDariContentDisposition(res.headers.get('content-disposition'), 'SK Tim Pengelola Kerma.zip');
             unduhBlobSkTim(blob, filename);
+            if (nomorSkItem) {
+                const now = new Date().toISOString();
+                nomorSkItem.status = STATUS_SESI_SIMULASI.SELESAI;
+                nomorSkItem.tahap = TAHAP_SESI_SIMULASI.GENERATE;
+                nomorSkItem.updated_at = now;
+                nomorSkItem.saved_at = now;
+                nomorSkItem.updated_by = namaPenggunaSesiSimulasi();
+                nomorSkItem.finalized_at = nomorSkItem.finalized_at || now;
+                if (nomorSkItem.id === sesiSimulasiAktifId) modeSesiSimulasi = 'view';
+                simpanPlottingKerma({ syncSession: false });
+                renderDaftarHasilSimulasiPlotting();
+                renderSesiSimulasiBar();
+            }
             tampilkanAlertGenerateSkTim('SK berhasil dibuat dan mulai diunduh.', 'success');
         } catch (err) {
             tampilkanAlertGenerateSkTim(err.message || 'Gagal membuat SK Tim Pengelola Kerma.');
@@ -15364,8 +16425,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!button) return;
         const id = button.dataset.hasilSimulasiId || '';
         if (button.dataset.hasilSimulasiAction === 'open') bukaHasilSimulasiTersimpan(id);
+        if (button.dataset.hasilSimulasiAction === 'view') bukaHasilSimulasiTersimpan(id, { viewOnly: true });
+        if (button.dataset.hasilSimulasiAction === 'continue') lanjutkanHasilSimulasiTersimpan(id);
         if (button.dataset.hasilSimulasiAction === 'sk') void bukaModalGenerateSkTim(id);
-        if (button.dataset.hasilSimulasiAction === 'delete') hapusHasilSimulasiTersimpan(id);
+        if (button.dataset.hasilSimulasiAction === 'delete') bukaModalHapusSimulasi([id]);
     }
 
     function renderEksporRekapitulasiPlotting() {
@@ -15689,6 +16752,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (perluRender('plotSkBidang')) renderEksporPlotSkBidang();
         if (perluRender('rekapitulasi')) renderEksporRekapitulasiPlotting();
         updateStatusMulaiPlottingKerma();
+        renderSesiSimulasiBar();
     }
 
     async function muatDataEksporPlottingKerma() {
@@ -18347,10 +19411,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     menuTambahIndustri.addEventListener('click',     () => switchPage(menuTambahIndustri, sectionTambahIndustri));
     menuPlottingKerma?.addEventListener('click',     () => {
         switchPage(menuPlottingKerma, sectionPlottingKerma);
-        setTabEksporPlottingKerma(tabAktifEksporPlottingKerma);
+        setTabEksporPlottingKerma('hasilSimulasi');
         void (async () => {
             await pastikanPlottingKermaDariServer({ render: false });
-            setTabEksporPlottingKerma(tabAktifEksporPlottingKerma);
+            setTabEksporPlottingKerma('hasilSimulasi');
             await muatDataEksporPlottingKerma();
         })();
     });
@@ -18408,6 +19472,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     modalSimpanHasilSimulasi?.addEventListener('click', event => {
         if (event.target === modalSimpanHasilSimulasi) tutupModalSimpanHasilSimulasi();
     });
+    btnBuatSimulasiBaru?.addEventListener('click', () => bukaModalBuatSimulasiBaru());
+    btnHapusSimulasi?.addEventListener('click', () => bukaModalHapusSimulasi());
+    checkAllHasilSimulasi?.addEventListener('change', event => {
+        bodyTabelDaftarHasilSimulasi?.querySelectorAll('input[data-hasil-simulasi-select]').forEach(input => {
+            input.checked = event.target.checked;
+        });
+        perbaruiAksiHapusSimulasi();
+    });
+    bodyTabelDaftarHasilSimulasi?.addEventListener('change', event => {
+        if (event.target.matches('input[data-hasil-simulasi-select]')) perbaruiAksiHapusSimulasi();
+    });
+    btnSimpanDrafSesiSimulasi?.addEventListener('click', () => simpanDrafSesiSimulasiAktif());
+    btnTetapkanHasilFinalSesiSimulasi?.addEventListener('click', tetapkanSesiSimulasiSebagaiFinal);
+    btnTutupModalBuatSimulasiBaru?.addEventListener('click', tutupModalBuatSimulasiBaru);
+    btnBatalBuatSimulasiBaru?.addEventListener('click', tutupModalBuatSimulasiBaru);
+    btnKonfirmasiBuatSimulasiBaru?.addEventListener('click', buatSesiSimulasiDariModal);
+    modalBuatSimulasiBaru?.addEventListener('click', event => {
+        if (event.target === modalBuatSimulasiBaru) tutupModalBuatSimulasiBaru();
+    });
+    btnKonfirmasiHapusSimulasi?.addEventListener('click', hapusSimulasiTerpilih);
+    btnBatalHapusSimulasi?.addEventListener('click', tutupModalHapusSimulasi);
+    btnTutupModalHapusSimulasi?.addEventListener('click', tutupModalHapusSimulasi);
+    modalHapusSimulasi?.addEventListener('click', event => {
+        if (event.target === modalHapusSimulasi) tutupModalHapusSimulasi();
+    });
     btnGenerateSkTim?.addEventListener('click', generateSkTimPengelola);
     btnBatalGenerateSkTim?.addEventListener('click', tutupModalGenerateSkTim);
     btnTutupModalGenerateSkTim?.addEventListener('click', tutupModalGenerateSkTim);
@@ -18422,7 +19511,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (e.key === 'Escape' && modalKonfirmasiUbahPerhitunganDasar?.style.display === 'flex') tutupKonfirmasiUbahPerhitunganDasar();
         if (e.key === 'Escape' && modalKonfirmasiPlotSk?.style.display === 'flex') tutupKonfirmasiPlotSk();
         if (e.key === 'Escape' && modalSimpanHasilSimulasi?.style.display === 'flex') tutupModalSimpanHasilSimulasi();
+        if (e.key === 'Escape' && modalBuatSimulasiBaru?.style.display === 'flex') tutupModalBuatSimulasiBaru();
+        if (e.key === 'Escape' && modalHapusSimulasi?.style.display === 'flex') tutupModalHapusSimulasi();
+        if (e.key === 'Escape' && modalAjukanDaftarNominatif?.style.display === 'flex') tutupModalAjukanDaftarNominatif();
+        if (e.key === 'Escape' && modalBuatRkaDariPengajuan?.style.display === 'flex') tutupModalBuatRkaDariPengajuan();
         if (e.key === 'Escape' && modalGenerateSkTim?.style.display === 'flex') tutupModalGenerateSkTim();
+    });
+    window.addEventListener('beforeunload', event => {
+        if (!sesiSimulasiDirty) return;
+        event.preventDefault();
+        event.returnValue = 'Ada perubahan sesi simulasi yang belum disimpan.';
     });
     btnTambahPegawai?.addEventListener('click', () => {
         plottingKermaRows.push(buatBarisPlottingKerma());
@@ -18517,9 +19615,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         bodyTabelDaftarNominatifKodeFile?.querySelectorAll('[data-nominatif-code-check]:not(:disabled)').forEach(input => {
             input.checked = Boolean(event.target.checked);
         });
-        const item = daftarHasilSimulasiPlotting.find(candidate => candidate.id === nominatifSimulasiDipilihId);
-        const savedMap = item ? daftarNominatifBySimulasi[item.id] || {} : {};
-        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = !bodyTabelDaftarNominatifKodeFile?.querySelector('[data-nominatif-code-check]:checked') || !Object.keys(savedMap).length;
+        perbaruiAksiKodeFileNominatif();
     });
     bodyTabelDaftarNominatifKodeFile?.addEventListener('change', event => {
         if (!event.target.matches('[data-nominatif-code-check]')) return;
@@ -18527,7 +19623,31 @@ document.addEventListener('DOMContentLoaded', async () => {
             const all = [...bodyTabelDaftarNominatifKodeFile.querySelectorAll('[data-nominatif-code-check]:not(:disabled)')];
             checkAllDaftarNominatifKodeFile.checked = all.length > 0 && all.every(input => input.checked);
         }
-        if (btnDownloadDaftarNominatif) btnDownloadDaftarNominatif.disabled = !bodyTabelDaftarNominatifKodeFile.querySelector('[data-nominatif-code-check]:checked');
+        perbaruiAksiKodeFileNominatif();
+    });
+    btnAjukanDaftarNominatif?.addEventListener('click', bukaModalAjukanDaftarNominatif);
+    btnKonfirmasiAjukanDaftarNominatif?.addEventListener('click', konfirmasiAjukanDaftarNominatif);
+    btnBatalAjukanDaftarNominatif?.addEventListener('click', tutupModalAjukanDaftarNominatif);
+    btnTutupModalAjukanDaftarNominatif?.addEventListener('click', tutupModalAjukanDaftarNominatif);
+    modalAjukanDaftarNominatif?.addEventListener('click', event => {
+        if (event.target === modalAjukanDaftarNominatif) tutupModalAjukanDaftarNominatif();
+    });
+    bodyTabelPengajuanPengeluaran?.addEventListener('click', event => {
+        const button = event.target.closest('[data-pengajuan-buat-rka-simulasi][data-pengajuan-buat-rka-kode]');
+        if (!button) return;
+        const file = pengajuanPengeluaranUntukFile(
+            button.dataset.pengajuanBuatRkaSimulasi,
+            button.dataset.pengajuanBuatRkaKode
+        );
+        void bukaModalBuatRkaDariPengajuan(file);
+    });
+    selectKategoriRkaDariPengajuan?.addEventListener('change', renderRingkasanBuatRkaDariPengajuan);
+    inputUraianRkaDariPengajuan?.addEventListener('input', renderRingkasanBuatRkaDariPengajuan);
+    btnKonfirmasiBuatRkaDariPengajuan?.addEventListener('click', konfirmasiBuatRkaDariPengajuan);
+    btnBatalBuatRkaDariPengajuan?.addEventListener('click', tutupModalBuatRkaDariPengajuan);
+    btnTutupModalBuatRkaDariPengajuan?.addEventListener('click', tutupModalBuatRkaDariPengajuan);
+    modalBuatRkaDariPengajuan?.addEventListener('click', event => {
+        if (event.target === modalBuatRkaDariPengajuan) tutupModalBuatRkaDariPengajuan();
     });
     btnDownloadDaftarNominatif?.addEventListener('click', downloadDaftarNominatifTerpilih);
     bodyTabelEksporPlottingDaftarJabatan?.addEventListener('click', event => handleDaftarJabatanPlottingAction(event.target));
@@ -19389,12 +20509,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnRencanaViewDaftar = document.getElementById('btnRencanaViewDaftar');
     const btnRencanaViewTermin = document.getElementById('btnRencanaViewTermin');
     const filterRencanaPendapatanCari = document.getElementById('filterRencanaPendapatanCari');
+    const datalistFilterPembayaranKodeFile = document.getElementById('datalistFilterPembayaranKodeFile');
     const filterRencanaPendapatanMulai = document.getElementById('filterRencanaPendapatanMulai');
     const filterRencanaPendapatanSelesai = document.getElementById('filterRencanaPendapatanSelesai');
     const infoHasilRencanaPendapatan = document.getElementById('infoHasilRencanaPendapatan');
     const btnResetFilterRencanaPendapatan = document.getElementById('btnResetFilterRencanaPendapatan');
+    const btnResetFilterRencanaPendapatanPeriode = document.getElementById('btnResetFilterRencanaPendapatanPeriode');
+    const paymentPeriodPicker = document.getElementById('paymentPeriodPicker');
+    const btnOpenFilterRencanaPendapatanPeriode = document.getElementById('btnOpenFilterRencanaPendapatanPeriode');
+    const btnCloseFilterRencanaPendapatanPeriode = document.getElementById('btnCloseFilterRencanaPendapatanPeriode');
+    const btnTerapkanFilterRencanaPendapatanPeriode = document.getElementById('btnTerapkanFilterRencanaPendapatanPeriode');
+    const filterRencanaPendapatanPeriodePopover = document.getElementById('filterRencanaPendapatanPeriodePopover');
+    const filterRencanaPendapatanPeriodeLabel = document.getElementById('filterRencanaPendapatanPeriodeLabel');
     const bodyTabelPembayaran = document.getElementById('bodyTabelPembayaran');
     const filterPembayaranCari = document.getElementById('filterPembayaranCari');
+    const datalistPenerimaanKodeFile = document.getElementById('datalistPenerimaanKodeFile');
     const infoHasilPembayaran = document.getElementById('infoHasilPembayaran');
     const btnResetFilterPembayaran = document.getElementById('btnResetFilterPembayaran');
     const bodyTabelPaguAnggaran = document.getElementById('bodyTabelPaguAnggaran');
@@ -19485,7 +20614,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnTutupModalInvoice = document.getElementById('btnTutupModalInvoice');
     const btnBatalInvoice = document.getElementById('btnBatalInvoice');
     const btnOkInvoice = document.getElementById('btnOkInvoice');
-    const btnSimpanInvoice = document.getElementById('btnSimpanInvoice');
     const btnPrintInvoice = document.getElementById('btnPrintInvoice');
     const formAlertInvoice = document.getElementById('formAlertInvoice');
     const invoicePreviewKodeFile = document.getElementById('invoicePreviewKodeFile');
@@ -19500,6 +20628,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     const invoicePreviewTerbilang = document.getElementById('invoicePreviewTerbilang');
     const inputNomorInvoice = document.getElementById('inputNomorInvoice');
     const inputTanggalInvoice = document.getElementById('inputTanggalInvoice');
+    const modalBuktiKasMasuk = document.getElementById('modalBuktiKasMasuk');
+    const formBuktiKasMasuk = document.getElementById('formBuktiKasMasuk');
+    const btnTutupModalBuktiKasMasuk = document.getElementById('btnTutupModalBuktiKasMasuk');
+    const btnBatalBuktiKasMasuk = document.getElementById('btnBatalBuktiKasMasuk');
+    const formAlertBuktiKasMasuk = document.getElementById('formAlertBuktiKasMasuk');
+    const bkmPreviewKodeFile = document.getElementById('bkmPreviewKodeFile');
+    const bkmPreviewMitra = document.getElementById('bkmPreviewMitra');
+    const bkmPreviewTahap = document.getElementById('bkmPreviewTahap');
+    const bkmPreviewJumlah = document.getElementById('bkmPreviewJumlah');
+    const bkmPreviewTerbilang = document.getElementById('bkmPreviewTerbilang');
+    const inputNomorBkm = document.getElementById('inputNomorBkm');
+    const inputTanggalMasukBkm = document.getElementById('inputTanggalMasukBkm');
+    const inputNamaBankBkm = document.getElementById('inputNamaBankBkm');
+    const inputNoRekeningBkm = document.getElementById('inputNoRekeningBkm');
+    const inputNamaRekeningBkm = document.getElementById('inputNamaRekeningBkm');
+    const inputNamaUnitBkm = document.getElementById('inputNamaUnitBkm');
+    const inputNoBuktiBkm = document.getElementById('inputNoBuktiBkm');
+    const inputUraianBkm = document.getElementById('inputUraianBkm');
+    const modalPerhitunganDpi = document.getElementById('modalPerhitunganDpi');
+    const formPerhitunganDpi = document.getElementById('formPerhitunganDpi');
+    const btnTutupModalPerhitunganDpi = document.getElementById('btnTutupModalPerhitunganDpi');
+    const btnBatalPerhitunganDpi = document.getElementById('btnBatalPerhitunganDpi');
+    const btnSimpanPerhitunganDpi = document.getElementById('btnSimpanPerhitunganDpi');
+    const formAlertPerhitunganDpi = document.getElementById('formAlertPerhitunganDpi');
+    const dpiModalKodeFile = document.getElementById('dpiModalKodeFile');
+    const dpiModalTahap = document.getElementById('dpiModalTahap');
+    const dpiModalJumlahPembayaran = document.getElementById('dpiModalJumlahPembayaran');
+    const dpiModalNominal = document.getElementById('dpiModalNominal');
+    const dpiModalPenerimaan = document.getElementById('dpiModalPenerimaan');
     const modalTambahPagu = document.getElementById('modalTambahPagu');
     const btnTutupModalTambahPagu = document.getElementById('btnTutupModalTambahPagu');
     const btnBatalTambahPagu = document.getElementById('btnBatalTambahPagu');
@@ -19518,6 +20675,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tabAlokasiKerma = document.getElementById('tabAlokasiKerma');
     const tabRencanaAnggaran = document.getElementById('tabRencanaAnggaran');
     const tabRealisasiAnggaran = document.getElementById('tabRealisasiAnggaran');
+    const tabPengajuanPengeluaran = document.getElementById('tabPengajuanPengeluaran');
     const panelRencanaPendapatan = document.getElementById('panelRencanaPendapatan');
     const panelUangMasuk = document.getElementById('panelUangMasuk');
     const panelPaguAnggaran = document.getElementById('panelPaguAnggaran');
@@ -19526,6 +20684,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const panelAlokasiKerma = document.getElementById('panelAlokasiKerma');
     const panelRencanaAnggaran = document.getElementById('panelRencanaAnggaran');
     const panelRealisasiAnggaran = document.getElementById('panelRealisasiAnggaran');
+    const panelPengajuanPengeluaran = document.getElementById('panelPengajuanPengeluaran');
     const selectPembayaranKodeFile = document.getElementById('selectPembayaranKodeFile');
     const btnResetPembayaranKodeFile = document.getElementById('btnResetPembayaranKodeFile');
     const selectRealisasiKodeFile = document.getElementById('selectRealisasiKodeFile');
@@ -19550,12 +20709,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const statRencanaPendapatanRealisasiJumlah = document.getElementById('statRencanaPendapatanRealisasiJumlah');
     const statRencanaPendapatanTotal = document.getElementById('statRencanaPendapatanTotal');
     const statRencanaPendapatanJumlah = document.getElementById('statRencanaPendapatanJumlah');
+    const statTotalPembayaranNominal = document.getElementById('statTotalPembayaranNominal');
+    const statTotalPembayaranJumlah = document.getElementById('statTotalPembayaranJumlah');
+    const statJumlahPembayaranAdminNominal = document.getElementById('statJumlahPembayaranAdminNominal');
+    const statTotalPenerimaanNominal = document.getElementById('statTotalPenerimaanNominal');
+    const statSelisihPembayaranPagu = document.getElementById('statSelisihPembayaranPagu');
+    const statTotalPenerimaanJumlah = document.getElementById('statTotalPenerimaanJumlah');
     let timerInputSaldoKodeFile = null;
     let timerInputPaguKodeFile = null;
     let timerInputRabKodeFile = null;
     let timerInputRekapKodeFile = null;
     let timerInputAlokasiKerma = null;
     let modeRekapRealisasi = 'definitif';
+    let sedangMemuatRealisasi = false;
 
     const realisasiBadgeClass = {
         'Belanja Pegawai': 'badge-realisasi-pegawai',
@@ -19574,6 +20740,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isAlokasiKerma = activeTab === 'alokasiKerma';
         const isSaldoPenerimaan = activeTab === 'saldoPenerimaan';
         const isAnggaran = activeTab === 'anggaran';
+        const isPengajuan = activeTab === 'pengajuan';
         const isPendapatan = isRencana || isPembayaran;
         const showSaldoKodeFile = isRiInvoice || isSaldoPenerimaan;
 
@@ -19583,42 +20750,50 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (paguKodeFileToolbar) paguKodeFileToolbar.style.display = isPagu ? '' : 'none';
         if (alokasiKermaFilterToolbar) alokasiKermaFilterToolbar.style.display = isAlokasiKerma ? 'flex' : 'none';
         tabRencanaPendapatan.style.display = isPendapatan ? '' : 'none';
-        tabUangMasuk.style.display = isPendapatan ? '' : 'none';
+        // Penerimaan is kept as a hidden data view for compatibility with
+        // existing calculations, but it is no longer exposed as a tab.
+        if (tabUangMasuk) tabUangMasuk.style.display = 'none';
         tabPaguAnggaran.style.display = isPendapatan ? 'none' : '';
         tabRabAnggaran.style.display = isPendapatan ? 'none' : '';
         tabRealisasiRiInvoice.style.display = isPendapatan ? 'none' : '';
         tabAlokasiKerma.style.display = isPendapatan ? 'none' : '';
         tabRencanaAnggaran.style.display = isPendapatan ? 'none' : '';
         tabRealisasiAnggaran.style.display = isPendapatan ? 'none' : '';
+        tabPengajuanPengeluaran?.style && (tabPengajuanPengeluaran.style.display = isPendapatan ? 'none' : '');
 
-        tabRencanaPendapatan.classList.toggle('active', isRencana);
-        tabUangMasuk.classList.toggle('active', isPembayaran);
+        const isPaymentView = isRencana || isPembayaran;
+        tabRencanaPendapatan.classList.toggle('active', isPaymentView);
+        tabUangMasuk?.classList.toggle('active', false);
         tabPaguAnggaran.classList.toggle('active', isPagu);
         tabRabAnggaran.classList.toggle('active', isRab);
         tabRealisasiRiInvoice.classList.toggle('active', isRiInvoice);
         tabAlokasiKerma.classList.toggle('active', isAlokasiKerma);
         tabRencanaAnggaran.classList.toggle('active', isSaldoPenerimaan);
         tabRealisasiAnggaran.classList.toggle('active', isAnggaran);
-        tabRencanaPendapatan.setAttribute('aria-selected', isRencana ? 'true' : 'false');
-        tabUangMasuk.setAttribute('aria-selected', isPembayaran ? 'true' : 'false');
+        tabPengajuanPengeluaran?.classList.toggle('active', isPengajuan);
+        tabRencanaPendapatan.setAttribute('aria-selected', isPaymentView ? 'true' : 'false');
+        tabUangMasuk?.setAttribute('aria-selected', 'false');
         tabPaguAnggaran.setAttribute('aria-selected', isPagu ? 'true' : 'false');
         tabRabAnggaran.setAttribute('aria-selected', isRab ? 'true' : 'false');
         tabRealisasiRiInvoice.setAttribute('aria-selected', isRiInvoice ? 'true' : 'false');
         tabAlokasiKerma.setAttribute('aria-selected', isAlokasiKerma ? 'true' : 'false');
         tabRencanaAnggaran.setAttribute('aria-selected', isSaldoPenerimaan ? 'true' : 'false');
         tabRealisasiAnggaran.setAttribute('aria-selected', isAnggaran ? 'true' : 'false');
-        panelRencanaPendapatan.style.display = isRencana ? '' : 'none';
-        panelUangMasuk.style.display = isPembayaran ? '' : 'none';
+        tabPengajuanPengeluaran?.setAttribute('aria-selected', isPengajuan ? 'true' : 'false');
+        panelRencanaPendapatan.style.display = isPaymentView ? '' : 'none';
+        if (panelUangMasuk) panelUangMasuk.style.display = 'none';
         panelPaguAnggaran.style.display = isPagu ? '' : 'none';
         panelRabAnggaran.style.display = isRab ? '' : 'none';
         panelRealisasiRiInvoice.style.display = isRiInvoice ? '' : 'none';
         panelAlokasiKerma.style.display = isAlokasiKerma ? '' : 'none';
         panelRencanaAnggaran.style.display = isSaldoPenerimaan ? '' : 'none';
         panelRealisasiAnggaran.style.display = isAnggaran ? '' : 'none';
+        if (panelPengajuanPengeluaran) panelPengajuanPengeluaran.style.display = isPengajuan ? '' : 'none';
+        if (isPengajuan) renderTabelPengajuanPengeluaran();
     }
 
     tabRencanaPendapatan.addEventListener('click', () => setTabRealisasi('rencana'));
-    tabUangMasuk.addEventListener('click', () => { rencanaPendapatanDipilih = null; setTabRealisasi('pembayaran'); });
+    tabUangMasuk?.addEventListener('click', () => { rencanaPendapatanDipilih = null; setTabRealisasi('pembayaran'); });
     tabPaguAnggaran.addEventListener('click', async () => {
         setTabRealisasi('pagu');
         setKodeFilePagu(kodeFilePaguAktif());
@@ -19651,6 +20826,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     tabRealisasiAnggaran.addEventListener('click', () => {
         setTabRealisasi('anggaran');
         terapkanFilterRealisasi();
+    });
+    tabPengajuanPengeluaran?.addEventListener('click', () => {
+        setTabRealisasi('pengajuan');
+        renderTabelPengajuanPengeluaran();
+    });
+    filterPengajuanPengeluaranCari?.addEventListener('input', renderTabelPengajuanPengeluaran);
+    btnResetFilterPengajuanPengeluaran?.addEventListener('click', () => {
+        if (filterPengajuanPengeluaranCari) filterPengajuanPengeluaranCari.value = '';
+        renderTabelPengajuanPengeluaran();
     });
 
     function bukaModalRealisasiPembayaran() {
@@ -19831,8 +21015,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function ensureKermaData() {
         if (allData.length > 0) return allData;
-        const respon = await fetch('/api/daftar-kerma');
-        allData = await respon.json();
+        const respon = await fetchDenganBatasWaktu('/api/daftar-kerma', {}, 15000);
+        const payload = await respon.json();
+        if (!respon.ok || !Array.isArray(payload)) {
+            throw new Error(payload?.pesan || 'Gagal memuat Daftar Kerma.');
+        }
+        allData = payload;
         allData.forEach(item => { item.peringatan = hitungPeringatan(item); });
         return allData;
     }
@@ -19846,7 +21034,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await Promise.all(targets.map(async item => {
             if (cicilanTerminCache.has(item.id_program)) return;
             try {
-                const res = await fetch(`/api/cicilan/${encodeURIComponent(item.id_program)}`);
+                const res = await fetchDenganBatasWaktu(`/api/cicilan/${encodeURIComponent(item.id_program)}`, {}, 10000);
                 const payload = await res.json();
                 cicilanTerminCache.set(item.id_program, Array.isArray(payload) ? payload : []);
             } catch (err) {
@@ -19889,6 +21077,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (selectPembayaranKodeFile) {
                 selectPembayaranKodeFile.placeholder = 'Kode File dari tahap yang dipilih';
             }
+            if (datalistFilterPembayaranKodeFile) datalistFilterPembayaranKodeFile.innerHTML = dataListOpts;
+            if (datalistPenerimaanKodeFile) datalistPenerimaanKodeFile.innerHTML = dataListOpts;
             if (selectPaguKodeFile) selectPaguKodeFile.innerHTML = '<option value="">-- Pilih Kode File --</option>' + selectPaguOpts;
             if (datalistPaguKodeFile) datalistPaguKodeFile.innerHTML = dataListOpts;
             if (datalistRealisasiKodeFile) datalistRealisasiKodeFile.innerHTML = dataListOpts;
@@ -19927,6 +21117,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (selectPembayaranKodeFile) {
                 selectPembayaranKodeFile.placeholder = 'Gagal memuat Kode File';
             }
+            if (datalistFilterPembayaranKodeFile) datalistFilterPembayaranKodeFile.innerHTML = '';
+            if (datalistPenerimaanKodeFile) datalistPenerimaanKodeFile.innerHTML = '';
             if (datalistPaguKodeFile) datalistPaguKodeFile.innerHTML = '';
             if (selectPaguKodeFile) selectPaguKodeFile.innerHTML = '<option value="">Gagal memuat Kode File</option>';
             if (datalistRealisasiKodeFile) datalistRealisasiKodeFile.innerHTML = '';
@@ -20279,6 +21471,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         return Math.max(0, bruto - nominalDpiPembayaranTercatat(item));
     }
 
+    function dpiPembayaranSudahDisimpan(item = {}) {
+        if (item.dpi_sudah_disimpan === true || String(item.dpi_sudah_disimpan || '').toLowerCase() === 'true') {
+            return true;
+        }
+        // Records created before the explicit DPI step do not have the flag.
+        // Keep their already-calculated values visible for backward compatibility.
+        if (!Object.prototype.hasOwnProperty.call(item, 'dpi_sudah_disimpan')) {
+            const bkmTersimpan = item.bkm_sudah_disimpan === true
+                || String(item.bkm_sudah_disimpan || '').toLowerCase() === 'true';
+            return bkmTersimpan && Number(item.nominal) > 0;
+        }
+        return false;
+    }
+
     function hitungHasilPenerimaanDariBox() {
         const bruto = parseNominalRupiah(nominalPembayaranBruto?.value);
         const persenPotongan = Math.min(100, Math.max(0, Number(persenPotonganPembayaran?.value) || 0));
@@ -20350,32 +21556,112 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function filterRencanaByPeriode(item) {
-        const mulai = parseInputDate(filterRencanaPendapatanMulai?.value);
-        const selesai = parseInputDate(filterRencanaPendapatanSelesai?.value);
-        const tanggal = parseInputDate(item.tanggal_input);
-        if (!tanggal) return true;
-        if (mulai && tanggal < mulai) return false;
-        if (selesai && tanggal > selesai) return false;
+    function rentangFilterPembayaran() {
+        let mulai = parseInputDate(filterRencanaPendapatanMulai?.value);
+        let selesai = parseInputDate(filterRencanaPendapatanSelesai?.value);
+        if (mulai && selesai && mulai > selesai) {
+            const sementara = mulai;
+            mulai = selesai;
+            selesai = sementara;
+        }
+        return {
+            mulai,
+            selesai,
+            aktif: Boolean(filterRencanaPendapatanMulai?.value || filterRencanaPendapatanSelesai?.value)
+        };
+    }
+
+    function tanggalPembayaranAktual(item = {}) {
+        return parseInputDate(
+            item.tanggal_realisasi_input
+            || item.tanggal_input
+            || item.tanggal_realisasi
+            || item.tanggal
+            || ''
+        );
+    }
+
+    function tanggalDalamRentangPembayaran(tanggal, rentang = rentangFilterPembayaran()) {
+        if (!rentang.aktif) return true;
+        if (!tanggal) return false;
+        if (rentang.mulai && tanggal < rentang.mulai) return false;
+        if (rentang.selesai && tanggal > rentang.selesai) return false;
         return true;
     }
 
     function filterPembayaranByPeriode(item) {
-        const mulai = parseInputDate(filterRencanaPendapatanMulai?.value);
-        const selesai = parseInputDate(filterRencanaPendapatanSelesai?.value);
-        const tanggal = parseInputDate(item.tanggal_input);
-        if (!tanggal) return !mulai && !selesai;
-        if (mulai && tanggal < mulai) return false;
-        if (selesai && tanggal > selesai) return false;
-        return true;
+        return tanggalDalamRentangPembayaran(tanggalPembayaranAktual(item));
+    }
+
+    function filterRencanaByPeriode(item) {
+        const rentang = rentangFilterPembayaran();
+        if (!rentang.aktif) return true;
+
+        // Unpaid terms are selected by their PKS due date. A paid term is
+        // also included when its actual Admin payment date is in the chosen
+        // period, even if the payment was received before/after the due date.
+        const tanggalRencana = parseInputDate(item.tanggal_input || item.rencana_tanggal || '');
+        if (tanggalDalamRentangPembayaran(tanggalRencana, rentang)) return true;
+        return allPembayaranData.some(pembayaran =>
+            pembayaranTerminMatches(item, pembayaran)
+            && tanggalDalamRentangPembayaran(tanggalPembayaranAktual(pembayaran), rentang)
+        );
     }
 
     function rencanaPendapatanPunyaFilterPeriode() {
-        return !!(filterRencanaPendapatanMulai?.value || filterRencanaPendapatanSelesai?.value);
+        return rentangFilterPembayaran().aktif;
     }
 
     function pembayaranRencanaPeriodeAktif() {
         return allPembayaranData.filter(filterPembayaranByPeriode);
+    }
+
+    function pembayaranUntukTerminPeriode(terms = []) {
+        const hasil = [];
+        const sudahDipilih = new Set();
+        const daftarTerms = Array.isArray(terms) ? terms : [];
+
+        daftarTerms.forEach(term => {
+            pembayaranRencanaTermin(term, allPembayaranData).forEach(pembayaran => {
+                const id = String(pembayaran?.id_pembayaran || '').trim();
+                const key = id || [
+                    pembayaran?.kode_file || '',
+                    pembayaran?.rencana_key || '',
+                    pembayaran?.rencana_tahap || '',
+                    pembayaran?.tanggal_input || pembayaran?.tanggal_realisasi_input || '',
+                    nominalBrutoPembayaranTercatat(pembayaran)
+                ].join('|');
+                if (sudahDipilih.has(key)) return;
+                sudahDipilih.add(key);
+                hasil.push(pembayaran);
+            });
+        });
+
+        return hasil;
+    }
+
+    function updateTotalPembayaranIndicator(rows) {
+        // The visible table is a PKS schedule view. Its first payment column
+        // is therefore calculated from the selected PKS terms, while PAGU is
+        // calculated only from saved Admin payments attached to those terms.
+        // This keeps future scheduled payments visible without treating them
+        // as money already received.
+        const query = String(filterRencanaPendapatanCari?.value || '').trim().toLowerCase();
+        const termsPeriode = rowsSkemaPembayaranPeriode();
+        const terms = query
+            ? termsPeriode.filter(item => String(item.kode_file || '').toLowerCase().includes(query))
+            : termsPeriode;
+        const data = pembayaranUntukTerminPeriode(terms);
+        const total = terms.reduce((sum, item) => sum + nominalRencanaTerm(item), 0);
+        const totalPembayaranAdmin = data.reduce((sum, item) => sum + nominalBrutoPembayaranTercatat(item), 0);
+        const penerimaanData = data.filter(dpiPembayaranSudahDisimpan);
+        const totalPenerimaan = penerimaanData.reduce((sum, item) => sum + nominalNettoPembayaranTercatat(item), 0);
+        setText(statTotalPembayaranNominal, formatRupiahKomaDash(total));
+        setText(statTotalPembayaranJumlah, `${terms.length.toLocaleString('id-ID')} transaksi`);
+        setText(statJumlahPembayaranAdminNominal, formatRupiahKomaDash(totalPembayaranAdmin));
+        setText(statTotalPenerimaanNominal, formatRupiahKomaDash(totalPenerimaan));
+        setText(statSelisihPembayaranPagu, formatRupiahKomaDash(totalPembayaranAdmin - totalPenerimaan));
+        setText(statTotalPenerimaanJumlah, `${penerimaanData.length.toLocaleString('id-ID')} transaksi`);
     }
 
     function updateRencanaPendapatanSummary() {
@@ -20398,6 +21684,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         setText(statRencanaPendapatanRealisasiJumlah, `${allPembayaranData.length.toLocaleString('id-ID')} transaksi dibukukan`);
         setText(statRencanaPendapatanTotal, formatRupiahRingkas(belumDiterima.total));
         setText(statRencanaPendapatanJumlah, `${belumDiterima.jumlah.toLocaleString('id-ID')} kontrak bersisa`);
+        updateTotalPembayaranIndicator(
+            rencanaPendapatanPunyaFilterPeriode()
+                ? pembayaranRencanaPeriodeAktif()
+                : allPembayaranData
+        );
     }
 
     function statusDetailRencanaPendapatan(item = {}) {
@@ -20460,7 +21751,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             emptyMessage: rencanaPendapatanDetailFilter
                 ? `Tidak ada rencana penerimaan pada kategori ${rencanaPendapatanDetailFilter.toLowerCase()} di periode ini.`
                 : 'Tidak ada rencana penerimaan pada periode ini.',
+            mode: 'skema-pembayaran',
+            monthColumnsData: rowsSkemaPembayaranPeriode(),
             pembayaranList: pembayaranRencanaPeriodeAktif(),
+            statusPembayaranList: allPembayaranData,
             gunakanFallbackPiutangKontrak: !rencanaPendapatanPunyaFilterPeriode()
         });
     }
@@ -20523,6 +21817,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             emptyTitle: 'Belum ada penerimaan',
             emptyMessage: 'Tidak ada penerimaan yang sudah direalisasikan pada periode ini.',
             mode: 'realisasi-penerimaan',
+            monthColumnsData: rowsSkemaPembayaranPeriode(),
             pembayaranList: pembayaranPeriode,
             gunakanFallbackPiutangKontrak: !rencanaPendapatanPunyaFilterPeriode()
         });
@@ -20532,10 +21827,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderTabelRencanaTermin(data, {
             headEl: headDetailRencanaPendapatanTermin,
             bodyEl: bodyDetailRencanaPendapatan,
-            emptyTitle: 'Belum ada skema pembayaran',
-            emptyMessage: 'Tidak ada skema pembayaran kontrak pada periode ini.',
+            emptyTitle: 'Belum ada skema pembiayaan',
+            emptyMessage: 'Tidak ada skema pembiayaan kontrak pada periode ini.',
             mode: 'skema-pembayaran',
+            monthColumnsData: data,
             pembayaranList: pembayaranRencanaPeriodeAktif(),
+            statusPembayaranList: allPembayaranData,
             gunakanFallbackPiutangKontrak: !rencanaPendapatanPunyaFilterPeriode()
         });
     }
@@ -20548,32 +21845,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderDetailRencanaPendapatan() {
-        if (!panelDetailRencanaPendapatan || !cardRencanaPendapatanTotal) return;
+        if (!panelDetailRencanaPendapatan) return;
         rencanaPendapatanDetailTerbuka = true;
         panelDetailRencanaPendapatan.hidden = false;
-        cardRencanaPendapatanTotal.setAttribute('aria-expanded', 'true');
 
         const terminPeriode = allRencanaTerminData
             .filter(filterRencanaByPeriode)
             .filter(isRencanaTerminBelumDiterima);
         updateRingkasanDetailRencana(terminPeriode);
-        panelDetailRencanaPendapatan.querySelectorAll('[data-rencana-detail-filter]').forEach(card => {
-            card.classList.toggle('active', card.dataset.rencanaDetailFilter === rencanaPendapatanDetailFilter);
-        });
-
-        if (rencanaPendapatanDetailFilter === 'Realisasi Penerimaan') {
-            renderTabelDetailRealisasiPenerimaan(allPembayaranData.filter(filterPembayaranByPeriode));
-            return;
-        }
-        if (rencanaPendapatanDetailFilter === 'Skema Pembayaran') {
-            renderTabelSkemaPembayaran(rowsSkemaPembayaranPeriode());
-            return;
-        }
-
-        const rows = rencanaPendapatanDetailFilter
-            ? terminPeriode.filter(item => statusDetailRencanaPendapatan(item) === rencanaPendapatanDetailFilter)
-            : terminPeriode;
-        renderTabelDetailRencanaPendapatan(rows);
+        // The Pembayaran tab has one complete view. Category cards and period
+        // indicators were removed, so always render the full termin table and
+        // let the search box handle narrowing the visible rows.
+        renderTabelSkemaPembayaran(rowsSkemaPembayaranPeriode());
     }
 
     function renderTabelRencanaPendapatan(data) {
@@ -20802,10 +22085,103 @@ document.addEventListener('DOMContentLoaded', async () => {
         return slots;
     }
 
+    function monthKeyRencanaTermin(term = {}) {
+        const tanggal = parseInputDate(term.tanggal_input || term.rencana_tanggal || '');
+        if (!tanggal) return 'belum_terjadwal';
+        return `${tanggal.getFullYear()}-${String(tanggal.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    function monthColumnsRencanaTermin(data = []) {
+        const keys = new Set();
+        data.forEach(item => keys.add(monthKeyRencanaTermin(item)));
+
+        const mulai = parseInputDate(filterRencanaPendapatanMulai?.value);
+        const selesai = parseInputDate(filterRencanaPendapatanSelesai?.value);
+        if (mulai || selesai) {
+            const awal = new Date(mulai || selesai);
+            const akhir = new Date(selesai || mulai);
+            awal.setDate(1);
+            akhir.setDate(1);
+            if (awal > akhir) {
+                const temp = new Date(awal);
+                awal.setTime(akhir.getTime());
+                akhir.setTime(temp.getTime());
+            }
+            let cursor = new Date(awal);
+            let guard = 0;
+            while (cursor <= akhir && guard < 120) {
+                keys.add(`${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`);
+                cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+                guard += 1;
+            }
+        }
+
+        const dated = [...keys]
+            .filter(key => key !== 'belum_terjadwal')
+            .sort();
+        const columns = dated.map(key => {
+            const [year, month] = key.split('-').map(Number);
+            return {
+                key: `bulan_${key.replace('-', '_')}`,
+                monthKey: key,
+                label: `${labelBulanPanjang(month)} ${year}`
+            };
+        });
+        if (keys.has('belum_terjadwal')) {
+            columns.push({
+                key: 'belum_terjadwal',
+                monthKey: 'belum_terjadwal',
+                label: 'Belum Terjadwal'
+            });
+        }
+        return columns;
+    }
+
+    function termsForMonthRencanaTermin(terms = [], monthKey = '') {
+        return terms.filter(term => monthKeyRencanaTermin(term) === monthKey);
+    }
+
     function invoiceTerminByKey(rencanaKey = '') {
         const key = String(rencanaKey || '').trim();
         if (!key) return null;
-        return allInvoicePembayaranData.find(row => String(row.rencana_key || '').trim() === key) || null;
+        const invoices = Array.isArray(allInvoicePembayaranData) ? allInvoicePembayaranData : [];
+        return invoices.find(row => String(row.rencana_key || '').trim() === key) || null;
+    }
+
+    function invoiceTerminUntukTerm(term = {}) {
+        const exact = invoiceTerminByKey(term.rencana_key);
+        if (exact) return exact;
+
+        const kodeFile = String(term.kode_file || '').trim().toLowerCase();
+        const tahap = tahapTerminOrder(term.tahap);
+        const tanggal = parseInputDate(term.tanggal_input || term.rencana_tanggal || '')?.getTime() || 0;
+        const nominal = Number(term.nominal) || Number(term.nominal_rencana) || 0;
+        if (!kodeFile) return null;
+
+        const invoices = Array.isArray(allInvoicePembayaranData) ? allInvoicePembayaranData : [];
+        const candidates = invoices.filter(invoice => {
+            if (String(invoice.kode_file || '').trim().toLowerCase() !== kodeFile) return false;
+            const invoiceTahap = tahapTerminOrder(invoice.rencana_tahap);
+            const invoiceTanggal = parseInputDate(invoice.rencana_tanggal_input || invoice.rencana_tanggal || '')?.getTime() || 0;
+            const invoiceNominal = Number(invoice.rencana_nominal) || 0;
+            const tahapSama = Number.isFinite(tahap) && Number.isFinite(invoiceTahap) && tahap === invoiceTahap;
+            const tanggalSama = Boolean(tanggal && invoiceTanggal && tanggal === invoiceTanggal);
+            const nominalSama = Boolean(nominal > 0 && invoiceNominal > 0 && nominal === invoiceNominal);
+            return (tahapSama && tanggalSama) || (tanggalSama && nominalSama) || (tahapSama && nominalSama);
+        });
+        if (candidates.length) return candidates[0];
+
+        // When a schedule date or amount was edited after the invoice was
+        // created, a unique stage match is still a reliable identity for a
+        // single PKS. Do not use it when multiple invoices share that stage.
+        if (Number.isFinite(tahap)) {
+            const stageMatches = invoices.filter(invoice =>
+                String(invoice.kode_file || '').trim().toLowerCase() === kodeFile
+                && tahapTerminOrder(invoice.rencana_tahap) === tahap
+            );
+            if (stageMatches.length === 1) return stageMatches[0];
+        }
+        return null;
     }
 
     function selisihHariDariHariIni(inputDate = '') {
@@ -20815,27 +22191,67 @@ document.addEventListener('DOMContentLoaded', async () => {
         return Math.round((tanggal.getTime() - hariIni.getTime()) / 86400000);
     }
 
-    function terminPerluInvoice(term = {}) {
-        if (!term || term.terealisasi || nominalSisaTerm(term) <= 0) return false;
-        const selisihHari = selisihHariDariHariIni(term.tanggal_input);
+    function tanggalTerminUntukInvoice(term = {}) {
+        return term.tanggal_input || term.rencana_tanggal || term.tanggal_rencana_input || '';
+    }
+
+    function terminMasukJendelaInvoice(term = {}) {
+        const selisihHari = selisihHariDariHariIni(tanggalTerminUntukInvoice(term));
         return selisihHari !== null && selisihHari <= 30;
     }
 
+    function terminPerluInvoice(term = {}) {
+        if (!term || term.terealisasi || nominalSisaTerm(term) <= 0) return false;
+        return terminMasukJendelaInvoice(term);
+    }
+
     function labelStatusInvoiceTermin(term = {}) {
-        const invoice = invoiceTerminByKey(term.rencana_key);
-        if (invoice) return `Invoice dibuat${invoice.nomor_invoice ? ` · ${invoice.nomor_invoice}` : ''}`;
+        const invoice = invoiceTerminUntukTerm(term);
+        if (invoice) return `Penagihan${invoice.nomor_invoice ? ` · ${invoice.nomor_invoice}` : ''}`;
         return terminPerluInvoice(term) ? 'Perlu invoice' : '';
+    }
+
+    function statusInvoicePembayaranTermin(term = {}, pembayaranList = []) {
+        const pembayaran = Array.isArray(pembayaranList)
+            ? pembayaranList.filter(Boolean)
+            : pembayaranList ? [pembayaranList] : [];
+        // A payment row is not enough to mark a termin as Lunas. Under the
+        // current workflow the Admin must save the BKM first. This prevents
+        // legacy/manual payment rows from being treated as paid without the
+        // required BKM date and amount.
+        const pembayaranDenganBkm = pembayaran.filter(item =>
+            item?.bkm_sudah_disimpan === true
+            || String(item?.bkm_sudah_disimpan || '').toLowerCase() === 'true'
+        );
+        const sudahAdaBkm = pembayaranDenganBkm.length > 0;
+        const invoice = invoiceTerminUntukTerm(term);
+        const selisihHari = selisihHariDariHariIni(tanggalTerminUntukInvoice(term));
+        const hariTerlambat = selisihHari === null ? 0 : Math.max(0, -selisihHari);
+        const status = (label, className, detail = '') => ({
+            label,
+            className,
+            detail,
+            title: [label, detail].filter(Boolean).join(' · ')
+        });
+        // A BKM can only finalize the same termin after its invoice exists.
+        // This keeps legacy BKM rows without a matching invoice from being
+        // shown as Lunas accidentally.
+        if (sudahAdaBkm && invoice) {
+            return status('Lunas', 'rencana-pembayaran-status--paid');
+        }
+        if (invoice) return status('Pembayaran', 'rencana-pembayaran-status--payment');
+        if (sudahAdaBkm) {
+            return status('Pembayaran', 'rencana-pembayaran-status--payment', 'Perlu verifikasi BKM');
+        }
+        if (hariTerlambat > 0) return status('Jatuh Tempo', 'rencana-pembayaran-status--overdue');
+        return status('Berjalan', 'rencana-pembayaran-status--running');
     }
 
     function actionInvoiceTerminHtml(term = {}, modeSkemaPembayaran = false) {
         if (!modeSkemaPembayaran || !term || term.terealisasi || nominalSisaTerm(term) <= 0) return '';
-        const invoice = invoiceTerminByKey(term.rencana_key);
+        const invoice = invoiceTerminUntukTerm(term);
         if (invoice?.download_url) {
-            return `
-                <button type="button" class="btn-mini-action btn-mini-action--invoice-ready" data-invoice-download="${esc(invoice.download_url)}" title="Download invoice">
-                    Invoice Dibuat
-                </button>
-            `;
+            return tombolLihatInvoiceHtml(invoice, { label: 'Lihat Invoice' });
         }
         if (!terminPerluInvoice(term)) return '';
         return `
@@ -20843,6 +22259,690 @@ document.addEventListener('DOMContentLoaded', async () => {
                 Buat Invoice
             </button>
         `;
+    }
+
+    function tombolLihatInvoiceHtml(invoice = {}, options = {}) {
+        const url = String(invoice?.print_url || invoice?.download_url || '').trim();
+        if (!url) return '';
+        return `
+            <button type="button" class="btn-mini-action btn-mini-action--invoice-ready ${esc(options.className || '')}" data-invoice-view="${esc(url)}" title="Lihat invoice">
+                ${esc(options.label || 'Lihat Invoice')}
+            </button>
+        `;
+    }
+
+    function tombolBuktiKasMasukHtml(row = {}, options = {}) {
+        const payment = (row.pembayaran || []).find(item =>
+            item?.bkm_sudah_disimpan === true
+            || String(item?.bkm_sudah_disimpan || '').toLowerCase() === 'true'
+        ) || row.pembayaranUtama;
+        const term = row.term || {};
+        const key = String(term.rencana_key || '').trim();
+        const statusMenandakanInvoice = ['Penagihan', 'Lunas', 'Pembayaran'].includes(String(row.status_invoice || '').trim());
+        const invoice = invoiceTerminUntukTerm(term) || (statusMenandakanInvoice ? {
+            // The status is already derived from an invoice/payment record.
+            // Keep the BKM action available even if an old invoice row cannot
+            // be matched to the current schedule key.
+            nomor_invoice: ''
+        } : null);
+        const pembayaranTercatat = Boolean(payment?.id_pembayaran);
+        // BKM is available for invoice-only rows too. An empty Admin date or
+        // amount means payment has not been recorded yet, not that the BKM
+        // action should disappear.
+        if (!key || (!invoice && !statusMenandakanInvoice && !pembayaranTercatat)) return '';
+        const classNames = ['btn-bukti-kas-masuk', 'btn-mini-action', options.className || ''].filter(Boolean).join(' ');
+        return `
+            <button type="button" class="${classNames}"
+                data-bkm-id="${esc(payment?.id_pembayaran || '')}"
+                data-bkm-rencana-key="${esc(key)}"
+                data-bkm-kode-file="${esc(term.kode_file || row.kode_file || '')}"
+                data-bkm-mitra="${esc(term.nama_mitra || row.nama_mitra || '')}"
+                data-bkm-judul="${esc(term.judul_pks || '')}"
+                data-bkm-tahap="${esc(term.tahap || row.tahap_pembayaran || '')}"
+                data-bkm-tanggal="${esc(term.tanggal_input || '')}"
+                data-bkm-nominal="${esc(String(nominalRencanaTerm(term) || 0))}"
+                data-bkm-invoice="${esc(invoice?.nomor_invoice || '')}"
+                data-bkm-sudah-disimpan="${payment?.bkm_sudah_disimpan === true || String(payment?.bkm_sudah_disimpan || '').toLowerCase() === 'true' ? 'true' : 'false'}"
+                aria-haspopup="${payment?.bkm_sudah_disimpan ? 'window' : 'dialog'}" title="${payment?.bkm_sudah_disimpan ? 'Lihat dan print BKM' : 'Buka modal Bukti Kas Masuk'}">
+                ${esc(options.label || 'Bukti Kas Masuk')}
+            </button>
+        `;
+    }
+
+    function tanggalPembayaranAdminHtml(row = {}) {
+        return `
+            <div class="payment-admin-date-cell">
+                <span>${esc(row.tanggal_pembayaran || '-')}</span>
+            </div>
+        `;
+    }
+
+    function jumlahPembayaranAdminHtml(row = {}) {
+        const value = String(row.jumlah_pembayaran || '-');
+        const payment = row.pembayaranUtama;
+        const bkmTersimpan = payment?.bkm_sudah_disimpan === true
+            || String(payment?.bkm_sudah_disimpan || '').toLowerCase() === 'true';
+        if (!payment?.id_pembayaran || !bkmTersimpan) return esc(value);
+
+        return `
+            <button type="button" class="btn-perhitungan-dpi"
+                data-dpi-id="${esc(payment.id_pembayaran)}"
+                data-dpi-kode-file="${esc(row.kode_file || '')}"
+                data-dpi-tahap="${esc(row.tahap_pembayaran || '')}"
+                title="Buka perhitungan DPI 20%">
+                ${esc(value)}
+            </button>
+        `;
+    }
+
+    function setAlertPerhitunganDpi(message = '', type = 'error') {
+        if (!formAlertPerhitunganDpi) return;
+        if (!message) {
+            formAlertPerhitunganDpi.style.display = 'none';
+            formAlertPerhitunganDpi.textContent = '';
+            return;
+        }
+        formAlertPerhitunganDpi.className = `form-alert form-alert--${type}`;
+        formAlertPerhitunganDpi.textContent = message;
+        formAlertPerhitunganDpi.style.display = 'inline-block';
+    }
+
+    function isiModalPerhitunganDpi(data = {}) {
+        const bruto = Math.max(0, Number(data.jumlah_pembayaran) || 0);
+        const dpi = Math.round(bruto * 0.2);
+        const penerimaan = bruto - dpi;
+        setFieldValue(dpiModalKodeFile, data.kode_file || '');
+        setFieldValue(dpiModalTahap, data.tahap || '');
+        setFieldValue(dpiModalJumlahPembayaran, formatRupiahKomaDash(bruto));
+        setFieldValue(dpiModalNominal, formatRupiahKomaDash(dpi));
+        setFieldValue(dpiModalPenerimaan, formatRupiahKomaDash(penerimaan));
+    }
+
+    function perbaruiHasilModalPerhitunganDpi() {
+        const bruto = Math.max(0, parseNominalRupiah(dpiModalJumlahPembayaran?.value));
+        const dpi = Math.round(bruto * 0.2);
+        const penerimaan = bruto - dpi;
+        setFieldValue(dpiModalNominal, formatRupiahKomaDash(dpi));
+        setFieldValue(dpiModalPenerimaan, formatRupiahKomaDash(penerimaan));
+        if (perhitunganDpiDraft) perhitunganDpiDraft.jumlah_pembayaran = bruto;
+    }
+
+    function aturModeEditPerhitunganDpi(editing = false) {
+        perhitunganDpiModeEdit = Boolean(editing);
+        if (dpiModalJumlahPembayaran) {
+            dpiModalJumlahPembayaran.readOnly = !perhitunganDpiModeEdit;
+            dpiModalJumlahPembayaran.classList.toggle('dpi-modal-field--editable', perhitunganDpiModeEdit);
+            dpiModalJumlahPembayaran.setAttribute('aria-readonly', perhitunganDpiModeEdit ? 'false' : 'true');
+        }
+        if (btnSimpanPerhitunganDpi) {
+            btnSimpanPerhitunganDpi.textContent = perhitunganDpiModeEdit ? 'Simpan' : 'Edit';
+            btnSimpanPerhitunganDpi.title = perhitunganDpiModeEdit
+                ? 'Simpan penyesuaian perhitungan DPI'
+                : 'Edit perhitungan DPI';
+        }
+    }
+
+    function tutupModalPerhitunganDpi() {
+        if (!modalPerhitunganDpi) return;
+        modalPerhitunganDpi.style.display = 'none';
+        formPerhitunganDpi?.reset();
+        aturModeEditPerhitunganDpi(false);
+        setAlertPerhitunganDpi('');
+        perhitunganDpiDraft = null;
+    }
+
+    function bukaModalPerhitunganDpiDariTombol(button) {
+        const idPembayaran = String(button?.dataset?.dpiId || '').trim();
+        const pembayaran = allPembayaranData.find(item => String(item.id_pembayaran || '') === idPembayaran);
+        if (!pembayaran) {
+            alert('Pembayaran tidak ditemukan. Muat ulang tabel Pembayaran lalu coba kembali.');
+            return;
+        }
+        const bkmTersimpan = pembayaran.bkm_sudah_disimpan === true
+            || String(pembayaran.bkm_sudah_disimpan || '').toLowerCase() === 'true';
+        if (!bkmTersimpan) {
+            alert('Perhitungan DPI hanya dapat dibuka setelah BKM dibuat.');
+            return;
+        }
+        const jumlahPembayaran = Number(pembayaran.bkm_jumlah)
+            || Number(pembayaran.nominal_bruto)
+            || nominalBrutoPembayaranTercatat(pembayaran);
+        if (!jumlahPembayaran || jumlahPembayaran <= 0) {
+            alert('Jumlah Pembayaran (Admin) belum tersedia untuk dihitung.');
+            return;
+        }
+        const dpiSudahDisimpan = dpiPembayaranSudahDisimpan(pembayaran);
+
+        perhitunganDpiDraft = {
+            id_pembayaran: idPembayaran,
+            kode_file: String(button.dataset.dpiKodeFile || pembayaran.kode_file || '').trim(),
+            tahap: String(button.dataset.dpiTahap || pembayaran.rencana_tahap || '').trim(),
+            jumlah_pembayaran: jumlahPembayaran,
+            dpi_sudah_disimpan: dpiSudahDisimpan
+        };
+        isiModalPerhitunganDpi(perhitunganDpiDraft);
+        aturModeEditPerhitunganDpi(false);
+        setAlertPerhitunganDpi(
+            dpiSudahDisimpan
+                ? 'Perhitungan DPI sudah tersimpan. Anda dapat menyimpan ulang jika diperlukan.'
+                : 'DPI dihitung sebesar 20% dari Jumlah Pembayaran (Admin).',
+            dpiSudahDisimpan ? 'success' : 'warning'
+        );
+        modalPerhitunganDpi?.removeAttribute('hidden');
+        if (modalPerhitunganDpi) modalPerhitunganDpi.style.display = 'flex';
+    }
+
+    async function simpanPerhitunganDpi() {
+        if (!perhitunganDpiDraft?.id_pembayaran) return;
+        if (perhitunganDpiDraft.dpi_sudah_disimpan && !perhitunganDpiModeEdit) {
+            aturModeEditPerhitunganDpi(true);
+            setAlertPerhitunganDpi('Mode edit aktif. Sesuaikan Jumlah Pembayaran (Admin), lalu klik Simpan.', 'warning');
+            window.requestAnimationFrame(() => {
+                dpiModalJumlahPembayaran?.focus();
+                dpiModalJumlahPembayaran?.select();
+            });
+            return;
+        }
+        const jumlahPembayaran = Math.max(0, parseNominalRupiah(dpiModalJumlahPembayaran?.value));
+        if (!jumlahPembayaran) {
+            setAlertPerhitunganDpi('Jumlah Pembayaran (Admin) harus lebih dari 0.', 'error');
+            return;
+        }
+        const submitButton = formPerhitunganDpi?.querySelector('button[type="submit"]');
+        const submitLabel = submitButton?.textContent || 'Simpan';
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Menyimpan...';
+        }
+        setAlertPerhitunganDpi('');
+        try {
+            const response = await fetch(`/api/realisasi-pembayaran/${encodeURIComponent(perhitunganDpiDraft.id_pembayaran)}/dpi`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'same-origin',
+                body: JSON.stringify({ potongan_persen: 20, nominal_bruto: jumlahPembayaran })
+            });
+            const payload = await response.json();
+            if (!response.ok) throw new Error(payload.pesan || 'Gagal menyimpan perhitungan DPI.');
+
+            await AmbilDataRealisasiDanRender();
+            perhitunganDpiDraft.dpi_sudah_disimpan = true;
+            perhitunganDpiDraft.jumlah_pembayaran = Number(payload.data?.nominal_bruto) || jumlahPembayaran;
+            aturModeEditPerhitunganDpi(false);
+            setAlertPerhitunganDpi('Perhitungan DPI berhasil disimpan. Kolom DPI dan Penerimaan sudah diperbarui.', 'success');
+            window.setTimeout(tutupModalPerhitunganDpi, 450);
+        } catch (error) {
+            setAlertPerhitunganDpi(error.message || 'Gagal menyimpan perhitungan DPI.', 'error');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = submitLabel;
+            }
+        }
+    }
+
+    function pasangHandlerBuktiKasMasuk(container) {
+        container?.querySelectorAll('.btn-bukti-kas-masuk').forEach(button => {
+            button.addEventListener('click', event => {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                bukaBuktiKasMasukDariTombol(button);
+            });
+        });
+    }
+
+    function bukaBuktiKasMasukDariTombol(button) {
+        const tombol = button?.closest?.('.btn-bukti-kas-masuk') || button;
+        if (!tombol) return;
+        try {
+            const idPembayaran = String(tombol.dataset?.bkmId || '').trim();
+            const rencanaKey = String(tombol.dataset?.bkmRencanaKey || '').trim();
+            const context = konteksBkmDariTombol(tombol);
+            if (String(tombol.dataset?.bkmSudahDisimpan || '').toLowerCase() === 'true') {
+                bukaPreviewBuktiKasMasuk(idPembayaran, rencanaKey, context);
+            } else {
+                cetakBuktiKasMasuk(idPembayaran, rencanaKey, context);
+            }
+        } catch (error) {
+            console.error('Gagal membuka BKM.', error);
+            const detail = error?.message ? ` (${error.message})` : '';
+            alert(`Bukti Kas Masuk gagal dibuka${detail}. Muat ulang halaman lalu coba kembali.`);
+        }
+    }
+
+    function pembayaranRencanaTermin(term = {}, pembayaranList = allPembayaranData) {
+        const list = Array.isArray(pembayaranList) ? pembayaranList : [];
+        const rencanaKey = String(term.rencana_key || '').trim();
+        let matches = rencanaKey
+            ? list.filter(item => String(item.rencana_key || '').trim() === rencanaKey)
+            : [];
+        if (!matches.length) matches = list.filter(item => pembayaranTerminMatches(term, item));
+        return matches.sort((a, b) => {
+            const dateA = parseInputDate(a.tanggal_input || a.tanggal_realisasi_input || a.tanggal)?.getTime() || 0;
+            const dateB = parseInputDate(b.tanggal_input || b.tanggal_realisasi_input || b.tanggal)?.getTime() || 0;
+            return dateB - dateA;
+        });
+    }
+
+    function formatTanggalPembayaranAdmin(item = {}) {
+        return item.tanggal_realisasi || item.tanggal || formatTanggalTermin(item.tanggal_input || item.tanggal_realisasi_input || '');
+    }
+
+    function ringkasanPembayaranRencana(pembayaran = []) {
+        const list = Array.isArray(pembayaran) ? pembayaran : [];
+        const dpiTersimpan = list.length > 0 && list.every(dpiPembayaranSudahDisimpan);
+        const hasil = list.reduce((acc, item) => {
+            acc.bruto += nominalBrutoPembayaranTercatat(item);
+            if (dpiTersimpan) {
+                acc.dpi += nominalDpiPembayaranTercatat(item);
+                acc.penerimaan += nominalNettoPembayaranTercatat(item);
+            }
+            return acc;
+        }, { bruto: 0, dpi: 0, penerimaan: 0 });
+        return { ...hasil, dpiTersimpan };
+    }
+
+    function buildRowsPembayaranRencana(data = [], pembayaranList = allPembayaranData, statusPembayaranList = pembayaranList) {
+        const listPembayaran = Array.isArray(pembayaranList) ? pembayaranList : [];
+        const listStatusPembayaran = Array.isArray(statusPembayaranList)
+            ? statusPembayaranList
+            : allPembayaranData;
+        const matchedPayments = new Set();
+        const rowsTermin = data.map((term, index) => {
+            // A current PKS termin represents one payment. Legacy records can
+            // share an old key, so claim only one record here and let the
+            // remaining records be reconciled with other empty terms below.
+            const pembayaran = pembayaranRencanaTermin(term, pembayaranList)
+                .filter(item => !matchedPayments.has(item))
+                .slice(0, 1);
+            pembayaran.forEach(item => {
+                matchedPayments.add(item);
+            });
+            const pembayaranUtama = pembayaran[0] || null;
+            const ringkasanPembayaran = ringkasanPembayaranRencana(pembayaran);
+            const jumlahPembayaran = ringkasanPembayaran.bruto;
+            const tanggalPembayaran = pembayaran
+                .map(formatTanggalPembayaranAdmin)
+                .filter(Boolean)
+                .filter((value, valueIndex, values) => values.indexOf(value) === valueIndex)
+                .join(' / ');
+            const statusAlokasi = statusAlokasiDariRow(term);
+            // The visible Admin columns may be period-filtered, but invoice
+            // status must use all actual payments. Otherwise a payment made
+            // outside the selected period can incorrectly show "Buat Invoice".
+            const pembayaranUntukStatus = pembayaranRencanaTermin(term, listStatusPembayaran);
+            const statusInvoice = statusInvoicePembayaranTermin(term, pembayaranUntukStatus);
+            return {
+                _row_id: `${term.rencana_key || `${term.id_program || term.kode_file}|${index}`}|${index}`,
+                kode_file: term.kode_file || '-',
+                nama_mitra: term.nama_mitra || '-',
+                tahap_pembayaran: term.tahap || labelTahapTermin(Number(term.termin_order) > 0 ? Number(term.termin_order) - 1 : index),
+                tanggal_rencana: term.tanggal_input
+                    ? (term.tanggal_diterima || formatTanggalTermin(term.tanggal_input))
+                    : 'Belum terjadwal',
+                jumlah_rencana: formatRupiahKomaDash(nominalRencanaTerm(term)),
+                tanggal_pembayaran: tanggalPembayaran || '-',
+                jumlah_pembayaran: jumlahPembayaran > 0 ? formatRupiahKomaDash(jumlahPembayaran) : '-',
+                dpi_pembayaran: ringkasanPembayaran.dpi > 0 ? formatRupiahKomaDash(ringkasanPembayaran.dpi) : '-',
+                penerimaan: ringkasanPembayaran.penerimaan > 0 ? formatRupiahKomaDash(ringkasanPembayaran.penerimaan) : '-',
+                status_invoice: statusInvoice.label,
+                status_invoice_class: statusInvoice.className,
+                status_invoice_detail: statusInvoice.detail || '',
+                status_invoice_title: statusInvoice.title || statusInvoice.label,
+                status_alokasi: statusAlokasi,
+                term,
+                pembayaran,
+                pembayaranUtama,
+                jumlahPembayaran,
+                tanggalPembayaran,
+                aksi: labelAksiPembayaranRencana({
+                    term,
+                    pembayaran,
+                    pembayaranUtama,
+                    status_alokasi: statusAlokasi
+                })
+            };
+        });
+
+        const groupKey = row => {
+            const kode = String(row?.kode_file || '').trim();
+            if (kode) return `kode:${kode}`;
+            const program = String(row?.term?.id_program || '').trim();
+            return program ? `program:${program}` : '';
+        };
+        const rowsByGroup = new Map();
+        rowsTermin.forEach(row => {
+            const key = groupKey(row);
+            if (!key) return;
+            if (!rowsByGroup.has(key)) rowsByGroup.set(key, []);
+            rowsByGroup.get(key).push(row);
+        });
+
+        const orderForRow = row => {
+            const explicit = Number(row?.term?.termin_order);
+            return explicit > 0 ? explicit : tahapTerminOrder(row?.tahap_pembayaran);
+        };
+        const nominalForRow = row => Number(row?.term?.nominal) || 0;
+        const tanggalForRow = row => parseInputDate(row?.term?.tanggal_input)?.getTime() || 0;
+        const paymentStage = payment => tahapTerminOrder(payment?.rencana_tahap);
+        const paymentDate = payment => parseInputDate(
+            payment?.rencana_tanggal || payment?.tanggal_rencana_input || ''
+        )?.getTime() || 0;
+        const paymentNominal = payment => Number(payment?.rencana_nominal) || 0;
+
+        const pilihTerminPembayaran = (payment, candidates = []) => {
+            const stage = paymentStage(payment);
+            if (Number.isFinite(stage)) {
+                const stageMatches = candidates.filter(row => orderForRow(row) === stage);
+                if (stageMatches.length === 1) return stageMatches[0];
+                if (stageMatches.length) candidates = stageMatches;
+            }
+
+            const date = paymentDate(payment);
+            if (date) {
+                const dateMatches = candidates.filter(row => tanggalForRow(row) === date);
+                if (dateMatches.length === 1) return dateMatches[0];
+                if (dateMatches.length) candidates = dateMatches;
+            }
+
+            const nominal = paymentNominal(payment);
+            if (nominal > 0) {
+                const nominalMatches = candidates.filter(row => nominalForRow(row) === nominal);
+                if (nominalMatches.length === 1) return nominalMatches[0];
+            }
+
+            return null;
+        };
+
+        const tambahkanPembayaranKeTermin = (row, payment) => {
+            row.pembayaran = [...(row.pembayaran || []), payment].sort((a, b) => {
+                const dateA = parseInputDate(a.tanggal_input || a.tanggal_realisasi_input || a.tanggal)?.getTime() || 0;
+                const dateB = parseInputDate(b.tanggal_input || b.tanggal_realisasi_input || b.tanggal)?.getTime() || 0;
+                return dateB - dateA;
+            });
+            row.pembayaranUtama = row.pembayaran[0] || null;
+            const ringkasanPembayaran = ringkasanPembayaranRencana(row.pembayaran);
+            row.jumlahPembayaran = ringkasanPembayaran.bruto;
+            row.dpiPembayaran = ringkasanPembayaran.dpi;
+            row.penerimaanPembayaran = ringkasanPembayaran.penerimaan;
+            row.dpi_pembayaran = ringkasanPembayaran.dpi > 0 ? formatRupiahKomaDash(ringkasanPembayaran.dpi) : '-';
+            row.penerimaan = ringkasanPembayaran.penerimaan > 0 ? formatRupiahKomaDash(ringkasanPembayaran.penerimaan) : '-';
+            row.tanggalPembayaran = row.pembayaran
+                .map(formatTanggalPembayaranAdmin)
+                .filter(Boolean)
+                .filter((value, index, values) => values.indexOf(value) === index)
+                .join(' / ');
+        };
+
+        // Legacy payments may not contain the current rencana_key. Only
+        // attach them when an explicit stage/date/amount identity matches.
+        // Never assign an unidentifiable payment to the next empty term.
+        listPembayaran
+            .filter(item => !matchedPayments.has(item))
+            .forEach(item => {
+                const key = groupKey({ kode_file: item.kode_file, term: { id_program: item.id_program } });
+                const candidates = (rowsByGroup.get(key) || []).slice().sort((a, b) => {
+                    const orderA = orderForRow(a);
+                    const orderB = orderForRow(b);
+                    if (orderA !== orderB) return orderA - orderB;
+                    return tanggalForRow(a) - tanggalForRow(b);
+                });
+                const emptyCandidates = candidates.filter(row => !(row.pembayaran || []).length);
+                if (!emptyCandidates.length) return;
+
+                const target = pilihTerminPembayaran(item, emptyCandidates);
+                if (!target) return;
+                tambahkanPembayaranKeTermin(target, item);
+                matchedPayments.add(item);
+            });
+
+        // Keep legacy/manual payments visible even when they were recorded
+        // before a termin key was stored or the PKS schedule was changed.
+        const rowsPembayaranTanpaTermin = listPembayaran
+            .filter(item => !matchedPayments.has(item))
+            .map((item, index) => {
+                const nominal = nominalBrutoPembayaranTercatat(item);
+                const tanggalRencana = item.tanggal_rencana_input || item.rencana_tanggal || '';
+                const nominalRencana = Number(item.rencana_nominal) || nominal;
+                const term = {
+                    ...rowTerminDariPembayaran(item, index),
+                    tahap: item.rencana_tahap || `Realisasi ${index + 1}`,
+                    tanggal_input: tanggalRencana,
+                    tanggal_diterima: tanggalRencana ? formatTanggalTermin(tanggalRencana) : 'Belum terjadwal',
+                    nominal: nominalRencana,
+                    nominal_display: formatRupiahPenuh(nominalRencana),
+                    nominal_rencana: nominalRencana,
+                    nominal_rencana_display: formatRupiahPenuh(nominalRencana),
+                    nominal_terealisasi: nominal,
+                    nominal_terealisasi_display: formatRupiahPenuh(nominal),
+                    nominal_sisa: Math.max(0, nominalRencana - nominal),
+                    nominal_sisa_display: formatRupiahPenuh(Math.max(0, nominalRencana - nominal)),
+                    terealisasi: nominal >= nominalRencana,
+                    status_realisasi: nominal >= nominalRencana ? 'Terealisasi' : 'Sebagian Terealisasi'
+                };
+                const statusAlokasi = statusAlokasiDariRow(term);
+                const statusInvoice = statusInvoicePembayaranTermin(term, [item]);
+                return {
+                    _row_id: `pembayaran-tanpa-termin|${item.id_pembayaran || index}`,
+                    kode_file: term.kode_file || item.kode_file || '-',
+                    nama_mitra: term.nama_mitra || item.nama_mitra || '-',
+                    tahap_pembayaran: term.tahap,
+                    tanggal_rencana: tanggalRencana ? formatTanggalTermin(tanggalRencana) : 'Belum terjadwal',
+                    jumlah_rencana: formatRupiahKomaDash(nominalRencana),
+                    tanggal_pembayaran: formatTanggalPembayaranAdmin(item) || '-',
+                    jumlah_pembayaran: formatRupiahKomaDash(nominal),
+                    dpi_pembayaran: dpiPembayaranSudahDisimpan(item)
+                        ? formatRupiahKomaDash(nominalDpiPembayaranTercatat(item))
+                        : '-',
+                    penerimaan: dpiPembayaranSudahDisimpan(item)
+                        ? formatRupiahKomaDash(nominalNettoPembayaranTercatat(item))
+                        : '-',
+                    status_invoice: statusInvoice.label,
+                    status_invoice_class: statusInvoice.className,
+                    status_invoice_detail: statusInvoice.detail || '',
+                    status_invoice_title: statusInvoice.title || statusInvoice.label,
+                    status_alokasi: statusAlokasi,
+                    term,
+                    pembayaran: [item],
+                    pembayaranUtama: item,
+                    jumlahPembayaran: nominal,
+                    tanggalPembayaran: formatTanggalPembayaranAdmin(item) || '-'
+                };
+            });
+
+        // The payment table is a PKS schedule view. Do not invent a fake
+        // stage such as "Realisasi 2" for legacy payments that have no
+        // matching PKS term; those records remain available in Penerimaan.
+        return rowsTermin;
+    }
+
+    function urutBarisPembayaranRencana(a = {}, b = {}) {
+        const byKodeFile = urutKodeFileTerbaru(
+            { kode_file: a.kode_file },
+            { kode_file: b.kode_file }
+        );
+        if (byKodeFile !== 0) return byKodeFile;
+
+        const orderA = Number(a.term?.termin_order) > 0
+            ? Number(a.term.termin_order)
+            : tahapTerminOrder(a.tahap_pembayaran);
+        const orderB = Number(b.term?.termin_order) > 0
+            ? Number(b.term.termin_order)
+            : tahapTerminOrder(b.tahap_pembayaran);
+        if (orderA !== orderB) return orderA - orderB;
+
+        const dateA = parseInputDate(a.term?.tanggal_input)?.getTime() || 0;
+        const dateB = parseInputDate(b.term?.tanggal_input)?.getTime() || 0;
+        if (dateA !== dateB) {
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+            return dateA - dateB;
+        }
+
+        return String(a._row_id || '').localeCompare(String(b._row_id || ''), 'id', {
+            numeric: true,
+            sensitivity: 'base'
+        });
+    }
+
+    function labelAksiPembayaranRencana(row = {}) {
+        const term = row.term || {};
+        const key = String(term.rencana_key || '');
+        const invoice = invoiceTerminUntukTerm(term);
+        const bkmTersimpan = (row.pembayaran || []).some(item =>
+            item?.bkm_sudah_disimpan === true
+            || String(item?.bkm_sudah_disimpan || '').toLowerCase() === 'true'
+        );
+        if (bkmTersimpan) return 'Lihat BKM';
+        if (!bkmTersimpan && key && (invoice || row.pembayaranUtama?.id_pembayaran)) {
+            return 'Buat BKM';
+        }
+        if (!bkmTersimpan && key && row.status_alokasi === 'Aktif' && !term.terealisasi && nominalSisaTerm(term) > 0 && terminPerluInvoice(term)) {
+            return 'Buat Invoice';
+        }
+        if (invoice?.print_url || invoice?.download_url) return 'Lihat Invoice';
+
+        return '-';
+    }
+
+    function actionPembayaranRencanaHtml(row = {}) {
+        const term = row.term || {};
+        const buttons = [];
+        const key = String(term.rencana_key || '');
+        const invoice = invoiceTerminUntukTerm(term);
+        const bkmTersimpan = (row.pembayaran || []).some(item =>
+            item?.bkm_sudah_disimpan === true
+            || String(item?.bkm_sudah_disimpan || '').toLowerCase() === 'true'
+        );
+
+        if (bkmTersimpan) {
+            buttons.push(tombolBuktiKasMasukHtml(row, {
+                label: 'Lihat BKM',
+                className: 'rencana-pembayaran-action rencana-pembayaran-action--bkm'
+            }));
+        } else if (key && (invoice || row.pembayaranUtama?.id_pembayaran)) {
+            buttons.push(tombolBuktiKasMasukHtml(row, {
+                label: 'Buat BKM',
+                className: 'rencana-pembayaran-action rencana-pembayaran-action--bkm'
+            }));
+        } else if (key && row.status_alokasi === 'Aktif' && !term.terealisasi && nominalSisaTerm(term) > 0) {
+            const sudahWaktunya = terminPerluInvoice(term);
+            if (sudahWaktunya) {
+                buttons.push(`
+                    <button type="button" class="btn-mini-action btn-mini-action--invoice rencana-pembayaran-action" data-invoice-key="${esc(key)}" title="Buat invoice untuk termin ini">Buat Invoice</button>
+                `);
+            }
+        }
+
+        if (invoice?.print_url || invoice?.download_url) {
+            buttons.push(tombolLihatInvoiceHtml(invoice, {
+                label: 'Lihat Invoice',
+                className: 'rencana-pembayaran-action rencana-pembayaran-action--invoice-view'
+            }));
+        }
+
+        return buttons.length
+            ? `<div class="table-actions-inline rencana-pembayaran-actions rencana-pembayaran-action-list">${buttons.join('')}</div>`
+            : '<span class="rencana-pembayaran-no-action">-</span>';
+    }
+
+    function renderTabelPembayaranRencana(data = [], options = {}) {
+        const headEl = options.headEl || headDetailRencanaPendapatanTermin;
+        const bodyEl = options.bodyEl || bodyDetailRencanaPendapatan;
+        if (!headEl || !bodyEl) return;
+        const tableEl = headEl.closest('table');
+        tableEl?.classList.add('rencana-pembayaran-table--flat');
+        tableEl?.classList.remove('rencana-termin-table--skema', 'rencana-termin-table--realisasi');
+
+        const pembayaranTampil = options.pembayaranList || allPembayaranData;
+        const rows = buildRowsPembayaranRencana(data, pembayaranTampil, options.statusPembayaranList || allPembayaranData)
+            .sort(urutBarisPembayaranRencana);
+        rows.forEach((row, index) => {
+            row.no = index + 1;
+        });
+        rencanaPendapatanTerminFilterRows = rows;
+        batasiFilterRencanaTermin([
+            'no',
+            'kode_file',
+            'nama_mitra',
+            'tahap_pembayaran',
+            'tanggal_rencana',
+            'jumlah_rencana',
+            'status_invoice',
+            'aksi',
+            'tanggal_pembayaran',
+            'jumlah_pembayaran',
+            'dpi_pembayaran',
+            'penerimaan'
+        ]);
+        const query = String(filterRencanaPendapatanCari?.value || '').trim().toLowerCase();
+        const searchRows = query
+            ? rows.filter(row => String(row.kode_file || '').toLowerCase().includes(query))
+            : rows;
+        const filteredRows = colFilterRencanaPendapatan
+            ? colFilterRencanaPendapatan.applyTo(searchRows)
+            : searchRows;
+        setText(
+            infoHasilRencanaPendapatan,
+            query || Object.keys(colFilterRencanaPendapatan?.colFilters || {}).length
+                ? `Menampilkan ${filteredRows.length} dari ${rows.length} pembiayaan`
+                : rencanaPendapatanPunyaFilterPeriode()
+                    ? `Periode rencana pembiayaan PKS aktif: ${filterRencanaPendapatanMulai?.value || 'awal'} s.d. ${filterRencanaPendapatanSelesai?.value || 'akhir'}`
+                    : ''
+        );
+        const header = `
+            <tr>
+                <th data-col="no">No.</th>
+                <th data-col="kode_file">Kode File</th>
+                <th data-col="nama_mitra">Mitra</th>
+                <th data-col="tahap_pembayaran">Tahap Pembiayaan<br><small>(PKS)</small></th>
+                <th data-col="tanggal_rencana">Tgl. Rencana Pembiayaan<br><small>(PKS)</small></th>
+                <th data-col="jumlah_rencana">Jumlah Pembiayaan<br><small>(PKS)</small></th>
+                <th data-col="status_invoice">Status</th>
+                <th data-col="aksi">Aksi</th>
+                <th data-col="tanggal_pembayaran">Tgl. Pembayaran<br><small>(Admin)</small></th>
+                <th data-col="jumlah_pembayaran">Jumlah Pembayaran<br><small>(Admin)</small></th>
+                <th data-col="dpi_pembayaran">DPI: 20%</th>
+                <th data-col="penerimaan">PAGU</th>
+            </tr>
+        `;
+        headEl.innerHTML = header;
+        initFilterHeadRencanaTermin();
+
+        if (!rows.length) {
+            bodyEl.innerHTML = tableState(12, 'empty', options.emptyTitle || 'Belum ada pembayaran', options.emptyMessage || 'Belum ada skema pembayaran berdasarkan PKS.');
+            return;
+        }
+        if (!filteredRows.length) {
+            bodyEl.innerHTML = tableState(12, 'empty', 'Tidak ada data sesuai filter', 'Ubah pilihan filter pada heading tabel untuk menampilkan data kembali.');
+            return;
+        }
+
+        bodyEl.innerHTML = filteredRows.map((row, index) => {
+            const actualClass = row.pembayaranUtama ? 'rencana-pembayaran-actual' : 'rencana-pembayaran-empty';
+            const statusLabelHtml = `${esc(row.status_invoice || '-')}${row.status_invoice_detail ? `<small class="rencana-pembayaran-status-detail">${esc(row.status_invoice_detail)}</small>` : ''}`;
+            const statusBadgeHtml = `<span class="rencana-pembayaran-status ${esc(row.status_invoice_class || '')}" title="${esc(row.status_invoice_title || row.status_invoice || '')}">${statusLabelHtml}</span>`;
+            const statusCell = statusBadgeHtml;
+            return `
+                <tr>
+                    <td>${esc(row.no ?? index + 1)}</td>
+                    <td class="rencana-termin-kode-cell">
+                        <span class="kode-file-tag">${esc(row.kode_file)}</span>
+                    </td>
+                    <td class="td-truncate" title="${esc(`Judul PKS: ${row.term?.judul_pks || '-'}`)}"><strong>${esc(row.nama_mitra)}</strong></td>
+                    <td>${esc(row.tahap_pembayaran)}</td>
+                    <td>${esc(row.tanggal_rencana)}</td>
+                    <td class="td-number">${esc(row.jumlah_rencana)}</td>
+                    <td class="rencana-pembayaran-status-cell">${statusCell}</td>
+                    <td class="rencana-pembayaran-action-cell">${actionPembayaranRencanaHtml(row)}</td>
+                    <td class="${actualClass}">${tanggalPembayaranAdminHtml(row)}</td>
+                    <td class="td-number ${actualClass}">${jumlahPembayaranAdminHtml(row)}</td>
+                    <td class="td-number ${actualClass}">${esc(row.dpi_pembayaran)}</td>
+                    <td class="td-number ${actualClass}">${esc(row.penerimaan)}</td>
+                </tr>
+            `;
+        }).join('');
+        pasangHandlerBuktiKasMasuk(bodyEl);
     }
 
     function infoCellRencanaTermin(term, termIndex, modeRealisasiPenerimaan = false, modeSkemaPembayaran = false) {
@@ -20879,7 +22979,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             ? 'rencana-termin-cell--realized'
             : isPartial ? 'rencana-termin-cell--partial'
                 : isOverdueUnpaid ? 'rencana-termin-cell--overdue' : 'rencana-termin-cell--pending';
-        const dateText = term.tanggal_diterima || 'N/A';
+        const tanggalInput = term.tanggal_input || term.rencana_tanggal || '';
+        const dateText = tanggalInput
+            ? (term.tanggal_diterima || formatTanggalTermin(tanggalInput))
+            : 'Belum terjadwal';
+        const tahapText = term.tahap || labelTahapTermin(termIndex);
         const invoiceStatusText = modeSkemaPembayaran ? labelStatusInvoiceTermin(term) : '';
         const clickTitle = term.terealisasi
             ? `${term.tahap || labelTahapTermin(termIndex)} sudah terealisasi`
@@ -20895,19 +22999,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (modeRealisasiPenerimaan) {
             nominalUtama = term.nominal_realisasi_periode_display || formatRupiahKomaDash(nominalDibayarTampil);
             detailText = nominalBelumDibayar > 0
-                ? `Belum dibayarkan ${term.nominal_sisa_display || formatRupiahKomaDash(nominalBelumDibayar)} dari ${term.nominal_rencana_display || term.nominal_display || formatRupiahKomaDash(nominalRencana)}`
-                : `Lunas dari ${term.nominal_rencana_display || term.nominal_display || formatRupiahKomaDash(nominalRencana)}`;
+                ? `${tahapText} · Belum dibayarkan ${term.nominal_sisa_display || formatRupiahKomaDash(nominalBelumDibayar)} dari ${term.nominal_rencana_display || term.nominal_display || formatRupiahKomaDash(nominalRencana)} · ${dateText}`
+                : `${tahapText} · Lunas dari ${term.nominal_rencana_display || term.nominal_display || formatRupiahKomaDash(nominalRencana)} · ${dateText}`;
         }
         if (modeSkemaPembayaran) {
             nominalUtama = term.nominal_display || formatRupiahKomaDash(nominalRencana);
             if (term.terealisasi) {
-                detailText = `Lunas · ${dateText}`;
+                detailText = `${tahapText} · Lunas · ${dateText}`;
             } else if (isPartial) {
-                detailText = `Dibayar ${term.nominal_terealisasi_display || formatRupiahKomaDash(nominalTerealisasi)} · ${dateText}`;
+                detailText = `${tahapText} · Dibayar ${term.nominal_terealisasi_display || formatRupiahKomaDash(nominalTerealisasi)} · ${dateText}`;
             } else if (isOverdueUnpaid) {
-                detailText = `Piutang (Lewat jatuh tempo) · ${dateText}`;
+                detailText = `${tahapText} · Piutang (Lewat jatuh tempo) · ${dateText}`;
             } else {
-                detailText = dateText;
+                detailText = `${tahapText} · ${dateText}`;
             }
             if (invoiceStatusText && !term.terealisasi) {
                 detailText = `${detailText} · ${invoiceStatusText}`;
@@ -20935,7 +23039,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return status === 'Lunas' ? 'badge-rencana-ok' : 'badge-rencana-warning';
     }
 
-    function buildFilterRowsRencanaTermin(groupRows = [], maxTermin = 0, modeRealisasiPenerimaan = false, modeSkemaPembayaran = false) {
+    function buildFilterRowsRencanaTermin(groupRows = [], monthColumns = [], modeRealisasiPenerimaan = false, modeSkemaPembayaran = false) {
         return groupRows.map(({ group, termSlots }, index) => {
             const statusKontrak = statusKontrakRencanaTermin(group);
             const statusAlokasi = statusAlokasiRencanaTermin(group);
@@ -20952,14 +23056,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 status_alokasi: statusAlokasi,
                 status_pembayaran: statusPembayaranRencanaTermin(group)
             };
-            for (let termIndex = 0; termIndex < maxTermin; termIndex += 1) {
-                row[`tahap_${termIndex + 1}`] = infoCellRencanaTermin(
-                    termSlots[termIndex],
-                    termIndex,
-                    modeRealisasiPenerimaan,
-                    modeSkemaPembayaran
-                ).filterText;
-            }
+            monthColumns.forEach(column => {
+                row[column.key] = termsForMonthRencanaTermin(group.terms, column.monthKey)
+                    .map((term, termIndex) => infoCellRencanaTermin(
+                        term,
+                        Number(term.termin_order) > 0 ? Number(term.termin_order) - 1 : termIndex,
+                        modeRealisasiPenerimaan,
+                        modeSkemaPembayaran
+                    ).filterText)
+                    .join(' || ');
+            });
             return row;
         });
     }
@@ -20969,22 +23075,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         colFilterRencanaPendapatan?.updateIndicators();
     }
 
+    function batasiFilterRencanaTermin(keys = []) {
+        if (!colFilterRencanaPendapatan) return;
+        const allowed = new Set(keys);
+        Object.keys(colFilterRencanaPendapatan.colFilters).forEach(key => {
+            if (!allowed.has(key)) delete colFilterRencanaPendapatan.colFilters[key];
+        });
+    }
+
     function renderTabelRencanaTermin(data = [], options = {}) {
         const headEl = options.headEl || headTabelRencanaPendapatanTermin;
         const bodyEl = options.bodyEl || bodyTabelRencanaPendapatanTermin;
         if (!headEl || !bodyEl) return;
         const modeRealisasiPenerimaan = options.mode === 'realisasi-penerimaan';
         const modeSkemaPembayaran = options.mode === 'skema-pembayaran';
+        const tableEl = headEl.closest('table');
+        if (modeSkemaPembayaran) {
+            renderTabelPembayaranRencana(data, options);
+            return;
+        }
+        tableEl?.classList.toggle('rencana-termin-table--skema', modeSkemaPembayaran);
+        tableEl?.classList.toggle('rencana-termin-table--realisasi', modeRealisasiPenerimaan);
+        tableEl?.classList.remove('rencana-pembayaran-table--flat');
         const groups = kelompokkanRencanaTermin(data, {
             pembayaranList: options.pembayaranList
         });
         const allGroupRows = groups.map(group => ({ group, termSlots: slotTermsRencanaTermin(group.terms) }));
-        const maxTermin = Math.max(0, ...allGroupRows.map(row => row.termSlots.length));
-        const kolomDasar = modeSkemaPembayaran ? 9 : 8;
-        const colspan = Math.max(kolomDasar, kolomDasar + maxTermin);
+        const monthColumns = monthColumnsRencanaTermin(options.monthColumnsData || data);
+        const kolomDasar = modeRealisasiPenerimaan ? 6 : 7;
+        const statusHeader = modeRealisasiPenerimaan
+            ? ''
+            : `<th data-col="${modeSkemaPembayaran ? 'status_pembayaran' : 'status_kontrak'}">${modeSkemaPembayaran ? 'Status' : 'Status Kontrak'}</th>`;
+        const colspan = Math.max(kolomDasar, kolomDasar + monthColumns.length);
+        const headerBulan = monthColumns
+            .map(column => `<th data-col="${column.key}">${column.label}</th>`)
+            .join('');
+        const headerDinamis = modeSkemaPembayaran
+            ? `${headerBulan}<th data-col="status_pembayaran">Status</th>`
+            : `${statusHeader}${headerBulan}`;
+        batasiFilterRencanaTermin([
+            'kode_file',
+            'nama_mitra',
+            'nilai_kontrak_display',
+            'total_penerimaan_display',
+            'selisih_penerimaan_display',
+            ...(modeRealisasiPenerimaan ? [] : [modeSkemaPembayaran ? 'status_pembayaran' : 'status_kontrak']),
+            ...monthColumns.map(column => column.key)
+        ]);
         rencanaPendapatanTerminFilterRows = buildFilterRowsRencanaTermin(
             allGroupRows,
-            maxTermin,
+            monthColumns,
             modeRealisasiPenerimaan,
             modeSkemaPembayaran
         );
@@ -21002,12 +23142,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <th data-col="no">No.</th>
                     <th data-col="kode_file">Kode File</th>
                     <th data-col="nama_mitra">Mitra</th>
-                    <th data-col="judul_pks">Judul PKS</th>
                     <th data-col="nilai_kontrak_display">Nilai Kontrak</th>
                     <th data-col="total_penerimaan_display">Pembayaran</th>
                     <th data-col="selisih_penerimaan_display">Piutang</th>
-                    ${modeSkemaPembayaran ? '<th data-col="status_alokasi">Status Alokasi</th>' : ''}
-                    <th data-col="${modeSkemaPembayaran ? 'status_pembayaran' : 'status_kontrak'}">${modeSkemaPembayaran ? 'Status' : 'Status Kontrak'}</th>
+                    ${headerDinamis}
                 </tr>
             `;
             initFilterHeadRencanaTermin();
@@ -21020,35 +23158,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        const headerTahap = Array.from({ length: maxTermin }, (_, index) => `<th data-col="tahap_${index + 1}">${labelTahapTermin(index)}</th>`).join('');
-        headEl.innerHTML = modeSkemaPembayaran
-            ? `
-                <tr>
-                    <th data-col="no">No.</th>
-                    <th data-col="kode_file">Kode File</th>
-                    <th data-col="nama_mitra">Mitra</th>
-                    <th data-col="judul_pks">Judul PKS</th>
-                    <th data-col="nilai_kontrak_display">Nilai Kontrak</th>
-                    <th data-col="total_penerimaan_display">Pembayaran</th>
-                    <th data-col="selisih_penerimaan_display">Piutang</th>
-                    <th data-col="status_alokasi">Status Alokasi</th>
-                    ${headerTahap}
-                    <th data-col="status_pembayaran">Status</th>
-                </tr>
-            `
-            : `
-                <tr>
-                    <th data-col="no">No.</th>
-                    <th data-col="kode_file">Kode File</th>
-                    <th data-col="nama_mitra">Mitra</th>
-                    <th data-col="judul_pks">Judul PKS</th>
-                    <th data-col="nilai_kontrak_display">Nilai Kontrak</th>
-                    <th data-col="total_penerimaan_display">Pembayaran</th>
-                    <th data-col="selisih_penerimaan_display">Piutang</th>
-                    <th data-col="status_kontrak">Status Kontrak</th>
-                    ${headerTahap}
-                </tr>
-            `;
+        headEl.innerHTML = `
+            <tr>
+                <th data-col="no">No.</th>
+                <th data-col="kode_file">Kode File</th>
+                <th data-col="nama_mitra">Mitra</th>
+                <th data-col="nilai_kontrak_display">Nilai Kontrak</th>
+                <th data-col="total_penerimaan_display">Pembayaran</th>
+                <th data-col="selisih_penerimaan_display">Piutang</th>
+                ${headerDinamis}
+            </tr>
+        `;
         initFilterHeadRencanaTermin();
         if (!groupRows.length) {
             bodyEl.innerHTML = tableState(
@@ -21063,36 +23183,46 @@ document.addEventListener('DOMContentLoaded', async () => {
             const statusKontrak = statusKontrakRencanaTermin(group);
             const statusPembayaran = statusPembayaranRencanaTermin(group);
             const statusAlokasi = statusAlokasiRencanaTermin(group);
-            const statusAlokasiCell = modeSkemaPembayaran
-                ? `<td><span class="badge ${badgeStatusAlokasiRencanaTermin(statusAlokasi)}">${esc(statusAlokasi)}</span></td>`
-                : '';
-            const statusCell = modeSkemaPembayaran
+            const statusAlokasiBadge = `<span class="badge rencana-termin-alokasi-badge ${badgeStatusAlokasiRencanaTermin(statusAlokasi)}">${esc(statusAlokasi)}</span>`;
+            const statusCell = modeRealisasiPenerimaan
+                ? ''
+                : modeSkemaPembayaran
                 ? `<td><span class="badge ${badgeStatusPembayaranRencanaTermin(statusPembayaran)}">${esc(statusPembayaran)}</span></td>`
                 : `<td><span class="badge ${badgeStatusKontrakRencanaTermin(statusKontrak)}">${esc(statusKontrak)}</span></td>`;
-            const tahapCells = Array.from({ length: maxTermin }, (_, termIndex) => {
-                const term = termSlots[termIndex];
-                if (!term) return '<td class="rencana-termin-empty">-</td>';
-                const cellInfo = infoCellRencanaTermin(term, termIndex, modeRealisasiPenerimaan, modeSkemaPembayaran);
-                return `
-                    <td class="rencana-termin-cell rencana-termin-cell--clickable ${cellInfo.realizedClass}" data-key="${esc(term.rencana_key || '')}" role="button" tabindex="0" title="${esc(cellInfo.clickTitle)}">
-                        <div class="rencana-termin-cell-main">
-                            <strong>${esc(cellInfo.nominalUtama)}</strong>
-                            <small>${esc(cellInfo.detailText)}</small>
+            const bulanCells = monthColumns.map(column => {
+                const terms = termsForMonthRencanaTermin(group.terms, column.monthKey);
+                if (!terms.length) return '<td class="rencana-termin-empty">-</td>';
+                const entries = terms.map((term, termIndex) => {
+                    const cellInfo = infoCellRencanaTermin(
+                        term,
+                        Number(term.termin_order) > 0 ? Number(term.termin_order) - 1 : termIndex,
+                        modeRealisasiPenerimaan,
+                        modeSkemaPembayaran
+                    );
+                    return `
+                        <div class="rencana-termin-cell rencana-termin-cell--entry rencana-termin-cell--clickable ${cellInfo.realizedClass}" data-key="${esc(term.rencana_key || '')}" role="button" tabindex="0" title="${esc(cellInfo.clickTitle)}">
+                            <div class="rencana-termin-cell-main">
+                                <strong>${esc(cellInfo.nominalUtama)}</strong>
+                                <small>${esc(cellInfo.detailText)}</small>
+                            </div>
+                            ${cellInfo.invoiceActionHtml ? `<div class="rencana-termin-cell-actions">${cellInfo.invoiceActionHtml}</div>` : ''}
                         </div>
-                        ${cellInfo.invoiceActionHtml ? `<div class="rencana-termin-cell-actions">${cellInfo.invoiceActionHtml}</div>` : ''}
-                    </td>
-                `;
+                    `;
+                }).join('');
+                return `<td class="rencana-termin-month-cell">${entries}</td>`;
             }).join('');
             return `
                 <tr>
                     <td>${index + 1}</td>
-                    <td><span class="kode-file-tag">${esc(group.kode_file || '-')}</span></td>
-                    <td class="td-truncate"><strong>${esc(group.nama_mitra || '-')}</strong></td>
-                    <td class="td-truncate">${esc(group.judul_pks || '-')}</td>
+                    <td class="rencana-termin-kode-cell">
+                        <span class="kode-file-tag">${esc(group.kode_file || '-')}</span>
+                        ${statusAlokasiBadge}
+                    </td>
+                    <td class="td-truncate" title="${esc(`Judul PKS: ${group.judul_pks || '-'}`)}"><strong>${esc(group.nama_mitra || '-')}</strong></td>
                     <td class="td-money">${esc(formatRupiahKomaDash(group.nilai_kontrak || 0))}</td>
                     <td class="td-money">${esc(formatRupiahKomaDash(group.total_penerimaan || 0))}</td>
                     <td class="td-money rencana-termin-selisih-cell ${Number(group.selisih_penerimaan) > 0 ? 'is-sisa' : ''}">${esc(formatRupiahKomaDash(group.selisih_penerimaan || 0))}</td>
-                    ${modeSkemaPembayaran ? statusAlokasiCell + tahapCells + statusCell : statusCell + tahapCells}
+                    ${modeSkemaPembayaran ? bulanCells + statusCell : statusCell + bulanCells}
                 </tr>
             `;
         }).join('');
@@ -21189,9 +23319,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const programSama = String(row.id_program || '').trim() && String(row.id_program || '').trim() === String(pembayaran.id_program || '').trim();
         if (!kodeSama && !programSama) return false;
 
-        const tahapSama = normalisasiTermin(row.tahap) && normalisasiTermin(row.tahap) === normalisasiTermin(pembayaran.rencana_tahap);
+        const tahapRow = tahapTerminOrder(row.tahap);
+        const tahapPembayaran = tahapTerminOrder(pembayaran.rencana_tahap);
+        const tahapSama = (
+            normalisasiTermin(row.tahap) &&
+            normalisasiTermin(row.tahap) === normalisasiTermin(pembayaran.rencana_tahap)
+        ) || (
+            Number.isFinite(tahapRow) &&
+            Number.isFinite(tahapPembayaran) &&
+            tahapRow === tahapPembayaran
+        );
         const tanggalPembayaran = pembayaran.rencana_tanggal || pembayaran.tanggal_rencana_input || pembayaran.tanggal_input || '';
-        const tanggalSama = row.tanggal_input && String(row.tanggal_input).slice(0, 10) === String(tanggalPembayaran || '').slice(0, 10);
+        const tanggalRow = parseInputDate(row.tanggal_input)?.getTime() || 0;
+        const tanggalPayment = parseInputDate(tanggalPembayaran)?.getTime() || 0;
+        const tanggalSama = Boolean(tanggalRow && tanggalPayment && tanggalRow === tanggalPayment);
         const nominalRow = Number(row.nominal) || 0;
         const nominalSama = nominalRow > 0 && (
             nominalRow === (Number(pembayaran.rencana_nominal) || 0) ||
@@ -21345,19 +23486,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         terapkanFilterRencanaPendapatan();
     }
 
+    function formatTanggalFilterPeriode(value) {
+        const tanggal = parseInputDate(value);
+        if (!tanggal) return '';
+        return tanggal.toLocaleDateString('id-ID', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }).replace(/\./g, '');
+    }
+
+    function setFilterRencanaPendapatanPeriodePopover(open = false) {
+        if (!filterRencanaPendapatanPeriodePopover) return;
+        const isOpen = Boolean(open);
+        filterRencanaPendapatanPeriodePopover.hidden = !isOpen;
+        paymentPeriodPicker?.classList.toggle('is-open', isOpen);
+        btnOpenFilterRencanaPendapatanPeriode?.setAttribute('aria-expanded', String(isOpen));
+    }
+
     function syncPlaceholderPeriodeRencana() {
-        [filterRencanaPendapatanMulai, filterRencanaPendapatanSelesai].forEach(input => {
-            input?.closest('.period-field--date-placeholder')?.classList.toggle('has-value', !!input.value);
-        });
+        let mulai = parseInputDate(filterRencanaPendapatanMulai?.value);
+        let selesai = parseInputDate(filterRencanaPendapatanSelesai?.value);
+        if (mulai && selesai && mulai > selesai) {
+            const sementara = mulai;
+            mulai = selesai;
+            selesai = sementara;
+        }
+
+        const labelMulai = formatTanggalFilterPeriode(mulai ? inputDateFromDate(mulai) : '');
+        const labelSelesai = formatTanggalFilterPeriode(selesai ? inputDateFromDate(selesai) : '');
+        let label = 'Pilih rentang tanggal';
+        if (labelMulai && labelSelesai) label = `${labelMulai} - ${labelSelesai}`;
+        else if (labelMulai) label = `${labelMulai} - Pilih tanggal akhir`;
+        else if (labelSelesai) label = `Pilih tanggal awal - ${labelSelesai}`;
+
+        setText(filterRencanaPendapatanPeriodeLabel, label);
+        filterRencanaPendapatanPeriodeLabel?.classList.toggle('is-placeholder', !labelMulai && !labelSelesai);
+        btnOpenFilterRencanaPendapatanPeriode?.setAttribute(
+            'aria-label',
+            labelMulai || labelSelesai
+                ? `Periode rencana pembiayaan PKS: ${label}`
+                : 'Pilih periode rencana pembiayaan PKS'
+        );
     }
 
     function terapkanFilterRencanaPendapatan() {
         syncPlaceholderPeriodeRencana();
         const hasilPeriode = allRencanaPendapatanData.filter(filterRencanaByPeriode);
         rencanaPendapatanRowsPeriodeAktif = hasilPeriode;
+        // Keep the payment view in sync whenever the data or search changes.
+        renderTabelRencanaPendapatan(hasilPeriode);
         updateRencanaPendapatanSummary();
         renderDetailRencanaPendapatan();
-        if (infoHasilRencanaPendapatan) infoHasilRencanaPendapatan.textContent = '';
     }
 
     function aturModeFormPembayaran(mode = 'tambah') {
@@ -21511,11 +23691,599 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function terapkanFilterPembayaran() {
         const cari = filterPembayaranCari.value.toLowerCase().trim();
-        const hasilSearch = allPembayaranData.filter(item => cocokPencarianGlobal(item, cari));
+        const hasilSearch = allPembayaranData.filter(item =>
+            !cari || String(item.kode_file || '').toLowerCase().includes(cari)
+        );
         const hasil = urutkanPembayaranTerbaru(colFilterPembayaran.applyTo(hasilSearch));
         renderTabelPembayaran(hasil);
+        updateTotalPembayaranIndicator(hasil);
         const adaFilter = cari || Object.keys(colFilterPembayaran.colFilters).length > 0;
         infoHasilPembayaran.textContent = adaFilter ? `Menampilkan ${hasil.length} dari ${allPembayaranData.length} data` : '';
+    }
+
+    function terbilangBkmAngka(value) {
+        const satuan = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
+        const angka = Math.floor(Number(value) || 0);
+        if (angka < 12) return satuan[angka];
+        if (angka < 20) return terbilangBkmAngka(angka - 10) + ' belas';
+        if (angka < 100) return terbilangBkmAngka(Math.floor(angka / 10)) + ' puluh' + (angka % 10 ? ' ' + terbilangBkmAngka(angka % 10) : '');
+        if (angka < 200) return 'seratus' + (angka - 100 ? ' ' + terbilangBkmAngka(angka - 100) : '');
+        if (angka < 1000) return terbilangBkmAngka(Math.floor(angka / 100)) + ' ratus' + (angka % 100 ? ' ' + terbilangBkmAngka(angka % 100) : '');
+        if (angka < 2000) return 'seribu' + (angka - 1000 ? ' ' + terbilangBkmAngka(angka - 1000) : '');
+        if (angka < 1000000) return terbilangBkmAngka(Math.floor(angka / 1000)) + ' ribu' + (angka % 1000 ? ' ' + terbilangBkmAngka(angka % 1000) : '');
+        if (angka < 1000000000) return terbilangBkmAngka(Math.floor(angka / 1000000)) + ' juta' + (angka % 1000000 ? ' ' + terbilangBkmAngka(angka % 1000000) : '');
+        if (angka < 1000000000000) return terbilangBkmAngka(Math.floor(angka / 1000000000)) + ' miliar' + (angka % 1000000000 ? ' ' + terbilangBkmAngka(angka % 1000000000) : '');
+        return terbilangBkmAngka(Math.floor(angka / 1000000000000)) + ' triliun' + (angka % 1000000000000 ? ' ' + terbilangBkmAngka(angka % 1000000000000) : '');
+    }
+
+    function terbilangBkm(value) {
+        const angka = Math.max(0, Math.round(Number(value) || 0));
+        const teks = angka ? terbilangBkmAngka(angka) + ' rupiah' : 'nol rupiah';
+        return teks.charAt(0).toUpperCase() + teks.slice(1);
+    }
+
+    function formatTanggalBkm(value) {
+        const tanggal = parseInputDate(String(value || '').slice(0, 10));
+        if (!tanggal) return '-';
+        return tanggal.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    }
+
+    function formatAngkaBkm(value) {
+        return Math.max(0, Math.round(Number(value) || 0)).toLocaleString('id-ID');
+    }
+
+    function tahapBkm(payment = {}, term = {}) {
+        return String(payment.rencana_tahap || term.tahap || 'Pembayaran').trim() || 'Pembayaran';
+    }
+
+    function kunciDraftBuktiKasMasuk(idPembayaran = '', rencanaKey = '') {
+        const id = String(idPembayaran || '').trim();
+        const key = String(rencanaKey || '').trim();
+        return id || `rencana:${key}`;
+    }
+
+    function normalisasiKonteksBuktiKasMasuk(context = {}) {
+        return {
+            kode_file: String(context.kode_file || '').trim(),
+            nama_mitra: String(context.nama_mitra || '').trim(),
+            judul_pks: String(context.judul_pks || '').trim(),
+            tahap: String(context.tahap || '').trim(),
+            tanggal_input: String(context.tanggal_input || '').trim(),
+            nominal: Number(context.nominal) || 0,
+            nomor_invoice: String(context.nomor_invoice || '').trim()
+        };
+    }
+
+    function konteksBkmDariTombol(button) {
+        const dataset = button?.dataset || {};
+        return normalisasiKonteksBuktiKasMasuk({
+            kode_file: dataset.bkmKodeFile,
+            nama_mitra: dataset.bkmMitra,
+            judul_pks: dataset.bkmJudul,
+            tahap: dataset.bkmTahap,
+            tanggal_input: dataset.bkmTanggal,
+            nominal: dataset.bkmNominal,
+            nomor_invoice: dataset.bkmInvoice
+        });
+    }
+
+    function dataBuktiKasMasuk(idPembayaran = '', rencanaKey = '', context = {}) {
+        const konteks = normalisasiKonteksBuktiKasMasuk(context);
+        const terminRows = Array.isArray(allRencanaTerminData) ? allRencanaTerminData : [];
+        const paymentRows = Array.isArray(allPembayaranData) ? allPembayaranData : [];
+        const termKey = String(rencanaKey || '').trim();
+        const termDariState = terminRows.find(row => String(row.rencana_key || '').trim() === termKey) || null;
+        // Some legacy invoice/payment rows use a key that is no longer present
+        // after the schedule is rebuilt. Keep the clicked row usable by
+        // reconstructing the minimum term context from its button.
+        const term = termDariState || {
+            rencana_key: termKey,
+            kode_file: konteks.kode_file,
+            nama_mitra: konteks.nama_mitra,
+            judul_pks: konteks.judul_pks,
+            tahap: konteks.tahap || 'Pembayaran',
+            tanggal_input: konteks.tanggal_input,
+            nominal: konteks.nominal,
+            nominal_rencana: konteks.nominal
+        };
+        const invoice = invoiceTerminUntukTerm(term) || {
+            nomor_invoice: konteks.nomor_invoice,
+            rencana_nominal: konteks.nominal
+        };
+        const pembayaranDenganId = paymentRows.find(row => String(row.id_pembayaran || '') === String(idPembayaran || ''));
+        const pembayaran = pembayaranDenganId || pembayaranRencanaTermin(term)[0] || null;
+        if (!term.rencana_key && !pembayaran) return null;
+
+        const kodeFile = pembayaran?.kode_file || term.kode_file || '';
+        const program = programDariKodeFile(kodeFile) || {};
+        const nominalPembayaran = pembayaran ? nominalBrutoPembayaranTercatat(pembayaran) : 0;
+        const nominalInvoice = Number(invoice.rencana_nominal) || parseNominalRupiah(invoice.rencana_nominal_display);
+        const nominal = nominalPembayaran || nominalInvoice || nominalRencanaTerm(term);
+        const nominalRencanaBkm = nominalRencanaTerm(term);
+        const nominalBkm = Number(pembayaran?.bkm_jumlah) || (
+            nominalRencanaBkm > 0
+                ? Math.min(nominalPembayaran || nominalInvoice || nominalRencanaBkm, nominalRencanaBkm)
+                : nominalPembayaran || nominalInvoice || nominalRencanaBkm
+        );
+        const tanggalMasuk = pembayaran?.bkm_tanggal
+            || pembayaran?.tanggal_realisasi_input
+            || pembayaran?.tanggal_input
+            || pembayaran?.tanggal
+            || '';
+        const nomorKontrak = String(program.no_kontrak_mitra || program.no_kontrak_institusi || '').trim();
+        const nomorInvoice = String(invoice.nomor_invoice || '').trim().replace(/^NO\\.\\s*/i, '');
+        const namaMitra = String(pembayaran?.nama_mitra || term.nama_mitra || program.nama_mitra || '').trim();
+        const judulPks = String(pembayaran?.judul_pks || term.judul_pks || program.judul_pks || namaMitra).trim();
+        const tahap = tahapBkm(pembayaran, term);
+        const draftKey = kunciDraftBuktiKasMasuk(pembayaran?.id_pembayaran || idPembayaran, rencanaKey);
+        const saved = buktiKasMasukDraftByPayment.get(draftKey) || {};
+        const defaultUraian = [
+            'Pembayaran Biaya Penyelenggaraan Pendidikan',
+            judulPks,
+            tahap,
+            nomorKontrak ? '-' + namaMitra + '-' + nomorKontrak : ''
+        ].filter(Boolean).join(' ');
+
+        return {
+            id_pembayaran: String(pembayaran?.id_pembayaran || idPembayaran || ''),
+            rencana_key: termKey,
+            rencana_tanggal: String(term.tanggal_input || ''),
+            rencana_nominal: Number(nominalRencanaTerm(term)) || 0,
+            kode_file: kodeFile || program.kode_file || '',
+            nama_mitra: namaMitra,
+            judul_pks: judulPks,
+            tahap,
+            nomor_bkm: String(pembayaran?.bkm_nomor || ''),
+            nama_bank: pembayaran?.bkm_nama_bank || 'BNI',
+            no_rekening: pembayaran?.bkm_no_rekening || '901102012',
+            nama_rekening: pembayaran?.bkm_nama_rekening || 'Penampungan - PPM SBM',
+            nama_unit: pembayaran?.bkm_nama_unit || '101221-SBM - Ops. - Ganesa',
+            no_bukti: pembayaran?.bkm_no_bukti || (nomorInvoice ? 'Receipt-' + nomorInvoice : nomorKontrak),
+            tanggal_masuk: tanggalMasuk,
+            uraian: pembayaran?.bkm_uraian || defaultUraian,
+            jumlah_bkm: nominalBkm,
+            terbilang: terbilangBkm(nominalBkm),
+            pembayaran_tercatat: Boolean(pembayaran?.bkm_sudah_disimpan),
+            bkm_sudah_disimpan: Boolean(pembayaran?.bkm_sudah_disimpan),
+            draft_key: draftKey,
+            tanda_tangan: {
+                dibukukan: 'Puji Novitasari, SST.',
+                dibukukanJabatan: 'Dibukukan\\nAkuntansi SBM',
+                dibukukanIdentitas: '',
+                mengetahui: 'Endah Nurani, A.ks., M.M.',
+                mengetahuiJabatan: 'Mengetahui\\nKepala Administrasi SBM',
+                mengetahuiIdentitas: 'NIP 19721115 201409 2 002',
+                diterima: 'Ninuk Endang Windarti, S.T.',
+                diterimaJabatan: 'Diterima\\nKepala Sub Administrasi\\nKeuangan dan Anggaran SBM',
+                diterimaIdentitas: 'Nopeg 117000056',
+                menyetujui: 'Prof. Donald Crestofel Lantu, S.T., M.B.A., Ph.D.',
+                menyetujuiJabatan: 'Menyetujui\\nWakil Dekan Bidang Sumber Daya SBM',
+                menyetujuiIdentitas: 'NIP 19760925 201012 1 001'
+            },
+            ...saved,
+            jumlah_bkm: nominalBkm,
+            terbilang: terbilangBkm(nominalBkm)
+        };
+    }
+
+    function dataBuktiKasMasukFallback(idPembayaran = '', rencanaKey = '', context = {}) {
+        const konteks = normalisasiKonteksBuktiKasMasuk(context);
+        const nominal = Math.max(0, Number(konteks.nominal) || 0);
+        const tahap = konteks.tahap || 'Pembayaran';
+        const judul = konteks.judul_pks || konteks.nama_mitra || '';
+        return {
+            id_pembayaran: String(idPembayaran || ''),
+            rencana_key: String(rencanaKey || '').trim(),
+            rencana_tanggal: konteks.tanggal_input,
+            rencana_nominal: nominal,
+            kode_file: konteks.kode_file,
+            nama_mitra: konteks.nama_mitra,
+            judul_pks: judul,
+            tahap,
+            nomor_bkm: '',
+            nama_bank: 'BNI',
+            no_rekening: '901102012',
+            nama_rekening: 'Penampungan - PPM SBM',
+            nama_unit: '101221-SBM - Ops. - Ganesa',
+            no_bukti: konteks.nomor_invoice ? 'Receipt-' + konteks.nomor_invoice.replace(/^NO\.\s*/i, '') : '',
+            tanggal_masuk: '',
+            uraian: ['Pembayaran Biaya Penyelenggaraan Pendidikan', judul, tahap].filter(Boolean).join(' '),
+            jumlah_bkm: nominal,
+            terbilang: terbilangBkm(nominal),
+            pembayaran_tercatat: false,
+            bkm_sudah_disimpan: false,
+            draft_key: kunciDraftBuktiKasMasuk(idPembayaran, rencanaKey),
+            tanda_tangan: {}
+        };
+    }
+
+    function setAlertBuktiKasMasuk(message = '', type = 'error') {
+        if (!formAlertBuktiKasMasuk) return;
+        if (!message) {
+            formAlertBuktiKasMasuk.style.display = 'none';
+            formAlertBuktiKasMasuk.textContent = '';
+            return;
+        }
+        formAlertBuktiKasMasuk.className = 'form-alert form-alert--' + type;
+        formAlertBuktiKasMasuk.textContent = message;
+        formAlertBuktiKasMasuk.style.display = 'inline-block';
+    }
+
+    function isiModalBuktiKasMasuk(data = {}) {
+        nomorBkmOtomatisTerakhir = '';
+        if (inputNomorBkm) {
+            inputNomorBkm.dataset.autoValue = '';
+            inputNomorBkm.dataset.manual = 'false';
+        }
+        setFieldValue(bkmPreviewKodeFile, data.kode_file);
+        setFieldValue(bkmPreviewMitra, data.nama_mitra);
+        setFieldValue(bkmPreviewTahap, data.tahap);
+        setFieldValue(bkmPreviewJumlah, formatRupiahKomaDash(data.jumlah_bkm));
+        setFieldValue(bkmPreviewTerbilang, data.terbilang);
+        setFieldValue(inputNomorBkm, data.nomor_bkm);
+        setFieldValue(inputTanggalMasukBkm, data.tanggal_masuk);
+        setFieldValue(inputNamaBankBkm, data.nama_bank);
+        setFieldValue(inputNoRekeningBkm, data.no_rekening);
+        setFieldValue(inputNamaRekeningBkm, data.nama_rekening);
+        setFieldValue(inputNamaUnitBkm, data.nama_unit);
+        setFieldValue(inputNoBuktiBkm, data.no_bukti);
+        setFieldValue(inputUraianBkm, data.uraian);
+    }
+
+    function nomorBkmManualDariForm() {
+        const value = String(inputNomorBkm?.value || '').trim();
+        const autoValue = String(inputNomorBkm?.dataset?.autoValue || '').trim();
+        return Boolean(value && value !== autoValue);
+    }
+
+    async function muatNomorBkmOtomatis({ force = false } = {}) {
+        if (!inputNomorBkm || !buktiKasMasukDraft) {
+            return String(inputNomorBkm?.value || '').trim();
+        }
+        const currentValue = String(inputNomorBkm.value || '').trim();
+        const autoValue = String(inputNomorBkm.dataset.autoValue || '').trim();
+        if (buktiKasMasukDraft.bkm_sudah_disimpan && currentValue) return currentValue;
+        if (!force && currentValue && currentValue !== autoValue) return currentValue;
+
+        const tanggal = String(inputTanggalMasukBkm?.value || todayInputDate()).trim();
+        const noRekening = String(inputNoRekeningBkm?.value || '901102012').trim();
+        const draftKey = String(buktiKasMasukDraft.draft_key || '').trim();
+        const requestId = ++nomorBkmOtomatisRequest;
+        const params = new URLSearchParams({ tanggal_masuk: tanggal, no_rekening: noRekening });
+        try {
+            const response = await fetch(`/api/bukti-kas-masuk/nomor-berikutnya?${params.toString()}`, {
+                cache: 'no-store',
+                credentials: 'same-origin'
+            });
+            const payload = await response.json();
+            if (!response.ok || !payload.nomor_bkm) return '';
+            if (requestId !== nomorBkmOtomatisRequest) return '';
+            if (String(buktiKasMasukDraft?.draft_key || '').trim() !== draftKey) return '';
+            if (String(inputTanggalMasukBkm?.value || todayInputDate()).trim() !== tanggal) return '';
+
+            const valueNow = String(inputNomorBkm.value || '').trim();
+            const autoValueNow = String(inputNomorBkm.dataset.autoValue || '').trim();
+            if (valueNow && valueNow !== autoValueNow) return valueNow;
+            inputNomorBkm.value = String(payload.nomor_bkm).trim();
+            inputNomorBkm.dataset.autoValue = inputNomorBkm.value;
+            inputNomorBkm.dataset.manual = 'false';
+            nomorBkmOtomatisTerakhir = inputNomorBkm.value;
+            return inputNomorBkm.value;
+        } catch (error) {
+            console.warn('Nomor BKM otomatis belum dapat dimuat.', error);
+            return '';
+        }
+    }
+
+    function tutupModalBuktiKasMasuk() {
+        if (!modalBuktiKasMasuk) return;
+        modalBuktiKasMasuk.style.display = 'none';
+        buktiKasMasukDraft = null;
+        nomorBkmOtomatisRequest += 1;
+        nomorBkmOtomatisTerakhir = '';
+        setAlertBuktiKasMasuk('');
+        formBuktiKasMasuk?.reset();
+    }
+
+    async function bukaModalBuktiKasMasuk(idPembayaran = '', rencanaKey = '', context = {}) {
+        let data;
+        try {
+            data = dataBuktiKasMasuk(idPembayaran, rencanaKey, context);
+        } catch (error) {
+            console.error('Data BKM tidak lengkap, gunakan konteks tombol sebagai fallback.', error);
+            data = dataBuktiKasMasukFallback(idPembayaran, rencanaKey, context);
+        }
+        if (!data) {
+            alert('Data termin untuk Bukti Kas Masuk tidak ditemukan. Muat ulang tabel Pembayaran lalu coba kembali.');
+            return;
+        }
+        buktiKasMasukDraft = data;
+        isiModalBuktiKasMasuk(data);
+        setAlertBuktiKasMasuk(
+            data.pembayaran_tercatat
+                ? 'BKM sudah tersimpan. Periksa data berikut untuk melihat atau mencetak BKM.'
+                : 'Invoice sudah dibuat. Lengkapi tanggal masuk dan periksa nominal, lalu simpan BKM.',
+            data.pembayaran_tercatat ? 'success' : 'error'
+        );
+        // Resolve the element again at click time as a guard against a stale
+        // reference when the page was restored from browser cache or a modal
+        // fragment was re-rendered after the initial DOM binding.
+        const modal = modalBuktiKasMasuk || document.getElementById('modalBuktiKasMasuk');
+        if (!modal) {
+            alert('Modal Bukti Kas Masuk belum dimuat. Muat ulang halaman lalu coba kembali.');
+            return;
+        }
+        modal.removeAttribute('hidden');
+        const nomorBkmOtomatis = await muatNomorBkmOtomatis({ force: true });
+        if (!nomorBkmOtomatis && !data.bkm_sudah_disimpan) {
+            setAlertBuktiKasMasuk(
+                'Nomor BKM otomatis belum dapat dimuat. Admin masih dapat mengisi nomor BKM secara manual.',
+                'error'
+            );
+        }
+        modal.style.display = 'flex';
+        requestAnimationFrame(() => inputNomorBkm?.focus());
+    }
+
+    function dataBuktiKasMasukDariForm() {
+        const jumlahBkm = parseNominalRupiah(bkmPreviewJumlah?.value || 0);
+        return {
+            ...buktiKasMasukDraft,
+            nomor_bkm: String(inputNomorBkm?.value || '').trim(),
+            nomor_bkm_manual: nomorBkmManualDariForm(),
+            tanggal_masuk: String(inputTanggalMasukBkm?.value || '').trim(),
+            jumlah_bkm: jumlahBkm,
+            terbilang: terbilangBkm(jumlahBkm),
+            nama_bank: String(inputNamaBankBkm?.value || '').trim(),
+            no_rekening: String(inputNoRekeningBkm?.value || '').trim(),
+            nama_rekening: String(inputNamaRekeningBkm?.value || '').trim(),
+            nama_unit: String(inputNamaUnitBkm?.value || '').trim(),
+            no_bukti: String(inputNoBuktiBkm?.value || '').trim(),
+            uraian: String(inputUraianBkm?.value || '').trim()
+        };
+    }
+
+    function htmlBuktiKasMasuk(data = {}) {
+        const tanda = data.tanda_tangan || {};
+        const logoUrl = window.location.origin + '/images/logo-itb.png';
+        const tanggal = formatTanggalBkm(data.tanggal_masuk);
+        return [
+            '<!doctype html>',
+            '<html lang=\"id\"><head><meta charset=\"utf-8\">',
+            '<title>' + esc('Bukti Kas Masuk - ' + (data.kode_file || '')) + '</title>',
+            '<style>',
+            '@page{size:A4 landscape;margin:12mm}',
+            '*{box-sizing:border-box}',
+            'body{margin:0;background:#fff;color:#111;font-family:Arial,Helvetica,sans-serif;font-size:10px}',
+            '.sheet{width:100%;min-height:175mm;padding:2mm 4mm}',
+            '.header{display:grid;grid-template-columns:64px 1fr 330px;gap:14px;align-items:start}',
+            '.logo{width:56px;height:78px;object-fit:contain;object-position:center top}',
+            '.institution{text-align:center;font-weight:700;font-size:12px;line-height:1.25;padding-top:8px}',
+            '.institution .title{font-size:13px;margin-top:2px}',
+            '.meta{display:grid;grid-template-columns:92px 1fr;gap:2px 8px;font-size:10px;line-height:1.25;padding-top:7px}',
+            '.meta strong{font-weight:700}',
+            'table{width:100%;border-collapse:collapse}',
+            '.bkm-table{margin-top:14px;table-layout:fixed}',
+            '.bkm-table th,.bkm-table td{border:1px solid #8d969d;padding:5px 6px;vertical-align:top}',
+            '.bkm-table th{background:#e4f0f8;font-weight:700;text-align:left}',
+            '.bkm-table th:nth-child(1),.bkm-table td:nth-child(1){width:9%;text-align:center}',
+            '.bkm-table th:nth-child(2),.bkm-table td:nth-child(2){width:18%}',
+            '.bkm-table th:nth-child(3),.bkm-table td:nth-child(3){width:35%}',
+            '.bkm-table th:nth-child(4),.bkm-table td:nth-child(4){width:17%}',
+            '.bkm-table th:nth-child(5),.bkm-table td:nth-child(5){width:21%}',
+            '.bkm-table td{white-space:pre-line;line-height:1.2}',
+            '.money{text-align:right!important;white-space:nowrap!important}',
+            '.total-row td{font-weight:700}',
+            '.total-row td:first-child{text-align:right}',
+            '.terbilang{margin-top:7px;font-size:10px;line-height:1.3}',
+            '.terbilang strong{color:#08702a;font-weight:400}',
+            '.place{text-align:right;margin-top:30px}',
+            '.signatures{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px;text-align:center;font-size:9px;line-height:1.15}',
+            '.signature-role{min-height:30px;white-space:pre-line}',
+            '.signature-space{height:46px}',
+            '.signature-name{font-weight:700;text-decoration:underline;white-space:nowrap}',
+            '.signature-id{margin-top:3px;white-space:nowrap}',
+            '.toolbar{position:sticky;top:0;display:flex;justify-content:flex-end;gap:8px;padding:10px 14px;background:#fff;border-bottom:1px solid #d7dee8}',
+            '.toolbar button{border:0;border-radius:6px;padding:8px 13px;font:700 12px Arial,sans-serif;cursor:pointer}',
+            '.toolbar .print{background:#1d4ed8;color:#fff}',
+            '.toolbar .close{background:#e5e7eb;color:#111827}',
+            '@media print{.toolbar{display:none}.sheet{padding:0}.place{margin-top:24px}}',
+            '</style></head><body>',
+            '<div class=\"toolbar\"><button class=\"print\" type=\"button\" onclick=\"window.print()\">Print</button><button class=\"close\" type=\"button\" onclick=\"window.close()\">Tutup</button></div>',
+            '<main class=\"sheet\">',
+            '<header class=\"header\">',
+            '<img class=\"logo\" src=\"' + esc(logoUrl) + '\" alt=\"Logo ITB\">',
+            '<div class=\"institution\">DEPARTEMEN PENDIDIKAN NASIONAL<br>INSTITUT TEKNOLOGI BANDUNG<div class=\"title\">BUKTI KAS/BANK MASUK</div></div>',
+            '<div class=\"meta\">',
+            '<strong>NO BKM</strong><span>' + esc(data.nomor_bkm || '-') + '</span>',
+            '<strong>NAMA BANK</strong><span>' + esc(data.nama_bank || '-') + '</span>',
+            '<strong>NO REK</strong><span>' + esc(data.no_rekening || '-') + '</span>',
+            '<strong>NAMA REK</strong><span>' + esc(data.nama_rekening || '-') + '</span>',
+            '<strong>TGL MASUK</strong><span>' + esc(tanggal) + '</span>',
+            '</div></header>',
+            '<table class=\"bkm-table\"><thead><tr><th>NO</th><th>NAMA UNIT</th><th>URAIAN</th><th>NO BUKTI</th><th>JUMLAH BKM</th></tr></thead>',
+            '<tbody><tr><td>1</td><td>' + esc(data.nama_unit || '-') + '</td><td>' + esc(data.uraian || '-') + '</td><td>' + esc(data.no_bukti || '-') + '</td><td class=\"money\">' + esc(formatAngkaBkm(data.jumlah_bkm)) + '</td></tr>',
+            '<tr class=\"total-row\"><td colspan=\"4\">TOTAL</td><td class=\"money\">' + esc(formatAngkaBkm(data.jumlah_bkm)) + '</td></tr></tbody></table>',
+            '<div class=\"terbilang\"><strong>TERBILANG :</strong><br><span>' + esc(data.terbilang || '-') + '</span></div>',
+            '<div class=\"place\">Bandung, ' + esc(tanggal) + '</div>',
+            '<section class=\"signatures\">',
+            '<div><div class=\"signature-role\">' + esc(tanda.dibukukanJabatan || '') + '</div><div class=\"signature-space\"></div><div class=\"signature-name\">' + esc(tanda.dibukukan || '') + '</div><div class=\"signature-id\">' + esc(tanda.dibukukanIdentitas || '') + '</div></div>',
+            '<div><div class=\"signature-role\">' + esc(tanda.mengetahuiJabatan || '') + '</div><div class=\"signature-space\"></div><div class=\"signature-name\">' + esc(tanda.mengetahui || '') + '</div><div class=\"signature-id\">' + esc(tanda.mengetahuiIdentitas || '') + '</div></div>',
+            '<div><div class=\"signature-role\">' + esc(tanda.diterimaJabatan || '') + '</div><div class=\"signature-space\"></div><div class=\"signature-name\">' + esc(tanda.diterima || '') + '</div><div class=\"signature-id\">' + esc(tanda.diterimaIdentitas || '') + '</div></div>',
+            '<div><div class=\"signature-role\">' + esc(tanda.menyetujuiJabatan || '') + '</div><div class=\"signature-space\"></div><div class=\"signature-name\">' + esc(tanda.menyetujui || '') + '</div><div class=\"signature-id\">' + esc(tanda.menyetujuiIdentitas || '') + '</div></div>',
+            '</section></main></body></html>'
+        ].join('');
+    }
+
+    function bukaPreviewBuktiKasMasuk(idPembayaran = '', rencanaKey = '', context = {}) {
+        let data;
+        try {
+            data = dataBuktiKasMasuk(idPembayaran, rencanaKey, context);
+        } catch (error) {
+            console.error('Data BKM tidak lengkap, gunakan konteks tombol sebagai fallback.', error);
+            data = dataBuktiKasMasukFallback(idPembayaran, rencanaKey, context);
+        }
+        if (!data) {
+            alert('Data BKM tidak ditemukan. Muat ulang tabel Pembayaran lalu coba kembali.');
+            return;
+        }
+        const previewWindow = window.open('', '_blank');
+        if (!previewWindow) {
+            alert('Jendela pratinjau diblokir browser. Izinkan pop-up untuk melihat BKM.');
+            return;
+        }
+        previewWindow.document.write(htmlBuktiKasMasuk(data));
+        previewWindow.document.close();
+        previewWindow.focus();
+    }
+
+    async function cetakBuktiKasMasukDariModal() {
+        if (!buktiKasMasukDraft) return;
+        const data = dataBuktiKasMasukDariForm();
+        if (!data.tanggal_masuk) {
+            setAlertBuktiKasMasuk('Tanggal pembayaran wajib diisi.', 'error');
+            inputTanggalMasukBkm?.focus();
+            return;
+        }
+        if (!data.jumlah_bkm || data.jumlah_bkm <= 0) {
+            setAlertBuktiKasMasuk('Jumlah pembayaran wajib diisi dan harus lebih dari 0.', 'error');
+            bkmPreviewJumlah?.focus();
+            return;
+        }
+
+        const submitButton = formBuktiKasMasuk?.querySelector('button[type="submit"]');
+        const submitLabel = submitButton?.textContent || 'Simpan';
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Menyimpan...';
+        }
+        try {
+            const response = await fetch('/api/bukti-kas-masuk', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    rencana_key: data.rencana_key,
+                    kode_file: data.kode_file,
+                    rencana_tahap: data.tahap,
+                    rencana_tanggal: data.rencana_tanggal,
+                    rencana_nominal: data.rencana_nominal,
+                    nomor_bkm: data.nomor_bkm,
+                    nomor_bkm_manual: data.nomor_bkm_manual,
+                    tanggal_masuk: data.tanggal_masuk,
+                    jumlah_bkm: data.jumlah_bkm,
+                    nama_bank: data.nama_bank,
+                    no_rekening: data.no_rekening,
+                    nama_rekening: data.nama_rekening,
+                    nama_unit: data.nama_unit,
+                    no_bukti: data.no_bukti,
+                    bkm_uraian: data.uraian
+                })
+            });
+            const payload = await response.json();
+            if (!response.ok) throw new Error(payload.pesan || 'Gagal menyimpan BKM.');
+
+            const savedData = {
+                ...data,
+                nomor_bkm: payload.data?.bkm_nomor || data.nomor_bkm,
+                no_rekening: payload.data?.bkm_no_rekening || data.no_rekening,
+                bkm_sudah_disimpan: true,
+                pembayaran_tercatat: true,
+                bkm_tanggal: data.tanggal_masuk,
+                bkm_jumlah: data.jumlah_bkm
+            };
+            buktiKasMasukDraftByPayment.set(
+                data.draft_key || kunciDraftBuktiKasMasuk(data.id_pembayaran, data.rencana_key),
+                savedData
+            );
+            setAlertBuktiKasMasuk('BKM berhasil disimpan. Status pembayaran sudah diperbarui.', 'success');
+
+            // Refresh the payment table before printing so the Admin date,
+            // amount, and status are immediately backed by persisted data.
+            await AmbilDataRealisasiDanRender();
+
+            const printWindow = window.open('', '_blank');
+            if (!printWindow) {
+                setAlertBuktiKasMasuk('BKM tersimpan, tetapi jendela cetak diblokir browser. Izinkan pop-up untuk mencetak.', 'error');
+                return;
+            }
+            printWindow.document.write(htmlBuktiKasMasuk(savedData));
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => printWindow.print(), 250);
+        } catch (error) {
+            setAlertBuktiKasMasuk(error.message || 'Gagal menyimpan BKM.', 'error');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = submitLabel;
+            }
+        }
+    }
+
+    function cetakBuktiKasMasuk(idPembayaran = '', rencanaKey = '', context = {}) {
+        bukaModalBuktiKasMasuk(idPembayaran, rencanaKey, context);
+    }
+
+    function cetakBuktiKasMasukLegacy(idPembayaran = '', rencanaKey = '') {
+        const pembayaran = allPembayaranData.find(row => String(row.id_pembayaran || '') === String(idPembayaran || ''));
+        if (!pembayaran) {
+            alert('Pembayaran belum ditemukan. Muat ulang data lalu coba kembali.');
+            return;
+        }
+        const term = allRencanaTerminData.find(row => String(row.rencana_key || '') === String(rencanaKey || '')) || {};
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+            alert('Jendela cetak diblokir browser. Izinkan pop-up untuk mencetak Bukti Kas Masuk.');
+            return;
+        }
+        const nominalBruto = nominalBrutoPembayaranTercatat(pembayaran);
+        const nominalNetto = nominalNettoPembayaranTercatat(pembayaran);
+        printWindow.document.write(`
+            <!doctype html>
+            <html lang="id">
+            <head>
+                <meta charset="utf-8">
+                <title>Bukti Kas Masuk - ${esc(pembayaran.kode_file || '')}</title>
+                <style>
+                    * { box-sizing: border-box; }
+                    body { margin: 0; padding: 36px; color: #172033; font: 14px Arial, sans-serif; }
+                    main { max-width: 760px; margin: 0 auto; }
+                    h1 { margin: 0; text-align: center; font-size: 22px; letter-spacing: .04em; }
+                    .subtitle { margin: 8px 0 28px; text-align: center; color: #526078; }
+                    table { width: 100%; border-collapse: collapse; }
+                    th, td { padding: 10px 12px; border: 1px solid #cbd5e1; vertical-align: top; }
+                    th { width: 34%; background: #eff6ff; text-align: left; }
+                    .nominal { font-weight: 700; text-align: right; }
+                    .note { margin-top: 28px; color: #526078; font-size: 12px; }
+                    @media print { body { padding: 0; } }
+                </style>
+            </head>
+            <body>
+                <main>
+                    <h1>BUKTI KAS MASUK</h1>
+                    <p class="subtitle">Pencatatan pembayaran mitra</p>
+                    <table>
+                        <tr><th>Kode File</th><td>${esc(pembayaran.kode_file || '-')}</td></tr>
+                        <tr><th>Mitra</th><td>${esc(pembayaran.nama_mitra || '-')}</td></tr>
+                        <tr><th>Judul PKS</th><td>${esc(pembayaran.judul_pks || term.judul_pks || '-')}</td></tr>
+                        <tr><th>Tahap Pembayaran</th><td>${esc(pembayaran.rencana_tahap || term.tahap || '-')}</td></tr>
+                        <tr><th>Tgl. Rencana Pembayaran</th><td>${esc(pembayaran.tanggal_rencana || (term.tanggal_diterima || '-'))}</td></tr>
+                        <tr><th>Tgl. Pembayaran</th><td>${esc(formatTanggalPembayaranAdmin(pembayaran) || '-')}</td></tr>
+                        <tr><th>Jumlah Pembayaran</th><td class="nominal">${esc(formatRupiahKomaDash(nominalBruto))}</td></tr>
+                        <tr><th>Realisasi Penerimaan (80%)</th><td class="nominal">${esc(formatRupiahKomaDash(nominalNetto))}</td></tr>
+                    </table>
+                    <p class="note">Dokumen ini dibuat berdasarkan pembayaran yang telah dicatat oleh admin pada sistem.</p>
+                </main>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(() => printWindow.print(), 250);
     }
 
     async function muatInvoicePembayaran() {
@@ -21544,7 +24312,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function setModeInvoiceTersimpan(sudahTersimpan = false) {
         if (btnOkInvoice) btnOkInvoice.style.display = sudahTersimpan ? 'none' : '';
-        if (btnSimpanInvoice) btnSimpanInvoice.style.display = sudahTersimpan ? '' : 'none';
         if (btnPrintInvoice) btnPrintInvoice.style.display = sudahTersimpan ? '' : 'none';
         if (inputNomorInvoice) inputNomorInvoice.readOnly = sudahTersimpan;
         if (inputTanggalInvoice) inputTanggalInvoice.readOnly = sudahTersimpan;
@@ -21583,10 +24350,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert('Rencana pembayaran tidak ditemukan.');
             return;
         }
-        if (item.terealisasi) {
-            alert('Termin ini sudah lunas, sehingga invoice tidak perlu dibuat.');
-            return;
-        }
 
         const originalText = triggerBtn?.textContent;
         if (triggerBtn) {
@@ -21594,7 +24357,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             triggerBtn.textContent = 'Memuat...';
         }
         try {
-            const params = new URLSearchParams({ rencana_key: key });
+            const params = new URLSearchParams({
+                rencana_key: key,
+                kode_file: item.kode_file || '',
+                rencana_tahap: item.tahap || '',
+                rencana_tanggal: item.tanggal_input || '',
+                rencana_nominal: String(nominalRencanaTerm(item) || '')
+            });
             const res = await fetch(`/api/invoice-pembayaran/preview?${params.toString()}`, { cache: 'no-store' });
             const payload = await res.json();
             if (!res.ok) throw new Error(payload.pesan || 'Gagal membuat preview invoice.');
@@ -21604,8 +24373,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             setModeInvoiceTersimpan(Boolean(invoicePembayaranTersimpan));
             setAlertInvoice(
                 payload.sudah_dibuat
-                    ? 'Invoice untuk termin ini sudah dibuat. Silakan simpan ulang atau print.'
-                    : 'Periksa data invoice. Klik OK jika sudah sesuai.',
+                    ? 'Invoice sudah tersimpan. BKM tersedia pada kolom Tgl. Pembayaran (Admin).'
+                    : 'Periksa data invoice, lalu klik Simpan untuk menyimpannya ke database.',
                 'success'
             );
             if (modalInvoicePembayaran) modalInvoicePembayaran.style.display = 'flex';
@@ -21654,6 +24423,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     rencana_key: key,
+                    kode_file: invoicePembayaranPreview.kode_file || '',
+                    rencana_tahap: invoicePembayaranPreview.rencana_tahap || '',
+                    rencana_tanggal: invoicePembayaranPreview.rencana_tanggal_input || '',
+                    rencana_nominal: invoicePembayaranPreview.rencana_nominal || 0,
                     nomor_invoice: nomorInvoice,
                     tanggal_invoice: tanggalInvoice
                 })
@@ -21664,13 +24437,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             await muatInvoicePembayaran();
             renderDetailRencanaPendapatan();
             setModeInvoiceTersimpan(true);
-            setAlertInvoice('Invoice berhasil disimpan. Silakan pilih Simpan Excel atau Print.', 'success');
+            setAlertInvoice('Invoice berhasil disimpan. BKM sekarang tersedia pada kolom Tgl. Pembayaran (Admin).', 'success');
         } catch (err) {
             setAlertInvoice(err.message || 'Gagal menyimpan invoice.');
         } finally {
             if (btnOkInvoice) {
                 btnOkInvoice.disabled = false;
-                btnOkInvoice.textContent = originalText || 'OK';
+                btnOkInvoice.textContent = originalText || 'Simpan';
             }
         }
     }
@@ -22708,12 +25481,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             await ensureKermaData();
             if (!allPembayaranData.length) {
-                const pembayaranRes = await fetch(`/api/daftar-realisasi-pembayaran?_=${Date.now()}`, { cache: 'no-store' });
+                const pembayaranRes = await fetchDenganBatasWaktu(`/api/daftar-realisasi-pembayaran?_=${Date.now()}`, { cache: 'no-store' }, 15000);
                 const pembayaranPayload = await pembayaranRes.json();
                 if (!pembayaranRes.ok) throw new Error(pembayaranPayload.pesan || 'Gagal memuat penerimaan.');
                 allPembayaranData = pembayaranPayload.data || [];
             }
-            const res = await fetch(`/api/pagu-anggaran?_=${Date.now()}`, { cache: 'no-store' });
+            const res = await fetchDenganBatasWaktu(`/api/pagu-anggaran?_=${Date.now()}`, { cache: 'no-store' }, 15000);
             const payload = await res.json();
             if (!res.ok) throw new Error(payload.pesan || 'Gagal memuat PAGU.');
             allPaguAnggaranData = payload.data || [];
@@ -23108,7 +25881,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!bodyTabelRabAnggaran) return;
         bodyTabelRabAnggaran.innerHTML = tableState(12, 'loading', 'Memuat RKA Kerma', 'Mengambil data RKA Kerma.');
         try {
-            const res = await fetch(`/api/rab-anggaran?_=${Date.now()}`, { cache: 'no-store' });
+            const res = await fetchDenganBatasWaktu(`/api/rab-anggaran?_=${Date.now()}`, { cache: 'no-store' }, 15000);
             const payload = await res.json();
             if (!res.ok) throw new Error(payload.pesan || 'Gagal memuat RKA Kerma.');
             allRabAnggaranData = payload.data || [];
@@ -23423,7 +26196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             bodyTabelAlokasiKerma.innerHTML = tableState(12, 'loading', 'Memuat Alokasi Kerma', 'Menghitung rekap alokasi Kerma aktif.');
         }
         try {
-            const res = await fetch(`/api/rencana-anggaran?_=${Date.now()}`, { cache: 'no-store' });
+            const res = await fetchDenganBatasWaktu(`/api/rencana-anggaran?_=${Date.now()}`, { cache: 'no-store' }, 15000);
             const payload = await res.json();
             if (!res.ok) throw new Error(payload.pesan || 'Gagal memuat rencana anggaran.');
             allRencanaAnggaranData = payload.data || [];
@@ -23732,6 +26505,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function AmbilDataRealisasiDanRender() {
+        if (sedangMemuatRealisasi) return;
+        sedangMemuatRealisasi = true;
         try {
             await populateSelectKodeFileRealisasi();
             const tanggalPembayaran = formRealisasiPembayaran?.querySelector('[name="tanggal"]');
@@ -23742,9 +26517,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             setText(statRencanaPendapatanRealisasiJumlah, '0 transaksi dibukukan');
             setText(statRencanaPendapatanTotal, 'Memuat...');
             setText(statRencanaPendapatanJumlah, '0 kontrak bersisa');
+            updateTotalPembayaranIndicator([]);
             if (headDetailRencanaPendapatanTermin) headDetailRencanaPendapatanTermin.innerHTML = '';
             if (bodyDetailRencanaPendapatan) {
-                bodyDetailRencanaPendapatan.innerHTML = tableState(9, 'loading', 'Memuat detail rencana penerimaan', 'Mengelompokkan termin sesuai periode yang dipilih.');
+                bodyDetailRencanaPendapatan.innerHTML = tableState(11, 'loading', 'Memuat detail rencana penerimaan', 'Mengelompokkan termin sesuai periode yang dipilih.');
             }
             if (bodyTabelRencanaPendapatan) {
                 bodyTabelRencanaPendapatan.innerHTML = tableState(9, 'loading', 'Memuat rencana penerimaan', 'Mengambil jadwal pembayaran dari kontrak.');
@@ -23770,14 +26546,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             bodyTabelPembayaran.innerHTML = tableState(10, 'loading', 'Memuat penerimaan', 'Mengambil uang yang diterima SBM.');
             bodyTabelRealisasi.innerHTML = tableState(11, 'loading', 'Memuat realisasi anggaran', 'Mengambil pengeluaran per kontrak.');
             const wajibJson = async (url) => {
-                const res = await fetch(url);
+                const res = await fetchDenganBatasWaktu(url, {}, 15000);
                 const payload = await res.json();
                 if (!res.ok) throw new Error(payload.pesan || `Gagal memuat ${url}`);
                 return payload;
             };
             const opsionalJson = async (url) => {
                 try {
-                    const res = await fetch(url);
+                    const res = await fetchDenganBatasWaktu(url, {}, 15000);
                     const payload = await res.json();
                     if (!res.ok) throw new Error(payload.pesan || `Gagal memuat ${url}`);
                     return payload;
@@ -23786,43 +26562,74 @@ document.addEventListener('DOMContentLoaded', async () => {
                     return null;
                 }
             };
-            const [payloadRencana, payloadRencanaTermin, payloadPembayaran, payloadInvoice, payloadRealisasi] = await Promise.all([
+            // The two datasets below are enough to render the first visible
+            // Penerimaan table. Keep slower/optional datasets out of this gate.
+            const [payloadRencana, payloadPembayaran] = await Promise.all([
                 wajibJson('/api/rencana-pendapatan'),
-                opsionalJson('/api/rencana-pendapatan-termin'),
-                wajibJson('/api/daftar-realisasi-pembayaran'),
-                wajibJson('/api/invoice-pembayaran'),
-                opsionalJson('/api/daftar-realisasi-anggaran')
+                wajibJson('/api/daftar-realisasi-pembayaran')
             ]);
             allRencanaPendapatanData = (payloadRencana.data || []).map(normalisasiNominalKontrakRencanaPendapatan);
-            rencanaTerminFallbackMode = !payloadRencanaTermin?.data;
+            rencanaTerminFallbackMode = true;
             allPembayaranData = payloadPembayaran.data || [];
-            allInvoicePembayaranData = payloadInvoice.data || [];
+
+            // Render the primary payment tables before loading optional/secondary
+            // datasets. A slow endpoint must not leave the whole page on loading.
+            allInvoicePembayaranData = [];
+            allRealisasiData = [];
+            allRencanaTerminData = lengkapiRencanaTerminDenganKontrak(
+                allRencanaPendapatanData,
+                allData,
+                allPembayaranData,
+                new Map()
+            ).map(normalisasiNominalKontrakRencanaTermin);
+            const cicilanTerminPromise = ambilCicilanTerminKontrak(allData);
+            isiDefaultPembayaranDariKodeFile();
+            terapkanFilterRencanaPendapatan();
+            terapkanFilterPembayaran();
+
+            // Pengeluaran opens on PAGU, so start its primary request immediately
+            // as well. The remaining auxiliary tables can continue afterwards.
+            const paguPromise = muatPaguAnggaran();
+
+            const [payloadRencanaTermin, payloadInvoice, payloadRealisasi] = await Promise.all([
+                opsionalJson('/api/rencana-pendapatan-termin'),
+                opsionalJson('/api/invoice-pembayaran'),
+                opsionalJson('/api/daftar-realisasi-anggaran')
+            ]);
+            const payloadTerminRows = Array.isArray(payloadRencanaTermin?.data)
+                ? payloadRencanaTermin.data
+                : [];
+            // An empty array is a valid response shape, but it is not a
+            // usable source for the full payment table. Fall back to the
+            // locally enriched contract data so paid terms are not dropped.
+            rencanaTerminFallbackMode = payloadTerminRows.length === 0;
+            allInvoicePembayaranData = payloadInvoice?.data || [];
             allRealisasiData = (payloadRealisasi?.data || [])
                 .map(lengkapiKolomKategoriRealisasi)
                 .sort(urutKodeFileTerbaru);
-            const cicilanTerminByProgram = await ambilCicilanTerminKontrak(allData);
+            const cicilanTerminByProgram = await cicilanTerminPromise;
             allRencanaTerminData = lengkapiRencanaTerminDenganKontrak(
-                payloadRencanaTermin?.data || allRencanaPendapatanData,
+                payloadTerminRows.length ? payloadTerminRows : allRencanaPendapatanData,
                 allData,
                 allPembayaranData,
                 cicilanTerminByProgram
             ).map(normalisasiNominalKontrakRencanaTermin);
-            isiDefaultPembayaranDariKodeFile();
+            // Refresh only the detail view after installment enrichment arrives.
             terapkanFilterRencanaPendapatan();
-            terapkanFilterPembayaran();
             if (payloadRealisasi) {
                 terapkanFilterRealisasi();
             } else if (bodyTabelRealisasi) {
                 bodyTabelRealisasi.innerHTML = tableState(11, 'error', 'Gagal memuat realisasi anggaran', 'Periksa koneksi server atau coba kembali.');
             }
-            await muatPaguAnggaran();
+            await paguPromise;
             await muatRabAnggaran();
             await muatRencanaAnggaran();
             renderTabelPaguAnggaran();
             renderTabelRabAnggaran();
             renderTabelAlokasiKerma();
             updateKelayakanRealisasiAnggaran(false);
-        } catch {
+        } catch (err) {
+            console.error('Gagal memuat data Pengeluaran/Penerimaan:', err);
             if (bodyTabelRencanaPendapatan) {
                 bodyTabelRencanaPendapatan.innerHTML = tableState(9, 'error', 'Gagal memuat rencana penerimaan', 'Periksa koneksi server atau coba kembali.');
             }
@@ -23858,12 +26665,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             allRealisasiData = [];
             rencanaPendapatanRowsPeriodeAktif = [];
             updateRencanaPendapatanSummary();
+            updateTotalPembayaranIndicator([]);
             renderDetailRencanaPendapatan();
             updateRingkasanPaguAnggaran([]);
             updateRingkasanRabAnggaran([]);
             updateRingkasanRencanaAnggaran('', []);
             updateRingkasanRealisasiRiInvoice('', []);
             updateKelayakanRealisasiAnggaran(false);
+        } finally {
+            sedangMemuatRealisasi = false;
         }
     }
 
@@ -24035,11 +26845,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         e.preventDefault();
         simpanInvoiceDariModal();
     });
-    btnSimpanInvoice?.addEventListener('click', () => {
-        bukaUrlInvoice(invoicePembayaranTersimpan?.download_url, 'download');
-    });
     btnPrintInvoice?.addEventListener('click', () => {
         bukaUrlInvoice(invoicePembayaranTersimpan?.print_url, 'print');
+    });
+
+    btnTutupModalBuktiKasMasuk?.addEventListener('click', tutupModalBuktiKasMasuk);
+    btnBatalBuktiKasMasuk?.addEventListener('click', tutupModalBuktiKasMasuk);
+    inputTanggalMasukBkm?.addEventListener('change', () => {
+        void muatNomorBkmOtomatis();
+    });
+    inputNoRekeningBkm?.addEventListener('change', () => {
+        void muatNomorBkmOtomatis();
+    });
+    inputNomorBkm?.addEventListener('input', () => {
+        if (!inputNomorBkm) return;
+        inputNomorBkm.dataset.manual = nomorBkmManualDariForm() ? 'true' : 'false';
+    });
+    modalBuktiKasMasuk?.addEventListener('click', e => {
+        if (e.target === modalBuktiKasMasuk) tutupModalBuktiKasMasuk();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modalBuktiKasMasuk?.style.display === 'flex') tutupModalBuktiKasMasuk();
+    });
+    formBuktiKasMasuk?.addEventListener('submit', e => {
+        e.preventDefault();
+        cetakBuktiKasMasukDariModal();
+    });
+
+    btnTutupModalPerhitunganDpi?.addEventListener('click', tutupModalPerhitunganDpi);
+    btnBatalPerhitunganDpi?.addEventListener('click', tutupModalPerhitunganDpi);
+    dpiModalJumlahPembayaran?.addEventListener('input', () => {
+        if (!perhitunganDpiModeEdit) return;
+        perbaruiHasilModalPerhitunganDpi();
+    });
+    dpiModalJumlahPembayaran?.addEventListener('blur', () => {
+        if (!perhitunganDpiModeEdit) return;
+        const bruto = Math.max(0, parseNominalRupiah(dpiModalJumlahPembayaran.value));
+        dpiModalJumlahPembayaran.value = formatRupiahKomaDash(bruto);
+        perbaruiHasilModalPerhitunganDpi();
+    });
+    modalPerhitunganDpi?.addEventListener('click', e => {
+        if (e.target === modalPerhitunganDpi) tutupModalPerhitunganDpi();
+    });
+    formPerhitunganDpi?.addEventListener('submit', e => {
+        e.preventDefault();
+        simpanPerhitunganDpi();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && modalPerhitunganDpi?.style.display === 'flex') {
+            tutupModalPerhitunganDpi();
+        }
     });
 
     btnBatalEditPembayaran.addEventListener('click', () => {
@@ -24050,11 +26905,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     bodyTabelRencanaPendapatan?.addEventListener('click', e => {
         const btn = e.target.closest('.btn-realisasi-rencana');
         if (!btn || btn.disabled) return;
-        const item = allRencanaPendapatanData.find(row => row.rencana_key === btn.dataset.key);
+        const item = allRencanaPendapatanData.find(row => row.rencana_key === btn.dataset.key)
+            || allRencanaTerminData.find(row => row.rencana_key === btn.dataset.key);
         isiFormRealisasiDariRencana(item);
     });
 
     bodyDetailRencanaPendapatan?.addEventListener('click', e => {
+        const dpiBtn = e.target.closest('.btn-perhitungan-dpi');
+        if (dpiBtn) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            bukaModalPerhitunganDpiDariTombol(dpiBtn);
+            return;
+        }
+
+        const buktiBtn = e.target.closest('.btn-bukti-kas-masuk');
+        if (buktiBtn) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            bukaBuktiKasMasukDariTombol(buktiBtn);
+            return;
+        }
+
+        const editBtn = e.target.closest('.btn-edit-pembayaran');
+        if (editBtn) {
+            const item = allPembayaranData.find(row => String(row.id_pembayaran || '') === String(editBtn.dataset.id || ''));
+            isiFormEditPembayaran(item);
+            return;
+        }
+
+        const deleteBtn = e.target.closest('.btn-hapus-pembayaran');
+        if (deleteBtn) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!confirm(`Hapus pembayaran "${deleteBtn.dataset.label || ''}"?\nTindakan ini akan mengubah uang masuk dan saldo cash flow.`)) return;
+            fetch(`/api/realisasi-pembayaran/${encodeURIComponent(deleteBtn.dataset.id || '')}`, { method: 'DELETE' })
+                .then(async res => {
+                    const hasil = await res.json();
+                    if (!res.ok) throw new Error(hasil.pesan || 'Gagal menghapus pembayaran.');
+                    if (pembayaranDipilihUntukEdit?.id_pembayaran === deleteBtn.dataset.id) resetFormPembayaran();
+                    await AmbilDataRealisasiDanRender();
+                    if (sectionPimpinan?.classList.contains('active')) await loadDashboardPimpinan();
+                })
+                .catch(err => alert(err.message || 'Gagal terhubung ke server.'));
+            return;
+        }
+
         const invoiceBtn = e.target.closest('[data-invoice-key]');
         if (invoiceBtn) {
             e.preventDefault();
@@ -24062,11 +26958,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             buatInvoiceTerminDariKey(invoiceBtn.dataset.invoiceKey, invoiceBtn);
             return;
         }
-        const downloadBtn = e.target.closest('[data-invoice-download]');
-        if (downloadBtn) {
+        const viewBtn = e.target.closest('[data-invoice-view]');
+        if (viewBtn) {
             e.preventDefault();
             e.stopPropagation();
-            window.location.href = downloadBtn.dataset.invoiceDownload;
+            bukaUrlInvoice(viewBtn.dataset.invoiceView, 'print');
             return;
         }
         const cell = e.target.closest('.rencana-termin-cell--clickable');
@@ -24076,9 +26972,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         const btn = e.target.closest('.btn-realisasi-rencana');
         if (!btn || btn.disabled) return;
-        const item = allRencanaPendapatanData.find(row => row.rencana_key === btn.dataset.key);
+        const item = allRencanaPendapatanData.find(row => row.rencana_key === btn.dataset.key)
+            || allRencanaTerminData.find(row => row.rencana_key === btn.dataset.key);
         isiFormRealisasiDariRencana(item);
     });
+
+    // Handle BKM in the capture phase so no row, cell, or table listener can
+    // swallow the action before the modal is opened. This matters for rows
+    // that have an invoice but no recorded Admin payment yet.
+    document.addEventListener('click', e => {
+        // Do not rely on `instanceof Element`: clicks can originate from a
+        // text node or another browsing context. `closest` is sufficient and
+        // keeps the invoice-only BKM action dependable.
+        const target = e.target?.nodeType === 1 ? e.target : e.target?.parentElement;
+        const buktiBtn = target?.closest?.('.btn-bukti-kas-masuk');
+        if (!buktiBtn) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        bukaBuktiKasMasukDariTombol(buktiBtn);
+    }, true);
 
     bodyDetailRencanaPendapatan?.addEventListener('keydown', e => {
         if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -24115,11 +27027,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             buatInvoiceTerminDariKey(invoiceBtn.dataset.invoiceKey, invoiceBtn);
             return;
         }
-        const downloadBtn = e.target.closest('[data-invoice-download]');
-        if (downloadBtn) {
+        const viewBtn = e.target.closest('[data-invoice-view]');
+        if (viewBtn) {
             e.preventDefault();
             e.stopPropagation();
-            window.location.href = downloadBtn.dataset.invoiceDownload;
+            bukaUrlInvoice(viewBtn.dataset.invoiceView, 'print');
             return;
         }
         pilihRencanaTerminDariCell(e.target.closest('.rencana-termin-cell--clickable'));
@@ -24167,7 +27079,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         'sectionRealisasi',
         () => rencanaPendapatanTerminFilterRows,
         terapkanFilterRencanaPendapatan,
-        '#panelRencanaPendapatan .rencana-income-detail-table'
+        '#panelRencanaPendapatan table.rencana-termin-detail-table'
     );
     colFilterRencanaPendapatan.initBtns();
     const colFilterPembayaran = makeColFilter('sectionRealisasi', () => allPembayaranData, terapkanFilterPembayaran, '#panelUangMasuk');
@@ -24225,19 +27137,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     colFilterEksporRekapitulasi.initBtns();
 
     filterRencanaPendapatanCari?.addEventListener('input', terapkanFilterRencanaPendapatan);
-    filterRencanaPendapatanMulai.addEventListener('change', terapkanFilterRencanaPendapatan);
-    filterRencanaPendapatanSelesai.addEventListener('change', terapkanFilterRencanaPendapatan);
+    filterRencanaPendapatanCari?.addEventListener('change', terapkanFilterRencanaPendapatan);
+    filterRencanaPendapatanMulai?.addEventListener('input', terapkanFilterRencanaPendapatan);
+    filterRencanaPendapatanMulai?.addEventListener('change', terapkanFilterRencanaPendapatan);
+    filterRencanaPendapatanSelesai?.addEventListener('input', terapkanFilterRencanaPendapatan);
+    filterRencanaPendapatanSelesai?.addEventListener('change', terapkanFilterRencanaPendapatan);
+    syncPlaceholderPeriodeRencana();
+    btnCloseFilterRencanaPendapatanPeriode?.addEventListener('click', () => {
+        setFilterRencanaPendapatanPeriodePopover(false);
+    });
+    btnTerapkanFilterRencanaPendapatanPeriode?.addEventListener('click', () => {
+        setFilterRencanaPendapatanPeriodePopover(false);
+        terapkanFilterRencanaPendapatan();
+    });
+    document.addEventListener('click', event => {
+        if (!paymentPeriodPicker?.contains(event.target)) setFilterRencanaPendapatanPeriodePopover(false);
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') setFilterRencanaPendapatanPeriodePopover(false);
+    });
     btnRencanaViewDaftar?.addEventListener('click', () => setRencanaPendapatanView('daftar'));
     btnRencanaViewTermin?.addEventListener('click', () => setRencanaPendapatanView('termin'));
     btnResetFilterRencanaPendapatan?.addEventListener('click', () => {
         if (filterRencanaPendapatanCari) filterRencanaPendapatanCari.value = '';
-        filterRencanaPendapatanMulai.value = '';
-        filterRencanaPendapatanSelesai.value = '';
-        colFilterRencanaPendapatan.clearAll();
         terapkanFilterRencanaPendapatan();
+    });
+    btnResetFilterRencanaPendapatanPeriode?.addEventListener('click', () => {
+        if (filterRencanaPendapatanMulai) filterRencanaPendapatanMulai.value = '';
+        if (filterRencanaPendapatanSelesai) filterRencanaPendapatanSelesai.value = '';
+        terapkanFilterRencanaPendapatan();
+        setFilterRencanaPendapatanPeriodePopover(false);
     });
 
     filterPembayaranCari.addEventListener('input', terapkanFilterPembayaran);
+    filterPembayaranCari.addEventListener('change', terapkanFilterPembayaran);
     btnResetFilterPembayaran.addEventListener('click', () => {
         filterPembayaranCari.value = '';
         colFilterPembayaran.clearAll();

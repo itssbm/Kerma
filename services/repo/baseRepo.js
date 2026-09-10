@@ -56,16 +56,15 @@ class BaseRepo {
             }
 
             if (field === '$or' && Array.isArray(rawValue)) {
-                const grouped = rawValue.map((clause) => {
-                    if (!clause || typeof clause !== 'object') return null;
-                    const inner = this._buildFilterParams(clause);
-                    const keys = Object.keys(inner);
-                    if (!keys.length) return null;
-                    return keys.map((key) => `${key}=${inner[key]}`).join(',');
-                }).filter(Boolean);
+                const grouped = rawValue
+                    .map((clause) => this._buildPostgrestClause(clause))
+                    .filter(Boolean);
 
                 if (!grouped.length) continue;
-                params.or = grouped.join(',');
+                // PostgREST expects `or=(field.eq.value,field.eq.other)`.
+                // Passing query-style `field=eq.value` here makes the server
+                // parse the whole expression as an invalid logic tree.
+                params.or = `(${grouped.join(',')})`;
                 continue;
             }
 
@@ -89,6 +88,46 @@ class BaseRepo {
         }
 
         return params;
+    }
+
+    _postgrestField(field = '') {
+        if (field === 'legacy_id' || field === '_id' || field === 'id') return 'legacy_id';
+        return `legacy_payload->>${field}`;
+    }
+
+    _postgrestLiteral(value) {
+        const text = String(value ?? '');
+        // Quote values that could be confused with PostgREST expression
+        // delimiters. URLSearchParams performs the URL encoding afterwards.
+        if (!/[\s,(){}]/.test(text)) return text;
+        return `"${text.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+    }
+
+    _buildPostgrestCondition(field, rawValue) {
+        const normalizedField = this._postgrestField(field);
+        if (rawValue && typeof rawValue === 'object' && Array.isArray(rawValue.$in)) {
+            const values = rawValue.$in.map(value => this._postgrestLiteral(value)).join(',');
+            return `${normalizedField}.in.(${values})`;
+        }
+        if (rawValue && typeof rawValue === 'object') {
+            for (const [operator, suffix] of [['$gt', 'gt'], ['$gte', 'gte'], ['$lt', 'lt'], ['$lte', 'lte']]) {
+                if (rawValue[operator] !== undefined) {
+                    return `${normalizedField}.${suffix}.${this._postgrestLiteral(rawValue[operator])}`;
+                }
+            }
+        }
+        if (rawValue === null) return `${normalizedField}.is.null`;
+        return `${normalizedField}.eq.${this._postgrestLiteral(rawValue)}`;
+    }
+
+    _buildPostgrestClause(clause = {}) {
+        if (!clause || typeof clause !== 'object' || Array.isArray(clause)) return null;
+        const conditions = Object.entries(clause)
+            .filter(([field]) => field !== '$or')
+            .map(([field, rawValue]) => this._buildPostgrestCondition(field, rawValue))
+            .filter(Boolean);
+        if (!conditions.length) return null;
+        return conditions.length === 1 ? conditions[0] : `and(${conditions.join(',')})`;
     }
 
     _normalizeSortValue(sortField, direction) {
@@ -340,4 +379,3 @@ class BaseRepo {
 }
 
 module.exports = BaseRepo;
-
