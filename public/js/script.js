@@ -469,9 +469,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         'SBM.PD-1-9-2026',
         'SBM.PD-1-12-2026'
     ]);
+    const KODE_FILE_KONSORSIUM = new Set([
+        'SBM.PD-1-49-2024',
+        'SBM.PD-1-34-2024',
+        'SBM.PD-1-81-2024'
+    ]);
 
     function normalisasiKodeFileAlokasi(value = '') {
         return String(value || '').trim().toUpperCase();
+    }
+
+    function kodeFileKonsorsium(kodeFile = '') {
+        return KODE_FILE_KONSORSIUM.has(normalisasiKodeFileAlokasi(kodeFile));
+    }
+
+    function renderKodeFileKeuangan(kodeFile = '', options = {}) {
+        const label = String(kodeFile || '').trim() || '-';
+        const tandaKonsorsium = kodeFileKonsorsium(label);
+        const kelas = ['finance-kode-file', options.className || ''].filter(Boolean).join(' ');
+        return `
+            <span class="${esc(kelas)}"${tandaKonsorsium ? ' title="Kerja sama konsorsium"' : ''}>
+                <span class="kode-file-tag">${esc(label)}</span>
+                ${tandaKonsorsium ? '<span class="finance-kode-file-badge">Konsorsium</span>' : ''}
+            </span>
+        `;
     }
 
     function statusAlokasiKodeFile(kodeFile = '', idProgram = '') {
@@ -22927,7 +22948,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <tr>
                     <td>${esc(row.no ?? index + 1)}</td>
                     <td class="rencana-termin-kode-cell">
-                        <span class="kode-file-tag">${esc(row.kode_file)}</span>
+                        ${renderKodeFileKeuangan(row.kode_file)}
                     </td>
                     <td class="td-truncate" title="${esc(`Judul PKS: ${row.term?.judul_pks || '-'}`)}"><strong>${esc(row.nama_mitra)}</strong></td>
                     <td>${esc(row.tahap_pembayaran)}</td>
@@ -25144,7 +25165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             bodyTabelAlokasiKerma.insertAdjacentHTML('beforeend', `
                 <tr>
                     <td>${index + 1}</td>
-                    <td><span class="kode-file-tag">${esc(row.kode_file || '-')}</span></td>
+                    <td>${renderKodeFileKeuangan(row.kode_file || '-')}</td>
                     <td class="td-truncate">${esc(row.nama_mitra || '-')}</td>
                     <td class="td-number">${esc(formatRupiahKomaDash(row.nilai_kontrak || 0))}</td>
                     <td class="td-number">${esc(formatRupiahKomaDash(row.pembayaran || 0))}</td>
@@ -25240,7 +25261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             bodyTabelPaguAnggaran.insertAdjacentHTML('beforeend', `
                 <tr>
                     <td>${esc(row.no || index + 1)}</td>
-                    <td><span class="kode-file-tag">${esc(kode || '-')}</span></td>
+                    <td>${renderKodeFileKeuangan(kode || '-')}</td>
                     <td class="td-truncate">${esc(row.nama_mitra || '-')}</td>
                     <td class="td-number">${esc(formatRupiahKomaDash(row.realisasi_penerimaan || 0))}</td>
                     <td><span class="badge ${esc(clsAlokasi)}">${esc(statusAlokasi)}</span></td>
@@ -25768,7 +25789,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                ${rabTerpilih.has(rowId) ? 'checked' : ''}
                                ${rabDapatDipilihUntukRi(row) ? '' : 'disabled'}>
                     </td>
-                    <td><span class="kode-file-tag">${esc(row.kode_file || '-')}</span></td>
+                    <td>${renderKodeFileKeuangan(row.kode_file || '-')}</td>
                     <td class="td-truncate"><strong>${esc(uraianRab || '-')}</strong></td>
                     <td>${row.kategori_belanja ? `<span class="badge ${esc(realisasiBadgeClass[row.kategori_belanja] || 'badge-realisasi-default')}">${esc(row.kategori_belanja)}</span>` : '-'}</td>
                     <td>${esc(row.satuan || '-')}</td>
@@ -26443,7 +26464,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             bodyTabelRealisasi.insertAdjacentHTML('beforeend', `
                 <tr>
                     <td>${index + 1}</td>
-                    <td><span class="kode-file-tag">${esc(item.kode_file)}</span></td>
+                    <td>${renderKodeFileKeuangan(item.kode_file)}</td>
                     <td class="td-truncate"><strong>${esc(item.nama_mitra)}</strong></td>
                     <td class="td-truncate">${esc(item.judul_pks)}</td>
                     <td>${esc(item.total_pembayaran_program_display)}</td>
@@ -27621,7 +27642,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             : data.map((item, index) => `
                 <tr>
                     <td>${index + 1}</td>
-                    <td><span class="kode-file-tag">${esc(item.kode_file || item.id_program || '-')}</span></td>
+                    <td>${renderKodeFileKeuangan(item.kode_file || item.id_program || '-')}</td>
                     <td class="td-truncate"><strong>${esc(item.nama_mitra || '-')}</strong></td>
                     <td class="td-truncate">${esc(item.judul_pks || '-')}</td>
                     <td>${esc(item.tgl_penerimaan || 'N/A')}</td>
@@ -27709,7 +27730,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return `
                     <tr>
                         <td>${index + 1}</td>
-                        <td><span class="kode-file-tag">${esc(item.kode_file || item.id_program || '-')}</span></td>
+                        <td>${renderKodeFileKeuangan(item.kode_file || item.id_program || '-')}</td>
                         <td class="td-truncate"><strong>${esc(item.nama_mitra || '-')}</strong></td>
                         <td class="td-truncate">${esc(item.judul_pks || '-')}</td>
                         <td>${esc(item.total_realisasi_pendapatan_display || 'Rp 0')}</td>

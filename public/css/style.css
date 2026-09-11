@@ -2977,6 +2977,38 @@ th.col-filter-active .th-filter-btn { color: var(--gold); filter: drop-shadow(0 
 .list-item-text strong { font-size: 12px; color: var(--text-1); font-weight: 600; }
 .list-item-text small  { font-size: 10.5px; color: var(--text-2); }
 .kode-file-tag { font-size: 10px; font-weight: 600; color: var(--primary); background: #EFF6FF; padding: 3px 9px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; border: 1px solid #BFDBFE; }
+.finance-kode-file {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  max-width: 100%;
+  vertical-align: middle;
+}
+.finance-kode-file-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 16px;
+  padding: 2px 6px;
+  border: 1px solid #E5B95C;
+  border-radius: 999px;
+  background: #FFF7E6;
+  color: #8A5A00;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+.finance-kode-file .kode-file-tag {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.rencana-termin-kode-cell .finance-kode-file {
+  width: 100%;
+}
+.rencana-termin-kode-cell .finance-kode-file .kode-file-tag {
+  width: 100%;
+}
 
 /* ─── Plotting Kerma ──────────────────────────────────────────────────────── */
 .plotting-panel,
