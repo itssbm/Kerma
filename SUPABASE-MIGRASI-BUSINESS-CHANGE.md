@@ -4,7 +4,7 @@ Dokumen ini dibuat supaya kamu bisa migrate dari `MongoDB + Mongoose` ke `Supaba
 
 ## Keadaan saat ini
 - Backup `kerma-backup-20260810-104237-7664` sudah sukses di-load ke Supabase.
-- Tabel aktif yang digunakan sekarang: `users`, `programs`, `mahasiswa`, `mitra`, `industri`, `kontrak`, `cicilan`, `addendum`, `calon_peserta`, `rencana_anggaran`, `realisasi_anggaran`, `pagu_anggaran`, `rab_anggaran`, `realisasi_pembayaran`, `invoice_pembayaran`, `plotting_kerma`, `upload_chunks`, `kerma_sessions`, `kerma_uploads_files`, `kerma_uploads_chunks`.
+- Tabel aktif yang digunakan sekarang: `users`, `programs`, `mahasiswa`, `mitra`, `industri`, `kontrak`, `cicilan`, `addendum`, `calon_peserta`, `rencana_anggaran`, `realisasi_anggaran`, `pagu_anggaran`, `rab_anggaran`, `rab_kerma`, `realisasi_pembayaran`, `invoice_pembayaran`, `plotting_kerma`, `upload_chunks`, `kerma_sessions`, `kerma_uploads_files`, `kerma_uploads_chunks`.
 - Tabel `mongo_*` sudah dihapus.
 - Runtime app masih memakai Mongoose, jadi migrasi belum selesai.
 
@@ -183,5 +183,6 @@ Fokus perubahan:
 
 ## Catatan teknis penting
 - Bentuk data saat ini adalah legacy JSONB (`legacy_collection`, `legacy_id`, `legacy_payload`).
+- `rab_kerma` menyimpan RAB sebelum kontrak dan terpisah dari `rab_anggaran` yang digunakan untuk RKA/RI. Jika tabel `rab_kerma` belum dibuat pada Supabase lama, endpoint sementara memakai dokumen terisolasi dengan `source: rab_kerma` di `plotting_kerma` sampai migrasi tabel dijalankan.
 - Query tidak otomatis secepat skema relasional penuh.
 - Setelah fase ini stabil, lanjutkan normalisasi ke tabel relasional agar performa jangka panjang lebih baik.

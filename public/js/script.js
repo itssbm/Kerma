@@ -78,12 +78,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const menuIndustri                 = document.getElementById('menuIndustri');
     const menuTambahMitra              = document.getElementById('menuTambahMitra');
     const menuTambah                   = document.getElementById('menuTambah');
+    const menuBuatPks                  = document.getElementById('menuBuatPks');
     const menuPendapatan               = document.getElementById('menuPendapatan');
     const menuPengeluaran              = document.getElementById('menuPengeluaran');
     const menuSisaAnggaran             = document.getElementById('menuSisaAnggaran');
     const menuTambahMahasiswa          = document.getElementById('menuTambahMahasiswa');
     const menuTambahIndustri           = document.getElementById('menuTambahIndustri');
     const menuPlottingKerma            = document.getElementById('menuPlottingKerma');
+    const menuBuatRabKerma             = document.getElementById('menuBuatRabKerma');
     const menuDaftarNominatif           = document.getElementById('menuDaftarNominatif');
     const menuLaporan                  = document.getElementById('menuLaporan');
     const menuKontrak                  = document.getElementById('menuKontrak');
@@ -97,11 +99,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const sectionIndustri              = document.getElementById('sectionIndustri');
     const sectionTambahMitra           = document.getElementById('sectionTambahMitra');
     const sectionTambah                = document.getElementById('sectionTambah');
+    const sectionBuatPks               = document.getElementById('sectionBuatPks');
     const sectionRealisasi             = document.getElementById('sectionRealisasi');
     const sectionSisaAnggaran          = document.getElementById('sectionSisaAnggaran');
     const sectionTambahMahasiswa       = document.getElementById('sectionTambahMahasiswa');
     const sectionTambahIndustri        = document.getElementById('sectionTambahIndustri');
     const sectionPlottingKerma         = document.getElementById('sectionPlottingKerma');
+    const sectionBuatRabKerma          = document.getElementById('sectionBuatRabKerma');
     const sectionDaftarNominatif       = document.getElementById('sectionDaftarNominatif');
     const sectionLaporan               = document.getElementById('sectionLaporan');
     const sectionKontrak               = document.getElementById('sectionKontrak');
@@ -364,6 +368,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const detailPosisiKosongPlotSk = document.getElementById('detailPosisiKosongPlotSk');
     const indikatorSelisihPosisiPlotSk = document.getElementById('indikatorSelisihPosisiPlotSk');
     const detailSelisihPosisiPlotSk = document.getElementById('detailSelisihPosisiPlotSk');
+    const selectBuatRabKermaMitra = document.getElementById('selectBuatRabKermaMitra');
+    const infoBuatRabKermaMitra = document.getElementById('infoBuatRabKermaMitra');
+    const infoBuatRabKerma = document.getElementById('infoBuatRabKerma');
+    const btnTambahBarisRabKerma = document.getElementById('btnTambahBarisRabKerma');
+    const btnSimpanRabKerma = document.getElementById('btnSimpanRabKerma');
+    const bodyTabelBuatRabKerma = document.getElementById('bodyTabelBuatRabKerma');
 
     const filterCari = document.getElementById('filterCari');
     const btnResetFilter = document.getElementById('btnResetFilter');
@@ -413,6 +423,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     let allPksAlokasiData = [];
     let allMahasiswaData = [];
     let allMitraData = [];
+    let rabKermaRows = [];
+    let rabKermaSelectedMitraId = '';
+    let rabKermaDirty = false;
+    let rabKermaLoading = false;
     let sedangMemuatEksporPlottingKerma = false;
     let modeRencanaPendapatan = 'daftar';
     let rencanaTerminFallbackMode = false;
@@ -1487,6 +1501,271 @@ document.addEventListener('DOMContentLoaded', async () => {
         const n = parseNominalRupiah(value);
         const sign = n < 0 ? '-' : '';
         return `Rp ${sign}${Math.abs(n).toLocaleString('id-ID')},-`;
+    }
+
+    const rabKermaMonthFields = Object.freeze([
+        'jan', 'feb', 'mar', 'apr', 'mei', 'jun',
+        'jul', 'agu', 'sep', 'okt', 'nov', 'des'
+    ]);
+    const rabKermaMonthLabels = Object.freeze([
+        'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+        'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+    ]);
+
+    function parseAngkaRabKerma(value) {
+        if (typeof value === 'number') return Number.isFinite(value) ? Math.max(0, value) : 0;
+        const raw = String(value ?? '').trim();
+        if (!raw) return 0;
+        const number = Number(raw.replace(',', '.').replace(/[^\d.-]/g, ''));
+        return Number.isFinite(number) ? Math.max(0, number) : 0;
+    }
+
+    function ringkasanBarisRabKerma(row = {}) {
+        const volume = parseAngkaRabKerma(row.volume);
+        const hargaSatuan = parseAngkaRabKerma(row.harga_satuan);
+        const total = Math.round(volume * hargaSatuan * 100) / 100;
+        const totalBulanan = Math.round(rabKermaMonthFields.reduce(
+            (sum, field) => sum + parseAngkaRabKerma(row[field]),
+            0
+        ) * 100) / 100;
+        return {
+            total,
+            totalBulanan,
+            selisih: Math.round((total - totalBulanan) * 100) / 100
+        };
+    }
+
+    function barisRabKermaKosong() {
+        return {
+            id_rab_kerma: '',
+            kegiatan: '',
+            detail_kegiatan: '',
+            item_belanja: '',
+            satuan: '',
+            volume: '',
+            harga_satuan: '',
+            ...Object.fromEntries(rabKermaMonthFields.map(field => [field, '']))
+        };
+    }
+
+    function setInfoBuatRabKerma(message = '', type = '') {
+        if (!infoBuatRabKerma) return;
+        infoBuatRabKerma.textContent = message;
+        infoBuatRabKerma.classList.toggle('is-error', type === 'error');
+        infoBuatRabKerma.classList.toggle('is-success', type === 'success');
+    }
+
+    function renderInfoBuatRabKermaMitra() {
+        if (!infoBuatRabKermaMitra) return;
+        const mitra = allMitraData.find(item => String(item.id_mitra || '') === String(rabKermaSelectedMitraId || ''));
+        const detail = mitra
+            ? `${mitra.id_mitra || '-'} — ${mitra.nama_mitra || '-'}`
+            : '-';
+        const strong = infoBuatRabKermaMitra.querySelector('strong');
+        if (strong) strong.textContent = detail;
+    }
+
+    async function muatPilihanMitraBuatRabKerma() {
+        if (!selectBuatRabKermaMitra) return;
+        const response = await fetch('/api/daftar-mitra');
+        if (!response.ok) throw new Error('Daftar mitra tidak dapat dimuat.');
+        allMitraData = await response.json();
+        const nilaiSaat = rabKermaSelectedMitraId || selectBuatRabKermaMitra.value || '';
+        const daftar = [...allMitraData].sort((a, b) => collatorKodeFile.compare(
+            String(a.id_mitra || ''),
+            String(b.id_mitra || '')
+        ));
+        selectBuatRabKermaMitra.innerHTML = '<option value="">Pilih ID Mitra</option>'
+            + daftar.map(item => `<option value="${esc(item.id_mitra || '')}">${esc(item.id_mitra || '-')} — ${esc(item.nama_mitra || '-')}</option>`).join('');
+        selectBuatRabKermaMitra.value = nilaiSaat;
+        renderInfoBuatRabKermaMitra();
+    }
+
+    function updateKontrolBuatRabKerma() {
+        const aktif = Boolean(rabKermaSelectedMitraId) && !rabKermaLoading;
+        if (btnTambahBarisRabKerma) btnTambahBarisRabKerma.disabled = !aktif;
+        if (btnSimpanRabKerma) {
+            btnSimpanRabKerma.disabled = !aktif;
+            btnSimpanRabKerma.textContent = rabKermaDirty ? 'Simpan RAB Kerma *' : 'Simpan RAB Kerma';
+        }
+    }
+
+    function renderTabelBuatRabKerma() {
+        if (!bodyTabelBuatRabKerma) return;
+        if (!rabKermaSelectedMitraId) {
+            bodyTabelBuatRabKerma.innerHTML = tableState(23, 'empty', 'Belum ada RAB Kerma', 'Pilih ID Mitra untuk membuka tabel.');
+            updateKontrolBuatRabKerma();
+            return;
+        }
+        if (!rabKermaRows.length) {
+            bodyTabelBuatRabKerma.innerHTML = tableState(23, 'empty', 'Belum ada baris RAB Kerma', 'Klik Tambah Baris untuk mulai mengisi anggaran.');
+            updateKontrolBuatRabKerma();
+            return;
+        }
+
+        const inputText = (index, field, value, placeholder = '') => (
+            `<input type="text" class="rab-kerma-input" data-rab-field="${field}" value="${esc(value ?? '')}" placeholder="${esc(placeholder)}">`
+        );
+        const inputNumber = (index, field, value, placeholder = '0') => (
+            `<input type="number" min="0" step="any" class="rab-kerma-input rab-kerma-input--number" data-rab-field="${field}" value="${esc(value ?? '')}" placeholder="${placeholder}">`
+        );
+
+        bodyTabelBuatRabKerma.innerHTML = rabKermaRows.map((row, index) => {
+            const summary = ringkasanBarisRabKerma(row);
+            return `
+                <tr data-rab-row-index="${index}" data-rab-id="${esc(row.id_rab_kerma || '')}">
+                    <td class="rab-kerma-no">${index + 1}</td>
+                    <td>${inputText(index, 'kegiatan', row.kegiatan, 'Nama kegiatan')}</td>
+                    <td>${inputText(index, 'detail_kegiatan', row.detail_kegiatan, 'Detail kegiatan')}</td>
+                    <td>${inputText(index, 'item_belanja', row.item_belanja, 'Item belanja')}</td>
+                    <td>${inputText(index, 'satuan', row.satuan, 'Contoh: paket')}</td>
+                    <td>${inputNumber(index, 'volume', row.volume)}</td>
+                    <td>${inputNumber(index, 'harga_satuan', row.harga_satuan)}</td>
+                    <td class="rab-kerma-calculated" data-rab-calculated="total">${formatRupiahKomaDash(summary.total)}</td>
+                    ${rabKermaMonthFields.map(field => `<td>${inputNumber(index, field, row[field])}</td>`).join('')}
+                    <td class="rab-kerma-calculated" data-rab-calculated="totalBulanan">${formatRupiahKomaDash(summary.totalBulanan)}</td>
+                    <td class="rab-kerma-calculated ${summary.selisih < 0 ? 'is-negative' : ''}" data-rab-calculated="selisih">${formatRupiahKomaDash(summary.selisih)}</td>
+                    <td class="rab-kerma-action-cell"><button type="button" class="btn-danger btn-rab-kerma-delete" data-rab-delete="${index}" title="Hapus baris">Hapus</button></td>
+                </tr>
+            `;
+        }).join('');
+        updateKontrolBuatRabKerma();
+    }
+
+    function updateRingkasanBarisBuatRabKerma(rowElement) {
+        if (!rowElement) return;
+        const index = Number(rowElement.dataset.rabRowIndex);
+        const row = rabKermaRows[index];
+        if (!row) return;
+        const summary = ringkasanBarisRabKerma(row);
+        const totalCell = rowElement.querySelector('[data-rab-calculated="total"]');
+        const monthlyCell = rowElement.querySelector('[data-rab-calculated="totalBulanan"]');
+        const differenceCell = rowElement.querySelector('[data-rab-calculated="selisih"]');
+        if (totalCell) totalCell.textContent = formatRupiahKomaDash(summary.total);
+        if (monthlyCell) monthlyCell.textContent = formatRupiahKomaDash(summary.totalBulanan);
+        if (differenceCell) {
+            differenceCell.textContent = formatRupiahKomaDash(summary.selisih);
+            differenceCell.classList.toggle('is-negative', summary.selisih < 0);
+        }
+    }
+
+    function ambilBarisRabKermaDariTabel(rowElement) {
+        const row = {
+            id_rab_kerma: rowElement?.dataset?.rabId || ''
+        };
+        rowElement?.querySelectorAll('[data-rab-field]')?.forEach(input => {
+            row[input.dataset.rabField] = input.value;
+        });
+        return row;
+    }
+
+    function ambilSemuaBarisRabKermaDariTabel() {
+        const rows = [];
+        const rowElements = bodyTabelBuatRabKerma?.querySelectorAll('tr[data-rab-row-index]') || [];
+        for (const [position, rowElement] of [...rowElements].entries()) {
+            const row = ambilBarisRabKermaDariTabel(rowElement);
+            const adaIsi = ['kegiatan', 'detail_kegiatan', 'item_belanja', 'satuan', 'volume', 'harga_satuan', ...rabKermaMonthFields]
+                .some(field => String(row[field] ?? '').trim() !== '');
+            if (!adaIsi) continue;
+            if (!String(row.kegiatan || '').trim() || !String(row.item_belanja || '').trim()) {
+                throw new Error(`Baris ${position + 1}: Kegiatan dan Item Belanja wajib diisi.`);
+            }
+            if (parseAngkaRabKerma(row.volume) <= 0) {
+                throw new Error(`Baris ${position + 1}: Vol. harus lebih besar dari 0.`);
+            }
+            if (parseAngkaRabKerma(row.harga_satuan) <= 0) {
+                throw new Error(`Baris ${position + 1}: Harga Satuan harus lebih besar dari 0.`);
+            }
+            rows.push(row);
+        }
+        return rows;
+    }
+
+    async function bukaBuatRabKerma() {
+        if (!selectBuatRabKermaMitra) return;
+        try {
+            await muatPilihanMitraBuatRabKerma();
+            if (!rabKermaSelectedMitraId) {
+                renderTabelBuatRabKerma();
+                setInfoBuatRabKerma('Pilih ID Mitra untuk mulai membuat RAB Kerma.');
+            }
+        } catch (error) {
+            setInfoBuatRabKerma(error?.message || 'Daftar mitra gagal dimuat.', 'error');
+        }
+    }
+
+    async function muatRabKermaUntukMitra(idMitra) {
+        rabKermaLoading = true;
+        rabKermaRows = [];
+        renderInfoBuatRabKermaMitra();
+        renderTabelBuatRabKerma();
+        updateKontrolBuatRabKerma();
+        if (!idMitra) {
+            rabKermaLoading = false;
+            setInfoBuatRabKerma('Pilih ID Mitra untuk mulai membuat RAB Kerma.');
+            updateKontrolBuatRabKerma();
+            return;
+        }
+        setInfoBuatRabKerma('Memuat RAB Kerma...');
+        try {
+            const endpoint = `/api/rab-kerma?id_mitra=${encodeURIComponent(idMitra)}`;
+            const response = await fetch(endpoint, {
+                cache: 'no-store',
+                headers: { Accept: 'application/json' }
+            });
+            const result = await response.json();
+            if (!response.ok) {
+                const statusDetail = ` (HTTP ${response.status})`;
+                throw new Error(result.pesan
+                    ? `${result.pesan}${statusDetail}`
+                    : `RAB Kerma gagal dimuat${statusDetail}.`);
+            }
+            rabKermaRows = Array.isArray(result.data?.rows) ? result.data.rows : [];
+            rabKermaDirty = false;
+            renderTabelBuatRabKerma();
+            setInfoBuatRabKerma(rabKermaRows.length
+                ? `${rabKermaRows.length} baris RAB Kerma dimuat. Perubahan belum tersimpan sampai tombol Simpan ditekan.`
+                : 'Belum ada data RAB Kerma untuk mitra ini. Klik Tambah Baris untuk mulai mengisi.');
+        } catch (error) {
+            rabKermaRows = [];
+            renderTabelBuatRabKerma();
+            setInfoBuatRabKerma(error?.message || 'RAB Kerma gagal dimuat.', 'error');
+        } finally {
+            rabKermaLoading = false;
+            updateKontrolBuatRabKerma();
+        }
+    }
+
+    async function simpanRabKerma() {
+        if (!rabKermaSelectedMitraId || rabKermaLoading) return;
+        let rows;
+        try {
+            rows = ambilSemuaBarisRabKermaDariTabel();
+        } catch (error) {
+            setInfoBuatRabKerma(error?.message || 'Periksa kembali isian RAB Kerma.', 'error');
+            return;
+        }
+        rabKermaLoading = true;
+        updateKontrolBuatRabKerma();
+        setInfoBuatRabKerma('Menyimpan RAB Kerma...');
+        try {
+            const response = await fetch('/api/rab-kerma/bulk', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_mitra: rabKermaSelectedMitraId, rows })
+            });
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.pesan || 'RAB Kerma gagal disimpan.');
+            rabKermaRows = Array.isArray(result.data?.rows) ? result.data.rows : [];
+            rabKermaDirty = false;
+            renderTabelBuatRabKerma();
+            setInfoBuatRabKerma(`RAB Kerma berhasil disimpan (${rabKermaRows.length} baris).`, 'success');
+        } catch (error) {
+            setInfoBuatRabKerma(error?.message || 'RAB Kerma gagal disimpan.', 'error');
+        } finally {
+            rabKermaLoading = false;
+            updateKontrolBuatRabKerma();
+        }
     }
 
     const collatorKodeFile = new Intl.Collator('id', { numeric: true, sensitivity: 'base' });
@@ -19411,6 +19690,1253 @@ document.addEventListener('DOMContentLoaded', async () => {
         simpanPlottingKerma();
     }
 
+    // ─── Generator PKS: form dinamis empat kategori ─────────────────────────
+    const pksForm = document.getElementById('formBuatPks');
+    const pksFormBody = document.getElementById('pksFormBody');
+    const pksFormEmpty = document.getElementById('pksFormEmpty');
+    const pksFormFooter = document.getElementById('pksFormFooter');
+    const pksFormAlert = document.getElementById('pksFormAlert');
+    const pksDraftId = document.getElementById('pksDraftId');
+    const pksDraftList = document.getElementById('pksDraftList');
+    const pksDraftCounter = document.getElementById('pksDraftCounter');
+    const pksCategoryCurrent = document.getElementById('pksCategoryCurrent');
+    const btnRefreshPksDraft = document.getElementById('btnRefreshPksDraft');
+    const btnResetBuatPks = document.getElementById('btnResetBuatPks');
+    const btnSimpanPksDraft = document.getElementById('btnSimpanPksDraft');
+    const btnGeneratePks = document.getElementById('btnGeneratePks');
+    const btnDownloadPksFormExcel = document.getElementById('btnDownloadPksFormExcel');
+    const btnDownloadPksFormPdf = document.getElementById('btnDownloadPksFormPdf');
+    let pksGeneratorCategory = '';
+    let pksGeneratorDraftId = '';
+    let pksGeneratorDrafts = [];
+
+    const PKS_GENERATOR_META = {
+        PKS_PENDIDIKAN: { label: 'PKS Pendidikan', short: 'Pendidikan' },
+        PKS_MITRA_INDUSTRI: { label: 'PKS Mitra Industri', short: 'Mitra Industri' },
+        PKS_MITRA_KAMPUS: { label: 'PKS Mitra Kampus', short: 'Mitra Kampus' },
+        PKS_MITRA_PEMERINTAH: { label: 'PKS Mitra Pemerintah', short: 'Mitra Pemerintah' }
+    };
+    const PKS_JENIS_LEMBAGA = [
+        ['Perseroan Terbatas', 'Perseroan Terbatas'],
+        ['Perguruan Tinggi Negeri', 'Perguruan Tinggi Negeri'],
+        ['Pemerintah Daerah', 'Pemerintah Daerah'],
+        ['Yayasan', 'Yayasan'],
+        ['Lainnya', 'Lainnya']
+    ];
+    const PKS_LOKASI = [
+        ['Kampus ITB Bandung', 'Kampus ITB Bandung'],
+        ['Kampus ITB Jakarta', 'Kampus ITB Jakarta'],
+        ['In-House Mitra', 'In-House Mitra'],
+        ['Hybrid/Online', 'Hybrid / Online']
+    ];
+    const PKS_PROGRAM_STUDI_BY_STRATA = Object.freeze({
+        Magister: [
+            ['Master of Business Administration', 'Master of Business Administration'],
+            ['Master of Science in Management', 'Master of Science in Management']
+        ],
+        Doktor: [
+            ['Doctor of Science in Management', 'Doctor of Science in Management']
+        ]
+    });
+    const PKS_SEMESTER_PROGRAM = [
+        ['Semester I', 'Semester I'],
+        ['Semester II', 'Semester II'],
+        ['Semester Pendek', 'Semester Pendek']
+    ];
+    const PKS_TAHUN_AKADEMIK = Array.from({ length: 15 }, (_, index) => {
+        const tahunAwal = 2026 + index;
+        const value = `${tahunAwal}/${tahunAwal + 1}`;
+        return [value, value];
+    });
+    const PKS_SKEMA_PEMBAYARAN = [
+        ['TERMIN', 'Termin'],
+        ['LUMPSUM', 'Lumpsum'],
+        ['DESKRIPSI_BEBAS', 'Deskripsi bebas']
+    ];
+    const PKS_FOKUS_PEMERINTAH = [
+        ['Penelitian & kajian pengembangan potensi daerah', 'Penelitian dan kajian pengembangan potensi daerah'],
+        ['Pendampingan UMKM & Ekonomi Kreatif', 'Pendampingan UMKM dan ekonomi kreatif'],
+        ['Transformasi digital & teknologi tepat guna', 'Transformasi digital dan teknologi tepat guna'],
+        ['Penyusunan Rekomendasi Kebijakan (Policy Brief)', 'Penyusunan rekomendasi kebijakan (policy brief)']
+    ];
+    const PKS_SBM_DEFAULTS = Object.freeze({
+        nama_instansi_lembaga: 'Sekolah Bisnis dan Manajemen Institut Teknologi Bandung',
+        jenis_lembaga: 'Perguruan Tinggi Negeri',
+        alamat_lengkap_instansi: 'Jl. Ganesa Nomor 10 Bandung',
+        kode_pos: '40132',
+        jabatan_penandatangan: 'Dekan',
+        dasar_kewenangan_legalitas: 'Keputusan Rektor ITB Nomor 1019/IT1.A/SK-KP/2025 tentang Pemberhentian Dekan dan Pelaksana Tugas Dekan dan Pengangkatan Dekan Fakultas/Sekolah Institut Teknologi Bandung dan Peraturan Rektor ITB Nomor 13/IT1.A/PER/2025 tentang Pedoman Tata Naskah Dinas di Lingkungan ITB',
+        deskripsi_profil: 'Sekolah bagian dari Institut Teknologi Bandung yang melaksanakan Tridharma Perguruan Tinggi yaitu Pendidikan, Penelitian dan Pengabdian kepada Masyarakat'
+    });
+    const PKS_DEFAULT_REKENING_PENDIDIKAN = Object.freeze({
+        nama_bank: 'PT BNI (Persero) TBK',
+        kantor_cabang: 'Perguruan Tinggi Bandung',
+        alamat: 'Jl. Tamansari No 80',
+        nomor_virtual_account: '(Virtual Account yang akan ditentukan kemudian)',
+        nama_rekening_va: '(Virtual Account yang akan ditentukan kemudian)'
+    });
+    const pksSbmAutoFillSnapshots = new Map();
+
+    function pksAttrs(options = {}) {
+        const attrs = [];
+        if (options.required) attrs.push('required');
+        if (options.readonly) attrs.push('readonly');
+        if (options.min !== undefined) attrs.push(`min="${esc(options.min)}"`);
+        if (options.step !== undefined) attrs.push(`step="${esc(options.step)}"`);
+        if (options.placeholder) attrs.push(`placeholder="${esc(options.placeholder)}"`);
+        return attrs.join(' ');
+    }
+
+    function renderPksInput(field, label, options = {}) {
+        const type = options.type || 'text';
+        const className = options.readonly ? 'form-input' : 'form-input';
+        return `<div class="form-group${options.full ? ' form-group--full' : ''}">
+            <label class="form-label" for="pks_${esc(field)}">${esc(label)}${options.required ? ' <span class="form-required">*</span>' : ''}</label>
+            <input id="pks_${esc(field)}" data-pks-field="${esc(field)}" class="${className}" type="${esc(type)}" ${pksAttrs(options)}>
+            ${options.hint ? `<small class="field-hint">${esc(options.hint)}</small>` : ''}
+        </div>`;
+    }
+
+    function renderPksSelect(field, label, options, config = {}) {
+        const optionRows = options.map(([value, text]) => `<option value="${esc(value)}">${esc(text)}</option>`).join('');
+        const attributes = [
+            config.required ? 'required' : '',
+            config.disabled ? 'disabled' : ''
+        ].filter(Boolean).join(' ');
+        return `<div class="form-group${config.full ? ' form-group--full' : ''}">
+            <label class="form-label" for="pks_${esc(field)}">${esc(label)}${config.required ? ' <span class="form-required">*</span>' : ''}</label>
+            <select id="pks_${esc(field)}" data-pks-field="${esc(field)}" class="form-input" ${attributes}>
+                <option value="">-- Pilih --</option>${optionRows}
+            </select>
+            ${config.hint ? `<small class="field-hint">${esc(config.hint)}</small>` : ''}
+        </div>`;
+    }
+
+    function renderPksTextarea(field, label, options = {}) {
+        return `<div class="form-group${options.full !== false ? ' form-group--full' : ''}">
+            <label class="form-label" for="pks_${esc(field)}">${esc(label)}${options.required ? ' <span class="form-required">*</span>' : ''}</label>
+            <textarea id="pks_${esc(field)}" data-pks-field="${esc(field)}" class="form-input form-textarea" ${pksAttrs(options)}></textarea>
+            ${options.hint ? `<small class="field-hint">${esc(options.hint)}</small>` : ''}
+        </div>`;
+    }
+
+    function renderPksSection(title, subtitle, body) {
+        const normalizedTitle = pksNormalisasiTeks(title);
+        const tone = normalizedTitle.includes('para pihak')
+            ? 'parties'
+            : normalizedTitle.includes('korespondensi')
+                ? 'contact'
+                : normalizedTitle.includes('skema pembayaran') || normalizedTitle.includes('rekening penerima')
+                    ? 'finance'
+                    : normalizedTitle.includes('jangka waktu') || normalizedTitle.includes('substansi')
+                        ? 'legal'
+                        : normalizedTitle.includes('detail pks')
+                            ? 'program'
+                            : 'general';
+        return `<section class="pks-form-section pks-form-section--${tone}" data-pks-section="${tone}">
+            <h2 class="pks-section-heading">
+                <button type="button" class="pks-section-toggle" data-pks-section-toggle aria-expanded="true" title="Ciutkan bagian">
+                    <span class="pks-section-heading-copy">
+                        <span class="pks-section-marker" aria-hidden="true"></span>
+                        <span class="pks-section-title">${esc(title)}${subtitle ? `<small>${esc(subtitle)}</small>` : ''}</span>
+                    </span>
+                    <span class="pks-section-chevron" aria-hidden="true">⌄</span>
+                </button>
+            </h2>
+            <div class="pks-section-content" data-pks-section-content>${body}</div>
+        </section>`;
+    }
+
+    function renderPksSignatoryRow(side) {
+        return `<div class="pks-repeatable-row" data-pks-signatory-row data-pks-signatory-side="${side}">
+            <div class="form-group"><label class="form-label">Nama lengkap <span class="form-required">*</span></label><input class="form-input" data-pks-signatory-field="nama_lengkap" required></div>
+            <div class="form-group"><label class="form-label">Jabatan <span class="form-required">*</span></label><input class="form-input" data-pks-signatory-field="jabatan" required></div>
+            <div class="form-group"><label class="form-label">Dasar kewenangan / legalitas <span class="form-required">*</span></label><input class="form-input" data-pks-signatory-field="dasar_kewenangan_legalitas" required></div>
+            <button type="button" class="pks-remove-row" data-pks-remove-signatory aria-label="Hapus penandatangan">Hapus</button>
+        </div>`;
+    }
+
+    function renderPksTermRow(term = {}) {
+        const legacyTotal = term.total_nominal_termin
+            ?? (term.nominal_per_peserta !== undefined || term.jumlah_peserta !== undefined
+                ? Number(term.nominal_per_peserta || 0) * Number(term.jumlah_peserta || 0)
+                : '');
+        const totalPembayaran = term.total_pembayaran ?? legacyTotal ?? '';
+        return `<div class="pks-repeatable-row pks-repeatable-row--term" data-pks-term-row>
+            <div class="form-group"><label class="form-label">Termin <span class="form-required">*</span></label><input class="form-input" data-pks-term-field="termin_ke" value="${esc(term.termin_ke || '')}" placeholder="Tahap 1" required></div>
+            <div class="form-group"><label class="form-label">Total Pembayaran <span class="form-required">*</span></label><input class="form-input" type="number" min="0.000000001" step="any" data-pks-term-field="total_pembayaran" value="${esc(totalPembayaran)}" placeholder="0" required></div>
+            <div class="form-group"><label class="form-label">Batas Akhir Pembayaran <span class="form-required">*</span></label><input class="form-input" type="date" data-pks-term-field="batas_akhir_pembayaran" value="${esc(term.batas_akhir_pembayaran || '')}" required></div>
+            <button type="button" class="pks-remove-row" data-pks-remove-term aria-label="Hapus termin">Hapus</button>
+        </div>`;
+    }
+
+    function renderPksOtherEducationCostRow(component = {}) {
+        const legacyComponent = component.harga === undefined && component.nominal_per_mahasiswa !== undefined;
+        const volume = component.volume ?? (legacyComponent ? 1 : '');
+        const satuan = component.satuan ?? (legacyComponent ? 'komponen' : '');
+        const harga = component.harga ?? component.nominal_per_mahasiswa ?? '';
+        const calculatedTotal = volume !== '' && harga !== ''
+            ? Number(volume || 0) * Number(harga || 0)
+            : '';
+        const total = component.total ?? calculatedTotal;
+        return `<div class="pks-repeatable-row pks-repeatable-row--other-cost" data-pks-other-cost-row>
+            <div class="form-group"><label class="form-label">Nama komponen <span class="form-required">*</span></label><input class="form-input" data-pks-other-cost-field="nama_komponen" value="${esc(component.nama_komponen || '')}" placeholder="Contoh: Biaya admission" required></div>
+            <div class="form-group"><label class="form-label">Volume <span class="form-required">*</span></label><input class="form-input" type="number" min="0.000000001" step="any" data-pks-other-cost-field="volume" value="${esc(volume)}" placeholder="1" required></div>
+            <div class="form-group"><label class="form-label">Satuan <span class="form-required">*</span></label><input class="form-input" data-pks-other-cost-field="satuan" value="${esc(satuan)}" placeholder="Contoh: peserta admission" required></div>
+            <div class="form-group"><label class="form-label">Harga <span class="form-required">*</span></label><input class="form-input" type="number" min="0.000000001" step="any" data-pks-other-cost-field="harga" value="${esc(harga)}" placeholder="0" required></div>
+            <div class="form-group"><label class="form-label">Total <span class="form-required">*</span></label><input class="form-input" type="number" min="0.000000001" step="any" data-pks-other-cost-field="total" value="${esc(total)}" readonly required></div>
+            <button type="button" class="pks-remove-row" data-pks-remove-other-cost aria-label="Hapus komponen biaya lain">Hapus</button>
+        </div>`;
+    }
+
+    function renderPksPaymentSchemeFields(scheme = '') {
+        if (scheme === 'TERMIN') {
+            return `<div class="pks-payment-scheme-fields"><p class="field-hint">Tambahkan satu atau beberapa termin. Nilai kontrak harus sama dengan jumlah seluruh Total Pembayaran.</p><div id="pksPaymentTerms" class="pks-repeatable-list">${renderPksTermRow()}</div><button type="button" class="btn-secondary pks-add-row" data-pks-add-term>+ Tambah termin</button></div>`;
+        }
+        if (scheme === 'LUMPSUM') {
+            return `<div class="pks-payment-scheme-fields"><div class="form-grid">
+                ${renderPksInput('nominal_lumpsum', 'Nominal lumpsum', { type: 'number', min: '0.000000001', step: 'any', required: true })}
+                ${renderPksInput('tanggal_pembayaran_lumpsum', 'Tanggal pembayaran lumpsum', { type: 'date', required: true })}
+            </div></div>`;
+        }
+        if (scheme === 'DESKRIPSI_BEBAS') {
+            return `<div class="pks-payment-scheme-fields">${renderPksTextarea('deskripsi_skema_pembayaran', 'Deskripsi skema pembayaran', { required: true, hint: 'Jelaskan cara, waktu, nominal, dan ketentuan pembayaran secara lengkap.' })}</div>`;
+        }
+        return '<div class="pks-payment-scheme-placeholder">Pilih skema pembayaran untuk menampilkan data yang harus dilengkapi.</div>';
+    }
+
+    function pksRenderPaymentFields() {
+        const container = document.getElementById('pksPaymentSchemeFields');
+        if (!container) return;
+        container.innerHTML = renderPksPaymentSchemeFields(pksFieldValue('skema_pembayaran'));
+    }
+
+    function pksRenderOtherEducationCosts(components = []) {
+        const container = document.getElementById('pksOtherEducationCosts');
+        if (!container) return;
+        container.innerHTML = (Array.isArray(components) ? components : [])
+            .map(component => renderPksOtherEducationCostRow(component))
+            .join('');
+        pksUpdateEducationTotal();
+    }
+
+    function pksCollectOtherEducationCosts() {
+        return Array.from(document.querySelectorAll('[data-pks-other-cost-row]')).map(row => ({
+            nama_komponen: row.querySelector('[data-pks-other-cost-field="nama_komponen"]')?.value.trim() || '',
+            volume: Number(row.querySelector('[data-pks-other-cost-field="volume"]')?.value || 0),
+            satuan: row.querySelector('[data-pks-other-cost-field="satuan"]')?.value.trim() || '',
+            harga: Number(row.querySelector('[data-pks-other-cost-field="harga"]')?.value || 0),
+            total: Number(row.querySelector('[data-pks-other-cost-field="total"]')?.value || 0)
+        }));
+    }
+
+    function pksTotalOtherEducationCost(components = pksCollectOtherEducationCosts()) {
+        return (Array.isArray(components) ? components : []).reduce(
+            (total, component) => {
+                const rowTotal = component?.total !== undefined
+                    ? Number(component.total)
+                    : Number(component?.volume || 0) * Number(component?.harga || 0);
+                return total + (Number.isFinite(rowTotal) && rowTotal > 0 ? rowTotal : 0);
+            },
+            0
+        );
+    }
+
+    function pksUpdateOtherEducationCostRowTotal(row) {
+        if (!row) return;
+        const volume = Number(row.querySelector('[data-pks-other-cost-field="volume"]')?.value || 0);
+        const harga = Number(row.querySelector('[data-pks-other-cost-field="harga"]')?.value || 0);
+        const total = row.querySelector('[data-pks-other-cost-field="total"]');
+        if (total) total.value = volume > 0 && harga > 0 ? volume * harga : '';
+    }
+
+    function renderPksPaymentSection(options = {}) {
+        const educationCostFields = options.education ? `<div class="pks-subsection pks-payment-costs">
+            <h3>Komponen biaya pendidikan</h3>
+            <div class="form-grid">
+                ${renderPksInput('biaya_bpp_per_peserta', 'Biaya BPP per peserta', { type: 'number', min: '0.000000001', step: 'any', required: true })}
+            </div>
+            <div class="form-grid pks-payment-costs__bpp-breakdown">
+                ${renderPksInput('bpp_semester_panjang', 'BPP Semester Panjang (Rp)', { type: 'number', min: '0', step: 'any', placeholder: 'Opsional' })}
+                ${renderPksInput('bpp_semester_panjang_terbilang', 'BPP Sem. Panjang (kata) - otomatis', { readonly: true, placeholder: 'Terisi otomatis' })}
+                ${renderPksInput('bpp_semester_pendek', 'BPP Semester Pendek (Rp)', { type: 'number', min: '0', step: 'any', placeholder: 'Opsional' })}
+                ${renderPksInput('bpp_semester_pendek_terbilang', 'BPP Sem. Pendek (kata) - otomatis', { readonly: true, placeholder: 'Terisi otomatis' })}
+                ${renderPksInput('bpp_ulang_semester_panjang', 'BPP Ulang Sem. Panjang (Rp)', { type: 'number', min: '0', step: 'any', placeholder: 'Opsional' })}
+                ${renderPksInput('bpp_ulang_semester_panjang_terbilang', 'BPP Ulang Sem. Panjang (kata) - otomatis', { readonly: true, placeholder: 'Terisi otomatis' })}
+                ${renderPksInput('bpp_ulang_semester_pendek', 'BPP Ulang Sem. Pendek (Rp)', { type: 'number', min: '0', step: 'any', placeholder: 'Opsional' })}
+                ${renderPksInput('bpp_ulang_semester_pendek_terbilang', 'BPP Ulang Sem. Pendek (kata) - otomatis', { readonly: true, placeholder: 'Terisi otomatis' })}
+                ${renderPksInput('bpp_tugas_akhir', 'BPP Tugas Akhir (Rp)', { type: 'number', min: '0', step: 'any', placeholder: 'Opsional' })}
+                ${renderPksInput('bpp_tugas_akhir_terbilang', 'BPP Tugas Akhir (kata) - otomatis', { readonly: true, placeholder: 'Terisi otomatis' })}
+            </div>
+            <div class="pks-subsection pks-payment-costs__other">
+                <h3>Komponen biaya lain</h3>
+                <p class="field-hint">Tambahkan komponen lain sesuai kebutuhan, misalnya biaya admission. Volume, satuan, dan harga dapat berbeda dari jumlah mahasiswa.</p>
+                <div id="pksOtherEducationCosts" class="pks-repeatable-list"></div>
+                <button type="button" class="btn-secondary pks-add-row" data-pks-add-other-cost>+ Tambah komponen biaya</button>
+            </div>
+            <div class="form-grid pks-payment-costs__total">
+                ${renderPksInput('total_biaya_pendidikan', 'Total biaya pendidikan', { type: 'number', min: '0.000000001', step: 'any', readonly: true, required: true, hint: 'Otomatis: BPP per peserta x jumlah mahasiswa.' })}
+                ${renderPksInput('total_komponen_biaya_lain_pendidikan', 'Total komponen biaya lain', { type: 'number', min: '0', step: 'any', readonly: true, required: true, hint: 'Otomatis: penjumlahan Total seluruh komponen biaya lain.' })}
+                ${renderPksInput('nilai_kontrak', 'Nilai kontrak', { type: 'number', min: '0.000000001', step: 'any', readonly: true, required: true, hint: 'Otomatis: Total biaya pendidikan + Total komponen biaya lain.' })}
+            </div>
+        </div>` : '';
+        return renderPksSection(
+            'Skema pembayaran',
+            'Lengkapi komponen biaya terlebih dahulu, lalu pilih skema pembayaran dari Nilai kontrak.',
+            `${educationCostFields}${renderPksSelect('skema_pembayaran', 'Pilihan skema pembayaran', PKS_SKEMA_PEMBAYARAN, { required: true })}<div id="pksPaymentSchemeFields" class="pks-payment-scheme-fields"></div>`
+        );
+    }
+
+    function renderPksParty(side, title) {
+        return `<div class="pks-subsection">
+            <h3>${esc(title)}</h3>
+            <div class="form-grid">
+                ${renderPksInput(`pihak_${side}_nama_instansi_lembaga`, 'Nama instansi / lembaga', { required: true })}
+                ${renderPksSelect(`pihak_${side}_jenis_lembaga`, 'Jenis lembaga', PKS_JENIS_LEMBAGA, { required: true })}
+                ${renderPksTextarea(`pihak_${side}_alamat_lengkap_instansi`, 'Alamat lengkap instansi', { required: true })}
+                ${renderPksInput(`pihak_${side}_kode_pos`, 'Kode pos', { required: true })}
+            </div>
+            <div class="pks-subsection">
+                <h3>Penandatangan</h3>
+                <div id="pksSignatories${side}" class="pks-repeatable-list">${renderPksSignatoryRow(side)}</div>
+                <button type="button" class="btn-secondary pks-add-row" data-pks-add-signatory="${side}">+ Tambah penandatangan</button>
+            </div>
+        </div>`;
+    }
+
+    function renderPksCorrespondence(side, title) {
+        return `<div class="pks-subsection">
+            <h3>${esc(title)}</h3>
+            <div class="form-grid">
+                ${renderPksInput(`korespondensi_${side}_unit_pengelola_up`, 'Unit pengelola / UP', { required: true })}
+                ${renderPksTextarea(`korespondensi_${side}_alamat_surat`, 'Alamat surat-menyurat', { required: true })}
+                ${renderPksInput(`korespondensi_${side}_nama_pic`, 'Nama PIC', { required: true })}
+                ${renderPksInput(`korespondensi_${side}_nomor_telepon_hp`, 'Nomor telepon / HP', { required: true })}
+                ${renderPksInput(`korespondensi_${side}_email_resmi`, 'Email resmi', { type: 'email', required: true })}
+            </div>
+        </div>`;
+    }
+
+    function renderPksCommonForm() {
+        return [
+            renderPksSection('Data umum perjanjian', 'Informasi yang berlaku untuk seluruh kategori PKS.', `<div class="form-grid">
+                ${renderPksSelect('posisi_sbm_itb', 'Posisi SBM ITB', [['PIHAK_PERTAMA', 'Pihak pertama'], ['PIHAK_KEDUA', 'Pihak kedua']], { required: true })}
+                ${renderPksInput('nomor_pks_pihak_1', 'Nomor PKS pihak 1', { required: true })}
+                ${renderPksInput('nomor_pks_pihak_2', 'Nomor PKS pihak 2', { required: true })}
+                ${renderPksInput('judul_perjanjian_tambahan', 'Judul perjanjian tambahan', { required: true, full: true })}
+                ${renderPksInput('tanggal_penandatanganan', 'Tanggal penandatanganan', { type: 'date', required: true })}
+                ${renderPksInput('tempat_penandatanganan', 'Tempat penandatanganan', { required: true })}
+            </div>`),
+            renderPksSection('Para pihak', 'Lengkapi identitas dan penandatangan dari kedua pihak.', `${renderPksParty(1, 'Pihak 1')}${renderPksParty(2, 'Pihak 2')}`),
+            renderPksSection('Korespondensi', 'Data kontak resmi untuk masing-masing pihak.', `${renderPksCorrespondence(1, 'Korespondensi pihak 1')}${renderPksCorrespondence(2, 'Korespondensi pihak 2')}`),
+            renderPksSection('Jangka waktu dan perselisihan', 'Tanggal berakhir harus sama dengan atau setelah tanggal mulai berlaku.', `<div class="form-grid">
+                ${renderPksInput('jangka_waktu_nilai', 'Nilai jangka waktu', { type: 'number', min: '0.000000001', step: 'any', required: true, placeholder: 'Contoh: 1', hint: 'Jumlah masa berlaku. Gunakan bersama Satuan jangka waktu, misalnya 1 Tahun atau 12 Bulan.' })}
+                ${renderPksSelect('jangka_waktu_satuan', 'Satuan jangka waktu', [['Tahun', 'Tahun'], ['Bulan', 'Bulan']], { required: true })}
+                ${renderPksInput('tanggal_mulai_berlaku', 'Tanggal mulai berlaku', { type: 'date', required: true })}
+                ${renderPksInput('tanggal_berakhir', 'Tanggal berakhir', { type: 'date', required: true })}
+                ${renderPksInput('tenggat_notifikasi_perpanjangan', 'Tenggat notifikasi perpanjangan (hari)', { type: 'number', min: '0', step: '1', required: true })}
+                ${renderPksTextarea('forum_penyelesaian_perselisihan', 'Forum penyelesaian perselisihan', { required: true, placeholder: 'Contoh: Perselisihan diselesaikan terlebih dahulu melalui musyawarah. Jika tidak tercapai kesepakatan, para pihak memilih Pengadilan Negeri Bandung.', hint: 'Jelaskan tahapan penyelesaian perselisihan dan forum hukum yang dipilih.' })}
+            </div>`),
+            renderPksSection('Substansi dan klausul', 'Isi bagian ini sesuai naskah yang akan ditandatangani. Setiap baris pada daftar akan menjadi satu butir di dokumen.', `<div class="form-grid">
+                ${renderPksTextarea('deskripsi_profil_pihak_1', 'Deskripsi profil pihak 1', { required: true, full: true, placeholder: 'Contoh: PT Mitra Sejahtera adalah perusahaan yang bergerak di bidang ..., berkedudukan di ..., dan memiliki kegiatan usaha ...', hint: 'Jelaskan identitas singkat, bidang kegiatan, kedudukan, dan kapasitas pihak terkait.' })}
+                ${renderPksTextarea('deskripsi_profil_pihak_2', 'Deskripsi profil pihak 2', { required: true, full: true, placeholder: 'Contoh: Universitas/instansi mitra merupakan lembaga yang menyelenggarakan ..., berkedudukan di ..., dan memiliki tugas ...', hint: 'Jelaskan identitas singkat, bidang kegiatan, kedudukan, dan kapasitas pihak terkait.' })}
+                ${renderPksTextarea('maksud_perjanjian', 'Maksud perjanjian', { required: true, full: true, placeholder: 'Contoh: Menjadi landasan bagi para pihak untuk melaksanakan kerja sama dalam bidang pendidikan, penelitian, dan pengabdian kepada masyarakat.', hint: 'Tuliskan alasan utama dan konteks dibentuknya perjanjian.' })}
+                ${renderPksTextarea('tujuan_perjanjian', 'Tujuan perjanjian', { required: true, full: true, placeholder: 'Contoh: Meningkatkan kualitas program dan manfaat bagi para pihak melalui kegiatan yang terencana, terukur, dan saling menguntungkan.', hint: 'Tuliskan hasil atau manfaat yang ingin dicapai melalui kerja sama.' })}
+                ${renderPksTextarea('ruang_lingkup', 'Ruang lingkup kerja sama', { required: true, full: true, placeholder: 'Contoh:\nPenyelenggaraan program pendidikan dan pelatihan\nPelaksanaan penelitian dan kajian bersama\nPertukaran data, narasumber, atau fasilitas', hint: 'Satu ruang lingkup per baris. Cantumkan kegiatan yang benar-benar disepakati.' })}
+                ${renderPksTextarea('hak_kewajiban_pihak_1', 'Hak dan kewajiban pihak 1', { required: true, full: true, placeholder: 'Contoh:\nMenyediakan tenaga ahli, data, atau fasilitas sesuai kesepakatan\nMelakukan koordinasi dan pemantauan pelaksanaan kegiatan\nMenerima laporan hasil pelaksanaan kerja sama', hint: 'Satu butir per baris. Bedakan hak yang diterima dan kewajiban yang harus dipenuhi.' })}
+                ${renderPksTextarea('hak_kewajiban_pihak_2', 'Hak dan kewajiban pihak 2', { required: true, full: true, placeholder: 'Contoh:\nMenyiapkan peserta dan kebutuhan teknis kegiatan\nMelaksanakan kegiatan sesuai jadwal dan standar yang disepakati\nMenyampaikan laporan dan hasil kegiatan kepada pihak 1', hint: 'Satu butir per baris. Isi sesuai peran dan kontribusi pihak 2.' })}
+                ${renderPksInput('nama_dokumen_turunan', 'Nama dokumen turunan', { required: true, placeholder: 'Contoh: Implementation Agreement / Lampiran Skema Pembayaran', hint: 'Nama dokumen pelaksana atau lampiran yang dibuat berdasarkan PKS, misalnya IA, adendum, rencana kerja, atau lampiran pembayaran.' })}
+                ${renderPksInput('batas_waktu_lapor_force_majeure', 'Batas laporan force majeure (hari)', { type: 'number', min: '0', step: '1', required: true })}
+                ${renderPksInput('batas_waktu_perbaikan_wanprestasi', 'Batas perbaikan wanprestasi (hari)', { type: 'number', min: '0', step: '1', required: true })}
+                ${renderPksInput('batas_waktu_musyawarah', 'Batas musyawarah (hari)', { type: 'number', min: '0', step: '1', required: true })}
+                ${renderPksInput('pilihan_domisili_hukum', 'Pilihan domisili hukum', { required: true, placeholder: 'Contoh: Pengadilan Negeri Bandung' })}
+            </div>`)
+        ].join('');
+    }
+
+    function renderPksCategoryForm(category) {
+        if (category === 'PKS_PENDIDIKAN') {
+            return [
+                renderPksSection('Detail PKS Pendidikan', 'Data pendidikan dan biaya program.', `<div class="form-grid">
+                    ${renderPksSelect('strata_program', 'Strata', [['Magister', 'Magister'], ['Doktor', 'Doktor']], { required: true, hint: 'Pilih strata terlebih dahulu untuk membuka pilihan program studi.' })}
+                    ${renderPksSelect('nama_program_studi', 'Nama Program Studi', [], { required: true, disabled: true, hint: 'Pilihan program studi akan mengikuti Strata.' })}
+                    ${renderPksSelect('semester_program', 'Semester', PKS_SEMESTER_PROGRAM, { required: true, hint: 'Pilih semester awal penerimaan atau pelaksanaan program.' })}
+                    ${renderPksSelect('tahun_akademik_penerimaan', 'Tahun Akademik', [], { required: true, disabled: true, hint: 'Pilihan tahun akademik akan terbuka setelah Semester dipilih.' })}
+                    ${renderPksSelect('lokasi_perkuliahan', 'Lokasi perkuliahan', PKS_LOKASI, { required: true })}
+                    ${renderPksInput('durasi_studi_maksimum_tahun', 'Durasi studi maksimum (tahun)', { type: 'number', min: '1', step: '1', required: true })}
+                    ${renderPksInput('lama_perpanjangan_semester', 'Lama Perpanjangan (semester)', { type: 'number', min: '0', step: '1', placeholder: 'Contoh: 1', hint: 'Isi 0 atau kosong jika tidak ada perpanjangan.' })}
+                    ${renderPksInput('lama_perpanjangan_semester_terbilang', 'Lama Perpanjangan (semester) - terbilang', { readonly: true, placeholder: 'Terisi otomatis' })}
+                    ${renderPksInput('lama_perpanjangan_bulan', 'Lama Perpanjangan (bulan)', { type: 'number', min: '0', step: '1', placeholder: 'Contoh: 6', hint: 'Isi 0 atau kosong jika tidak ada perpanjangan.' })}
+                    ${renderPksInput('lama_perpanjangan_bulan_terbilang', 'Lama Perpanjangan (bulan) - terbilang', { readonly: true, placeholder: 'Terisi otomatis' })}
+                    ${renderPksInput('jumlah_peserta_didik_penerima_beasiswa', 'Jumlah peserta didik', { type: 'number', min: '1', step: '1', required: true })}
+                    ${renderPksTextarea('persyaratan_minimum_peserta', 'Persyaratan minimum peserta', { required: true })}
+                </div>`),
+                renderPksPaymentSection({ education: true }),
+                renderPksSection('Rekening penerima pembayaran', 'Isi rekening resmi yang digunakan untuk menerima pembayaran berdasarkan PKS.', `<div class="form-grid">
+                    ${renderPksInput('rekening_nama_bank', 'Nama Bank', { required: true, placeholder: 'Contoh: Bank Mandiri' })}
+                    ${renderPksInput('rekening_kantor_cabang', 'Kantor Cabang', { required: true, placeholder: 'Contoh: KCP ITB Bandung' })}
+                    ${renderPksInput('rekening_alamat', 'Alamat', { required: true, placeholder: 'Contoh: Jl. Tamansari No 80' })}
+                    ${renderPksInput('rekening_nomor_virtual_account', 'Nomor Rekening', { required: true, placeholder: 'Virtual Account yang akan ditentukan kemudian' })}
+                    ${renderPksInput('rekening_nama_rekening_va', 'Nama Rekening', { required: true, placeholder: 'Virtual Account yang akan ditentukan kemudian' })}
+                </div>`)
+            ].join('');
+        }
+        if (category === 'PKS_MITRA_INDUSTRI') {
+            return [
+                renderPksSection('Detail PKS Mitra Industri', 'Tentukan bentuk kolaborasi, pendanaan, dan perlindungan kerja sama.', `<div class="form-grid">
+                ${renderPksTextarea('profil_singkat_mitra_industri', 'Profil singkat mitra industri', { required: true })}
+                ${renderPksSelect('skema_pendanaan_industri', 'Skema pendanaan industri', [['Nirbiaya (Beban Masing-masing)', 'Nirbiaya (beban masing-masing)'], ['Sponsor / Investasi Industri', 'Sponsor / investasi industri'], ['Kontrak Terpisah (Adendum/IA)', 'Kontrak terpisah (adendum / IA)']], { required: true })}
+            </div>
+            <div class="pks-subsection"><h3>Ruang lingkup kerja sama</h3><div class="pks-check-grid">
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_knowledge_partner"> <span>Knowledge partner</span></label>
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_pengembangan_kurikulum"> <span>Pengembangan kurikulum</span></label>
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_rekrutmen_magang"> <span>Rekrutmen dan magang</span></label>
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_aacsb_esg_support"> <span>Dukungan AACSB / ESG</span></label>
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_executive_education"> <span>Executive education</span></label>
+            </div>${renderPksTextarea('ruang_lingkup_kustom', 'Ruang lingkup kustom', { hint: 'Satu item per baris.' })}${renderPksTextarea('daftar_tugas_mitra', 'Daftar tugas mitra', { required: true, hint: 'Satu tugas per baris.' })}</div>
+            <div class="pks-check-grid pks-subsection">
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_non_hubungan_kerja_clause" checked> <span>Klausul kegiatan bukan hubungan kerja</span></label>
+                <label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_confidentiality_strict"> <span>Kerahasiaan diperketat</span></label>
+            </div>`),
+                renderPksPaymentSection()
+            ].join('');
+        }
+        if (category === 'PKS_MITRA_KAMPUS') {
+            return [
+                renderPksSection('Detail PKS Mitra Kampus', 'Data unit mitra dan fokus kolaborasi tridarma.', `<div class="form-grid">
+                ${renderPksInput('nama_fakultas_unit_mitra', 'Nama fakultas / unit mitra', { required: true })}
+                ${renderPksInput('sk_pendirian_pengangkatan_pimpinan_mitra', 'SK pendirian / pengangkatan pimpinan', { required: true })}
+                ${renderPksTextarea('program_studi_terlibat_pihak_1', 'Program studi terlibat pihak 1', { required: true, hint: 'Satu program studi per baris.' })}
+                ${renderPksTextarea('program_studi_terlibat_pihak_2', 'Program studi terlibat pihak 2', { required: true, hint: 'Satu program studi per baris.' })}
+                ${renderPksTextarea('fokus_pendidikan', 'Fokus pendidikan', { required: true, hint: 'Satu fokus per baris.' })}
+                ${renderPksTextarea('fokus_penelitian', 'Fokus penelitian', { required: true, hint: 'Satu fokus per baris.' })}
+                ${renderPksTextarea('fokus_pengabdian_masyarakat', 'Fokus pengabdian masyarakat', { required: true, hint: 'Satu fokus per baris.' })}
+                ${renderPksTextarea('fokus_publikasi', 'Fokus publikasi', { required: true, hint: 'Satu fokus per baris.' })}
+                ${renderPksTextarea('ketentuan_tim_pelaksana', 'Ketentuan tim pelaksana', { required: true })}
+            </div>`),
+                renderPksPaymentSection()
+            ].join('');
+        }
+        return [
+            renderPksSection('Detail PKS Mitra Pemerintah', 'Data dasar hukum, program daerah, dan evaluasi.', `<div class="form-grid">
+            ${renderPksInput('sk_pengangkatan_kepala_daerah_pejabat', 'SK pengangkatan kepala daerah / pejabat', { required: true })}
+            ${renderPksTextarea('dasar_hukum_daerah', 'Dasar hukum daerah', { required: true, hint: 'Satu dasar hukum per baris.' })}
+            ${renderPksInput('perangkat_daerah_pelaksana_mitra', 'Perangkat daerah pelaksana mitra', { required: true })}
+            ${renderPksInput('nama_program_inovasi_daerah', 'Nama program / inovasi daerah', { required: true })}
+            ${renderPksSelect('skema_kepemilikan_hki', 'Skema kepemilikan HKI', [['Milik Bersama (Joint IP)', 'Milik bersama (joint IP)'], ['Perjanjian Terpisah', 'Perjanjian terpisah'], ['Sesuai Kontribusi', 'Sesuai kontribusi']], { required: true })}
+            ${renderPksSelect('frekuensi_evaluasi', 'Frekuensi evaluasi', [['Tahunan', 'Tahunan'], ['Semesteran', 'Semesteran']], { required: true })}
+        </div>
+        <div class="pks-subsection"><h3>Fokus kegiatan pemerintah</h3><div class="pks-check-grid">${PKS_FOKUS_PEMERINTAH.map(([value, label]) => `<label class="pks-check-item"><input type="checkbox" data-pks-focus-government value="${esc(value)}"> <span>${esc(label)}</span></label>`).join('')}</div></div>
+        <div class="pks-subsection"><label class="pks-check-item"><input type="checkbox" data-pks-boolean="is_membutuhkan_implementation_agreement" checked> <span>Membutuhkan Implementation Agreement</span></label></div>`),
+            renderPksPaymentSection()
+        ].join('');
+    }
+
+    function pksFieldValue(field) {
+        return document.getElementById(`pks_${field}`)?.value || '';
+    }
+
+    function pksSetFieldValue(field, value) {
+        const element = document.getElementById(`pks_${field}`);
+        if (element) element.value = value === null || value === undefined ? '' : value;
+    }
+
+    function pksRenderEducationSelectors() {
+        if (pksGeneratorCategory !== 'PKS_PENDIDIKAN') return;
+        const strataSelect = document.getElementById('pks_strata_program');
+        const programSelect = document.getElementById('pks_nama_program_studi');
+        const semesterSelect = document.getElementById('pks_semester_program');
+        const yearSelect = document.getElementById('pks_tahun_akademik_penerimaan');
+        const strata = strataSelect?.value || '';
+        const semester = semesterSelect?.value || '';
+
+        if (programSelect) {
+            const currentValue = programSelect.value;
+            const options = PKS_PROGRAM_STUDI_BY_STRATA[strata] || [];
+            programSelect.innerHTML = `<option value="">-- Pilih --</option>${options.map(([value, label]) => `<option value="${esc(value)}">${esc(label)}</option>`).join('')}`;
+            programSelect.disabled = !strata;
+            if (options.some(([value]) => value === currentValue)) programSelect.value = currentValue;
+        }
+
+        if (yearSelect) {
+            const currentValue = yearSelect.value;
+            yearSelect.innerHTML = `<option value="">-- Pilih --</option>${PKS_TAHUN_AKADEMIK.map(([value, label]) => `<option value="${esc(value)}">${esc(label)}</option>`).join('')}`;
+            yearSelect.disabled = !semester;
+            if (semester && PKS_TAHUN_AKADEMIK.some(([value]) => value === currentValue)) yearSelect.value = currentValue;
+        }
+    }
+
+    function pksTerbilangAngka(value) {
+        const number = Number(value);
+        if (!Number.isFinite(number) || number < 0 || String(value).trim() === '') return '';
+        const n = Math.floor(number);
+        const satuan = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
+        if (n === 0) return 'nol';
+        if (n < 12) return satuan[n];
+        if (n < 20) return `${pksTerbilangAngka(n - 10)} belas`;
+        if (n < 100) return `${pksTerbilangAngka(Math.floor(n / 10))} puluh${n % 10 ? ` ${pksTerbilangAngka(n % 10)}` : ''}`;
+        if (n < 200) return `seratus${n - 100 ? ` ${pksTerbilangAngka(n - 100)}` : ''}`;
+        if (n < 1000) return `${pksTerbilangAngka(Math.floor(n / 100))} ratus${n % 100 ? ` ${pksTerbilangAngka(n % 100)}` : ''}`;
+        if (n < 2000) return `seribu${n - 1000 ? ` ${pksTerbilangAngka(n - 1000)}` : ''}`;
+        if (n < 1000000) return `${pksTerbilangAngka(Math.floor(n / 1000))} ribu${n % 1000 ? ` ${pksTerbilangAngka(n % 1000)}` : ''}`;
+        if (n < 1000000000) return `${pksTerbilangAngka(Math.floor(n / 1000000))} juta${n % 1000000 ? ` ${pksTerbilangAngka(n % 1000000)}` : ''}`;
+        return `${pksTerbilangAngka(Math.floor(n / 1000000000))} miliar${n % 1000000000 ? ` ${pksTerbilangAngka(n % 1000000000)}` : ''}`;
+    }
+
+    function pksTerbilangRupiah(value) {
+        const words = pksTerbilangAngka(value);
+        return words ? `${words} rupiah` : '';
+    }
+
+    function pksUpdateExtensionWords() {
+        if (pksGeneratorCategory !== 'PKS_PENDIDIKAN') return;
+        pksSetFieldValue('lama_perpanjangan_semester_terbilang', pksTerbilangAngka(pksFieldValue('lama_perpanjangan_semester')));
+        pksSetFieldValue('lama_perpanjangan_bulan_terbilang', pksTerbilangAngka(pksFieldValue('lama_perpanjangan_bulan')));
+    }
+
+    function pksUpdateBppWords() {
+        if (pksGeneratorCategory !== 'PKS_PENDIDIKAN') return;
+        [
+            ['bpp_semester_panjang', 'bpp_semester_panjang_terbilang'],
+            ['bpp_semester_pendek', 'bpp_semester_pendek_terbilang'],
+            ['bpp_ulang_semester_panjang', 'bpp_ulang_semester_panjang_terbilang'],
+            ['bpp_ulang_semester_pendek', 'bpp_ulang_semester_pendek_terbilang'],
+            ['bpp_tugas_akhir', 'bpp_tugas_akhir_terbilang']
+        ].forEach(([amountField, wordsField]) => {
+            pksSetFieldValue(wordsField, pksTerbilangRupiah(pksFieldValue(amountField)));
+        });
+    }
+
+    function pksNormalisasiTeks(value) {
+        return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+    }
+
+    function pksAdalahJabatanDekan(value) {
+        const jabatan = pksNormalisasiTeks(value);
+        if (!jabatan || jabatan.startsWith('wakil dekan')) return false;
+        return jabatan === 'dekan' || jabatan.startsWith('dekan ');
+    }
+
+    function pksCariDekanAktif() {
+        const rows = Array.isArray(plottingKermaRows) ? plottingKermaRows : [];
+        const cocok = row => [
+            row.level_jabatan_1,
+            row.level_jabatan_2,
+            row.jabatan_sbm,
+            row.jabatan_sbm_2
+        ].some(pksAdalahJabatanDekan);
+        const aktif = rows.filter(row => pksNormalisasiTeks(row.status) === 'aktif' && cocok(row));
+        return aktif[0] || rows.find(cocok) || null;
+    }
+
+    function pksNamaLengkapPegawai(row) {
+        if (!row) return '';
+        const nama = String(row.nama || '').trim();
+        if (!nama) return '';
+        const depan = String(row.gelar_depan || '').trim();
+        const belakang = String(row.gelar_belakang || '').trim();
+        return `${depan ? `${depan} ` : ''}${nama}${belakang ? `, ${belakang}` : ''}`.trim();
+    }
+
+    function pksBarisPenandatangan(side) {
+        return document.querySelector(`[data-pks-signatory-side="${side}"]`);
+    }
+
+    function pksIsiJikaKosong(field, value, snapshot) {
+        if (!value || pksFieldValue(field).trim()) return;
+        pksSetFieldValue(field, value);
+        snapshot.fields[field] = value;
+    }
+
+    function pksIsiPenandatanganJikaKosong(side, dean, snapshot) {
+        const row = pksBarisPenandatangan(side);
+        if (!row) return;
+        const values = {
+            nama_lengkap: pksNamaLengkapPegawai(dean),
+            jabatan: PKS_SBM_DEFAULTS.jabatan_penandatangan,
+            dasar_kewenangan_legalitas: PKS_SBM_DEFAULTS.dasar_kewenangan_legalitas
+        };
+        Object.entries(values).forEach(([field, value]) => {
+            const input = row.querySelector(`[data-pks-signatory-field="${field}"]`);
+            if (!input || !value || input.value.trim()) return;
+            input.value = value;
+            snapshot.signatory[field] = value;
+        });
+    }
+
+    function pksHapusAutoFillParty(side) {
+        const snapshot = pksSbmAutoFillSnapshots.get(side);
+        if (!snapshot) return;
+        Object.entries(snapshot.fields || {}).forEach(([field, value]) => {
+            if (pksFieldValue(field).trim() === value) pksSetFieldValue(field, '');
+        });
+        const row = pksBarisPenandatangan(side);
+        Object.entries(snapshot.signatory || {}).forEach(([field, value]) => {
+            const input = row?.querySelector(`[data-pks-signatory-field="${field}"]`);
+            if (input && input.value.trim() === value) input.value = '';
+        });
+        pksSbmAutoFillSnapshots.delete(side);
+    }
+
+    function pksIsiDataSbmKePihak(side) {
+        const snapshot = { fields: {}, signatory: {} };
+        const dean = pksCariDekanAktif();
+        pksIsiJikaKosong(`pihak_${side}_nama_instansi_lembaga`, PKS_SBM_DEFAULTS.nama_instansi_lembaga, snapshot);
+        pksIsiJikaKosong(`pihak_${side}_jenis_lembaga`, PKS_SBM_DEFAULTS.jenis_lembaga, snapshot);
+        pksIsiJikaKosong(`pihak_${side}_alamat_lengkap_instansi`, PKS_SBM_DEFAULTS.alamat_lengkap_instansi, snapshot);
+        pksIsiJikaKosong(`pihak_${side}_kode_pos`, PKS_SBM_DEFAULTS.kode_pos, snapshot);
+        pksIsiJikaKosong(`deskripsi_profil_pihak_${side}`, PKS_SBM_DEFAULTS.deskripsi_profil, snapshot);
+        pksIsiPenandatanganJikaKosong(side, dean, snapshot);
+        if (Object.keys(snapshot.fields).length || Object.keys(snapshot.signatory).length) {
+            pksSbmAutoFillSnapshots.set(side, snapshot);
+        }
+        if (!dean) {
+            pksSetAlert('Identitas SBM sudah diisi, tetapi Dekan aktif belum ditemukan di Daftar Pegawai. Lengkapi nama penandatangan secara manual.', 'warning');
+        }
+    }
+
+    function pksSinkronkanDataSbmDenganPosisi() {
+        const posisi = pksFieldValue('posisi_sbm_itb');
+        const side = posisi === 'PIHAK_PERTAMA' ? 1 : posisi === 'PIHAK_KEDUA' ? 2 : 0;
+        if (!side) return;
+        [...pksSbmAutoFillSnapshots.keys()]
+            .filter(previousSide => previousSide !== side)
+            .forEach(previousSide => pksHapusAutoFillParty(previousSide));
+        pksIsiDataSbmKePihak(side);
+    }
+
+    function pksNumber(field, optional = false) {
+        const raw = pksFieldValue(field).trim();
+        if (!raw && optional) return undefined;
+        return raw ? Number(raw) : null;
+    }
+
+    function pksLines(field) {
+        return pksFieldValue(field).split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+    }
+
+    function pksSetLines(field, values) {
+        pksSetFieldValue(field, Array.isArray(values) ? values.join('\n') : (values || ''));
+    }
+
+    function pksParty(side) {
+        const signatories = Array.from(document.querySelectorAll(`[data-pks-signatory-side="${side}"]`)).map(row => ({
+            nama_lengkap: row.querySelector('[data-pks-signatory-field="nama_lengkap"]')?.value.trim() || '',
+            jabatan: row.querySelector('[data-pks-signatory-field="jabatan"]')?.value.trim() || '',
+            dasar_kewenangan_legalitas: row.querySelector('[data-pks-signatory-field="dasar_kewenangan_legalitas"]')?.value.trim() || ''
+        }));
+        return {
+            nama_instansi_lembaga: pksFieldValue(`pihak_${side}_nama_instansi_lembaga`).trim(),
+            jenis_lembaga: pksFieldValue(`pihak_${side}_jenis_lembaga`),
+            alamat_lengkap_instansi: pksFieldValue(`pihak_${side}_alamat_lengkap_instansi`).trim(),
+            kode_pos: pksFieldValue(`pihak_${side}_kode_pos`).trim(),
+            penandatangan_list: signatories
+        };
+    }
+
+    function pksCorrespondence(side) {
+        return {
+            unit_pengelola_up: pksFieldValue(`korespondensi_${side}_unit_pengelola_up`).trim(),
+            alamat_surat: pksFieldValue(`korespondensi_${side}_alamat_surat`).trim(),
+            nama_pic: pksFieldValue(`korespondensi_${side}_nama_pic`).trim(),
+            nomor_telepon_hp: pksFieldValue(`korespondensi_${side}_nomor_telepon_hp`).trim(),
+            email_resmi: pksFieldValue(`korespondensi_${side}_email_resmi`).trim()
+        };
+    }
+
+    function pksBoolean(field, fallback = false) {
+        const input = document.querySelector(`[data-pks-boolean="${field}"]`);
+        return input ? input.checked : fallback;
+    }
+
+    function pksCollectPaymentTerms() {
+        return Array.from(document.querySelectorAll('[data-pks-term-row]')).map(row => ({
+            termin_ke: row.querySelector('[data-pks-term-field="termin_ke"]')?.value.trim() || '',
+            total_pembayaran: Number(row.querySelector('[data-pks-term-field="total_pembayaran"]')?.value || 0),
+            batas_akhir_pembayaran: row.querySelector('[data-pks-term-field="batas_akhir_pembayaran"]')?.value || ''
+        }));
+    }
+
+    function pksCollectPayload() {
+        const payload = {
+            kategori_pks: pksGeneratorCategory,
+            posisi_sbm_itb: pksFieldValue('posisi_sbm_itb'),
+            nomor_pks_pihak_1: pksFieldValue('nomor_pks_pihak_1').trim(),
+            nomor_pks_pihak_2: pksFieldValue('nomor_pks_pihak_2').trim(),
+            judul_perjanjian_tambahan: pksFieldValue('judul_perjanjian_tambahan').trim(),
+            tanggal_penandatanganan: pksFieldValue('tanggal_penandatanganan'),
+            tempat_penandatanganan: pksFieldValue('tempat_penandatanganan').trim(),
+            pihak_1: pksParty(1),
+            pihak_2: pksParty(2),
+            korespondensi_pihak_1: pksCorrespondence(1),
+            korespondensi_pihak_2: pksCorrespondence(2),
+            jangka_waktu_nilai: pksNumber('jangka_waktu_nilai'),
+            jangka_waktu_satuan: pksFieldValue('jangka_waktu_satuan'),
+            tanggal_mulai_berlaku: pksFieldValue('tanggal_mulai_berlaku'),
+            tanggal_berakhir: pksFieldValue('tanggal_berakhir'),
+            tenggat_notifikasi_perpanjangan: pksNumber('tenggat_notifikasi_perpanjangan'),
+            forum_penyelesaian_perselisihan: pksFieldValue('forum_penyelesaian_perselisihan').trim(),
+            deskripsi_profil_pihak_1: pksFieldValue('deskripsi_profil_pihak_1').trim(),
+            deskripsi_profil_pihak_2: pksFieldValue('deskripsi_profil_pihak_2').trim(),
+            maksud_perjanjian: pksFieldValue('maksud_perjanjian').trim(),
+            tujuan_perjanjian: pksFieldValue('tujuan_perjanjian').trim(),
+            ruang_lingkup: pksLines('ruang_lingkup'),
+            hak_kewajiban_pihak_1: pksLines('hak_kewajiban_pihak_1'),
+            hak_kewajiban_pihak_2: pksLines('hak_kewajiban_pihak_2'),
+            nama_dokumen_turunan: pksFieldValue('nama_dokumen_turunan').trim(),
+            batas_waktu_lapor_force_majeure: pksNumber('batas_waktu_lapor_force_majeure'),
+            batas_waktu_perbaikan_wanprestasi: pksNumber('batas_waktu_perbaikan_wanprestasi'),
+            batas_waktu_musyawarah: pksNumber('batas_waktu_musyawarah'),
+            pilihan_domisili_hukum: pksFieldValue('pilihan_domisili_hukum').trim(),
+            skema_pembayaran: pksFieldValue('skema_pembayaran'),
+            skema_pembayaran_termin: pksCollectPaymentTerms(),
+            nominal_lumpsum: pksNumber('nominal_lumpsum', true),
+            tanggal_pembayaran_lumpsum: pksFieldValue('tanggal_pembayaran_lumpsum'),
+            deskripsi_skema_pembayaran: pksFieldValue('deskripsi_skema_pembayaran').trim()
+        };
+
+        if (pksGeneratorCategory === 'PKS_PENDIDIKAN') {
+            payload.strata_program = pksFieldValue('strata_program');
+            payload.nama_program_studi = pksFieldValue('nama_program_studi').trim();
+            payload.semester_program = pksFieldValue('semester_program');
+            payload.tahun_akademik_penerimaan = pksFieldValue('tahun_akademik_penerimaan').trim();
+            payload.lokasi_perkuliahan = pksFieldValue('lokasi_perkuliahan');
+            payload.durasi_studi_maksimum_tahun = pksNumber('durasi_studi_maksimum_tahun');
+            payload.lama_perpanjangan_semester = pksNumber('lama_perpanjangan_semester', true);
+            payload.lama_perpanjangan_semester_terbilang = pksFieldValue('lama_perpanjangan_semester_terbilang').trim();
+            payload.lama_perpanjangan_bulan = pksNumber('lama_perpanjangan_bulan', true);
+            payload.lama_perpanjangan_bulan_terbilang = pksFieldValue('lama_perpanjangan_bulan_terbilang').trim();
+            payload.persyaratan_minimum_peserta = pksFieldValue('persyaratan_minimum_peserta').trim();
+            payload.jumlah_peserta_didik_penerima_beasiswa = pksNumber('jumlah_peserta_didik_penerima_beasiswa');
+            payload.biaya_bpp_per_peserta = pksNumber('biaya_bpp_per_peserta');
+            payload.bpp_semester_panjang = pksNumber('bpp_semester_panjang', true);
+            payload.bpp_semester_panjang_terbilang = pksFieldValue('bpp_semester_panjang_terbilang').trim();
+            payload.bpp_semester_pendek = pksNumber('bpp_semester_pendek', true);
+            payload.bpp_semester_pendek_terbilang = pksFieldValue('bpp_semester_pendek_terbilang').trim();
+            payload.bpp_ulang_semester_panjang = pksNumber('bpp_ulang_semester_panjang', true);
+            payload.bpp_ulang_semester_panjang_terbilang = pksFieldValue('bpp_ulang_semester_panjang_terbilang').trim();
+            payload.bpp_ulang_semester_pendek = pksNumber('bpp_ulang_semester_pendek', true);
+            payload.bpp_ulang_semester_pendek_terbilang = pksFieldValue('bpp_ulang_semester_pendek_terbilang').trim();
+            payload.bpp_tugas_akhir = pksNumber('bpp_tugas_akhir', true);
+            payload.bpp_tugas_akhir_terbilang = pksFieldValue('bpp_tugas_akhir_terbilang').trim();
+            payload.komponen_biaya_lain_pendidikan = pksCollectOtherEducationCosts();
+            payload.total_biaya_pendidikan = pksNumber('total_biaya_pendidikan');
+            payload.total_komponen_biaya_lain_pendidikan = pksNumber('total_komponen_biaya_lain_pendidikan');
+            payload.nilai_kontrak = pksNumber('nilai_kontrak');
+            payload.rekening_penerima_pembayaran = {
+                nama_bank: pksFieldValue('rekening_nama_bank').trim(),
+                kantor_cabang: pksFieldValue('rekening_kantor_cabang').trim(),
+                alamat: pksFieldValue('rekening_alamat').trim(),
+                nomor_virtual_account: pksFieldValue('rekening_nomor_virtual_account').trim(),
+                nama_rekening_va: pksFieldValue('rekening_nama_rekening_va').trim()
+            };
+        }
+        if (pksGeneratorCategory === 'PKS_MITRA_INDUSTRI') {
+            payload.profil_singkat_mitra_industri = pksFieldValue('profil_singkat_mitra_industri').trim();
+            payload.skema_pendanaan_industri = pksFieldValue('skema_pendanaan_industri');
+            payload.is_knowledge_partner = pksBoolean('is_knowledge_partner');
+            payload.is_pengembangan_kurikulum = pksBoolean('is_pengembangan_kurikulum');
+            payload.is_rekrutmen_magang = pksBoolean('is_rekrutmen_magang');
+            payload.is_aacsb_esg_support = pksBoolean('is_aacsb_esg_support');
+            payload.is_executive_education = pksBoolean('is_executive_education');
+            payload.ruang_lingkup_kustom = pksLines('ruang_lingkup_kustom');
+            payload.daftar_tugas_mitra = pksLines('daftar_tugas_mitra');
+            payload.is_non_hubungan_kerja_clause = pksBoolean('is_non_hubungan_kerja_clause', true);
+            payload.is_confidentiality_strict = pksBoolean('is_confidentiality_strict');
+        }
+        if (pksGeneratorCategory === 'PKS_MITRA_KAMPUS') {
+            payload.nama_fakultas_unit_mitra = pksFieldValue('nama_fakultas_unit_mitra').trim();
+            payload.sk_pendirian_pengangkatan_pimpinan_mitra = pksFieldValue('sk_pendirian_pengangkatan_pimpinan_mitra').trim();
+            payload.program_studi_terlibat_pihak_1 = pksLines('program_studi_terlibat_pihak_1');
+            payload.program_studi_terlibat_pihak_2 = pksLines('program_studi_terlibat_pihak_2');
+            payload.fokus_pendidikan = pksLines('fokus_pendidikan');
+            payload.fokus_penelitian = pksLines('fokus_penelitian');
+            payload.fokus_pengabdian_masyarakat = pksLines('fokus_pengabdian_masyarakat');
+            payload.fokus_publikasi = pksLines('fokus_publikasi');
+            payload.ketentuan_tim_pelaksana = pksFieldValue('ketentuan_tim_pelaksana').trim();
+        }
+        if (pksGeneratorCategory === 'PKS_MITRA_PEMERINTAH') {
+            payload.sk_pengangkatan_kepala_daerah_pejabat = pksFieldValue('sk_pengangkatan_kepala_daerah_pejabat').trim();
+            payload.dasar_hukum_daerah = pksLines('dasar_hukum_daerah');
+            payload.perangkat_daerah_pelaksana_mitra = pksFieldValue('perangkat_daerah_pelaksana_mitra').trim();
+            payload.nama_program_inovasi_daerah = pksFieldValue('nama_program_inovasi_daerah').trim();
+            payload.fokus_kegiatan_pemerintah = Array.from(document.querySelectorAll('[data-pks-focus-government]:checked')).map(input => input.value);
+            payload.is_membutuhkan_implementation_agreement = pksBoolean('is_membutuhkan_implementation_agreement', true);
+            payload.skema_kepemilikan_hki = pksFieldValue('skema_kepemilikan_hki');
+            payload.frekuensi_evaluasi = pksFieldValue('frekuensi_evaluasi');
+        }
+        return payload;
+    }
+
+    function pksSetAlert(message = '', kind = 'warning') {
+        if (!pksFormAlert) return;
+        pksFormAlert.textContent = message;
+        pksFormAlert.className = message ? `form-alert form-alert--${kind}` : 'form-alert';
+    }
+
+    function pksValidatePayload(payload, options = {}) {
+        const requireComplete = options.requireComplete !== false;
+        if (!requireComplete) return true;
+        if (!pksForm || !pksForm.checkValidity()) {
+            pksForm?.reportValidity();
+            pksSetAlert('Masih ada field wajib yang belum lengkap.', 'warning');
+            return false;
+        }
+        const start = payload.tanggal_mulai_berlaku ? new Date(payload.tanggal_mulai_berlaku) : null;
+        const end = payload.tanggal_berakhir ? new Date(payload.tanggal_berakhir) : null;
+        if (start && end && end < start) {
+            pksSetAlert('Tanggal berakhir tidak boleh sebelum tanggal mulai berlaku.', 'error');
+            return false;
+        }
+        if (payload.skema_pembayaran === 'TERMIN' && payload.skema_pembayaran_termin.length === 0) {
+            pksSetAlert('Tambahkan minimal satu termin pembayaran.', 'warning');
+            return false;
+        }
+        if (payload.skema_pembayaran === 'LUMPSUM' && (!payload.nominal_lumpsum || !payload.tanggal_pembayaran_lumpsum)) {
+            pksSetAlert('Nominal dan tanggal pembayaran lumpsum wajib diisi.', 'warning');
+            return false;
+        }
+        if (payload.skema_pembayaran === 'DESKRIPSI_BEBAS' && !payload.deskripsi_skema_pembayaran) {
+            pksSetAlert('Deskripsi skema pembayaran wajib diisi.', 'warning');
+            return false;
+        }
+        if (payload.pihak_1.penandatangan_list.length < 1 || payload.pihak_2.penandatangan_list.length < 1) {
+            pksSetAlert('Setiap pihak harus memiliki minimal satu penandatangan.', 'warning');
+            return false;
+        }
+        if (payload.kategori_pks === 'PKS_PENDIDIKAN') {
+            if (!payload.strata_program || !payload.nama_program_studi || !payload.semester_program || !payload.tahun_akademik_penerimaan) {
+                pksSetAlert('Strata, Nama Program Studi, Semester, dan Tahun Akademik wajib dipilih.', 'warning');
+                return false;
+            }
+            const totalOtherCost = pksTotalOtherEducationCost(payload.komponen_biaya_lain_pendidikan);
+            const expectedEducationTotal = payload.biaya_bpp_per_peserta
+                * payload.jumlah_peserta_didik_penerima_beasiswa;
+            const expectedContractValue = expectedEducationTotal + totalOtherCost;
+            const totalTermin = payload.skema_pembayaran_termin.reduce((sum, row) => sum + row.total_pembayaran, 0);
+            if (!payload.total_biaya_pendidikan || Math.abs(payload.total_biaya_pendidikan - expectedEducationTotal) > 0.01) {
+                pksSetAlert(`Total biaya pendidikan harus ${formatRupiahKomaDash(expectedEducationTotal)} berdasarkan BPP per peserta dikalikan jumlah mahasiswa.`, 'warning');
+                return false;
+            }
+            if (Math.abs((payload.total_komponen_biaya_lain_pendidikan || 0) - totalOtherCost) > 0.01) {
+                pksSetAlert(`Total komponen biaya lain harus ${formatRupiahKomaDash(totalOtherCost)}.`, 'warning');
+                return false;
+            }
+            if (!payload.nilai_kontrak || Math.abs(payload.nilai_kontrak - expectedContractValue) > 0.01) {
+                pksSetAlert(`Nilai kontrak harus ${formatRupiahKomaDash(expectedContractValue)}.`, 'warning');
+                return false;
+            }
+            if (payload.skema_pembayaran === 'TERMIN' && Math.abs(totalTermin - payload.nilai_kontrak) > 0.01) {
+                pksSetAlert('Total seluruh termin harus sama dengan Nilai kontrak.', 'warning');
+                return false;
+            }
+            if (payload.skema_pembayaran === 'LUMPSUM'
+                && Math.abs((payload.nominal_lumpsum || 0) - payload.nilai_kontrak) > 0.01) {
+                pksSetAlert('Nominal lumpsum harus sama dengan Nilai kontrak.', 'warning');
+                return false;
+            }
+        }
+        if (payload.kategori_pks === 'PKS_MITRA_INDUSTRI') {
+            const hasScope = [payload.is_knowledge_partner, payload.is_pengembangan_kurikulum, payload.is_rekrutmen_magang, payload.is_aacsb_esg_support, payload.is_executive_education].some(Boolean) || payload.ruang_lingkup_kustom.length > 0;
+            if (!hasScope) {
+                pksSetAlert('Pilih minimal satu ruang lingkup kerja sama atau isi ruang lingkup kustom.', 'warning');
+                return false;
+            }
+        }
+        if (payload.kategori_pks === 'PKS_MITRA_PEMERINTAH' && payload.fokus_kegiatan_pemerintah.length === 0) {
+            pksSetAlert('Pilih minimal satu fokus kegiatan pemerintah.', 'warning');
+            return false;
+        }
+        return true;
+    }
+
+    function pksRenderForm() {
+        const meta = PKS_GENERATOR_META[pksGeneratorCategory];
+        pksUpdateGenerateButton();
+        document.querySelectorAll('[data-pks-category]').forEach(card => card.classList.toggle('is-selected', card.dataset.pksCategory === pksGeneratorCategory));
+        if (pksCategoryCurrent) pksCategoryCurrent.textContent = meta?.label || 'Belum dipilih';
+        if (!pksGeneratorCategory) {
+            if (pksFormEmpty) pksFormEmpty.hidden = false;
+            if (pksFormBody) { pksFormBody.hidden = true; pksFormBody.innerHTML = ''; }
+            if (pksFormFooter) pksFormFooter.hidden = true;
+            return;
+        }
+        if (pksFormEmpty) pksFormEmpty.hidden = true;
+        if (pksFormBody) {
+            pksFormBody.hidden = false;
+            pksFormBody.innerHTML = renderPksCommonForm() + renderPksCategoryForm(pksGeneratorCategory);
+        }
+        if (pksFormFooter) pksFormFooter.hidden = false;
+        pksUpdateFormDownloadButtons();
+        pksRenderPaymentFields();
+        pksSetAlert('');
+        pksSetFieldValue('forum_penyelesaian_perselisihan', 'Kantor Kepaniteraan Pengadilan Negeri Bandung Kelas 1A Khusus');
+        pksSetFieldValue('nama_dokumen_turunan', 'Lampiran skema pembayaran / Implementation Agreement');
+        pksSetFieldValue('batas_waktu_lapor_force_majeure', 7);
+        pksSetFieldValue('batas_waktu_perbaikan_wanprestasi', 30);
+        pksSetFieldValue('batas_waktu_musyawarah', 30);
+        pksSetFieldValue('pilihan_domisili_hukum', 'Pengadilan Negeri Bandung');
+        if (pksGeneratorCategory === 'PKS_PENDIDIKAN') {
+            pksSetFieldValue('rekening_nama_bank', PKS_DEFAULT_REKENING_PENDIDIKAN.nama_bank);
+            pksSetFieldValue('rekening_kantor_cabang', PKS_DEFAULT_REKENING_PENDIDIKAN.kantor_cabang);
+            pksSetFieldValue('rekening_alamat', PKS_DEFAULT_REKENING_PENDIDIKAN.alamat);
+            pksSetFieldValue('rekening_nomor_virtual_account', PKS_DEFAULT_REKENING_PENDIDIKAN.nomor_virtual_account);
+            pksSetFieldValue('rekening_nama_rekening_va', PKS_DEFAULT_REKENING_PENDIDIKAN.nama_rekening_va);
+        }
+        pksRenderEducationSelectors();
+        pksUpdateExtensionWords();
+        pksUpdateBppWords();
+        pksUpdateEducationTotal();
+        pksSinkronkanDataSbmDenganPosisi();
+        pksUpdateGenerateButton();
+    }
+
+    function pksUpdateEducationTotal() {
+        if (pksGeneratorCategory !== 'PKS_PENDIDIKAN') return;
+        const count = Number(pksFieldValue('jumlah_peserta_didik_penerima_beasiswa') || 0);
+        const bpp = Number(pksFieldValue('biaya_bpp_per_peserta') || 0);
+        const totalOtherCost = pksTotalOtherEducationCost();
+        const totalEducation = document.getElementById('pks_total_biaya_pendidikan');
+        const totalOther = document.getElementById('pks_total_komponen_biaya_lain_pendidikan');
+        const contractValue = document.getElementById('pks_nilai_kontrak');
+        const educationTotal = count * bpp;
+        const otherTotal = totalOtherCost;
+        if (count > 0 && bpp > 0) {
+            if (totalEducation) totalEducation.value = educationTotal;
+            if (totalOther) totalOther.value = otherTotal;
+            if (contractValue) contractValue.value = educationTotal + otherTotal;
+        } else {
+            [totalEducation, totalOther, contractValue].forEach(input => {
+                if (input) input.value = '';
+            });
+        }
+    }
+
+    function pksUpdateGenerateButton() {
+        if (!btnGeneratePks) return;
+        btnGeneratePks.disabled = !pksGeneratorDraftId;
+        btnGeneratePks.title = pksGeneratorDraftId
+            ? 'Validasi dan unduh PKS dari draft tersimpan'
+            : 'Simpan draft terlebih dahulu sebelum generate PKS';
+    }
+
+    function pksUpdateFormDownloadButtons() {
+        const disabled = !pksGeneratorCategory;
+        [btnDownloadPksFormExcel, btnDownloadPksFormPdf].forEach(button => {
+            if (button) button.disabled = disabled;
+        });
+    }
+
+    async function pksDownloadFormTemplate(format) {
+        if (!pksGeneratorCategory) {
+            pksSetAlert('Pilih kategori PKS terlebih dahulu untuk mengunduh formulir.', 'warning');
+            return;
+        }
+        const buttons = [btnDownloadPksFormExcel, btnDownloadPksFormPdf].filter(Boolean);
+        buttons.forEach(button => { button.disabled = true; });
+        try {
+            const response = await fetch(`/api/pks-generator/form-template?category=${encodeURIComponent(pksGeneratorCategory)}&format=${encodeURIComponent(format)}`);
+            if (!response.ok) {
+                const body = await response.json().catch(() => ({}));
+                throw new Error(body.pesan || 'Formulir gagal dibuat.');
+            }
+            const blob = await response.blob();
+            const fallback = `Formulir_Kosong_${PKS_GENERATOR_META[pksGeneratorCategory]?.short || 'PKS'}.${format === 'pdf' ? 'pdf' : 'xlsx'}`;
+            unduhBlobSkTim(blob, namaFileDariContentDisposition(response.headers.get('Content-Disposition'), fallback));
+            pksSetAlert(`Formulir kosong ${format === 'pdf' ? 'PDF' : 'Excel'} berhasil diunduh.`, 'success');
+        } catch (error) {
+            pksSetAlert(error.message || 'Formulir gagal dibuat.', 'error');
+        } finally {
+            pksUpdateFormDownloadButtons();
+        }
+    }
+
+    function pksSetCategory(category, draftId = '') {
+        pksSbmAutoFillSnapshots.clear();
+        pksGeneratorCategory = PKS_GENERATOR_META[category] ? category : '';
+        pksGeneratorDraftId = draftId || '';
+        if (pksDraftId) pksDraftId.value = pksGeneratorDraftId;
+        pksRenderForm();
+    }
+
+    function pksHydrateParty(side, party = {}) {
+        pksSetFieldValue(`pihak_${side}_nama_instansi_lembaga`, party.nama_instansi_lembaga);
+        pksSetFieldValue(`pihak_${side}_jenis_lembaga`, party.jenis_lembaga);
+        pksSetFieldValue(`pihak_${side}_alamat_lengkap_instansi`, party.alamat_lengkap_instansi);
+        pksSetFieldValue(`pihak_${side}_kode_pos`, party.kode_pos);
+        const list = Array.isArray(party.penandatangan_list) && party.penandatangan_list.length ? party.penandatangan_list : [{}];
+        const container = document.getElementById(`pksSignatories${side}`);
+        if (container) container.innerHTML = list.map(() => renderPksSignatoryRow(side)).join('');
+        Array.from(container?.querySelectorAll('[data-pks-signatory-row]') || []).forEach((row, index) => {
+            const item = list[index] || {};
+            row.querySelector('[data-pks-signatory-field="nama_lengkap"]').value = item.nama_lengkap || '';
+            row.querySelector('[data-pks-signatory-field="jabatan"]').value = item.jabatan || '';
+            row.querySelector('[data-pks-signatory-field="dasar_kewenangan_legalitas"]').value = item.dasar_kewenangan_legalitas || '';
+        });
+    }
+
+    function pksHydratePayload(payload = {}) {
+        if (payload.kategori_pks === 'PKS_PENDIDIKAN') {
+            // Render dependent options before assigning the saved values so the
+            // browser can retain the selected program and academic year.
+            pksSetFieldValue('strata_program', payload.strata_program);
+            pksSetFieldValue('semester_program', payload.semester_program);
+            pksRenderEducationSelectors();
+        }
+        Object.entries(payload).forEach(([field, value]) => {
+            if (['pihak_1', 'pihak_2', 'korespondensi_pihak_1', 'korespondensi_pihak_2', 'skema_pembayaran_termin', 'komponen_biaya_lain_pendidikan', 'rekening_penerima_pembayaran', 'fokus_kegiatan_pemerintah'].includes(field)) return;
+            if (Array.isArray(value)) pksSetLines(field, value);
+            else if (typeof value !== 'object') pksSetFieldValue(field, value);
+        });
+        pksHydrateParty(1, payload.pihak_1);
+        pksHydrateParty(2, payload.pihak_2);
+        [1, 2].forEach(side => {
+            const data = payload[`korespondensi_pihak_${side}`] || {};
+            Object.entries(data).forEach(([field, value]) => pksSetFieldValue(`korespondensi_${side}_${field}`, value));
+        });
+        pksRenderPaymentFields();
+        if (payload.kategori_pks === 'PKS_PENDIDIKAN') {
+            pksRenderOtherEducationCosts(payload.komponen_biaya_lain_pendidikan || []);
+        }
+        if (payload.skema_pembayaran === 'TERMIN') {
+            const rows = Array.isArray(payload.skema_pembayaran_termin) && payload.skema_pembayaran_termin.length ? payload.skema_pembayaran_termin : [{}];
+            const container = document.getElementById('pksPaymentTerms');
+            if (container) container.innerHTML = rows.map(item => renderPksTermRow(item)).join('');
+            Array.from(container?.querySelectorAll('[data-pks-term-row]') || []).forEach((row, index) => {
+                const item = rows[index] || {};
+                const legacyTotal = item.total_nominal_termin
+                    ?? (item.nominal_per_peserta !== undefined || item.jumlah_peserta !== undefined
+                        ? Number(item.nominal_per_peserta || 0) * Number(item.jumlah_peserta || 0)
+                        : '');
+                const totalInput = row.querySelector('[data-pks-term-field="total_pembayaran"]');
+                if (totalInput && item.total_pembayaran === undefined && legacyTotal !== undefined) totalInput.value = legacyTotal;
+            });
+        }
+        if (payload.kategori_pks === 'PKS_PENDIDIKAN') {
+            const account = payload.rekening_penerima_pembayaran || {};
+            pksSetFieldValue('rekening_nama_bank', account.nama_bank || PKS_DEFAULT_REKENING_PENDIDIKAN.nama_bank);
+            pksSetFieldValue('rekening_kantor_cabang', account.kantor_cabang || PKS_DEFAULT_REKENING_PENDIDIKAN.kantor_cabang);
+            pksSetFieldValue('rekening_alamat', account.alamat || PKS_DEFAULT_REKENING_PENDIDIKAN.alamat);
+            pksSetFieldValue('rekening_nomor_virtual_account', account.nomor_virtual_account || PKS_DEFAULT_REKENING_PENDIDIKAN.nomor_virtual_account);
+            pksSetFieldValue('rekening_nama_rekening_va', account.nama_rekening_va || PKS_DEFAULT_REKENING_PENDIDIKAN.nama_rekening_va);
+        }
+        document.querySelectorAll('[data-pks-boolean]').forEach(input => {
+            const value = payload[input.dataset.pksBoolean];
+            if (value !== undefined) input.checked = Boolean(value);
+        });
+        document.querySelectorAll('[data-pks-focus-government]').forEach(input => {
+            input.checked = Array.isArray(payload.fokus_kegiatan_pemerintah) && payload.fokus_kegiatan_pemerintah.includes(input.value);
+        });
+        pksRenderEducationSelectors();
+        pksUpdateExtensionWords();
+        pksUpdateBppWords();
+        pksUpdateEducationTotal();
+        pksSinkronkanDataSbmDenganPosisi();
+    }
+
+    function pksFormatDate(value) {
+        if (!value) return '-';
+        const parsed = new Date(value);
+        return Number.isNaN(parsed.getTime()) ? '-' : parsed.toLocaleDateString('id-ID', { dateStyle: 'medium' });
+    }
+
+    function pksRenderDrafts() {
+        if (pksDraftCounter) pksDraftCounter.textContent = `${pksGeneratorDrafts.length} draft tersimpan`;
+        if (!pksDraftList) return;
+        if (!pksGeneratorDrafts.length) {
+            pksDraftList.innerHTML = '<div class="pks-empty-state">Belum ada draft PKS.</div>';
+            return;
+        }
+        pksDraftList.innerHTML = pksGeneratorDrafts.map(draft => {
+            const meta = PKS_GENERATOR_META[draft.kategori_pks];
+            const title = draft.judul_perjanjian_tambahan || draft.data?.judul_perjanjian_tambahan || 'Tanpa judul';
+            return `<article class="pks-draft-item"><strong>${esc(title)}</strong><small>${esc(meta?.label || draft.kategori_pks || '-')}<br>${esc(draft.id_pks_draft || '-')} · Diperbarui ${esc(pksFormatDate(draft.updatedAt || draft.updated_at))}</small><div class="pks-draft-item-actions"><button type="button" data-pks-load-draft="${esc(draft.id_pks_draft)}">Lanjutkan</button></div></article>`;
+        }).join('');
+    }
+
+    async function pksLoadDrafts() {
+        if (!pksDraftList) return;
+        pksDraftList.innerHTML = '<div class="pks-empty-state">Memuat draft PKS...</div>';
+        try {
+            const response = await fetch('/api/pks-generator');
+            const body = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(body.pesan || 'Gagal memuat draft PKS.');
+            pksGeneratorDrafts = Array.isArray(body) ? body : [];
+            pksRenderDrafts();
+        } catch (error) {
+            pksGeneratorDrafts = [];
+            pksDraftList.innerHTML = `<div class="pks-empty-state">${esc(error.message || 'Gagal memuat draft PKS.')}</div>`;
+        }
+    }
+
+    async function pksSaveDraft(event) {
+        event?.preventDefault();
+        if (!pksGeneratorCategory) {
+            pksSetAlert('Pilih salah satu kategori PKS terlebih dahulu.', 'warning');
+            return;
+        }
+        const payload = pksCollectPayload();
+        if (!pksValidatePayload(payload, { requireComplete: false })) return;
+        const method = pksGeneratorDraftId ? 'PUT' : 'POST';
+        const endpoint = pksGeneratorDraftId ? `/api/pks-generator/${encodeURIComponent(pksGeneratorDraftId)}` : '/api/pks-generator';
+        if (btnSimpanPksDraft) btnSimpanPksDraft.disabled = true;
+        pksSetAlert('Menyimpan draft PKS...', 'warning');
+        try {
+            const response = await fetch(endpoint, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ kategori_pks: pksGeneratorCategory, data: payload, dibuat_oleh: currentUser?.nama || '' })
+            });
+            const body = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(body.pesan || 'Gagal menyimpan draft PKS.');
+            pksGeneratorDraftId = body.id_pks_draft || pksGeneratorDraftId;
+            if (pksDraftId) pksDraftId.value = pksGeneratorDraftId;
+            pksUpdateGenerateButton();
+            pksSetAlert(body.pesan || 'Draft PKS berhasil disimpan.', 'success');
+            await pksLoadDrafts();
+        } catch (error) {
+            pksSetAlert(error.message || 'Gagal menyimpan draft PKS.', 'error');
+        } finally {
+            if (btnSimpanPksDraft) btnSimpanPksDraft.disabled = false;
+        }
+    }
+
+    function pksResetForm() {
+        pksSbmAutoFillSnapshots.clear();
+        pksGeneratorCategory = '';
+        pksGeneratorDraftId = '';
+        if (pksDraftId) pksDraftId.value = '';
+        pksRenderForm();
+    }
+
+    async function pksGenerateDocument() {
+        if (!pksGeneratorDraftId) {
+            pksSetAlert('Simpan Draft PKS terlebih dahulu sebelum generate dokumen.', 'warning');
+            return;
+        }
+        const payload = pksCollectPayload();
+        if (!pksValidatePayload(payload, { requireComplete: true })) return;
+        if (btnGeneratePks) btnGeneratePks.disabled = true;
+        pksSetAlert('Memvalidasi data dan menyiapkan dokumen PKS...', 'warning');
+        try {
+            const updateResponse = await fetch(`/api/pks-generator/${encodeURIComponent(pksGeneratorDraftId)}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ kategori_pks: pksGeneratorCategory, data: payload, diperbarui_oleh: currentUser?.nama || '' })
+            });
+            const updateBody = await updateResponse.json().catch(() => ({}));
+            if (!updateResponse.ok) throw new Error(updateBody.pesan || 'Draft PKS gagal diperbarui.');
+
+            const response = await fetch(`/api/pks-generator/${encodeURIComponent(pksGeneratorDraftId)}/generate`, { method: 'POST' });
+            if (!response.ok) {
+                const body = await response.json().catch(() => ({}));
+                throw new Error(body.pesan || 'Dokumen PKS gagal dibuat.');
+            }
+            const blob = await response.blob();
+            const disposition = response.headers.get('Content-Disposition') || '';
+            const match = disposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/i);
+            const filename = decodeURIComponent(match?.[1] || match?.[2] || `PKS_${pksGeneratorDraftId}.docx`);
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = filename;
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+            URL.revokeObjectURL(url);
+            pksSetAlert('PKS berhasil dibuat dan diunduh dalam format DOCX.', 'success');
+            await pksLoadDrafts();
+        } catch (error) {
+            pksSetAlert(error.message || 'Dokumen PKS gagal dibuat.', 'error');
+        } finally {
+            pksUpdateGenerateButton();
+        }
+    }
+
+    document.querySelectorAll('[data-pks-category]').forEach(card => card.addEventListener('click', () => {
+        const nextCategory = card.dataset.pksCategory;
+        if (pksGeneratorCategory && pksGeneratorCategory !== nextCategory && pksGeneratorDraftId) {
+            const proceed = window.confirm('Form draft saat ini akan berganti kategori. Perubahan yang belum disimpan akan hilang. Lanjutkan?');
+            if (!proceed) return;
+        }
+        pksSetCategory(nextCategory);
+    }));
+    pksFormBody?.addEventListener('input', event => {
+        if (event.target.matches('#pks_jumlah_peserta_didik_penerima_beasiswa, #pks_biaya_bpp_per_peserta')) pksUpdateEducationTotal();
+        if (event.target.matches('[data-pks-other-cost-field="volume"], [data-pks-other-cost-field="harga"]')) {
+            pksUpdateOtherEducationCostRowTotal(event.target.closest('[data-pks-other-cost-row]'));
+            pksUpdateEducationTotal();
+        }
+        if (event.target.matches('#pks_lama_perpanjangan_semester, #pks_lama_perpanjangan_bulan')) pksUpdateExtensionWords();
+        if (event.target.matches('#pks_bpp_semester_panjang, #pks_bpp_semester_pendek, #pks_bpp_ulang_semester_panjang, #pks_bpp_ulang_semester_pendek, #pks_bpp_tugas_akhir')) pksUpdateBppWords();
+    });
+    pksFormBody?.addEventListener('change', event => {
+        if (event.target.matches('#pks_skema_pembayaran')) pksRenderPaymentFields();
+        if (event.target.matches('#pks_posisi_sbm_itb')) pksSinkronkanDataSbmDenganPosisi();
+        if (event.target.matches('#pks_strata_program, #pks_semester_program')) pksRenderEducationSelectors();
+    });
+    pksFormBody?.addEventListener('click', event => {
+        const sectionToggle = event.target.closest('[data-pks-section-toggle]');
+        if (sectionToggle) {
+            const section = sectionToggle.closest('[data-pks-section]');
+            const content = section?.querySelector('[data-pks-section-content]');
+            if (section && content) {
+                const isCollapsed = section.classList.toggle('is-collapsed');
+                content.hidden = isCollapsed;
+                sectionToggle.setAttribute('aria-expanded', String(!isCollapsed));
+                sectionToggle.title = isCollapsed ? 'Buka bagian' : 'Ciutkan bagian';
+            }
+            return;
+        }
+        const addSignatory = event.target.closest('[data-pks-add-signatory]');
+        if (addSignatory) {
+            document.getElementById(`pksSignatories${addSignatory.dataset.pksAddSignatory}`)?.insertAdjacentHTML('beforeend', renderPksSignatoryRow(addSignatory.dataset.pksAddSignatory));
+            return;
+        }
+        const removeSignatory = event.target.closest('[data-pks-remove-signatory]');
+        if (removeSignatory) {
+            const container = removeSignatory.closest('.pks-repeatable-list');
+            if (container?.querySelectorAll('[data-pks-signatory-row]').length > 1) removeSignatory.closest('[data-pks-signatory-row]')?.remove();
+            else pksSetAlert('Setiap pihak harus memiliki minimal satu penandatangan.', 'warning');
+            return;
+        }
+        if (event.target.closest('[data-pks-add-term]')) {
+            document.getElementById('pksPaymentTerms')?.insertAdjacentHTML('beforeend', renderPksTermRow());
+            return;
+        }
+        const removeTerm = event.target.closest('[data-pks-remove-term]');
+        if (removeTerm) {
+            const container = removeTerm.closest('.pks-repeatable-list');
+            if (container?.querySelectorAll('[data-pks-term-row]').length > 1) removeTerm.closest('[data-pks-term-row]')?.remove();
+            else pksSetAlert('Minimal satu termin pembayaran harus diisi.', 'warning');
+            return;
+        }
+        if (event.target.closest('[data-pks-add-other-cost]')) {
+            document.getElementById('pksOtherEducationCosts')?.insertAdjacentHTML('beforeend', renderPksOtherEducationCostRow());
+            return;
+        }
+        const removeOtherCost = event.target.closest('[data-pks-remove-other-cost]');
+        if (removeOtherCost) {
+            removeOtherCost.closest('[data-pks-other-cost-row]')?.remove();
+            pksUpdateEducationTotal();
+        }
+    });
+    pksDraftList?.addEventListener('click', event => {
+        const button = event.target.closest('[data-pks-load-draft]');
+        if (!button) return;
+        const draft = pksGeneratorDrafts.find(item => item.id_pks_draft === button.dataset.pksLoadDraft);
+        if (!draft) return;
+        pksSetCategory(draft.kategori_pks, draft.id_pks_draft);
+        pksHydratePayload(draft.data || {});
+        pksSetAlert(`Draft ${draft.id_pks_draft} dibuka. Periksa perubahan sebelum menyimpan.`, 'success');
+    });
+    pksForm?.addEventListener('submit', pksSaveDraft);
+    btnGeneratePks?.addEventListener('click', () => { void pksGenerateDocument(); });
+    btnDownloadPksFormExcel?.addEventListener('click', () => { void pksDownloadFormTemplate('xlsx'); });
+    btnDownloadPksFormPdf?.addEventListener('click', () => { void pksDownloadFormTemplate('pdf'); });
+    btnResetBuatPks?.addEventListener('click', pksResetForm);
+    btnRefreshPksDraft?.addEventListener('click', () => { void pksLoadDrafts(); });
+
     document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', e => e.preventDefault()));
     menuDaftar.addEventListener('click',             () => switchPage(menuDaftar, sectionDaftar));
     menuMitra.addEventListener('click',              () => { switchPage(menuMitra, sectionMitra); AmbilDataMitraDanRender(); });
@@ -19420,6 +20946,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     menuIndustri.addEventListener('click',           () => { switchPage(menuIndustri, sectionIndustri); AmbilDataIndustriDanRender(); });
     menuTambahMitra.addEventListener('click',        () => { switchPage(menuTambahMitra, sectionTambahMitra); populateSelectIndustri(); });
     menuTambah.addEventListener('click',             () => { switchPage(menuTambah, sectionTambah); populateSelectNamaMitra(); });
+    menuBuatPks?.addEventListener('click',           () => { switchPage(menuBuatPks, sectionBuatPks); void pksLoadDrafts(); });
     menuPendapatan.addEventListener('click',          () => {
         switchPage(menuPendapatan, sectionRealisasi);
         setTabRealisasi('rencana');
@@ -19439,6 +20966,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             await muatDataEksporPlottingKerma();
         })();
     });
+    menuBuatRabKerma?.addEventListener('click', () => {
+        switchPage(menuBuatRabKerma, sectionBuatRabKerma);
+        void bukaBuatRabKerma();
+    });
     menuDaftarNominatif?.addEventListener('click', () => {
         switchPage(menuDaftarNominatif, sectionDaftarNominatif);
         void (async () => {
@@ -19446,6 +20977,50 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!allData.length) await muatDataEksporPlottingKerma();
             renderDaftarNominatif();
         })();
+    });
+
+    selectBuatRabKermaMitra?.addEventListener('change', async () => {
+        const nextMitraId = String(selectBuatRabKermaMitra.value || '').trim();
+        if (rabKermaDirty && nextMitraId !== rabKermaSelectedMitraId) {
+            const lanjut = window.confirm('Perubahan RAB Kerma belum disimpan. Ganti mitra dan abaikan perubahan tersebut?');
+            if (!lanjut) {
+                selectBuatRabKermaMitra.value = rabKermaSelectedMitraId;
+                return;
+            }
+        }
+        rabKermaSelectedMitraId = nextMitraId;
+        rabKermaDirty = false;
+        renderInfoBuatRabKermaMitra();
+        await muatRabKermaUntukMitra(rabKermaSelectedMitraId);
+    });
+    btnTambahBarisRabKerma?.addEventListener('click', () => {
+        if (!rabKermaSelectedMitraId || rabKermaLoading) return;
+        rabKermaRows.push(barisRabKermaKosong());
+        rabKermaDirty = true;
+        renderTabelBuatRabKerma();
+        requestAnimationFrame(() => bodyTabelBuatRabKerma?.lastElementChild?.querySelector('[data-rab-field="kegiatan"]')?.focus());
+    });
+    btnSimpanRabKerma?.addEventListener('click', () => { void simpanRabKerma(); });
+    bodyTabelBuatRabKerma?.addEventListener('input', event => {
+        const target = event.target;
+        const rowElement = target.closest('tr[data-rab-row-index]');
+        if (!rowElement || !target.dataset.rabField) return;
+        const row = rabKermaRows[Number(rowElement.dataset.rabRowIndex)];
+        if (!row) return;
+        row[target.dataset.rabField] = target.value;
+        rabKermaDirty = true;
+        updateRingkasanBarisBuatRabKerma(rowElement);
+        updateKontrolBuatRabKerma();
+    });
+    bodyTabelBuatRabKerma?.addEventListener('click', event => {
+        const button = event.target.closest('[data-rab-delete]');
+        if (!button) return;
+        const index = Number(button.dataset.rabDelete);
+        if (!Number.isInteger(index) || !rabKermaRows[index]) return;
+        rabKermaRows.splice(index, 1);
+        rabKermaDirty = true;
+        renderTabelBuatRabKerma();
+        setInfoBuatRabKerma('Baris dihapus dari tampilan. Klik Simpan RAB Kerma untuk menyimpan perubahan.');
     });
     menuLaporan.addEventListener('click',            () => switchPage(menuLaporan, sectionLaporan));
     menuKontrak.addEventListener('click',            () => { switchPage(menuKontrak, sectionKontrak); loadKontrak(); });

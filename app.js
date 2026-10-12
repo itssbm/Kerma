@@ -30,11 +30,13 @@ const Kontrak      = require('./models/Kontrak');
 const UserRepo     = require('./services/repo/userRepo');
 const RencanaAnggaran = require('./models/RencanaAnggaran');
 const RabAnggaran = require('./models/RabAnggaran');
+const RabKerma = require('./models/RabKerma');
 const PaguAnggaran = require('./models/PaguAnggaran');
 const RealisasiAnggaran = require('./models/RealisasiAnggaran');
 const RealisasiPembayaran = require('./models/RealisasiPembayaran');
 const InvoicePembayaran = require('./models/InvoicePembayaran');
 const PlottingKerma = require('./models/PlottingKerma');
+const PksDraft      = require('./models/PksDraft');
 const UploadChunk = require('./models/UploadChunk');
 const {
     uploadAppFile,
@@ -676,7 +678,12 @@ async function resolvePlottingKermaDoc(userId) {
     if (exactUserId) fallbackQueries.push({ label: 'current-user', filter: { userId: exactUserId } });
     if (exactUserId !== 'admin') fallbackQueries.push({ label: 'admin-user', filter: { userId: 'admin' } });
     fallbackQueries.push({ label: 'latest-imported', filter: { source: { $in: ['app', 'plotting-backup.json'] } } });
-    fallbackQueries.push({ label: 'latest-any', filter: {} });
+    // Dokumen RAB Kerma fallback disimpan di tabel plotting_kerma dengan
+    // source khusus. Jangan sampai dokumen itu terbaca sebagai plotting utama.
+    fallbackQueries.push({
+        label: 'latest-any',
+        filter: { source: { $in: ['app', 'plotting-backup.json'] } }
+    });
 
     for (const candidate of fallbackQueries) {
         const doc = await PlottingKerma.findOne(candidate.filter)
@@ -3442,6 +3449,204 @@ app.put('/api/edit-mitra', async (req, res) => {
     } catch (err) {
         console.error('Gagal edit mitra:', err);
         res.status(500).json({ pesan: 'Gagal memperbarui data mitra.' });
+    }
+});
+
+// ─── API: RAB Kerma sebelum kontrak ──────────────────────────────────────────
+
+const RAB_KERMA_MONTH_FIELDS = Object.freeze([
+    'jan', 'feb', 'mar', 'apr', 'mei', 'jun',
+    'jul', 'agu', 'sep', 'okt', 'nov', 'des'
+]);
+const RAB_KERMA_FALLBACK_USER_PREFIX = 'rab-kerma:';
+
+function angkaRabKerma(value) {
+    if (typeof value === 'number') return Number.isFinite(value) && value >= 0 ? value : 0;
+    const raw = String(value ?? '').trim();
+    if (!raw) return 0;
+    const normalized = raw.includes(',') && raw.includes('.')
+        ? raw.replace(/\./g, '').replace(',', '.')
+        : raw.replace(',', '.');
+    const number = Number(normalized.replace(/[^\d.-]/g, ''));
+    return Number.isFinite(number) && number >= 0 ? number : 0;
+}
+
+function bulatkanRabKerma(value) {
+    return Math.round((Number(value) || 0) * 100) / 100;
+}
+
+function barisRabKermaNormal(raw = {}, idMitra = '') {
+    const volume = angkaRabKerma(raw.volume);
+    const hargaSatuan = angkaRabKerma(raw.harga_satuan ?? raw.hargaSatuan);
+    const total = bulatkanRabKerma(volume * hargaSatuan);
+    const bulan = Object.fromEntries(RAB_KERMA_MONTH_FIELDS.map(field => [field, bulatkanRabKerma(angkaRabKerma(raw[field]))]));
+    const totalBulanan = bulatkanRabKerma(RAB_KERMA_MONTH_FIELDS.reduce((sum, field) => sum + bulan[field], 0));
+
+    return {
+        id_rab_kerma: String(raw.id_rab_kerma || raw._id || raw.id || crypto.randomUUID()),
+        id_mitra: String(raw.id_mitra || idMitra || '').trim(),
+        kegiatan: String(raw.kegiatan || '').trim(),
+        detail_kegiatan: String(raw.detail_kegiatan ?? raw.detailKegiatan ?? '').trim(),
+        item_belanja: String(raw.item_belanja ?? raw.itemBelanja ?? '').trim(),
+        satuan: String(raw.satuan || '').trim(),
+        volume,
+        harga_satuan: hargaSatuan,
+        total,
+        ...bulan,
+        total_bulanan: totalBulanan,
+        selisih: bulatkanRabKerma(total - totalBulanan),
+        createdAt: raw.createdAt || raw.created_at || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    };
+}
+
+function barisRabKermaPublik(row = {}) {
+    const normalized = barisRabKermaNormal(row, row.id_mitra);
+    return {
+        ...row,
+        ...normalized,
+        id_rab_kerma: String(row.id_rab_kerma || row._id || row.id || normalized.id_rab_kerma)
+    };
+}
+
+function tabelRabKermaBelumTersedia(error) {
+    const message = `${error?.message || ''} ${JSON.stringify(error?.body || '')}`;
+    return Number(error?.status) === 404 || /PGRST205|relation .* does not exist|could not find the table/i.test(message);
+}
+
+function idUserFallbackRabKerma(idMitra) {
+    return `${RAB_KERMA_FALLBACK_USER_PREFIX}${idMitra}`;
+}
+
+async function ambilFallbackRabKerma(idMitra) {
+    const doc = await PlottingKerma.findOne({
+        userId: idUserFallbackRabKerma(idMitra),
+        source: 'rab_kerma'
+    }).sort({ updatedAt: -1, createdAt: -1 }).lean();
+    const payload = doc?.payload && typeof doc.payload === 'object' ? doc.payload : {};
+    return {
+        doc,
+        rows: Array.isArray(payload.rows)
+            ? payload.rows.map(row => barisRabKermaPublik({ ...row, id_mitra: idMitra }))
+            : []
+    };
+}
+
+async function simpanFallbackRabKerma(idMitra, rows) {
+    const existing = await PlottingKerma.findOne({
+        userId: idUserFallbackRabKerma(idMitra),
+        source: 'rab_kerma'
+    }).sort({ updatedAt: -1, createdAt: -1 });
+    const payload = {
+        id_mitra: idMitra,
+        rows: rows.map(row => barisRabKermaPublik({ ...row, id_mitra: idMitra }))
+    };
+    if (existing) {
+        existing.payload = payload;
+        existing.note = 'RAB Kerma disimpan sebelum tabel rab_kerma dimigrasikan';
+        await existing.save();
+    } else {
+        await PlottingKerma.create({
+            userId: idUserFallbackRabKerma(idMitra),
+            source: 'rab_kerma',
+            version: 1,
+            payload,
+            note: 'RAB Kerma disimpan sementara pada storage kompatibilitas'
+        });
+    }
+    return payload.rows;
+}
+
+async function gantiBarisRabKerma(idMitra, rows) {
+    const existing = await RabKerma.find({ id_mitra: idMitra }).lean();
+    const existingById = new Map(existing.map(row => [String(row._id || row.id_rab_kerma || row.id), row]));
+    const incomingIds = new Set();
+    const saved = [];
+
+    for (const raw of rows) {
+        const normalized = barisRabKermaNormal(raw, idMitra);
+        const id = String(normalized.id_rab_kerma);
+        incomingIds.add(id);
+        const previous = existingById.get(id);
+        if (previous) {
+            const updated = await RabKerma.findByIdAndUpdate(previous._id, {
+                ...normalized,
+                id_rab_kerma: id,
+                createdAt: previous.createdAt || normalized.createdAt
+            });
+            saved.push(barisRabKermaPublik(updated?.lean?.() || updated || { ...normalized, _id: previous._id }));
+        } else {
+            const created = await RabKerma.create(normalized);
+            saved.push(barisRabKermaPublik(created?.lean?.() || created || normalized));
+        }
+    }
+
+    for (const row of existing) {
+        const id = String(row._id || row.id_rab_kerma || row.id);
+        if (!incomingIds.has(id)) await RabKerma.findByIdAndDelete(row._id);
+    }
+    return saved;
+}
+
+app.get('/api/rab-kerma', async (req, res) => {
+    const idMitra = String(req.query?.id_mitra || '').trim();
+    if (!idMitra) return res.status(400).json({ pesan: 'ID Mitra wajib dipilih.' });
+    try {
+        const mitra = await Mitra.findOne({ id_mitra: idMitra }).lean();
+        if (!mitra) return res.status(404).json({ pesan: `Mitra dengan ID "${idMitra}" tidak ditemukan.` });
+
+        let rows;
+        try {
+            rows = (await RabKerma.find({ id_mitra: idMitra }).sort({ createdAt: 1, _id: 1 }).lean())
+                .map(barisRabKermaPublik);
+        } catch (error) {
+            if (!tabelRabKermaBelumTersedia(error)) throw error;
+            rows = (await ambilFallbackRabKerma(idMitra)).rows;
+        }
+
+        res.json({
+            data: {
+                id_mitra: idMitra,
+                mitra: { id_mitra: mitra.id_mitra, nama_mitra: mitra.nama_mitra },
+                rows
+            }
+        });
+    } catch (error) {
+        console.error('Gagal membaca RAB Kerma:', error);
+        res.status(500).json({ pesan: 'Gagal membaca data RAB Kerma.' });
+    }
+});
+
+app.post('/api/rab-kerma/bulk', async (req, res) => {
+    const idMitra = String(req.body?.id_mitra || '').trim();
+    const rows = Array.isArray(req.body?.rows) ? req.body.rows : [];
+    if (!idMitra) return res.status(400).json({ pesan: 'ID Mitra wajib dipilih.' });
+    if (rows.length > 500) return res.status(400).json({ pesan: 'Maksimal 500 baris RAB Kerma dalam satu penyimpanan.' });
+
+    try {
+        const mitra = await Mitra.findOne({ id_mitra: idMitra }).lean();
+        if (!mitra) return res.status(404).json({ pesan: `Mitra dengan ID "${idMitra}" tidak ditemukan.` });
+        const normalizedRows = rows.map(row => barisRabKermaNormal(row, idMitra));
+        let savedRows;
+        try {
+            savedRows = await gantiBarisRabKerma(idMitra, normalizedRows);
+        } catch (error) {
+            if (!tabelRabKermaBelumTersedia(error)) throw error;
+            savedRows = await simpanFallbackRabKerma(idMitra, normalizedRows);
+        }
+        res.json({
+            pesan: 'RAB Kerma berhasil disimpan.',
+            data: {
+                id_mitra: idMitra,
+                mitra: { id_mitra: mitra.id_mitra, nama_mitra: mitra.nama_mitra },
+                rows: savedRows.map(barisRabKermaPublik)
+            }
+        });
+    } catch (error) {
+        const requestId = req.requestId || crypto.randomUUID();
+        console.error(`[RAB Kerma][${requestId}] Gagal menyimpan RAB Kerma:`, error);
+        const detail = !isProd && error?.message ? ` Detail: ${error.message}` : '';
+        res.status(500).json({ pesan: `Gagal menyimpan RAB Kerma.${detail}`, requestId });
     }
 });
 
@@ -7319,6 +7524,822 @@ app.post('/api/tambah-calon-peserta', async (req, res) => {
 // ─── Inisialisasi & Start ─────────────────────────────────────────────────────
 
 // ─── API: Kontrak / PKS ───────────────────────────────────────────────────────
+
+// ─── API: Generator PKS ──────────────────────────────────────────────────────
+// Draft generator sengaja memakai koleksi sendiri. Dengan begitu data dari
+// halaman baru tidak mengubah kontrak lama sebelum admin siap memindahkannya
+// ke alur Kontrak / PKS.
+const KATEGORI_PKS_GENERATOR = new Set([
+    'PKS_PENDIDIKAN',
+    'PKS_MITRA_INDUSTRI',
+    'PKS_MITRA_KAMPUS',
+    'PKS_MITRA_PEMERINTAH'
+]);
+
+function textPksDraft(value) {
+    return value === null || value === undefined ? '' : String(value).trim();
+}
+
+function ringkasValidasiPksDraft(body = {}, options = {}) {
+    const requireComplete = options.requireComplete === true;
+    const kategori = textPksDraft(body.kategori_pks);
+    const data = body.data && typeof body.data === 'object' && !Array.isArray(body.data)
+        ? body.data
+        : null;
+    const errors = [];
+    if (!KATEGORI_PKS_GENERATOR.has(kategori)) errors.push('Kategori PKS belum dipilih atau tidak valid.');
+    if (!data) errors.push('Data form PKS belum tersedia.');
+    if (requireComplete) {
+        if (data && !textPksDraft(data.judul_perjanjian_tambahan)) errors.push('Judul perjanjian tambahan wajib diisi.');
+        if (data && (!data.pihak_1 || !data.pihak_2)) errors.push('Data kedua pihak wajib diisi.');
+        if (data && !['TERMIN', 'LUMPSUM', 'DESKRIPSI_BEBAS'].includes(textPksDraft(data.skema_pembayaran))) {
+            errors.push('Pilihan skema pembayaran wajib dipilih.');
+        }
+        if (data?.skema_pembayaran === 'TERMIN' && (!Array.isArray(data.skema_pembayaran_termin) || data.skema_pembayaran_termin.length === 0)) {
+            errors.push('Minimal satu termin pembayaran wajib diisi.');
+        }
+        if (data?.skema_pembayaran === 'LUMPSUM') {
+            if (!(Number(data.nominal_lumpsum) > 0)) errors.push('Nominal lumpsum wajib lebih besar dari 0.');
+            if (!textPksDraft(data.tanggal_pembayaran_lumpsum)) errors.push('Tanggal pembayaran lumpsum wajib diisi.');
+        }
+        if (data?.skema_pembayaran === 'DESKRIPSI_BEBAS' && !textPksDraft(data.deskripsi_skema_pembayaran)) {
+            errors.push('Deskripsi skema pembayaran wajib diisi.');
+        }
+        const requiredTemplateFields = [
+            ['deskripsi_profil_pihak_1', 'Deskripsi profil pihak 1'],
+            ['deskripsi_profil_pihak_2', 'Deskripsi profil pihak 2'],
+            ['maksud_perjanjian', 'Maksud perjanjian'],
+            ['tujuan_perjanjian', 'Tujuan perjanjian'],
+            ['nama_dokumen_turunan', 'Nama dokumen turunan'],
+            ['pilihan_domisili_hukum', 'Pilihan domisili hukum']
+        ];
+        requiredTemplateFields.forEach(([field, label]) => {
+            if (!textPksDraft(data?.[field])) errors.push(`${label} wajib diisi.`);
+        });
+        if (kategori === 'PKS_PENDIDIKAN') {
+            const educationRequiredFields = [
+                ['strata_program', 'Strata'],
+                ['nama_program_studi', 'Nama program studi'],
+                ['semester_program', 'Semester'],
+                ['tahun_akademik_penerimaan', 'Tahun akademik'],
+                ['biaya_bpp_per_peserta', 'Biaya BPP per peserta'],
+                ['total_biaya_pendidikan', 'Total biaya pendidikan'],
+                ['total_komponen_biaya_lain_pendidikan', 'Total komponen biaya lain'],
+                ['nilai_kontrak', 'Nilai kontrak']
+            ];
+            educationRequiredFields.forEach(([field, label]) => {
+                if (!textPksDraft(data?.[field])) errors.push(`${label} wajib dipilih.`);
+            });
+            const programsByStrata = {
+                Magister: ['Master of Business Administration', 'Master of Science in Management'],
+                Doktor: ['Doctor of Science in Management']
+            };
+            if (programsByStrata[data?.strata_program]
+                && !programsByStrata[data.strata_program].includes(textPksDraft(data.nama_program_studi))) {
+                errors.push('Nama program studi tidak sesuai dengan Strata yang dipilih.');
+            }
+            const jumlahMahasiswa = Number(data?.jumlah_peserta_didik_penerima_beasiswa || 0);
+            const totalOtherCost = Array.isArray(data?.komponen_biaya_lain_pendidikan)
+                ? data.komponen_biaya_lain_pendidikan.reduce((total, component, index) => {
+                    const nama = textPksDraft(component?.nama_komponen);
+                    const legacyComponent = component?.harga === undefined && component?.nominal_per_mahasiswa !== undefined;
+                    const volume = legacyComponent ? 1 : Number(component?.volume);
+                    const satuan = legacyComponent ? 'komponen' : textPksDraft(component?.satuan);
+                    const harga = legacyComponent ? Number(component?.nominal_per_mahasiswa) : Number(component?.harga);
+                    const totalBaris = legacyComponent ? harga : Number(component?.total);
+                    if (!nama) errors.push(`Nama komponen biaya lain baris ${index + 1} wajib diisi.`);
+                    if (!Number.isFinite(volume) || volume <= 0) errors.push(`Volume komponen biaya lain baris ${index + 1} tidak valid.`);
+                    if (!satuan) errors.push(`Satuan komponen biaya lain baris ${index + 1} wajib diisi.`);
+                    if (!Number.isFinite(harga) || harga <= 0) errors.push(`Harga komponen biaya lain baris ${index + 1} tidak valid.`);
+                    if (!Number.isFinite(totalBaris) || totalBaris <= 0) errors.push(`Total komponen biaya lain baris ${index + 1} tidak valid.`);
+                    if (!legacyComponent && Number.isFinite(volume) && Number.isFinite(harga) && Number.isFinite(totalBaris)
+                        && Math.abs(totalBaris - (volume * harga)) > 0.01) {
+                        errors.push(`Total komponen biaya lain baris ${index + 1} harus sama dengan Volume dikali Harga.`);
+                    }
+                    return total + (Number.isFinite(totalBaris) && totalBaris > 0 ? totalBaris : 0);
+                }, 0)
+                : 0;
+            const expectedEducationTotal = jumlahMahasiswa * Number(data?.biaya_bpp_per_peserta || 0);
+            const expectedContractValue = expectedEducationTotal + totalOtherCost;
+            if (Math.abs(Number(data?.total_biaya_pendidikan || 0) - expectedEducationTotal) > 0.01) {
+                errors.push('Total biaya pendidikan harus sama dengan BPP per peserta dikalikan jumlah mahasiswa.');
+            }
+            if (Math.abs(Number(data?.total_komponen_biaya_lain_pendidikan || 0) - totalOtherCost) > 0.01) {
+                errors.push('Total komponen biaya lain harus sama dengan penjumlahan seluruh total komponen.');
+            }
+            if (Math.abs(Number(data?.nilai_kontrak || 0) - expectedContractValue) > 0.01) {
+                errors.push('Nilai kontrak harus sama dengan total biaya pendidikan ditambah total komponen biaya lain.');
+            }
+            if (data?.skema_pembayaran === 'TERMIN' && Array.isArray(data?.skema_pembayaran_termin)) {
+                const totalTermin = data.skema_pembayaran_termin.reduce((total, term, index) => {
+                    const legacyTotal = term?.total_nominal_termin
+                        ?? (Number(term?.nominal_per_peserta || 0) * Number(term?.jumlah_peserta || 0));
+                    const nominal = Number(term?.total_pembayaran ?? legacyTotal);
+                    if (!Number.isFinite(nominal) || nominal <= 0) {
+                        errors.push(`Total pembayaran termin baris ${index + 1} tidak valid.`);
+                        return total;
+                    }
+                    return total + nominal;
+                }, 0);
+                if (Math.abs(totalTermin - expectedContractValue) > 0.01) {
+                    errors.push('Jumlah seluruh termin harus sama dengan Nilai kontrak.');
+                }
+            }
+            if (data?.skema_pembayaran === 'LUMPSUM'
+                && Math.abs(Number(data?.nominal_lumpsum || 0) - expectedContractValue) > 0.01) {
+                errors.push('Nominal lumpsum harus sama dengan Nilai kontrak.');
+            }
+        }
+        ['ruang_lingkup', 'hak_kewajiban_pihak_1', 'hak_kewajiban_pihak_2'].forEach(field => {
+            if (!Array.isArray(data?.[field]) || data[field].filter(item => textPksDraft(item)).length === 0) {
+                errors.push(`${field.replaceAll('_', ' ')} wajib memiliki minimal satu butir.`);
+            }
+        });
+    }
+    return { valid: errors.length === 0, errors, data, kategori };
+}
+
+async function generateIdPksDraft() {
+    const year = new Date().getFullYear();
+    const prefix = `PKS-DRAFT-${year}-`;
+    const last = await PksDraft.findOne({ id_pks_draft: new RegExp(`^${prefix}`) })
+        .sort({ id_pks_draft: -1 }).lean();
+    const lastNum = last ? parseInt(String(last.id_pks_draft).split('-').pop(), 10) : 0;
+    return `${prefix}${String(Number.isFinite(lastNum) ? lastNum + 1 : 1).padStart(3, '0')}`;
+}
+
+const PKS_FORM_CATEGORY_LABELS = Object.freeze({
+    PKS_PENDIDIKAN: 'PKS Pendidikan',
+    PKS_MITRA_INDUSTRI: 'PKS Mitra Industri',
+    PKS_MITRA_KAMPUS: 'PKS Mitra Kampus',
+    PKS_MITRA_PEMERINTAH: 'PKS Mitra Pemerintah'
+});
+
+function pksFormField(key, label, note = '', options = []) {
+    return { key, label, note, options };
+}
+
+const PKS_FORM_COMMON_SECTIONS = [
+    {
+        title: 'Data umum perjanjian',
+        fields: [
+            pksFormField('posisi_sbm_itb', 'Posisi SBM ITB', 'Pilih apakah SBM ITB menjadi pihak pertama atau pihak kedua.', ['Pihak pertama', 'Pihak kedua']),
+            pksFormField('nomor_pks_pihak_1', 'Nomor PKS pihak 1'),
+            pksFormField('nomor_pks_pihak_2', 'Nomor PKS pihak 2'),
+            pksFormField('judul_perjanjian_tambahan', 'Judul perjanjian tambahan', 'Tuliskan judul spesifik kerja sama.'),
+            pksFormField('tanggal_penandatanganan', 'Tanggal penandatanganan', 'Format tanggal: YYYY-MM-DD.'),
+            pksFormField('tempat_penandatanganan', 'Tempat penandatanganan')
+        ]
+    },
+    {
+        title: 'Para pihak',
+        fields: [
+            pksFormField('pihak_1_nama_instansi_lembaga', 'Pihak 1 - Nama instansi / lembaga'),
+            pksFormField('pihak_1_jenis_lembaga', 'Pihak 1 - Jenis lembaga', 'Contoh: Perguruan Tinggi Negeri, Perseroan Terbatas, Pemerintah Daerah.', ['Perseroan Terbatas', 'Perguruan Tinggi Negeri', 'Pemerintah Daerah', 'Yayasan', 'Lainnya']),
+            pksFormField('pihak_1_alamat_lengkap_instansi', 'Pihak 1 - Alamat lengkap instansi'),
+            pksFormField('pihak_1_kode_pos', 'Pihak 1 - Kode pos'),
+            pksFormField('pihak_1_penandatangan_1_nama', 'Pihak 1 - Penandatangan 1 - Nama lengkap'),
+            pksFormField('pihak_1_penandatangan_1_jabatan', 'Pihak 1 - Penandatangan 1 - Jabatan'),
+            pksFormField('pihak_1_penandatangan_1_legalitas', 'Pihak 1 - Penandatangan 1 - Dasar kewenangan / legalitas'),
+            pksFormField('pihak_2_nama_instansi_lembaga', 'Pihak 2 - Nama instansi / lembaga'),
+            pksFormField('pihak_2_jenis_lembaga', 'Pihak 2 - Jenis lembaga', 'Contoh: Perguruan Tinggi Negeri, Perseroan Terbatas, Pemerintah Daerah.', ['Perseroan Terbatas', 'Perguruan Tinggi Negeri', 'Pemerintah Daerah', 'Yayasan', 'Lainnya']),
+            pksFormField('pihak_2_alamat_lengkap_instansi', 'Pihak 2 - Alamat lengkap instansi'),
+            pksFormField('pihak_2_kode_pos', 'Pihak 2 - Kode pos'),
+            pksFormField('pihak_2_penandatangan_1_nama', 'Pihak 2 - Penandatangan 1 - Nama lengkap'),
+            pksFormField('pihak_2_penandatangan_1_jabatan', 'Pihak 2 - Penandatangan 1 - Jabatan'),
+            pksFormField('pihak_2_penandatangan_1_legalitas', 'Pihak 2 - Penandatangan 1 - Dasar kewenangan / legalitas'),
+            pksFormField('penandatangan_tambahan', 'Penandatangan tambahan', 'Tambahkan baris jika salah satu pihak memiliki lebih dari satu penandatangan.')
+        ]
+    },
+    {
+        title: 'Korespondensi',
+        fields: [
+            pksFormField('korespondensi_pihak_1_unit_pengelola_up', 'Korespondensi pihak 1 - Unit pengelola / UP'),
+            pksFormField('korespondensi_pihak_1_alamat_surat', 'Korespondensi pihak 1 - Alamat surat-menyurat'),
+            pksFormField('korespondensi_pihak_1_nama_pic', 'Korespondensi pihak 1 - Nama PIC'),
+            pksFormField('korespondensi_pihak_1_nomor_telepon_hp', 'Korespondensi pihak 1 - Nomor telepon / HP'),
+            pksFormField('korespondensi_pihak_1_email_resmi', 'Korespondensi pihak 1 - Email resmi'),
+            pksFormField('korespondensi_pihak_2_unit_pengelola_up', 'Korespondensi pihak 2 - Unit pengelola / UP'),
+            pksFormField('korespondensi_pihak_2_alamat_surat', 'Korespondensi pihak 2 - Alamat surat-menyurat'),
+            pksFormField('korespondensi_pihak_2_nama_pic', 'Korespondensi pihak 2 - Nama PIC'),
+            pksFormField('korespondensi_pihak_2_nomor_telepon_hp', 'Korespondensi pihak 2 - Nomor telepon / HP'),
+            pksFormField('korespondensi_pihak_2_email_resmi', 'Korespondensi pihak 2 - Email resmi')
+        ]
+    },
+    {
+        title: 'Jangka waktu dan perselisihan',
+        fields: [
+            pksFormField('jangka_waktu_nilai', 'Nilai jangka waktu', 'Contoh: 1.'),
+            pksFormField('jangka_waktu_satuan', 'Satuan jangka waktu', '', ['Tahun', 'Bulan']),
+            pksFormField('tanggal_mulai_berlaku', 'Tanggal mulai berlaku', 'Format tanggal: YYYY-MM-DD.'),
+            pksFormField('tanggal_berakhir', 'Tanggal berakhir', 'Format tanggal: YYYY-MM-DD.'),
+            pksFormField('tenggat_notifikasi_perpanjangan', 'Tenggat notifikasi perpanjangan (hari)'),
+            pksFormField('forum_penyelesaian_perselisihan', 'Forum penyelesaian perselisihan', 'Jelaskan tahapan musyawarah dan forum hukum yang dipilih.')
+        ]
+    },
+    {
+        title: 'Substansi dan klausul',
+        fields: [
+            pksFormField('deskripsi_profil_pihak_1', 'Deskripsi profil pihak 1', 'Jelaskan identitas singkat, bidang kegiatan, kedudukan, dan kapasitas pihak terkait.'),
+            pksFormField('deskripsi_profil_pihak_2', 'Deskripsi profil pihak 2', 'Jelaskan identitas singkat, bidang kegiatan, kedudukan, dan kapasitas pihak terkait.'),
+            pksFormField('maksud_perjanjian', 'Maksud perjanjian', 'Tuliskan alasan utama dan konteks dibentuknya perjanjian.'),
+            pksFormField('tujuan_perjanjian', 'Tujuan perjanjian', 'Tuliskan hasil atau manfaat yang ingin dicapai.'),
+            pksFormField('ruang_lingkup', 'Ruang lingkup kerja sama', 'Satu ruang lingkup per baris.'),
+            pksFormField('hak_kewajiban_pihak_1', 'Hak dan kewajiban pihak 1', 'Satu butir per baris.'),
+            pksFormField('hak_kewajiban_pihak_2', 'Hak dan kewajiban pihak 2', 'Satu butir per baris.'),
+            pksFormField('nama_dokumen_turunan', 'Nama dokumen turunan', 'Contoh: Implementation Agreement, adendum, rencana kerja, atau lampiran pembayaran.'),
+            pksFormField('batas_waktu_lapor_force_majeure', 'Batas laporan force majeure (hari)'),
+            pksFormField('batas_waktu_perbaikan_wanprestasi', 'Batas perbaikan wanprestasi (hari)'),
+            pksFormField('batas_waktu_musyawarah', 'Batas musyawarah (hari)'),
+            pksFormField('pilihan_domisili_hukum', 'Pilihan domisili hukum', 'Contoh: Pengadilan Negeri Bandung.')
+        ]
+    }
+];
+
+const PKS_FORM_PAYMENT_SECTION = {
+    title: 'Skema pembayaran',
+    fields: [
+        pksFormField('skema_pembayaran', 'Pilihan skema pembayaran', 'Pilih satu skema, kemudian lengkapi bagian yang sesuai.', ['Termin', 'Lumpsum', 'Deskripsi bebas']),
+        pksFormField('termin_1', 'Termin 1 - Termin', 'Contoh: Tahap 1 / Semester 1.'),
+        pksFormField('termin_1_total', 'Termin 1 - Total Pembayaran'),
+        pksFormField('termin_1_batas_akhir', 'Termin 1 - Batas Akhir Pembayaran', 'Format tanggal: YYYY-MM-DD.'),
+        pksFormField('termin_tambahan', 'Termin tambahan', 'Tambahkan kelompok field Termin, Total Pembayaran, dan Batas Akhir Pembayaran untuk termin berikutnya.'),
+        pksFormField('nominal_lumpsum', 'Nominal lumpsum'),
+        pksFormField('tanggal_pembayaran_lumpsum', 'Tanggal pembayaran lumpsum', 'Format tanggal: YYYY-MM-DD.'),
+        pksFormField('deskripsi_skema_pembayaran', 'Deskripsi skema pembayaran', 'Jelaskan cara, waktu, nominal, dan ketentuan pembayaran secara lengkap.')
+    ]
+};
+
+const PKS_FORM_CATEGORY_SECTIONS = {
+    PKS_PENDIDIKAN: [
+        {
+            title: 'Detail PKS Pendidikan',
+            fields: [
+                pksFormField('strata_program', 'Strata', '', ['Magister', 'Doktor']),
+                pksFormField('nama_program_studi', 'Nama Program Studi', 'Pilihan mengikuti Strata: Magister of Business Administration, Master of Science in Management, atau Doctor of Science in Management.'),
+                pksFormField('semester_program', 'Semester', '', ['Semester I', 'Semester II', 'Semester Pendek']),
+                pksFormField('tahun_akademik_penerimaan', 'Tahun Akademik'),
+                pksFormField('lokasi_perkuliahan', 'Lokasi perkuliahan', '', ['Kampus ITB Bandung', 'Kampus ITB Jakarta', 'In-House Mitra', 'Hybrid / Online']),
+                pksFormField('durasi_studi_maksimum_tahun', 'Durasi studi maksimum (tahun)'),
+                pksFormField('lama_perpanjangan_semester', 'Lama Perpanjangan (semester)'),
+                pksFormField('lama_perpanjangan_bulan', 'Lama Perpanjangan (bulan)'),
+                pksFormField('jumlah_peserta_didik_penerima_beasiswa', 'Jumlah peserta didik'),
+                pksFormField('persyaratan_minimum_peserta', 'Persyaratan minimum peserta')
+            ]
+        },
+        {
+            title: 'Komponen biaya pendidikan',
+            fields: [
+                pksFormField('biaya_bpp_per_peserta', 'Biaya BPP per peserta'),
+                pksFormField('bpp_semester_panjang', 'BPP Semester Panjang (Rp)'),
+                pksFormField('bpp_semester_pendek', 'BPP Semester Pendek (Rp)'),
+                pksFormField('bpp_ulang_semester_panjang', 'BPP Ulang Sem. Panjang (Rp)'),
+                pksFormField('bpp_ulang_semester_pendek', 'BPP Ulang Sem. Pendek (Rp)'),
+                pksFormField('bpp_tugas_akhir', 'BPP Tugas Akhir (Rp)'),
+                pksFormField('komponen_biaya_lain_pendidikan', 'Komponen biaya lain', 'Tambahkan Nama komponen, Volume, Satuan, Harga, dan Total untuk setiap komponen.'),
+                pksFormField('total_biaya_pendidikan', 'Total biaya pendidikan', 'Otomatis: jumlah peserta didik x BPP per peserta.'),
+                pksFormField('total_komponen_biaya_lain_pendidikan', 'Total komponen biaya lain', 'Otomatis: penjumlahan total seluruh komponen biaya lain.'),
+                pksFormField('nilai_kontrak', 'Nilai kontrak', 'Otomatis: total biaya pendidikan + total komponen biaya lain.')
+            ]
+        },
+        PKS_FORM_PAYMENT_SECTION,
+        {
+            title: 'Rekening penerima pembayaran',
+            fields: [
+                pksFormField('rekening_nama_bank', 'Nama Bank', 'Default: PT BNI (Persero) TBK.'),
+                pksFormField('rekening_kantor_cabang', 'Kantor Cabang', 'Default: Perguruan Tinggi Bandung.'),
+                pksFormField('rekening_alamat', 'Alamat', 'Default: Jl. Tamansari No 80.'),
+                pksFormField('rekening_nomor_virtual_account', 'Nomor Rekening', 'Default: Virtual Account yang akan ditentukan kemudian.'),
+                pksFormField('rekening_nama_rekening_va', 'Nama Rekening', 'Default: Virtual Account yang akan ditentukan kemudian.')
+            ]
+        }
+    ],
+    PKS_MITRA_INDUSTRI: [
+        {
+            title: 'Detail PKS Mitra Industri',
+            fields: [
+                pksFormField('profil_singkat_mitra_industri', 'Profil singkat mitra industri'),
+                pksFormField('skema_pendanaan_industri', 'Skema pendanaan industri', '', ['Nirbiaya (beban masing-masing)', 'Sponsor / investasi industri', 'Kontrak terpisah (adendum / IA)']),
+                pksFormField('ruang_lingkup_industri', 'Ruang lingkup industri', 'Centang atau uraikan: Knowledge partner, pengembangan kurikulum, rekrutmen dan magang, dukungan AACSB / ESG, executive education.'),
+                pksFormField('ruang_lingkup_kustom', 'Ruang lingkup kustom', 'Satu item per baris.'),
+                pksFormField('daftar_tugas_mitra', 'Daftar tugas mitra', 'Satu tugas per baris.'),
+                pksFormField('is_non_hubungan_kerja_clause', 'Klausul kegiatan bukan hubungan kerja', 'Centang jika klausul digunakan.'),
+                pksFormField('is_confidentiality_strict', 'Kerahasiaan diperketat', 'Centang jika klausul digunakan.')
+            ]
+        },
+        PKS_FORM_PAYMENT_SECTION
+    ],
+    PKS_MITRA_KAMPUS: [
+        {
+            title: 'Detail PKS Mitra Kampus',
+            fields: [
+                pksFormField('nama_fakultas_unit_mitra', 'Nama fakultas / unit mitra'),
+                pksFormField('sk_pendirian_pengangkatan_pimpinan_mitra', 'SK pendirian / pengangkatan pimpinan'),
+                pksFormField('program_studi_terlibat_pihak_1', 'Program studi terlibat pihak 1', 'Satu program studi per baris.'),
+                pksFormField('program_studi_terlibat_pihak_2', 'Program studi terlibat pihak 2', 'Satu program studi per baris.'),
+                pksFormField('fokus_pendidikan', 'Fokus pendidikan', 'Satu fokus per baris.'),
+                pksFormField('fokus_penelitian', 'Fokus penelitian', 'Satu fokus per baris.'),
+                pksFormField('fokus_pengabdian_masyarakat', 'Fokus pengabdian masyarakat', 'Satu fokus per baris.'),
+                pksFormField('fokus_publikasi', 'Fokus publikasi', 'Satu fokus per baris.'),
+                pksFormField('ketentuan_tim_pelaksana', 'Ketentuan tim pelaksana')
+            ]
+        },
+        PKS_FORM_PAYMENT_SECTION
+    ],
+    PKS_MITRA_PEMERINTAH: [
+        {
+            title: 'Detail PKS Mitra Pemerintah',
+            fields: [
+                pksFormField('sk_pengangkatan_kepala_daerah_pejabat', 'SK pengangkatan kepala daerah / pejabat'),
+                pksFormField('dasar_hukum_daerah', 'Dasar hukum daerah', 'Satu dasar hukum per baris.'),
+                pksFormField('perangkat_daerah_pelaksana_mitra', 'Perangkat daerah pelaksana mitra'),
+                pksFormField('nama_program_inovasi_daerah', 'Nama program / inovasi daerah'),
+                pksFormField('skema_kepemilikan_hki', 'Skema kepemilikan HKI', '', ['Milik bersama (joint IP)', 'Perjanjian terpisah', 'Sesuai kontribusi']),
+                pksFormField('frekuensi_evaluasi', 'Frekuensi evaluasi', '', ['Tahunan', 'Semesteran']),
+                pksFormField('fokus_kegiatan_pemerintah', 'Fokus kegiatan pemerintah', 'Pilih minimal satu: penelitian dan kajian, pendampingan UMKM, transformasi digital, atau penyusunan policy brief.'),
+                pksFormField('is_membutuhkan_implementation_agreement', 'Membutuhkan Implementation Agreement', 'Centang jika diperlukan.')
+            ]
+        },
+        PKS_FORM_PAYMENT_SECTION
+    ]
+};
+
+function pksFormTemplateSections(category) {
+    return [...PKS_FORM_COMMON_SECTIONS, ...(PKS_FORM_CATEGORY_SECTIONS[category] || [])];
+}
+
+function pksFormTemplateSafeText(value) {
+    return String(value ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim();
+}
+
+async function buatFormPksExcel(category) {
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = 'Sistem Hub Kerja Sama';
+    workbook.created = new Date();
+    const sheet = workbook.addWorksheet('Formulir PKS');
+    const title = `FORMULIR DATA ${PKS_FORM_CATEGORY_LABELS[category].toUpperCase()}`;
+
+    sheet.mergeCells('A1:D1');
+    sheet.getCell('A1').value = title;
+    sheet.getCell('A1').font = { name: 'Aptos Display', size: 16, bold: true, color: { argb: 'FFFFFFFF' } };
+    sheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
+    sheet.getCell('A1').fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '07538A' } };
+    sheet.getRow(1).height = 28;
+
+    sheet.mergeCells('A2:D2');
+    sheet.getCell('A2').value = 'Isi kolom "Isian Admin". Kolom "Contoh / Petunjuk" membantu melengkapi data sebelum formulir dimasukkan ke sistem.';
+    sheet.getCell('A2').font = { name: 'Aptos', size: 10, italic: true, color: { argb: '475569' } };
+    sheet.getCell('A2').alignment = { wrapText: true, vertical: 'middle' };
+    sheet.getRow(2).height = 32;
+    sheet.mergeCells('A3:D3');
+    sheet.getCell('A3').value = `Kategori: ${PKS_FORM_CATEGORY_LABELS[category]}`;
+    sheet.getCell('A3').font = { name: 'Aptos', size: 10, bold: true, color: { argb: '07538A' } };
+
+    const header = sheet.addRow(['No.', 'Field / Komponen', 'Isian Admin', 'Contoh / Petunjuk']);
+    header.height = 24;
+    header.eachCell(cell => {
+        cell.font = { name: 'Aptos', size: 10, bold: true, color: { argb: 'FFFFFFFF' } };
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F6AA8' } };
+        cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
+        cell.border = { bottom: { style: 'thin', color: { argb: 'D5DEE8' } } };
+    });
+
+    let fieldNumber = 1;
+    for (const section of pksFormTemplateSections(category)) {
+        const sectionRow = sheet.addRow([section.title, '', '', '']);
+        sheet.mergeCells(sectionRow.number, 1, sectionRow.number, 4);
+        sectionRow.height = 22;
+        const sectionCell = sheet.getCell(sectionRow.number, 1);
+        sectionCell.font = { name: 'Aptos', size: 10, bold: true, color: { argb: '07538A' } };
+        sectionCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'EAF3F9' } };
+        sectionCell.alignment = { vertical: 'middle' };
+
+        for (const field of section.fields) {
+            const row = sheet.addRow([fieldNumber++, field.label, '', [field.note, field.options?.length ? `Pilihan: ${field.options.join(' / ')}` : ''].filter(Boolean).join(' ') ]);
+            row.height = Math.max(22, Math.min(54, 18 + Math.ceil(String(row.getCell(4).value || '').length / 65) * 14));
+            row.eachCell((cell, columnNumber) => {
+                cell.font = { name: 'Aptos', size: 10, color: { argb: '1E293B' } };
+                cell.alignment = { vertical: 'top', wrapText: true, horizontal: columnNumber === 1 ? 'center' : 'left' };
+                cell.border = {
+                    top: { style: 'hair', color: { argb: 'DDE5ED' } },
+                    bottom: { style: 'hair', color: { argb: 'DDE5ED' } },
+                    left: { style: 'hair', color: { argb: 'DDE5ED' } },
+                    right: { style: 'hair', color: { argb: 'DDE5ED' } }
+                };
+            });
+            row.getCell(3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFFDF5' } };
+            row.getCell(4).font = { name: 'Aptos', size: 9, italic: true, color: { argb: '64748B' } };
+            if (field.options?.length) {
+                row.getCell(3).dataValidation = {
+                    type: 'list',
+                    allowBlank: true,
+                    formulae: [`"${field.options.join(',')}"`]
+                };
+            }
+        }
+    }
+
+    sheet.columns = [
+        { width: 8 },
+        { width: 43 },
+        { width: 45 },
+        { width: 68 }
+    ];
+    sheet.views = [{ state: 'frozen', ySplit: 4 }];
+    sheet.pageSetup = { orientation: 'landscape', paperSize: 9, fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
+    sheet.pageMargins = { left: 0.25, right: 0.25, top: 0.45, bottom: 0.45, header: 0.2, footer: 0.2 };
+    sheet.headerFooter.oddFooter = '&LFormulir PKS&CHalaman &P dari &N';
+    return workbook.xlsx.writeBuffer();
+}
+
+function pksFormPdfText(value) {
+    return `(${pksFormTemplateSafeText(value).replace(/[^\x20-\x7E]/g, '?').replace(/[\\()]/g, '\\$&')})`;
+}
+
+function pksWrapPdfText(value, maxLength = 88) {
+    const text = pksFormTemplateSafeText(value);
+    if (!text) return [''];
+    const words = text.split(/\s+/);
+    const lines = [];
+    let current = '';
+    words.forEach(word => {
+        if (!current) {
+            current = word;
+        } else if (`${current} ${word}`.length <= maxLength) {
+            current += ` ${word}`;
+        } else {
+            lines.push(current);
+            current = word;
+        }
+    });
+    if (current) lines.push(current);
+    return lines;
+}
+
+function pksFormPdfLines(category) {
+    const lines = [
+        { text: 'FORMULIR DATA PKS', kind: 'title' },
+        { text: PKS_FORM_CATEGORY_LABELS[category], kind: 'subtitle' },
+        { text: 'Isi bagian Isian Admin. Contoh / Petunjuk menjadi acuan pengisian sebelum data dimasukkan ke sistem.', kind: 'note' },
+        { text: '', kind: 'spacer' }
+    ];
+    let fieldNumber = 1;
+    pksFormTemplateSections(category).forEach(section => {
+        lines.push({ text: section.title, kind: 'section' });
+        section.fields.forEach(field => {
+            pksWrapPdfText(`${fieldNumber++}. ${field.label}`).forEach((text, index) => lines.push({ text, kind: index === 0 ? 'field' : 'field-continuation' }));
+            lines.push({ text: 'Isian Admin: _________________________________________________________________', kind: 'input' });
+            if (field.note) pksWrapPdfText(`Contoh / Petunjuk: ${field.note}`).forEach(text => lines.push({ text, kind: 'note' }));
+            if (field.options?.length) pksWrapPdfText(`Pilihan: ${field.options.join(' / ')}`).forEach(text => lines.push({ text, kind: 'note' }));
+            lines.push({ text: '', kind: 'spacer' });
+        });
+    });
+    return lines;
+}
+
+function buatPdfFormPks(category) {
+    const lines = pksFormPdfLines(category);
+    const maxLinesPerPage = 54;
+    const pages = [];
+    for (let index = 0; index < lines.length; index += maxLinesPerPage) pages.push(lines.slice(index, index + maxLinesPerPage));
+
+    const objects = [];
+    const addObject = body => {
+        objects.push(body);
+        return objects.length;
+    };
+    const catalogId = addObject('');
+    const pagesId = addObject('');
+    const regularFontId = addObject('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+    const boldFontId = addObject('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>');
+    const pageIds = [];
+
+    pages.forEach(pageLines => {
+        let y = 800;
+        let content = 'BT\n';
+        pageLines.forEach(line => {
+            const isTitle = line.kind === 'title';
+            const isSection = line.kind === 'section';
+            const isNote = line.kind === 'note';
+            const fontId = isTitle || isSection ? 'F2' : 'F1';
+            const fontSize = isTitle ? 16 : isSection ? 11 : isNote ? 8 : 9;
+            const color = isTitle || isSection ? '0.03 0.33 0.54' : isNote ? '0.34 0.42 0.52' : '0.12 0.16 0.22';
+            content += `/${fontId} ${fontSize} Tf\n${color} rg\n1 0 0 1 40 ${y} Tm ${pksFormPdfText(line.text)} Tj\n`;
+            y -= isTitle ? 24 : isSection ? 19 : line.kind === 'spacer' ? 7 : 13;
+        });
+        content += 'ET';
+        const contentId = addObject(`<< /Length ${Buffer.byteLength(content, 'binary')} >>\nstream\n${content}\nendstream`);
+        const pageId = addObject(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 ${regularFontId} 0 R /F2 ${boldFontId} 0 R >> >> /Contents ${contentId} 0 R >>`);
+        pageIds.push(pageId);
+    });
+
+    objects[catalogId - 1] = `<< /Type /Catalog /Pages ${pagesId} 0 R >>`;
+    objects[pagesId - 1] = `<< /Type /Pages /Kids [${pageIds.map(id => `${id} 0 R`).join(' ')}] /Count ${pageIds.length} >>`;
+    let output = '%PDF-1.4\n%\xE2\xE3\xCF\xD3\n';
+    const offsets = [0];
+    objects.forEach((object, index) => {
+        offsets[index + 1] = Buffer.byteLength(output, 'binary');
+        output += `${index + 1} 0 obj\n${object}\nendobj\n`;
+    });
+    const xrefOffset = Buffer.byteLength(output, 'binary');
+    output += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+    for (let index = 1; index <= objects.length; index += 1) output += `${String(offsets[index]).padStart(10, '0')} 00000 n \n`;
+    output += `trailer\n<< /Size ${objects.length + 1} /Root ${catalogId} 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`;
+    return Buffer.from(output, 'binary');
+}
+
+app.get('/api/pks-generator/form-template', async (req, res) => {
+    const category = String(req.query?.category || '').trim();
+    const format = String(req.query?.format || 'xlsx').toLowerCase();
+    if (!PKS_FORM_CATEGORY_LABELS[category]) return res.status(400).json({ pesan: 'Kategori PKS belum dipilih atau tidak valid.' });
+    try {
+        const label = sanitizeFilename(PKS_FORM_CATEGORY_LABELS[category]);
+        if (format === 'pdf') {
+            const buffer = buatPdfFormPks(category);
+            const filename = `Formulir_Kosong_${label}.pdf`;
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+            return res.send(buffer);
+        }
+        const buffer = await buatFormPksExcel(category);
+        const filename = `Formulir_Kosong_${label}.xlsx`;
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.send(buffer);
+    } catch (error) {
+        console.error('Gagal membuat formulir PKS:', error);
+        return res.status(500).json({ pesan: 'Formulir PKS gagal dibuat.' });
+    }
+});
+
+app.get('/api/pks-generator', async (req, res) => {
+    try {
+        const list = await PksDraft.find({}).sort({ updatedAt: -1, createdAt: -1 }).lean();
+        res.json(list);
+    } catch (error) {
+        console.error('Gagal membaca draft PKS:', error);
+        res.status(500).json({ pesan: 'Gagal membaca daftar draft PKS.' });
+    }
+});
+
+app.post('/api/pks-generator', async (req, res) => {
+    try {
+        const checked = ringkasValidasiPksDraft(req.body);
+        if (!checked.valid) return res.status(400).json({ pesan: checked.errors.join(' '), detail: checked.errors });
+
+        const now = new Date();
+        const userName = textPksDraft(req.session?.user?.nama || req.body.dibuat_oleh || 'Admin');
+        const data = checked.data;
+        const draft = await PksDraft.create({
+            id_pks_draft: await generateIdPksDraft(),
+            kategori_pks: checked.kategori,
+            judul_perjanjian_tambahan: textPksDraft(data.judul_perjanjian_tambahan),
+            nama_pihak_1: textPksDraft(data.pihak_1?.nama_instansi_lembaga),
+            nama_pihak_2: textPksDraft(data.pihak_2?.nama_instansi_lembaga),
+            status: 'draf',
+            data,
+            dibuat_oleh: userName,
+            diperbarui_oleh: userName,
+            createdAt: now,
+            updatedAt: now
+        });
+        res.status(201).json({ pesan: 'Draft PKS berhasil disimpan.', id_pks_draft: draft.id_pks_draft, draft: draft.lean() });
+    } catch (error) {
+        console.error('Gagal menyimpan draft PKS:', error);
+        res.status(500).json({ pesan: 'Gagal menyimpan draft PKS.' });
+    }
+});
+
+app.put('/api/pks-generator/:id', async (req, res) => {
+    try {
+        const existing = await PksDraft.findOne({ id_pks_draft: req.params.id }).lean();
+        if (!existing) return res.status(404).json({ pesan: 'Draft PKS tidak ditemukan.' });
+        if (existing.status === 'final') return res.status(400).json({ pesan: 'Draft PKS yang sudah final tidak dapat diubah.' });
+
+        const checked = ringkasValidasiPksDraft(req.body);
+        if (!checked.valid) return res.status(400).json({ pesan: checked.errors.join(' '), detail: checked.errors });
+
+        const now = new Date();
+        const userName = textPksDraft(req.session?.user?.nama || req.body.diperbarui_oleh || existing.dibuat_oleh || 'Admin');
+        const data = checked.data;
+        await PksDraft.findOneAndUpdate({ id_pks_draft: req.params.id }, {
+            kategori_pks: checked.kategori,
+            judul_perjanjian_tambahan: textPksDraft(data.judul_perjanjian_tambahan),
+            nama_pihak_1: textPksDraft(data.pihak_1?.nama_instansi_lembaga),
+            nama_pihak_2: textPksDraft(data.pihak_2?.nama_instansi_lembaga),
+            data,
+            status: 'draf',
+            diperbarui_oleh: userName,
+            updatedAt: now
+        });
+        res.json({ pesan: 'Draft PKS berhasil diperbarui.', id_pks_draft: req.params.id });
+    } catch (error) {
+        console.error('Gagal memperbarui draft PKS:', error);
+        res.status(500).json({ pesan: 'Gagal memperbarui draft PKS.' });
+    }
+});
+
+function pksTemplateDate(value) {
+    if (!value) return null;
+    if (value instanceof Date) {
+        const copy = new Date(value.getTime());
+        copy.setHours(0, 0, 0, 0);
+        return copy;
+    }
+    const text = String(value).trim();
+    let match = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+    if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    match = text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})/);
+    if (match) return new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+    const parsed = new Date(text);
+    if (Number.isNaN(parsed.getTime())) return null;
+    parsed.setHours(0, 0, 0, 0);
+    return parsed;
+}
+
+function pksTemplateDateWords(value) {
+    const date = pksTemplateDate(value);
+    if (!date) return { hari: '', tanggal: '', bulan: '', tahun: '', angka: '' };
+    return {
+        hari: date.toLocaleDateString('id-ID', { weekday: 'long' }),
+        tanggal: terbilangAngka(date.getDate()),
+        bulan: BULAN_ID[date.getMonth()],
+        tahun: terbilangAngka(date.getFullYear()),
+        angka: `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`
+    };
+}
+
+function pksTemplateDateDisplay(value) {
+    const date = pksTemplateDate(value);
+    return date ? formatTanggalDisplay(date) : '';
+}
+
+function pksTemplateLines(value) {
+    if (Array.isArray(value)) return value.map(item => textPksDraft(item)).filter(Boolean);
+    return String(value || '').split(/\r?\n/).map(item => item.trim()).filter(Boolean);
+}
+
+function pksTemplateSignatories(party = {}) {
+    const list = Array.isArray(party.penandatangan_list) ? party.penandatangan_list : [];
+    const names = list.map(item => textPksDraft(item?.nama_lengkap)).filter(Boolean);
+    const positions = list.map(item => textPksDraft(item?.jabatan)).filter(Boolean);
+    const legalities = list.map(item => textPksDraft(item?.dasar_kewenangan_legalitas)).filter(Boolean);
+    return {
+        names: names.join(' dan '),
+        positions: positions.join(' dan '),
+        legalities: legalities.join('; ')
+    };
+}
+
+function pksTemplatePaymentDescription(data = {}) {
+    if (data.skema_pembayaran === 'LUMPSUM') {
+        const nominal = formatRupiahAngka(Number(data.nominal_lumpsum) || 0);
+        const tanggal = pksTemplateDateDisplay(data.tanggal_pembayaran_lumpsum);
+        return `dibayarkan secara lumpsum sebesar Rp ${nominal},- pada tanggal ${tanggal}`;
+    }
+    if (data.skema_pembayaran === 'DESKRIPSI_BEBAS') {
+        return textPksDraft(data.deskripsi_skema_pembayaran);
+    }
+    return 'dibayarkan berdasarkan termin pembayaran yang disepakati PARA PIHAK';
+}
+
+function pksTemplatePayload(draft = {}) {
+    const data = draft.data || {};
+    const pihak1 = data.pihak_1 || {};
+    const pihak2 = data.pihak_2 || {};
+    const tanda1 = pksTemplateSignatories(pihak1);
+    const tanda2 = pksTemplateSignatories(pihak2);
+    const koresp1 = data.korespondensi_pihak_1 || {};
+    const koresp2 = data.korespondensi_pihak_2 || {};
+    const tanggal = pksTemplateDateWords(data.tanggal_penandatanganan);
+    const scope = pksTemplateLines(data.ruang_lingkup);
+    const hak1 = pksTemplateLines(data.hak_kewajiban_pihak_1);
+    const hak2 = pksTemplateLines(data.hak_kewajiban_pihak_2);
+
+    return {
+        nama_pihak_pertama: textPksDraft(pihak1.nama_instansi_lembaga),
+        nama_pihak_kedua: textPksDraft(pihak2.nama_instansi_lembaga),
+        judul_ruang_lingkup_utama: textPksDraft(data.judul_perjanjian_tambahan),
+        nomor_pks_pihak_pertama: textPksDraft(data.nomor_pks_pihak_1),
+        nomor_pks_pihak_kedua: textPksDraft(data.nomor_pks_pihak_2),
+        hari_penandatanganan: tanggal.hari,
+        tanggal_terbilang: tanggal.tanggal,
+        bulan_terbilang: tanggal.bulan,
+        tahun_terbilang: tanggal.tahun,
+        tanggal_format_angka: tanggal.angka,
+        tempat_penandatanganan: textPksDraft(data.tempat_penandatanganan),
+        nama_wakil_pihak_pertama: tanda1.names,
+        jabatan_wakil_pihak_pertama: tanda1.positions,
+        dasar_hukum_kewenangan_pihak_pertama: tanda1.legalities,
+        alamat_lengkap_pihak_pertama: `${textPksDraft(pihak1.alamat_lengkap_instansi)}${textPksDraft(pihak1.kode_pos) ? `, ${textPksDraft(pihak1.kode_pos)}` : ''}`,
+        nama_wakil_pihak_kedua: tanda2.names,
+        jabatan_wakil_pihak_kedua: tanda2.positions,
+        dasar_hukum_kewenangan_pihak_kedua: tanda2.legalities,
+        alamat_lengkap_pihak_kedua: `${textPksDraft(pihak2.alamat_lengkap_instansi)}${textPksDraft(pihak2.kode_pos) ? `, ${textPksDraft(pihak2.kode_pos)}` : ''}`,
+        deskripsi_profil_pihak_pertama: textPksDraft(data.deskripsi_profil_pihak_1),
+        deskripsi_profil_pihak_kedua: textPksDraft(data.deskripsi_profil_pihak_2),
+        maksud_perjanjian: textPksDraft(data.maksud_perjanjian),
+        tujuan_perjanjian: textPksDraft(data.tujuan_perjanjian),
+        ruang_lingkup: scope.map(item => ({ poin_ruang_lingkup: item })),
+        hak_kewajiban_pihak_1: hak1.map(item => ({ poin_hak_kewajiban_1: item })),
+        hak_kewajiban_pihak_2: hak2.map(item => ({ poin_hak_kewajiban_2: item })),
+        durasi_angka: textPksDraft(data.jangka_waktu_nilai),
+        durasi_terbilang: terbilangAngka(Number(data.jangka_waktu_nilai) || 0),
+        satuan_waktu: textPksDraft(data.jangka_waktu_satuan),
+        tanggal_mulai_berlaku: pksTemplateDateDisplay(data.tanggal_mulai_berlaku),
+        tanggal_berakhir: pksTemplateDateDisplay(data.tanggal_berakhir),
+        batas_waktu_notifikasi: textPksDraft(data.tenggat_notifikasi_perpanjangan),
+        skema_pembiayaan: pksTemplatePaymentDescription(data),
+        strata: textPksDraft(data.strata_program),
+        strata_kata: textPksDraft(data.strata_program),
+        prodi: textPksDraft(data.nama_program_studi),
+        nama_program_studi: textPksDraft(data.nama_program_studi),
+        semester: textPksDraft(data.semester_program),
+        tahun_akademik: textPksDraft(data.tahun_akademik_penerimaan),
+        biaya_bpp_per_peserta: textPksDraft(data.biaya_bpp_per_peserta),
+        bpp_semester_panjang: textPksDraft(data.bpp_semester_panjang),
+        bpp_semester_panjang_terbilang: textPksDraft(data.bpp_semester_panjang_terbilang),
+        bpp_semester_pendek: textPksDraft(data.bpp_semester_pendek),
+        bpp_semester_pendek_terbilang: textPksDraft(data.bpp_semester_pendek_terbilang),
+        bpp_ulang_semester_panjang: textPksDraft(data.bpp_ulang_semester_panjang),
+        bpp_ulang_semester_panjang_terbilang: textPksDraft(data.bpp_ulang_semester_panjang_terbilang),
+        bpp_ulang_semester_pendek: textPksDraft(data.bpp_ulang_semester_pendek),
+        bpp_ulang_semester_pendek_terbilang: textPksDraft(data.bpp_ulang_semester_pendek_terbilang),
+        bpp_tugas_akhir: textPksDraft(data.bpp_tugas_akhir),
+        bpp_tugas_akhir_terbilang: textPksDraft(data.bpp_tugas_akhir_terbilang),
+        BPP_sem_panjang_angka: textPksDraft(data.bpp_semester_panjang),
+        BPP_sem_panjang_kata: textPksDraft(data.bpp_semester_panjang_terbilang),
+        BPP_sem_pendek_angka: textPksDraft(data.bpp_semester_pendek),
+        BPP_sem_pendek_kata: textPksDraft(data.bpp_semester_pendek_terbilang),
+        BPP_ulang_panjang_angka: textPksDraft(data.bpp_ulang_semester_panjang),
+        BPP_ulang_panjang_kata: textPksDraft(data.bpp_ulang_semester_panjang_terbilang),
+        BPP_ulang_pendek_angka: textPksDraft(data.bpp_ulang_semester_pendek),
+        BPP_ulang_pendek_kata: textPksDraft(data.bpp_ulang_semester_pendek_terbilang),
+        BPP_tugas_akhir_angka: textPksDraft(data.bpp_tugas_akhir),
+        BPP_tugas_akhir_kata: textPksDraft(data.bpp_tugas_akhir_terbilang),
+        total_biaya_pendidikan: textPksDraft(data.total_biaya_pendidikan),
+        total_komponen_biaya_lain_pendidikan: textPksDraft(data.total_komponen_biaya_lain_pendidikan),
+        nilai_kontrak: textPksDraft(data.nilai_kontrak),
+        nama_bank_rekening_penerima_pembayaran: textPksDraft(data.rekening_penerima_pembayaran?.nama_bank),
+        kantor_cabang_rekening_penerima_pembayaran: textPksDraft(data.rekening_penerima_pembayaran?.kantor_cabang),
+        alamat_rekening_penerima_pembayaran: textPksDraft(data.rekening_penerima_pembayaran?.alamat),
+        nomor_rekening_penerima_pembayaran: textPksDraft(data.rekening_penerima_pembayaran?.nomor_virtual_account),
+        nama_rekening_penerima_pembayaran: textPksDraft(data.rekening_penerima_pembayaran?.nama_rekening_va),
+        komponen_biaya_lain_pendidikan: Array.isArray(data.komponen_biaya_lain_pendidikan)
+            ? data.komponen_biaya_lain_pendidikan.map(item => ({
+                nama_komponen_lain: textPksDraft(item.nama_komponen),
+                volume_komponen_lain: textPksDraft(item.volume ?? (item.nominal_per_mahasiswa !== undefined ? 1 : '')),
+                satuan_komponen_lain: textPksDraft(item.satuan ?? (item.nominal_per_mahasiswa !== undefined ? 'komponen' : '')),
+                harga_komponen_lain: textPksDraft(item.harga ?? item.nominal_per_mahasiswa),
+                total_komponen_lain: textPksDraft(item.total ?? item.harga ?? item.nominal_per_mahasiswa),
+                nominal_komponen_lain: textPksDraft(item.harga ?? item.nominal_per_mahasiswa)
+            }))
+            : [],
+        lama_perpanjangan_angka_semester: textPksDraft(data.lama_perpanjangan_semester),
+        lama_perpanjangan_kata_semester: textPksDraft(data.lama_perpanjangan_semester_terbilang),
+        lama_perpanjangan_angka_bulan: textPksDraft(data.lama_perpanjangan_bulan),
+        lama_perpanjangan_kata_bulan: textPksDraft(data.lama_perpanjangan_bulan_terbilang),
+        nama_dokumen_turunan: textPksDraft(data.nama_dokumen_turunan),
+        batas_waktu_lapor_force_majeure: textPksDraft(data.batas_waktu_lapor_force_majeure),
+        batas_waktu_perbaikan_wanprestasi: textPksDraft(data.batas_waktu_perbaikan_wanprestasi),
+        batas_waktu_musyawarah: textPksDraft(data.batas_waktu_musyawarah),
+        pilihan_domisili_hukum: textPksDraft(data.pilihan_domisili_hukum),
+        unit_kerja_pihak_pertama: textPksDraft(koresp1.unit_pengelola_up),
+        alamat_korespondensi_pihak_pertama: textPksDraft(koresp1.alamat_surat),
+        nama_pic_pihak_pertama: textPksDraft(koresp1.nama_pic),
+        telepon_pic_pihak_pertama: textPksDraft(koresp1.nomor_telepon_hp),
+        email_pic_pihak_pertama: textPksDraft(koresp1.email_resmi),
+        unit_kerja_pihak_kedua: textPksDraft(koresp2.unit_pengelola_up),
+        alamat_korespondensi_pihak_kedua: textPksDraft(koresp2.alamat_surat),
+        nama_pic_pihak_kedua: textPksDraft(koresp2.nama_pic),
+        telepon_pic_pihak_kedua: textPksDraft(koresp2.nomor_telepon_hp),
+        email_pic_pihak_kedua: textPksDraft(koresp2.email_resmi)
+    };
+}
+
+app.post('/api/pks-generator/:id/generate', async (req, res) => {
+    try {
+        const draft = await PksDraft.findOne({ id_pks_draft: req.params.id }).lean();
+        if (!draft) return res.status(404).json({ pesan: 'Draft PKS tidak ditemukan.' });
+        if (draft.status === 'final') return res.status(400).json({ pesan: 'Draft PKS final tidak dapat dibuat ulang.' });
+
+        const checked = ringkasValidasiPksDraft({ kategori_pks: draft.kategori_pks, data: draft.data }, { requireComplete: true });
+        if (!checked.valid) return res.status(400).json({ pesan: `Data belum lengkap: ${checked.errors.join(' ')}`, detail: checked.errors });
+
+        const templatePath = process.env.PKS_TEMPLATE_PATH || path.resolve(__dirname, 'templates', 'template_pks.docx');
+        if (!fs.existsSync(templatePath)) return res.status(500).json({ pesan: 'Template PKS belum tersedia di server.' });
+        const buffer = prosesTemplatWord(pksTemplatePayload(draft), templatePath);
+        const title = sanitizeFilename(draft.judul_perjanjian_tambahan || draft.id_pks_draft);
+        const filename = `PKS_${draft.id_pks_draft}_${title}.docx`;
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        res.setHeader('Cache-Control', 'private, no-store');
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`);
+        return res.send(buffer);
+    } catch (error) {
+        console.error('Gagal generate PKS:', error);
+        return res.status(500).json({ pesan: 'Dokumen PKS gagal dibuat dari template.' });
+    }
+});
 
 async function generateIdKontrak() {
     const year = new Date().getFullYear();

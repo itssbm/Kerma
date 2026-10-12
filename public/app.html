@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260909-period-picker-10">
+    <link rel="stylesheet" href="css/style.css?v=20260921-buat-pks-1">
 </head>
 <body>
 
@@ -45,6 +45,7 @@
                 <span class="nav-category">Entri Data</span>
                 <a href="#" class="nav-item" id="menuTambahMitra"><span class="nav-icon">🏢</span>Tambah Mitra</a>
                 <a href="#" class="nav-item" id="menuTambah"><span class="nav-icon">🤝</span>Tambah Kerma</a>
+                <a href="#" class="nav-item" id="menuBuatPks"><span class="nav-icon">🗂️</span>Buat PKS</a>
                 <a href="#" class="nav-item" id="menuTambahMahasiswa"><span class="nav-icon">🎓</span>Tambah Mahasiswa</a>
                 <a href="#" class="nav-item" id="menuTambahIndustri"><span class="nav-icon">🏭</span>Tambah Industri</a>
 
@@ -55,6 +56,7 @@
 
                 <span class="nav-category">Ekspor</span>
                 <a href="#" class="nav-item" id="menuPlottingKerma"><span class="nav-icon">🧩</span>Plotting Kerma</a>
+                <a href="#" class="nav-item" id="menuBuatRabKerma"><span class="nav-icon">🧾</span>Buat RAB Kerma</a>
                 <a href="#" class="nav-item" id="menuDaftarNominatif"><span class="nav-icon">📋</span>Daftar Nominatif</a>
                 <a href="#" class="nav-item" id="menuLaporan"><span class="nav-icon">📊</span>Laporan</a>
                 <a href="#" class="nav-item" id="menuKontrak"><span class="nav-icon">📝</span>Kontrak / PKS</a>
@@ -2447,6 +2449,72 @@
                 </div>
             </section>
 
+            <section id="sectionBuatRabKerma" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">Export planning</span>
+                        <h1>Buat RAB Kerma</h1>
+                        <p>Susun Rencana Anggaran Biaya sebelum kontrak berdasarkan mitra yang dipilih.</p>
+                    </div>
+                </header>
+                <div class="rab-kerma-workspace">
+                    <section class="rab-kerma-selection-panel" aria-label="Pilihan mitra RAB Kerma">
+                        <div class="rab-kerma-selection-grid">
+                            <div class="form-group rab-kerma-mitra-select-group">
+                                <label class="form-label" for="selectBuatRabKermaMitra">ID Mitra <span class="form-required">*</span></label>
+                                <select id="selectBuatRabKermaMitra" class="form-input">
+                                    <option value="">Pilih ID Mitra</option>
+                                </select>
+                            </div>
+                            <div id="infoBuatRabKermaMitra" class="rab-kerma-mitra-info" aria-live="polite">
+                                <span class="rab-kerma-mitra-info__label">Mitra terpilih</span>
+                                <strong>-</strong>
+                            </div>
+                            <div class="rab-kerma-selection-actions">
+                                <button type="button" id="btnTambahBarisRabKerma" class="btn-secondary" disabled>+ Tambah Baris</button>
+                                <button type="button" id="btnSimpanRabKerma" class="btn-primary" disabled>Simpan RAB Kerma</button>
+                            </div>
+                        </div>
+                        <div id="infoBuatRabKerma" class="rab-kerma-selection-info" role="status">Pilih ID Mitra untuk mulai membuat RAB Kerma.</div>
+                    </section>
+
+                    <div class="table-container rab-kerma-table-container">
+                        <table id="tabelBuatRabKerma" class="rab-kerma-table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Kegiatan</th>
+                                    <th>Detail Kegiatan</th>
+                                    <th>Item Belanja</th>
+                                    <th>Satuan</th>
+                                    <th>Vol.</th>
+                                    <th>Harga Satuan</th>
+                                    <th>Total</th>
+                                    <th>Jan</th>
+                                    <th>Feb</th>
+                                    <th>Mar</th>
+                                    <th>Apr</th>
+                                    <th>Mei</th>
+                                    <th>Jun</th>
+                                    <th>Jul</th>
+                                    <th>Agu</th>
+                                    <th>Sep</th>
+                                    <th>Okt</th>
+                                    <th>Nov</th>
+                                    <th>Des</th>
+                                    <th>Total Bulanan<br>(Jan-Des)</th>
+                                    <th>Selisih<br>(Total - Bulanan)</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyTabelBuatRabKerma">
+                                <tr class="table-state-row"><td colspan="23"><div class="table-state table-state--empty"><strong>Belum ada RAB Kerma</strong><small>Pilih ID Mitra untuk membuka tabel.</small></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <section id="sectionDaftarNominatif" class="view-section">
                 <header class="top-header">
                     <div class="top-header-text">
@@ -2582,6 +2650,89 @@
                 </div>
             </section>
 
+            <!-- Section: Generator PKS -->
+            <section id="sectionBuatPks" class="view-section">
+                <header class="top-header">
+                    <div class="top-header-text">
+                        <span class="section-eyebrow">PKS document builder</span>
+                        <h1>Buat PKS</h1>
+                        <p>Pilih kategori PKS, lengkapi data perjanjian, lalu simpan sebagai draft sebelum masuk ke alur persetujuan.</p>
+                    </div>
+                    <div class="top-header-actions">
+                        <span class="pks-draft-counter" id="pksDraftCounter">0 draft tersimpan</span>
+                    </div>
+                </header>
+
+                <div class="pks-workspace">
+                    <aside class="pks-draft-panel" aria-label="Draft PKS tersimpan">
+                        <div class="pks-panel-heading">
+                            <div>
+                                <span class="section-eyebrow">Workspace</span>
+                                <h2>Draft PKS</h2>
+                            </div>
+                            <button type="button" class="btn-icon-only" id="btnRefreshPksDraft" title="Muat ulang draft PKS" aria-label="Muat ulang draft PKS">↻</button>
+                        </div>
+                        <p class="pks-panel-copy">Draft tersimpan terpisah dari Kontrak / PKS lama. Pilih Lanjutkan untuk membuka kembali.</p>
+                        <div id="pksDraftList" class="pks-draft-list">
+                            <div class="pks-empty-state">Belum ada draft PKS.</div>
+                        </div>
+                    </aside>
+
+                    <div class="pks-form-panel">
+                        <div class="pks-category-picker">
+                            <div class="pks-panel-heading">
+                                <div>
+                                    <span class="section-eyebrow">Langkah 1</span>
+                                    <h2>Pilih kategori PKS</h2>
+                                </div>
+                                <span class="pks-category-current" id="pksCategoryCurrent">Belum dipilih</span>
+                            </div>
+                            <div class="pks-category-grid" role="list" aria-label="Kategori PKS">
+                                <button type="button" class="pks-category-card" data-pks-category="PKS_PENDIDIKAN" role="listitem">
+                                    <span class="pks-category-number">01</span>
+                                    <span><strong>PKS Pendidikan</strong><small>Program studi, peserta, BPP, dan termin pembayaran.</small></span>
+                                </button>
+                                <button type="button" class="pks-category-card" data-pks-category="PKS_MITRA_INDUSTRI" role="listitem">
+                                    <span class="pks-category-number">02</span>
+                                    <span><strong>PKS Mitra Industri</strong><small>Kolaborasi industri, pendanaan, kurikulum, dan HKI.</small></span>
+                                </button>
+                                <button type="button" class="pks-category-card" data-pks-category="PKS_MITRA_KAMPUS" role="listitem">
+                                    <span class="pks-category-number">03</span>
+                                    <span><strong>PKS Mitra Kampus</strong><small>Pendidikan, penelitian, pengabdian, dan publikasi.</small></span>
+                                </button>
+                                <button type="button" class="pks-category-card" data-pks-category="PKS_MITRA_PEMERINTAH" role="listitem">
+                                    <span class="pks-category-number">04</span>
+                                    <span><strong>PKS Mitra Pemerintah</strong><small>Program daerah, perangkat pelaksana, dan evaluasi.</small></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <form id="formBuatPks" class="pks-form-container" novalidate>
+                            <input type="hidden" id="pksDraftId" value="">
+                            <div id="pksFormEmpty" class="pks-form-empty">
+                                <span class="pks-form-empty-icon">01</span>
+                                <h2>Pilih kategori untuk memulai</h2>
+                                <p>Data umum dan field khusus kategori akan muncul setelah kategori PKS dipilih.</p>
+                            </div>
+                            <div id="pksFormBody" hidden></div>
+                            <div class="pks-form-footer" id="pksFormFooter" hidden>
+                                <span id="pksFormAlert" class="form-alert" role="status" aria-live="polite"></span>
+                                <div class="pks-form-downloads" aria-label="Unduh formulir PKS">
+                                    <span class="pks-form-downloads-label">Unduh formulir kosong</span>
+                                    <button type="button" id="btnDownloadPksFormExcel" class="btn-secondary" disabled>Excel kosong</button>
+                                    <button type="button" id="btnDownloadPksFormPdf" class="btn-secondary" disabled>PDF kosong</button>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="button" id="btnResetBuatPks" class="btn-secondary">Reset Form</button>
+                                    <button type="submit" id="btnSimpanPksDraft" class="btn-primary">Simpan Draft PKS</button>
+                                    <button type="button" id="btnGeneratePks" class="btn-primary" disabled>Generate PKS</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
             <!-- Section: Kontrak / PKS -->
             <section id="sectionKontrak" class="view-section">
                 <header class="top-header">
@@ -2637,7 +2788,7 @@
     </div>
 
     <script src="js/target-distribusi-data.js?v=20260809-target-excel-import-1"></script>
-    <script src="js/script.js?v=20260909-period-picker-10"></script>
+    <script src="js/script.js?v=20260921-buat-pks-1"></script>
 
     <div id="modalKonfirmasiSimpanPerhitunganDasar" class="modal-overlay" style="display:none;">
         <div class="modal-card modal-card--plotting-confirm">
