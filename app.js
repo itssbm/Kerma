@@ -1,5 +1,5 @@
 const path = require('path');
-
+//test
 const configuredEnvPath = process.env.DOTENV_CONFIG_PATH
     ? path.resolve(process.cwd(), process.env.DOTENV_CONFIG_PATH)
     : path.resolve(__dirname, '.env');
